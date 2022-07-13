@@ -9,38 +9,39 @@ public class CharactersCollision : MonoBehaviour
 {
     Animator animator;
     AnimatorStateInfo info;
+    GameData_NumericalValue NumericalValue;
 
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
-
-    //共通
-    float gravity;//重力
 
     //數值
     float Hp;//生命值
 
     public List<CharactersFloating> floating_List = new List<CharactersFloating>();//浮空/跳躍List
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();        
+    }
+
     void Start()
     {
-        animator = GetComponent<Animator>();
+        NumericalValue = GameManagement.NumericalValue;
 
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
         boxSize = GetComponent<BoxCollider>().size;
 
-        //共通
-        gravity = GameData.Instance.OnGetFloatValue("gravity");//重力
 
         //數值
         switch(gameObject.tag)
         {
             case "Player":
-                Hp = GameData.Instance.OnGetFloatValue("playerHp");
+                Hp = NumericalValue.playerHp;
                 break;
-            case "SkeletonSoldier":
-                Hp = GameData.Instance.OnGetFloatValue("skeletonSoldier");
+            case "SkeletonSoldier":                
+                Hp = NumericalValue.skeletonSoldierHp;
                 break;
         }      
     }
@@ -84,25 +85,25 @@ public class CharactersCollision : MonoBehaviour
     /// <param name="repel">擊退距離</param>
     public void OnGetHit(GameObject attacker, LayerMask layer, float damage, string animationName, int effect, float repel)
     {               
-        Hp -= damage;//生命值減少
-        transform.forward = -attacker.transform.forward;//面向攻擊者
- 
-        //判斷擊中效果
-        switch (effect)
-        {
-            case 0://擊退
-                transform.position = transform.position + attacker.transform.forward * repel * Time.deltaTime;//擊退
-                break;
-            case 1://擊飛
-                floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = gravity });//浮空List
-                break;
-        }
         
-
         //判斷受擊對象
         if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == LayerMask.NameToLayer("Enemy") || 
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == LayerMask.NameToLayer("Player"))
-        {           
+        {
+            Hp -= damage;//生命值減少
+            transform.forward = -attacker.transform.forward;//面向攻擊者
+
+            //判斷擊中效果
+            switch (effect)
+            {
+                case 0://擊退
+                    transform.position = transform.position + attacker.transform.forward * repel * Time.deltaTime;//擊退
+                    break;
+                case 1://擊飛
+                    floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List
+                    break;
+            }
+
             //重複觸發動畫
             if (info.IsTag(animationName))
             {
@@ -138,9 +139,9 @@ public class CharactersCollision : MonoBehaviour
         RaycastHit hit;
         for (int i = 0; i < rayDiration.Length; i++)
         {
-            if (Physics.BoxCast(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 2, boxSize.z / 2), rayDiration[i], out hit, transform.rotation, 0.5f, mask))
+            if (Physics.BoxCast(transform.position + boxCenter, boxSize/2 * transform.localScale.x, rayDiration[i], out hit, transform.rotation, NumericalValue.boxCollisionDistance, mask))
             {
-                transform.position = transform.position - rayDiration[i] * (0.5f - hit.distance);
+                transform.position = transform.position - rayDiration[i] * (NumericalValue.boxCollisionDistance - hit.distance);
             }
         }
 
@@ -155,7 +156,7 @@ public class CharactersCollision : MonoBehaviour
         else
         {
             //重力
-            transform.position = transform.position - Vector3.up * gravity * Time.deltaTime;
+            transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;
         }
     }
 

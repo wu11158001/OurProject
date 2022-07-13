@@ -9,9 +9,7 @@ public class PlayerControl : MonoBehaviour
 {
     Animator animator;
     CharactersCollision charactersCollision;
-
-    //共通
-    float gravity;//重力
+    GameData_NumericalValue NumericalValue;
 
     //碰撞框
     Vector3 boxCenter;
@@ -21,40 +19,22 @@ public class PlayerControl : MonoBehaviour
     bool isLockMove;//是否鎖住移動
     float inputX;//輸入X值
     float inputZ;//輸入Z值
-    float moveSpeed;//移動速度
     Vector3 forwardVector;//前方向量
     Vector3 horizontalCross;//水平軸
 
     //跳躍
     bool isJump;//是否跳躍
-    float jumpForce;//跳躍力        
 
     //普通攻擊
     bool isNormalAttack;//是否普通攻擊
     bool isTrick;//是否使用絕招
     int normalAttackNumber;//普通攻擊編號
-    float[] playerNormalAttackDamge;//玩家普通攻擊傷害
-    float[] playerNormalAttackMoveDistance;//玩家普通攻擊移動距離
-    float[] playerNormalAttackRepelDistance;//玩家普通攻擊 擊退/擊飛距離
-    float[] playerNormalAttackRepelDirection;//玩家普通攻擊方向(0:擊退 1:擊飛)
-    string[] playerNormalAttackEffect;//玩家普通攻擊效果(受擊者播放的動畫名稱)
-    Vector3[] playerNormalAttackBoxSize;//玩家普通攻擊攻擊框Size
 
     //跳躍攻擊
     bool isJumpAttack;//是否跳躍攻擊
-    float playerJumpAttackDamage;//玩家跳躍攻擊傷害
-    string playerJumpAttackEffect;//玩家跳躍攻擊效果(受擊者播放的動畫名稱)
-    float playerJumpAttackRepelDistance;//玩家跳躍攻擊 擊退距離
-    Vector3 playerJumpAttackBoxSize;//玩家跳躍攻擊攻擊框Size
 
     //技能攻擊
     bool isSkillAttack;//是否技能攻擊
-    //技能攻擊_1
-    float playerSkillAttack_1_Damage;//技能攻擊_1_攻擊傷害
-    string playerSkillAttack_1_Effect;//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
-    float playerSkillAttack_1_FlyingSpeed;//技能攻擊_1_物件飛行速度
-    float playerSkillAttack_1_LifeTime;//技能攻擊_1_生存時間
-    float playerSkillAttack_1_Repel;//技能攻擊_1_擊退距離
 
     //物件池物件
     int playerSkill_1_Number;//玩家技能1_物件編號
@@ -68,11 +48,13 @@ public class PlayerControl : MonoBehaviour
 
         animator = GetComponent<Animator>();
         if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
-        charactersCollision = GetComponent<CharactersCollision>();
+        charactersCollision = GetComponent<CharactersCollision>();        
     }
 
     void Start()
     {
+        NumericalValue = GameManagement.NumericalValue;
+
         //鼠標
         Cursor.visible = false;//鼠標隱藏
         Cursor.lockState = CursorLockMode.Locked;//鎖定中央
@@ -81,34 +63,8 @@ public class PlayerControl : MonoBehaviour
         boxCenter = GetComponent<BoxCollider>().center;
         boxSize = GetComponent<BoxCollider>().size;
 
-        //共通
-        gravity = GameData.Instance.OnGetFloatValue("gravity");//重力
-
         //移動
-        forwardVector = transform.forward;
-        moveSpeed = GameData.Instance.OnGetFloatValue("playerMoveSpeed");//移動速度
-        jumpForce = GameData.Instance.OnGetFloatValue("playerJumpForce");//跳躍力
-
-        //普通攻擊
-        playerNormalAttackDamge = GameData.Instance.OnGetFloatArrayValue("playerNormalAttackDamge");//玩家普通攻擊傷害
-        playerNormalAttackMoveDistance = GameData.Instance.OnGetFloatArrayValue("playerNormalAttackMoveDistance");//玩家普通攻擊移動距離
-        playerNormalAttackRepelDistance = GameData.Instance.OnGetFloatArrayValue("playerNormalAttackRepelDistance");//玩家普通攻擊 擊退/擊飛距離
-        playerNormalAttackRepelDirection = GameData.Instance.OnGetFloatArrayValue("playerNormalAttackRepelDirection");//玩家普通攻擊 擊退/擊飛距離
-        playerNormalAttackEffect = GameData.Instance.OnGetStringArrayValue("playerNormalAttackEffect");//玩家普通攻擊效果(受擊者播放的動畫名稱)
-        playerNormalAttackBoxSize = GameData.Instance.OnGetVectorArrayValue("playerNormalAttackBoxSize");//玩家普通攻擊攻擊框Size
-
-        //跳躍攻擊
-        playerJumpAttackDamage = GameData.Instance.OnGetFloatValue("playerJumpAttackDamage");//玩家跳躍攻擊傷害
-        playerJumpAttackEffect = GameData.Instance.OnGetStringValue("playerJumpAttackEffect");//玩家跳躍攻擊效果(受擊者播放的動畫名稱)
-        playerJumpAttackRepelDistance = GameData.Instance.OnGetFloatValue("playerJumpAttackRepelDistance");//玩家跳躍攻擊 擊退距離
-        playerJumpAttackBoxSize = GameData.Instance.OnGetVectorValue("playerJumpAttackBoxSize");//玩家跳躍攻擊攻擊框Size
-
-        //技能攻擊_1
-        playerSkillAttack_1_Damage = GameData.Instance.OnGetFloatValue("playerSkillAttack_1_Damage");//技能攻擊_1_攻擊傷害
-        playerSkillAttack_1_Effect = GameData.Instance.OnGetStringValue("playerSkillAttack_1_Effect");//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
-        playerSkillAttack_1_FlyingSpeed = GameData.Instance.OnGetFloatValue("playerSkillAttack_1_FlyingSpeed");//技能攻擊_1_物件飛行速度
-        playerSkillAttack_1_LifeTime = GameData.Instance.OnGetFloatValue("playerSkillAttack_1_LifeTime");//技能攻擊_1_生存時間
-        playerSkillAttack_1_Repel = GameData.Instance.OnGetFloatValue("playerSkillAttack_1_Repel");//技能攻擊_1_擊退距離
+        forwardVector = transform.forward;               
 
         //物件池物件
         playerSkill_1_Number = GameManagement.Instance.OnGetObjectNumber("playerSkill_1_Number");//玩家技能1_物件編號
@@ -142,15 +98,15 @@ public class PlayerControl : MonoBehaviour
                 GameObject obj = GameManagement.Instance.OnRequestOpenObject(playerSkill_1_Number);
                 obj.transform.position = transform.position + boxCenter;
                 GameManagement.Instance.flyingAttackObject_List.Add(new FlyingAttackObject
-                {
+                {                    
                     flyingObject = obj,//飛行物件 
-                    speed = playerSkillAttack_1_FlyingSpeed,//飛行速度
+                    speed = NumericalValue.playerSkillAttack_1_FlyingSpeed,//飛行速度
                     diration = transform.forward,//飛行方向
-                    lifeTime = playerSkillAttack_1_LifeTime,//生存時間                                                                                             
+                    lifeTime = NumericalValue.playerSkillAttack_1_LifeTime,//生存時間                                                                                             
                     layer = gameObject.layer,//攻擊者layer
-                    damage = playerSkillAttack_1_Damage,//造成傷害
-                    animationName = playerSkillAttack_1_Effect,//攻擊效果(受擊者播放的動畫名稱)
-                    repel = playerSkillAttack_1_Repel//擊退距離
+                    damage = NumericalValue.playerSkillAttack_1_Damage,//造成傷害
+                    animationName = NumericalValue.playerSkillAttack_1_Effect,//攻擊效果(受擊者播放的動畫名稱)
+                    repel = NumericalValue.playerSkillAttack_1_Repel//擊退距離
                 });
                 break;
         }
@@ -162,7 +118,7 @@ public class PlayerControl : MonoBehaviour
     void OnJumpAttackBehavior()
     {
         //攻擊框        
-        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, playerJumpAttackBoxSize, Quaternion.identity, attackMask);
+        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, NumericalValue.playerJumpAttackBoxSize, Quaternion.identity, attackMask);
         foreach (var hit in hits)
         {
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
@@ -170,10 +126,10 @@ public class PlayerControl : MonoBehaviour
             {
                 collision.OnGetHit(attacker: gameObject,//攻擊者物件
                                    layer: gameObject.layer,//攻擊者layer
-                                   damage: playerJumpAttackDamage,//造成傷害
-                                   animationName: playerJumpAttackEffect,//播放動畫名稱
+                                   damage: NumericalValue.playerJumpAttackDamage,//造成傷害
+                                   animationName: NumericalValue.playerJumpAttackEffect,//播放動畫名稱
                                    effect: 0,//擊中效果(0:擊退, 1:擊飛)
-                                   repel: playerJumpAttackRepelDistance);//擊退距離
+                                   repel: NumericalValue.playerJumpAttackRepelDistance);//擊退距離
             }
         }
     }
@@ -184,10 +140,10 @@ public class PlayerControl : MonoBehaviour
     void OnNormalAttackBehavior()
     {
         //攻擊移動
-        transform.position = transform.position + transform.forward * playerNormalAttackMoveDistance[normalAttackNumber - 1] * Time.deltaTime;
+        transform.position = transform.position + transform.forward * NumericalValue.playerNormalAttackMoveDistance[normalAttackNumber - 1] * Time.deltaTime;
 
         //攻擊框
-        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, playerNormalAttackBoxSize[normalAttackNumber - 1], Quaternion.identity, attackMask);
+        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1], Quaternion.identity, attackMask);
         foreach(var hit in hits)
         {         
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
@@ -195,10 +151,10 @@ public class PlayerControl : MonoBehaviour
             {
                 collision.OnGetHit(attacker: gameObject,//攻擊者物件
                                    layer: gameObject.layer,//攻擊者layer
-                                   damage: playerNormalAttackDamge[normalAttackNumber - 1],//造成傷害 
-                                   animationName: playerNormalAttackEffect[normalAttackNumber - 1],//播放動畫名稱
-                                   effect: (int)playerNormalAttackRepelDirection[normalAttackNumber - 1],//擊中效果(0:擊退, 1:擊飛)
-                                   repel: playerNormalAttackRepelDistance[normalAttackNumber - 1]);//擊退距離
+                                   damage: NumericalValue.playerNormalAttackDamge[normalAttackNumber - 1],//造成傷害 
+                                   animationName: NumericalValue.playerNormalAttackEffect[normalAttackNumber - 1],//播放動畫名稱
+                                   effect: NumericalValue.playerNormalAttackRepelDirection[normalAttackNumber - 1],//擊中效果(0:擊退, 1:擊飛)
+                                   repel: NumericalValue.playerNormalAttackRepelDistance[normalAttackNumber - 1]);//擊退距離
             }
         }
     }    
@@ -355,7 +311,7 @@ public class PlayerControl : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space) && !isJump)
         {
-            charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = jumpForce, gravity = gravity });//浮空List
+            charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity });//浮空List
 
             isJump = true;         
             isNormalAttack = false;
@@ -383,7 +339,7 @@ public class PlayerControl : MonoBehaviour
 
         //移動
         if (inputValue > 1) inputValue = 1;
-        transform.position = transform.position + transform.forward * inputValue * moveSpeed * Time.deltaTime;
+        transform.position = transform.position + transform.forward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
 
         animator.SetFloat("Run", inputValue);
     }           

@@ -10,30 +10,31 @@ public class CameraControl : MonoBehaviour
     static CameraControl cameraControl;
     public static CameraControl Instance => cameraControl;
 
-    Transform lookPoint;//攝影機觀看點
-    float distance;//與玩家距離
-    Vector3 forwardVector;//前方向量
-    float totalVertical;//記錄垂直移動量
-    float limitUpAngle;//限制向上角度
-    float limitDownAngle;//限制向下角度
+    GameData_NumericalValue NumericalValue;
 
-    void Start()
-    {        
-        if(cameraControl != null)
+
+    Transform lookPoint;//攝影機觀看點    
+    Vector3 forwardVector;//前方向量
+    float totalVertical;//記錄垂直移動量    
+
+    void Awake()
+    {
+        if (cameraControl != null)
         {
             Destroy(this);
             return;
         }
-        cameraControl = this;
-
-        lookPoint = GameObject.Find("CameraLookPoint").transform;
-        distance = 2.6f;//與玩家距離
-        forwardVector = lookPoint.forward;//前方向量
-        limitUpAngle = 35;//限制向上角度
-        limitDownAngle = 20;//限制向下角度
+        cameraControl = this;        
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        NumericalValue = NumericalValue = GameManagement.NumericalValue;
+
+        lookPoint = GameObject.Find("CameraLookPoint").transform;
+        forwardVector = lookPoint.forward;//前方向量
+    }
+
     void Update()
     {
         OnCameraControl();
@@ -51,18 +52,18 @@ public class CameraControl : MonoBehaviour
 
         //限制上下角度
         totalVertical += mouseY;//記錄垂直移動量
-        if (totalVertical > limitDownAngle) totalVertical = limitDownAngle;
-        if (totalVertical < -limitUpAngle) totalVertical = -limitUpAngle;
+        if (totalVertical > NumericalValue.limitDownAngle) totalVertical = NumericalValue.limitDownAngle;
+        if (totalVertical < -NumericalValue.limitUpAngle) totalVertical = -NumericalValue.limitUpAngle;
 
         Vector3 tempRotate = Vector3.Cross(Vector3.up, forwardVector);//獲取水平軸
         Vector3 RotateVector = Quaternion.AngleAxis(totalVertical, -tempRotate) * forwardVector;//最後選轉向量
         RotateVector.Normalize();
 
-        Vector3 moveTarget = lookPoint.position - RotateVector * distance;//移動目標
+        Vector3 moveTarget = lookPoint.position - RotateVector * NumericalValue.distance;//移動目標
 
         //攝影機障礙物偵測
         LayerMask mask = LayerMask.GetMask("StageObject");        
-        if (Physics.SphereCast(lookPoint.position, 0.08f, -RotateVector, out RaycastHit hit, distance, mask))
+        if (Physics.SphereCast(lookPoint.position, 0.08f, -RotateVector, out RaycastHit hit, NumericalValue.distance, mask))
         {
             //碰到"StageObject"攝影機移動位置改為(觀看物件位置 - 與碰撞物件距離)
             moveTarget = lookPoint.position - RotateVector * hit.distance;            

@@ -9,7 +9,7 @@ public class GameManagement : MonoBehaviour
 {
     static GameManagement gameManagement;
     public static GameManagement Instance => gameManagement;
-
+    public static GameData_NumericalValue NumericalValue;
     ObjectHandle objectHandle = new ObjectHandle();
 
     Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
@@ -26,8 +26,11 @@ public class GameManagement : MonoBehaviour
             return;
         }
         gameManagement = this;
-        
+
+        NumericalValue = Resources.Load<ScriptableObject_NumericalValue>("ScriptableObject/NumericalValue").numericalValue;
         objectHandle = ObjectHandle.GetObjectHandle;
+
+
 
         //物件編號 玩家
         playerSkill_1_Number = objectHandle.OnCreateObject("Skill/PlayerSkill_1");//玩家技能1

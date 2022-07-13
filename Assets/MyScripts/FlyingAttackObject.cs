@@ -29,8 +29,11 @@ public class FlyingAttackObject
             GameManagement.Instance.flyingAttackObject_List.Remove(this);
         }
         
+        //設定前方
+        if(flyingObject.transform.forward != diration) flyingObject.transform.forward = diration;
+       
         //物件飛行
-        flyingObject.transform.position = flyingObject.transform.position + diration * speed * Time.deltaTime;
+        flyingObject.transform.position = flyingObject.transform.position + flyingObject.transform.forward * speed * Time.deltaTime;
      
         OnCollision();
     }
@@ -41,8 +44,7 @@ public class FlyingAttackObject
     public void OnCollision()
     {
         SphereCollider sphere = flyingObject.GetComponent<SphereCollider>();
-        Collider[] hits = Physics.OverlapSphere(flyingObject.transform.position, sphere.radius);
-     
+        Collider[] hits = Physics.OverlapSphere(flyingObject.transform.position, sphere.radius * sphere.transform.localScale.x);     
         foreach (var hit in hits)
         {
             for (int i = 0; i < record.Count; i++)
@@ -53,12 +55,12 @@ public class FlyingAttackObject
 
             CharactersCollision charactersCollision = hit.GetComponent<CharactersCollision>();
             if (charactersCollision != null) charactersCollision.OnGetHit(attacker: flyingObject,//攻擊者物件
-                                                                          layer: layer,
-                                                                          damage: damage,
-                                                                          animationName: animationName,
-                                                                          effect: 0,
-                                                                          repel: repel);
-  
+                                                                          layer: layer,//攻擊者layer
+                                                                          damage: damage,//造成傷害
+                                                                          animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
+                                                                          effect: 0,//擊退方向((0:擊退 1:擊飛))
+                                                                          repel: repel);//擊退距離
+
             record.Add(hit.transform);//紀錄以擊中物件
         }
     }

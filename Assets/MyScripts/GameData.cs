@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class GameData : MonoBehaviour
 {
-    static GameData gameData;
+    /*static GameData gameData;
     public static GameData Instance => gameData;
 
     Dictionary<string, float> gameData_Float_Dictionary = new Dictionary<string, float>();//¬ö¿ý¹CÀ¸¼Æ­È(Float)
@@ -232,5 +232,5 @@ public class GameData : MonoBehaviour
         }
 
         return value;
-    }
+    }*/
 }
