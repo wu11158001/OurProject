@@ -30,8 +30,6 @@ public class GameManagement : MonoBehaviour
         NumericalValue = Resources.Load<ScriptableObject_NumericalValue>("ScriptableObject/NumericalValue").numericalValue;
         objectHandle = ObjectHandle.GetObjectHandle;
 
-
-
         //物件編號 玩家
         playerSkill_1_Number = objectHandle.OnCreateObject("Skill/PlayerSkill_1");//玩家技能1
         objectNumber_Dictionary.Add("playerSkill_1_Number", playerSkill_1_Number);

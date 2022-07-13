@@ -118,7 +118,7 @@ public class PlayerControl : MonoBehaviour
     void OnJumpAttackBehavior()
     {
         //§ðÀ»®Ø        
-        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, NumericalValue.playerJumpAttackBoxSize, Quaternion.identity, attackMask);
+        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, NumericalValue.playerJumpAttackBoxSize * transform.localScale.x, Quaternion.identity, attackMask);
         foreach (var hit in hits)
         {
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
@@ -143,7 +143,7 @@ public class PlayerControl : MonoBehaviour
         transform.position = transform.position + transform.forward * NumericalValue.playerNormalAttackMoveDistance[normalAttackNumber - 1] * Time.deltaTime;
 
         //§ðÀ»®Ø
-        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1], Quaternion.identity, attackMask);
+        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x, Quaternion.identity, attackMask);
         foreach(var hit in hits)
         {         
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
@@ -363,10 +363,4 @@ public class PlayerControl : MonoBehaviour
             else Cursor.lockState = CursorLockMode.None;
         }
     }
-
-   /* private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireCube(transform.position + boxCenter, playerJumpAttackBoxSize);
-    }*/
-}
+ }
