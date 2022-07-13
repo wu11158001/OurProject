@@ -31,10 +31,18 @@ public class FlyingAttackObject
         
         //物件飛行
         flyingObject.transform.position = flyingObject.transform.position + diration * speed * Time.deltaTime;
+     
+        OnCollision();
+    }
 
-        SphereCollider box = flyingObject.GetComponent<SphereCollider>();
-        Collider[] hits = Physics.OverlapSphere(flyingObject.transform.position, box.radius, layer);
-
+    /// <summary>
+    /// 碰撞偵測
+    /// </summary>
+    public void OnCollision()
+    {
+        SphereCollider sphere = flyingObject.GetComponent<SphereCollider>();
+        Collider[] hits = Physics.OverlapSphere(flyingObject.transform.position, sphere.radius);
+     
         foreach (var hit in hits)
         {
             for (int i = 0; i < record.Count; i++)
@@ -50,36 +58,8 @@ public class FlyingAttackObject
                                                                           animationName: animationName,
                                                                           effect: 0,
                                                                           repel: repel);
-
+  
             record.Add(hit.transform);//紀錄以擊中物件
         }
     }
-
-    /// <summary>
-    /// 碰撞偵測
-    /// </summary>
-   /* public void OnCollision()
-    {
-        SphereCollider box = flyingObject.GetComponent<SphereCollider>();
-        Collider[] hits = Physics.OverlapSphere(flyingObject.transform.position, box.radius, layer);
-        
-        foreach (var hit in hits)
-        {
-            for (int i = 0; i < record.Count; i++)
-            {
-                //不重複擊中
-                if (record[i] == hit.transform) return;                               
-            }
-
-            CharactersCollision charactersCollision = hit.GetComponent<CharactersCollision>();
-            if (charactersCollision != null) charactersCollision.OnGetHit(attacker: flyingObject,//攻擊者物件
-                                                                          layer: layer,
-                                                                          damage: damage,
-                                                                          animationName: animationName,
-                                                                          effect: 0,
-                                                                          repel: repel);
-
-            record.Add(hit.transform);//紀錄以擊中物件
-        }
-    }*/
 }

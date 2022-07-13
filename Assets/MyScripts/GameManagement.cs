@@ -44,8 +44,7 @@ public class GameManagement : MonoBehaviour
     {
         for (int i = 0; i < flyingAttackObject_List.Count; i++)
         {
-            flyingAttackObject_List[i].OnFlying();
-            //flyingAttackObject_List[i].OnCollision();
+            flyingAttackObject_List[i].OnFlying();            
         }
     }
 

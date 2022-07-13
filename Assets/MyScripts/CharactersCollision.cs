@@ -86,7 +86,7 @@ public class CharactersCollision : MonoBehaviour
     {               
         Hp -= damage;//生命值減少
         transform.forward = -attacker.transform.forward;//面向攻擊者
-
+ 
         //判斷擊中效果
         switch (effect)
         {
