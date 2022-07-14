@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 開始場景管理
 /// </summary>
-public class StartSceneManagement : MonoBehaviour
+public class StartSceneUI : MonoBehaviour
 {
     VideoPlayer videoPlayer;
     Canvas canvas;

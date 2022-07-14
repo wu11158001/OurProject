@@ -12,3 +12,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ea5a2c49de4f6445a59ab421cc7fbec, type: 3}
   m_Name: NumericalValue
   m_EditorClassIdentifier: 
+  numericalValue:
+    gravity: 9.8
+    boxCollisionDistance: 0.5
+    distance: 2.6
+    limitUpAngle: 35
+    limitDownAngle: 20
+    playerHp: 100
+    playerMoveSpeed: 10
+    playerJumpForce: 16
+    playerNormalAttackDamge:
+    - 10
+    - 10
+    - 15
+    playerNormalAttackMoveDistance:
+    - 50
+    - 50
+    - 0
+    playerNormalAttackRepelDistance:
+    - 70
+    - 80
+    - 18
+    playerNormalAttackRepelDirection: 000000000000000001000000
+    playerNormalAttackEffect:
+    - Pain
+    - Pain
+    - Pain
+    playerNormalAttackBoxSize:
+    - {x: 1, y: 1, z: 1}
+    - {x: 0.5, y: 1, z: 0.5}
+    - {x: 2, y: 2, z: 2}
+    playerJumpAttackDamage: 10
+    playerJumpAttackEffect: KnockBack
+    playerJumpAttackRepelDistance: 50
+    playerJumpAttackBoxSize: {x: 1, y: 0.5, z: 1}
+    playerJumpAttackRepelDirection: 0
+    playerSkillAttack_1_Damage: 33
+    playerSkillAttack_1_Effect: KnockBack
+    playerSkillAttack_1_FlyingSpeed: 11.5
+    playerSkillAttack_1_LifeTime: 0.75
+    playerSkillAttack_1_Repel: 70
+    playerSkillAttack_1_RepelDirection: 0
+    playerSkillAttack_2_Damage: 44
+    playerSkillAttack_2_Effect: Pain
+    playerSkillAttack_2_Repel: 18
+    playerSkillAttack_2_RepelDirection: 1
+    playerSkillAttack_2_BoxSize: {x: 1, y: 1, z: 1}
+    playerSkillAttack_3_Damage: 55
+    playerSkillAttack_3_Effect: KnockBack
+    playerSkillAttack_3_Repel: 100
+    playerSkillAttack_3_RepelDirection: 0
+    playerSkillAttack_3_BoxSize: {x: 1, y: 1, z: 1}
+    skeletonSoldierHp: 50

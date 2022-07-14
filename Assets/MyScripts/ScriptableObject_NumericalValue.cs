@@ -63,7 +63,7 @@ public class GameData_NumericalValue
     /// <summary>
     /// 建構子
     /// </summary>
-    public GameData_NumericalValue()
+    private GameData_NumericalValue()
     {
         //共通
         gravity = 9.8f;//重力
@@ -112,13 +112,16 @@ public class GameData_NumericalValue
         //玩家 技能攻擊_3
         playerSkillAttack_3_Damage = 55;//技能攻擊_1_攻擊傷害
         playerSkillAttack_3_Effect = "KnockBack";//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
-        playerSkillAttack_3_Repel = 1000;//技能攻擊_1_擊退距離
+        playerSkillAttack_3_Repel = 100;//技能攻擊_1_擊退距離
         playerSkillAttack_3_RepelDirection = 0;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
         playerSkillAttack_3_BoxSize = new Vector3(1, 1, 1);//玩家技能攻擊_2_攻擊框Size
 
         //骷顱士兵
         skeletonSoldierHp = 50;//骷顱士兵生命值
     }
+
+    static GameData_NumericalValue numericalValue;
+    public static GameData_NumericalValue Instance => numericalValue;
 }
 
 [CreateAssetMenu(fileName = "NumericalValue", menuName = "ScriptableObjects/NumericalValue", order = 1)]

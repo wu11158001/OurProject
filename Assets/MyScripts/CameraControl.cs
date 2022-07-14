@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,8 @@ public class CameraControl : MonoBehaviour
 
     GameData_NumericalValue NumericalValue;
 
-
-    Transform lookPoint;//攝影機觀看點    
-    Vector3 forwardVector;//前方向量
+    static Transform lookPoint;//攝影機觀看點
+    static Vector3 forwardVector;//前方向量
     float totalVertical;//記錄垂直移動量    
 
     void Awake()
@@ -24,20 +24,26 @@ public class CameraControl : MonoBehaviour
             Destroy(this);
             return;
         }
-        cameraControl = this;        
-    }
+        cameraControl = this;
 
-    void Start()
-    {
         NumericalValue = NumericalValue = GameManagement.NumericalValue;
-
-        lookPoint = GameObject.Find("CameraLookPoint").transform;
-        forwardVector = lookPoint.forward;//前方向量
     }
 
     void Update()
     {
-        OnCameraControl();
+        if(lookPoint != null) OnCameraControl();
+    }
+
+    /// <summary>
+    /// 設定攝影機觀看點
+    /// </summary>
+    public static Transform SetLookPoint
+    {
+        set
+        {
+            lookPoint = value;//設定觀看物件 
+            forwardVector = lookPoint.forward;
+        }
     }
 
     /// <summary>

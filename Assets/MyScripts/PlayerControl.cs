@@ -38,7 +38,7 @@ public class PlayerControl : MonoBehaviour
     bool isSkillAttack;//是否技能攻擊
 
     //物件池物件
-    int playerSkill_1_Number;//玩家技能1_物件編號
+    [SerializeField]int playerSkill_1_Number;//玩家技能1_物件編號
 
     //其他
     LayerMask attackMask;//攻擊對象
@@ -55,6 +55,9 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         NumericalValue = GameManagement.NumericalValue;
+
+        //設定攝影機觀看點
+        CameraControl.SetLookPoint = ExtensionMethods.FindAnyChild<Transform>(transform, "CameraLookPoint");
 
         //鼠標
         Cursor.visible = false;//鼠標隱藏

@@ -145,6 +145,12 @@ public class CharactersCollision : MonoBehaviour
             }
         }
 
+        //Àð¾À¸I¼²(²Ä2¼h)
+        if(Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2), Quaternion.identity, mask))
+        {
+            transform.position = transform.position + transform.forward * 5 * Time.deltaTime;
+        }
+
         //¦aªO¸I¼²
         if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
         {

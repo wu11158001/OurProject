@@ -65,7 +65,7 @@ public class GameManagement : MonoBehaviour
                 value = obj.Value;
             }
         }
-
+        
         return value;
     }
 
@@ -75,7 +75,7 @@ public class GameManagement : MonoBehaviour
     /// <param name="number">物件編號</param>
     /// <returns></returns>
     public GameObject OnRequestOpenObject(int number)
-    {
+    {        
         GameObject obj = objectHandle.OnOpenObject(number);//開啟物件
         return obj;//回傳物件
     }
