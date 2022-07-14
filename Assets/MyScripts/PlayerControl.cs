@@ -123,8 +123,18 @@ public class PlayerControl : MonoBehaviour
                 attack.direction = NumericalValue.playerSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
                 attack.repel = NumericalValue.playerSkillAttack_2_Repel;//擊退距離
                 attack.boxSize = NumericalValue.playerSkillAttack_2_BoxSize * transform.lossyScale.x;//近身攻擊框Size
-                GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
-                
+                GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                   
+                break;
+            case 3://技能3                
+                attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+                attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
+                attack.layer = gameObject.layer;//攻擊者layer
+                attack.damage = NumericalValue.playerSkillAttack_3_Damage;//造成傷害 
+                attack.animationName = NumericalValue.playerSkillAttack_3_Effect;//攻擊效果(播放動畫名稱)
+                attack.direction = NumericalValue.playerSkillAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
+                attack.repel = NumericalValue.playerSkillAttack_3_Repel;//擊退距離
+                attack.boxSize = NumericalValue.playerSkillAttack_3_BoxSize * transform.lossyScale.x;//近身攻擊框Size
+                GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)     
                 break;
         }
     }
