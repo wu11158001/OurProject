@@ -26,13 +26,13 @@ public class GameData_NumericalValue
     public float[] playerNormalAttackRepelDistance;//玩家普通攻擊 擊退/擊飛距離
     public int[] playerNormalAttackRepelDirection;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
     public string[] playerNormalAttackEffect;//玩家普通攻擊效果(受擊者播放的動畫名稱)
-    public Vector3[] playerNormalAttackBoxSize;//玩家普通攻擊攻擊框Size
+    public Vector3[] playerNormalAttackBoxSize;//玩家普通攻擊框Size
 
     [Header("玩家 跳躍攻擊")]
     public float playerJumpAttackDamage;//玩家跳躍攻擊傷害
     public string playerJumpAttackEffect;//玩家跳躍攻擊效果(受擊者播放的動畫名稱)
     public float playerJumpAttackRepelDistance;//玩家跳躍攻擊 擊退距離
-    public Vector3 playerJumpAttackBoxSize;//玩家跳躍攻擊攻擊框Size
+    public Vector3 playerJumpAttackBoxSize;//玩家跳躍攻擊框Size
     public int playerJumpAttackRepelDirection;//玩家跳躍攻擊擊退方向(0:擊退 1:擊飛)
 
     [Header("玩家 技能攻擊_1")]
@@ -42,6 +42,13 @@ public class GameData_NumericalValue
     public float playerSkillAttack_1_LifeTime;//技能攻擊_1_生存時間
     public float playerSkillAttack_1_Repel;//技能攻擊_1_擊退距離
     public int playerSkillAttack_1_RepelDirection;//玩家技能攻擊擊退方向(0:擊退 1:擊飛)
+
+    [Header("玩家 技能攻擊_2")]
+    public float playerSkillAttack_2_Damage;//技能攻擊_2_攻擊傷害
+    public string playerSkillAttack_2_Effect;//技能攻擊_2_攻擊效果(受擊者播放的動畫名稱)    
+    public float playerSkillAttack_2_Repel;//技能攻擊_2_擊退距離
+    public int playerSkillAttack_2_RepelDirection;//玩家技能攻擊擊退方向(0:擊退 1:擊飛)
+    public Vector3 playerSkillAttack_2_BoxSize;//玩家技能攻擊_2_攻擊框Size
 
     [Header("玩家 骷顱士兵")]
     public float skeletonSoldierHp;//骷顱士兵生命值
@@ -80,13 +87,20 @@ public class GameData_NumericalValue
         playerJumpAttackBoxSize = new Vector3(1, 0.5f, 1);//玩家跳躍攻擊攻擊框Size
         playerJumpAttackRepelDirection = 0;//玩家跳躍攻擊擊退方向(0:擊退 1:擊飛)
 
-        //技能攻擊_1
+        //玩家 技能攻擊_1
         playerSkillAttack_1_Damage = 33;//技能攻擊_1_攻擊傷害
         playerSkillAttack_1_Effect = "KnockBack";//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
         playerSkillAttack_1_FlyingSpeed = 11.5f;//技能攻擊_1_物件飛行速度
         playerSkillAttack_1_LifeTime = 0.75f;//技能攻擊_1_生存時間
         playerSkillAttack_1_Repel = 70;//技能攻擊_1_擊退距離
         playerSkillAttack_1_RepelDirection = 0;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
+
+        //玩家 技能攻擊_2
+        playerSkillAttack_2_Damage = 44;//技能攻擊_1_攻擊傷害
+        playerSkillAttack_2_Effect = "Pain";//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
+        playerSkillAttack_2_Repel = 18;//技能攻擊_1_擊退距離
+        playerSkillAttack_2_RepelDirection = 1;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
+        playerSkillAttack_2_BoxSize = new Vector3(1, 1, 1);//玩家技能攻擊_2_攻擊框Size
 
         //骷顱士兵
         skeletonSoldierHp = 50;//骷顱士兵生命值

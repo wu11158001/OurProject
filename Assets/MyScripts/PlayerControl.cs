@@ -92,14 +92,16 @@ public class PlayerControl : MonoBehaviour
     /// </summary>
     void OnSkillAttackBehavior()
     {
+        AttackBehavior attack = AttackBehavior.Instance;
+       
         //判斷目前普通攻擊編號
-        switch(normalAttackNumber)
-        {
+        switch (normalAttackNumber)
+        {            
             case 1://技能1
                 GameObject obj = GameManagement.Instance.OnRequestOpenObject(playerSkill_1_Number);//開啟/產生物件
                 obj.transform.position = transform.position + boxCenter;
                 //設定AttackBehavior Class數值
-                AttackBehavior attack = AttackBehavior.Instance;
+                
                 attack.function = new Action(attack.OnSetShootFunction);//設定執行函式
                 attack.performObject = obj;//執行攻擊的物件(自身/射出物件) 
                 attack.speed = NumericalValue.playerSkillAttack_1_FlyingSpeed;//飛行速度
@@ -110,7 +112,19 @@ public class PlayerControl : MonoBehaviour
                 attack.animationName = NumericalValue.playerSkillAttack_1_Effect;//攻擊效果(受擊者播放的動畫名稱)
                 attack.direction = NumericalValue.playerSkillAttack_1_RepelDirection;//擊退方向((0:擊退 1:擊飛))
                 attack.repel = NumericalValue.playerSkillAttack_1_Repel;//擊退距離
-                GameManagement.Instance.flyingAttackObject_List.Add(attack);//加入List(執行)             
+                GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)             
+                break;
+            case 2://技能2               
+                attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+                attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
+                attack.layer = gameObject.layer;//攻擊者layer
+                attack.damage = NumericalValue.playerSkillAttack_2_Damage;//造成傷害 
+                attack.animationName = NumericalValue.playerSkillAttack_2_Effect;//攻擊效果(播放動畫名稱)
+                attack.direction = NumericalValue.playerSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
+                attack.repel = NumericalValue.playerSkillAttack_2_Repel;//擊退距離
+                attack.boxSize = NumericalValue.playerSkillAttack_2_BoxSize * transform.lossyScale.x;//近身攻擊框Size
+                GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+                
                 break;
         }
     }
@@ -127,10 +141,10 @@ public class PlayerControl : MonoBehaviour
         attack.layer = gameObject.layer;//攻擊者layer
         attack.damage = NumericalValue.playerJumpAttackDamage;//造成傷害 
         attack.animationName = NumericalValue.playerJumpAttackEffect;//攻擊效果(播放動畫名稱)
-        attack.direction = NumericalValue.playerJumpAttackRepelDirection;//擊中效果(0:擊退, 1:擊飛)
+        attack.direction = NumericalValue.playerJumpAttackRepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.playerJumpAttackRepelDistance;//擊退距離
         attack.boxSize = NumericalValue.playerJumpAttackBoxSize * transform.lossyScale.x;//近身攻擊框Size
-        GameManagement.Instance.flyingAttackObject_List.Add(attack);//加入List(執行)   
+        GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
     }
 
     /// <summary>
@@ -148,10 +162,10 @@ public class PlayerControl : MonoBehaviour
         attack.layer = gameObject.layer;//攻擊者layer
         attack.damage = NumericalValue.playerNormalAttackDamge[normalAttackNumber - 1];//造成傷害 
         attack.animationName = NumericalValue.playerNormalAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
-        attack.direction = NumericalValue.playerNormalAttackRepelDirection[normalAttackNumber - 1];//擊中效果(0:擊退, 1:擊飛)
+        attack.direction = NumericalValue.playerNormalAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.playerNormalAttackRepelDistance[normalAttackNumber - 1];//擊退距離
         attack.boxSize = NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
-        GameManagement.Instance.flyingAttackObject_List.Add(attack);//加入List(執行)       
+        GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)       
     }    
 
     /// <summary>

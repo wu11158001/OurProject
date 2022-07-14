@@ -71,7 +71,7 @@ public class AttackBehavior
             }
         }
 
-        GameManagement.Instance.flyingAttackObject_List.Remove(this);
+        GameManagement.Instance.AttackBehavior_List.Remove(this);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class AttackBehavior
         if (lifeTime <= 0)
         {         
             performObject.SetActive(false);
-            GameManagement.Instance.flyingAttackObject_List.Remove(this);
+            GameManagement.Instance.AttackBehavior_List.Remove(this);
         }
    
         //設定前方
