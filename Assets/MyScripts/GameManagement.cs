@@ -13,7 +13,7 @@ public class GameManagement : MonoBehaviour
     ObjectHandle objectHandle = new ObjectHandle();
 
     Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
-    public List<FlyingAttackObject> flyingAttackObject_List = new List<FlyingAttackObject>();//紀錄所有飛行攻擊物件
+    public List<AttackBehavior> flyingAttackObject_List = new List<AttackBehavior>();//紀錄所有飛行攻擊物件    
 
     //物件編號 玩家
     static int playerSkill_1_Number;//玩家技能1
@@ -45,7 +45,7 @@ public class GameManagement : MonoBehaviour
     {
         for (int i = 0; i < flyingAttackObject_List.Count; i++)
         {
-            flyingAttackObject_List[i].OnFlying();            
+            flyingAttackObject_List[i].function.Invoke();            
         }
     }
 

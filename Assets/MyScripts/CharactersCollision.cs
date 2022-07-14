@@ -81,9 +81,9 @@ public class CharactersCollision : MonoBehaviour
     /// <param name="layer">攻擊者layer</param>
     /// <param name="damage">造成傷害</param>
     /// <param name="animationName">播放動畫名稱</param>
-    /// <param name="effect">擊中效果(0:擊退, 1:擊飛)</param>
+    /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
     /// <param name="repel">擊退距離</param>
-    public void OnGetHit(GameObject attacker, LayerMask layer, float damage, string animationName, int effect, float repel)
+    public void OnGetHit(GameObject attacker, LayerMask layer, float damage, string animationName, int knockDirection, float repel)
     {               
         
         //判斷受擊對象
@@ -94,7 +94,7 @@ public class CharactersCollision : MonoBehaviour
             transform.forward = -attacker.transform.forward;//面向攻擊者
 
             //判斷擊中效果
-            switch (effect)
+            switch (knockDirection)
             {
                 case 0://擊退
                     transform.position = transform.position + attacker.transform.forward * repel * Time.deltaTime;//擊退

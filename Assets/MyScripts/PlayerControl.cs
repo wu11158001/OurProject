@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -95,19 +96,21 @@ public class PlayerControl : MonoBehaviour
         switch(normalAttackNumber)
         {
             case 1://技能1
-                GameObject obj = GameManagement.Instance.OnRequestOpenObject(playerSkill_1_Number);
+                GameObject obj = GameManagement.Instance.OnRequestOpenObject(playerSkill_1_Number);//開啟/產生物件
                 obj.transform.position = transform.position + boxCenter;
-                GameManagement.Instance.flyingAttackObject_List.Add(new FlyingAttackObject
-                {                    
-                    flyingObject = obj,//飛行物件 
-                    speed = NumericalValue.playerSkillAttack_1_FlyingSpeed,//飛行速度
-                    diration = transform.forward,//飛行方向
-                    lifeTime = NumericalValue.playerSkillAttack_1_LifeTime,//生存時間                                                                                             
-                    layer = gameObject.layer,//攻擊者layer
-                    damage = NumericalValue.playerSkillAttack_1_Damage,//造成傷害
-                    animationName = NumericalValue.playerSkillAttack_1_Effect,//攻擊效果(受擊者播放的動畫名稱)
-                    repel = NumericalValue.playerSkillAttack_1_Repel//擊退距離
-                });
+                //設定AttackBehavior Class數值
+                AttackBehavior attack = AttackBehavior.Instance;
+                attack.function = new Action(attack.OnSetShootFunction);//設定執行函式
+                attack.performObject = obj;//執行攻擊的物件(自身/射出物件) 
+                attack.speed = NumericalValue.playerSkillAttack_1_FlyingSpeed;//飛行速度
+                attack.diration = transform.forward;//飛行方向
+                attack.lifeTime = NumericalValue.playerSkillAttack_1_LifeTime;//生存時間                                                                                             
+                attack.layer = gameObject.layer;//攻擊者layer
+                attack.damage = NumericalValue.playerSkillAttack_1_Damage;//造成傷害
+                attack.animationName = NumericalValue.playerSkillAttack_1_Effect;//攻擊效果(受擊者播放的動畫名稱)
+                attack.direction = NumericalValue.playerSkillAttack_1_RepelDirection;//擊退方向((0:擊退 1:擊飛))
+                attack.repel = NumericalValue.playerSkillAttack_1_Repel;//擊退距離
+                GameManagement.Instance.flyingAttackObject_List.Add(attack);//加入List(執行)             
                 break;
         }
     }
@@ -117,21 +120,17 @@ public class PlayerControl : MonoBehaviour
     /// </summary>
     void OnJumpAttackBehavior()
     {
-        //攻擊框        
-        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, NumericalValue.playerJumpAttackBoxSize * transform.localScale.x, Quaternion.identity, attackMask);
-        foreach (var hit in hits)
-        {
-            CharactersCollision collision = hit.GetComponent<CharactersCollision>();
-            if (collision != null)
-            {
-                collision.OnGetHit(attacker: gameObject,//攻擊者物件
-                                   layer: gameObject.layer,//攻擊者layer
-                                   damage: NumericalValue.playerJumpAttackDamage,//造成傷害
-                                   animationName: NumericalValue.playerJumpAttackEffect,//播放動畫名稱
-                                   effect: 0,//擊中效果(0:擊退, 1:擊飛)
-                                   repel: NumericalValue.playerJumpAttackRepelDistance);//擊退距離
-            }
-        }
+        //設定AttackBehavior Class數值
+        AttackBehavior attack = AttackBehavior.Instance;
+        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
+        attack.layer = gameObject.layer;//攻擊者layer
+        attack.damage = NumericalValue.playerJumpAttackDamage;//造成傷害 
+        attack.animationName = NumericalValue.playerJumpAttackEffect;//攻擊效果(播放動畫名稱)
+        attack.direction = NumericalValue.playerJumpAttackRepelDirection;//擊中效果(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.playerJumpAttackRepelDistance;//擊退距離
+        attack.boxSize = NumericalValue.playerJumpAttackBoxSize * transform.lossyScale.x;//近身攻擊框Size
+        GameManagement.Instance.flyingAttackObject_List.Add(attack);//加入List(執行)   
     }
 
     /// <summary>
@@ -142,21 +141,17 @@ public class PlayerControl : MonoBehaviour
         //攻擊移動
         transform.position = transform.position + transform.forward * NumericalValue.playerNormalAttackMoveDistance[normalAttackNumber - 1] * Time.deltaTime;
 
-        //攻擊框
-        Collider[] hits = Physics.OverlapBox(transform.position + boxCenter + transform.forward, NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x, Quaternion.identity, attackMask);
-        foreach(var hit in hits)
-        {         
-            CharactersCollision collision = hit.GetComponent<CharactersCollision>();
-            if (collision != null)
-            {
-                collision.OnGetHit(attacker: gameObject,//攻擊者物件
-                                   layer: gameObject.layer,//攻擊者layer
-                                   damage: NumericalValue.playerNormalAttackDamge[normalAttackNumber - 1],//造成傷害 
-                                   animationName: NumericalValue.playerNormalAttackEffect[normalAttackNumber - 1],//播放動畫名稱
-                                   effect: NumericalValue.playerNormalAttackRepelDirection[normalAttackNumber - 1],//擊中效果(0:擊退, 1:擊飛)
-                                   repel: NumericalValue.playerNormalAttackRepelDistance[normalAttackNumber - 1]);//擊退距離
-            }
-        }
+        //設定AttackBehavior Class數值
+        AttackBehavior attack = AttackBehavior.Instance;
+        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
+        attack.layer = gameObject.layer;//攻擊者layer
+        attack.damage = NumericalValue.playerNormalAttackDamge[normalAttackNumber - 1];//造成傷害 
+        attack.animationName = NumericalValue.playerNormalAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
+        attack.direction = NumericalValue.playerNormalAttackRepelDirection[normalAttackNumber - 1];//擊中效果(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.playerNormalAttackRepelDistance[normalAttackNumber - 1];//擊退距離
+        attack.boxSize = NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
+        GameManagement.Instance.flyingAttackObject_List.Add(attack);//加入List(執行)       
     }    
 
     /// <summary>
