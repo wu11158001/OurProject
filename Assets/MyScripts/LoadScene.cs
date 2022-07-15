@@ -36,8 +36,7 @@ public class LoadScene : MonoBehaviour
         loadPath = GameDataManagement.Insrance.loadPath;
 
         //載入背景
-        background = ExtensionMethods.FindAnyChild<Image>(transform, "Background_Image");
-        background.sprite = Resources.Load<Sprite>(loadPath.LoadBackground_1);
+        background = ExtensionMethods.FindAnyChild<Image>(transform, "Background_Image");        
         background.enabled = false;
 
         //載入進度條(背景)
@@ -47,6 +46,8 @@ public class LoadScene : MonoBehaviour
         //載入進度條(進度)
         loadFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LoadFront_Image");
         loadFront_Image.enabled = false;
+
+        StartCoroutine(OnLoadScene("StartScene"));
     }
 
     void Update()
@@ -72,7 +73,18 @@ public class LoadScene : MonoBehaviour
     /// <param name="path">場景名稱</param>
     /// <returns></returns>
     public IEnumerator OnLoadScene(string scene)
-    {  
+    {       
+        //判斷場景(設定背景圖)
+        switch (scene)
+        {
+            case "StartScene":
+                background.sprite = Resources.Load<Sprite>(loadPath.LoadBackground_1);
+                break;
+            case "GameScene":
+                background.sprite = Resources.Load<Sprite>(loadPath.LoadBackground_1);
+                break;
+        }   
+
         //開啟UI
         background.enabled = true;
         loadBack_Image.enabled = true;

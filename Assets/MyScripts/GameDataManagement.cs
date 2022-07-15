@@ -26,6 +26,5 @@ public class GameDataManagement : MonoBehaviour
 
         numericalValue = Resources.Load<ScriptableObject_NumericalValue>("ScriptableObject/NumericalValue").numericalValue;
         loadPath = Resources.Load<ScriptableObject_LoadPath>("ScriptableObject/LoadPath").loadPath;
-    }
-   
+    }   
 }
