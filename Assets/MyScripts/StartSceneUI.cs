@@ -9,24 +9,30 @@ using UnityEngine.UI;
 /// </summary>
 public class StartSceneUI : MonoBehaviour
 {
+    GameData_LoadPath loadPath;
     VideoPlayer videoPlayer;
-    Canvas canvas;
+
+    [Header("開始畫面")]
+    Transform startScreen;
 
     //提示文字
     Text tip_Text;
     float tip_Text_alpha;
     int glintControl;//閃爍控制
+  
 
     void Start()
     {
-        //影片
-        videoPlayer = GetComponent<VideoPlayer>();
-        videoPlayer.clip = Resources.Load<VideoClip>("Video/StartVideo");
+        loadPath = GameDataManagement.Insrance.loadPath;
 
-        //UI
-        canvas = GameObject.Find("StartScene_UI").GetComponent<Canvas>();
-        canvas.enabled = false;
-        tip_Text = GameObject.Find("Tip_Text").GetComponent<Text>();
+        //影片
+        videoPlayer = Camera.main.GetComponent<VideoPlayer>();
+        videoPlayer.clip = Resources.Load<VideoClip>(loadPath.startVideo);
+
+        //開始畫面
+        startScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "StartScreen");
+        startScreen.gameObject.SetActive(false);
+        tip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Tip_Text");
     }
 
     void Update()
@@ -45,12 +51,12 @@ public class StartSceneUI : MonoBehaviour
             if (videoPlayer.isPlaying)
             {
                 videoPlayer.Stop();
-                canvas.enabled = true;
+                startScreen.gameObject.SetActive(true);
             }
             else
             {
-                canvas.enabled = false;
-                StartCoroutine(LoadScene.OnLoadScene("LobbyScene"));
+                startScreen.gameObject.SetActive(false);
+                StartCoroutine(LoadScene.Instance.OnLoadScene("GameScene"));
             }
         }
     }
@@ -60,11 +66,14 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     void OnTipTextGlintControl()
     {
-        tip_Text_alpha += glintControl * Time.deltaTime;
-        if (tip_Text_alpha >= 1) glintControl = -1;
-        if (tip_Text_alpha <= 0) glintControl = 1;
-        Color col = tip_Text.color;
-        col.a = tip_Text_alpha;
-        tip_Text.color = col;
+        if (tip_Text != null)
+        {
+            tip_Text_alpha += glintControl * Time.deltaTime;
+            if (tip_Text_alpha >= 1) glintControl = -1;
+            if (tip_Text_alpha <= 0) glintControl = 1;
+            Color col = tip_Text.color;
+            col.a = tip_Text_alpha;
+            tip_Text.color = col;
+        }
     }
 }

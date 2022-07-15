@@ -9,13 +9,14 @@ public class GameManagement : MonoBehaviour
 {
     static GameManagement gameManagement;
     public static GameManagement Instance => gameManagement;
-    public static GameData_NumericalValue NumericalValue;
     ObjectHandle objectHandle = new ObjectHandle();
+    GameData_LoadPath loadPath;
 
     Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
     public List<AttackBehavior> AttackBehavior_List = new List<AttackBehavior>();//紀錄所有攻擊行為    
 
     //物件編號 玩家
+    static int playerNumber;//玩家
     static int playerSkill_1_Number;//玩家技能1
 
     void Awake()
@@ -26,12 +27,17 @@ public class GameManagement : MonoBehaviour
             return;
         }
         gameManagement = this;
-
-        NumericalValue = Resources.Load<ScriptableObject_NumericalValue>("ScriptableObject/NumericalValue").numericalValue;
         objectHandle = ObjectHandle.GetObjectHandle;
+        loadPath = GameDataManagement.Insrance.loadPath;
 
-        //物件編號 玩家
-        playerSkill_1_Number = objectHandle.OnCreateObject("Skill/PlayerSkill_1");//玩家技能1
+        //玩家腳色_1
+        playerNumber = objectHandle.OnCreateObject(loadPath.playerCharacters_1);
+        objectNumber_Dictionary.Add("playerNumber", playerNumber);
+        GameObject player = objectHandle.OnOpenObject(playerNumber);//產生玩家
+        player.transform.position = new Vector3(0, 0.5f, 0);
+
+        //玩家技能_1
+        playerSkill_1_Number = objectHandle.OnCreateObject(loadPath.playerSkill_1);
         objectNumber_Dictionary.Add("playerSkill_1_Number", playerSkill_1_Number);
     }
 

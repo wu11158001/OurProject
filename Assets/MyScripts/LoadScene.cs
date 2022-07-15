@@ -9,7 +9,10 @@ using UnityEngine.UI;
 /// </summary>
 public class LoadScene : MonoBehaviour
 {
-    static LoadScene instance;
+    static LoadScene loadScene;
+    public static LoadScene Instance => loadScene;
+    GameData_LoadPath loadPath;
+
     static AsyncOperation ao;//載入場景
 
     static Image background;//載入背景
@@ -19,20 +22,22 @@ public class LoadScene : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (loadScene != null)
         {
             DestroyImmediate(gameObject);
             return;
         }
         DontDestroyOnLoad(gameObject);
-        instance = this;
+        loadScene = this;
     }
 
     void Start()
     {
+        loadPath = GameDataManagement.Insrance.loadPath;
+
         //載入背景
         background = ExtensionMethods.FindAnyChild<Image>(transform, "Background_Image");
-        background.sprite = Resources.Load<Sprite>("Texture/LoadBackground");
+        background.sprite = Resources.Load<Sprite>(loadPath.LoadBackground_1);
         background.enabled = false;
 
         //載入進度條(背景)
@@ -46,6 +51,14 @@ public class LoadScene : MonoBehaviour
 
     void Update()
     {
+        OnLoading();        
+    }
+        
+    /// <summary>
+    /// 載入
+    /// </summary>
+    void OnLoading()
+    {
         if (loadFront_Image.enabled && loadFront_Image.rectTransform.localScale.x < loadValue)
         {
             if (loadValue >= 1) loadValue = 1;
@@ -58,7 +71,7 @@ public class LoadScene : MonoBehaviour
     /// </summary>
     /// <param name="path">場景名稱</param>
     /// <returns></returns>
-    public static IEnumerator OnLoadScene(string scene)
+    public IEnumerator OnLoadScene(string scene)
     {  
         //開啟UI
         background.enabled = true;

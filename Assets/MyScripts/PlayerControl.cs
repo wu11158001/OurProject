@@ -54,7 +54,7 @@ public class PlayerControl : MonoBehaviour
 
     void Start()
     {
-        NumericalValue = GameManagement.NumericalValue;
+        NumericalValue = GameDataManagement.Insrance.numericalValue;
 
         //設定攝影機觀看點
         CameraControl.SetLookPoint = ExtensionMethods.FindAnyChild<Transform>(transform, "CameraLookPoint");

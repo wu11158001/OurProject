@@ -26,7 +26,7 @@ public class CameraControl : MonoBehaviour
         }
         cameraControl = this;
 
-        NumericalValue = NumericalValue = GameManagement.NumericalValue;
+        NumericalValue = GameDataManagement.Insrance.numericalValue;
     }
 
     void Update()

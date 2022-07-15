@@ -119,11 +119,11 @@ public class GameData_NumericalValue
         //骷顱士兵
         skeletonSoldierHp = 50;//骷顱士兵生命值
     }
-
-    static GameData_NumericalValue numericalValue;
-    public static GameData_NumericalValue Instance => numericalValue;
 }
 
+/// <summary>
+/// 遊戲數值中心
+/// </summary>
 [CreateAssetMenu(fileName = "NumericalValue", menuName = "ScriptableObjects/NumericalValue", order = 1)]
 public class ScriptableObject_NumericalValue : ScriptableObject
 {
