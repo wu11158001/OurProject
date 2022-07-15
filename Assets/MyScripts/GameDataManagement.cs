@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 遊戲資料中心(數值/物件/路徑)
+/// 遊戲資料中心(數值/路徑)
 /// </summary>
 public class GameDataManagement : MonoBehaviour
 {
@@ -13,6 +13,9 @@ public class GameDataManagement : MonoBehaviour
     [Header("資源中心")]
     public GameData_NumericalValue numericalValue;//遊戲數值
     public GameData_LoadPath loadPath;//遊戲物件(路徑)
+
+    [Header("遊戲資料")]
+    public int selectRoleNumber;//選擇的腳色編號
 
     void Awake()
     {

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.Video;
 
+/// <summary>
+/// 遊戲物件路徑管理
+/// </summary>
 [System.Serializable]
 public class GameData_LoadPath
 {
@@ -32,6 +35,9 @@ public class GameData_LoadPath
     }
 }
 
+/// <summary>
+/// 遊戲物件路徑管理中心
+/// </summary>
 [CreateAssetMenu(fileName = "LoadPath", menuName = "ScriptableObjects/LoadPath", order = 2)]
 public class ScriptableObject_LoadPath : ScriptableObject
 {
