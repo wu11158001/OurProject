@@ -9,7 +9,8 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class BuffButtonDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    Transform originalParent;//初始父物件
+    public Transform originalParent;//初始父物件
+    public int buffAble;//Buff能力編號
 
     void Start()
     {
@@ -58,5 +59,9 @@ public class BuffButtonDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
             buff.transform.SetParent(originalParent);//回原位
             buff.transform.localPosition = Vector3.zero;
         }
+
+        //檢查裝備中的Buff
+        StartSceneUI.Instance.buffBox_1.OnCheckBuff();
+        StartSceneUI.Instance.buffBox_2.OnCheckBuff();
     }
 }

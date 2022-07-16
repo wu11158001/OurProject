@@ -27,7 +27,7 @@ public class CharactersCollision : MonoBehaviour
 
     void Start()
     {
-        NumericalValue = GameDataManagement.Insrance.numericalValue;
+        NumericalValue = GameDataManagement.Instance.numericalValue;
 
         //¸I¼²®Ø
         boxCenter = GetComponent<BoxCollider>().center;

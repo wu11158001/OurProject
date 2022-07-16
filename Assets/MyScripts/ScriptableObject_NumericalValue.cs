@@ -10,6 +10,10 @@ public class GameData_NumericalValue
     public float gravity;//重力
     public float boxCollisionDistance;//碰撞框距離(與牆面距離)
 
+    [Header("Buff增加數值")]    
+    public string[] buffAbleString;//Buff增益文字
+    public float[] buffAbleValue;//Buff增益數值
+
     [Header("攝影機")]
     public float distance;//與玩家距離
     public float limitUpAngle;//限制向上角度
@@ -68,6 +72,10 @@ public class GameData_NumericalValue
         //共通
         gravity = 9.8f;//重力
         boxCollisionDistance = 0.5f;//碰撞框距離(與牆面距離)
+
+        //Buff增加數值
+        buffAbleString = new string[] { "生命值", "傷害", "防禦", "移動", "吸血", "回血" };//Buff增益文字
+        buffAbleValue = new float[] { 100, 10, 5, 5, 3, 1};//Buff增益數值
 
         //攝影機
         distance = 2.6f;//與玩家距離        

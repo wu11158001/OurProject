@@ -13,6 +13,7 @@ public class StartSceneUI : MonoBehaviour
     public static StartSceneUI Instance => startSceneUI;
 
     GameData_LoadPath loadPath;
+    GameData_NumericalValue numericalValue;
     VideoPlayer videoPlayer;
 
     [Header("開始畫面")]
@@ -30,13 +31,19 @@ public class StartSceneUI : MonoBehaviour
     Sprite[] roleSelect_Sprite;//腳色選擇圖片
     Button roleSelectRight_Button;//腳色按鈕移動(右)
     Button roleSelectLeft_Button;//腳色按鈕移動(左)
-    public List<Transform> roleSelectButton_List = new List<Transform>();//記錄所有腳色選擇按鈕
+    List<Transform> roleSelectButton_List = new List<Transform>();//記錄所有腳色選擇按鈕
     Image roleSelectBackGround_Image;//腳色選擇背景
     float roleSelectButtonSizeX;//腳色選擇按鈕SizeX
     float roleSelectButtonSpacing;//腳色選擇按鈕間距
     float roleSelectButtonSlideSpeed;//腳色滑動按鈕速度
     float mouseX;//Input MouseX    
     Image rolePicture_Image;//選擇的腳色(大圖)
+
+    [Header("選擇腳色畫面/Buff")]
+    int[] equipBuff;//裝備的Buff
+    Text EquipBuff_Text;//裝備的Buff文字
+    public BuffDrop buffBox_1;//Buff裝備框_1
+    public BuffDrop buffBox_2;//Buff裝備框_2
 
     void Awake()
     {
@@ -50,10 +57,20 @@ public class StartSceneUI : MonoBehaviour
 
     void Start()
     {
-        loadPath = GameDataManagement.Insrance.loadPath;
+        loadPath = GameDataManagement.Instance.loadPath;
+        numericalValue = GameDataManagement.Instance.numericalValue;
 
+        OnInital();
         OnStartScreenPrepare();
         OnChooseRoleScreenPrepare();        
+    }
+
+    /// <summary>
+    /// 初始狀態
+    /// </summary>
+    private void OnInital()
+    {
+        GameDataManagement.Instance.selectRoleNumber = 0;//選擇的腳色編號
     }
 
     /// <summary>
@@ -105,8 +122,28 @@ public class StartSceneUI : MonoBehaviour
             roleSelectButton_List.Add(roleButton);
         }
 
-        rolePicture_Image = ExtensionMethods.FindAnyChild<Image>(transform, "RolePicture_Image");//選擇的腳色(大圖)
+        //選擇的腳色(大圖)
+        rolePicture_Image = ExtensionMethods.FindAnyChild<Image>(transform, "RolePicture_Image");
         rolePicture_Image.sprite = roleSelectButton_List[0].GetComponent<Image>().sprite;
+
+        equipBuff = new int[2];//裝備的Buff
+
+        //Buff拖拉圖片
+        for (int i = 1; i <= 6; i++)
+        {
+            BuffButtonDrag buff =  ExtensionMethods.FindAnyChild<BuffButtonDrag>(transform, "Buff_" + i + "_Image").GetComponent<BuffButtonDrag>();
+            buff.buffAble = i;//給予Buff能力編號
+        }       
+
+        //Buff裝備框
+        buffBox_1 = ExtensionMethods.FindAnyChild<BuffDrop>(transform, "SelectBuffBackground_1_Image").GetComponent<BuffDrop>();
+        buffBox_1.buffBoxName = "buffBoxLeft";//判斷裝備的Buff
+        buffBox_2 = ExtensionMethods.FindAnyChild<BuffDrop>(transform, "SelectBuffBackground_2_Image").GetComponent<BuffDrop>();
+        buffBox_2.buffBoxName = "buffBoxRight";//判斷裝備的Buff
+
+        //裝備的Buff文字
+        EquipBuff_Text = ExtensionMethods.FindAnyChild<Text>(transform, "EquipBuff_Text").GetComponent<Text>();
+        EquipBuff_Text.text = "";
 
         chooseRoleScreen.gameObject.SetActive(false);
     }    
@@ -166,6 +203,36 @@ public class StartSceneUI : MonoBehaviour
     }
 
     /// <summary>
+    /// 設定裝備的Buff
+    /// </summary>
+    /// <param name="boxName">Buff裝備框</param>
+    /// <param name="buff">增加的Buff編號</param>
+    public void OnSetEquipBuff(string boxName, int buff)
+    {
+        switch (boxName)
+        {
+            case "buffBoxLeft":
+                equipBuff[0] = buff - 1;
+                break;
+            case "buffBoxRight":
+                equipBuff[1] = buff - 1;
+                break;
+        }        
+
+        //設定文字
+        string text = "";
+        if (equipBuff[0] >= 0) text = numericalValue.buffAbleString[equipBuff[0]] + "+" + numericalValue.buffAbleValue[equipBuff[0]] + "\n";
+        else text = "";        
+        if (equipBuff[1] >= 0) text = text + numericalValue.buffAbleString[equipBuff[1]] + "+" + numericalValue.buffAbleValue[equipBuff[1]];
+        else text = text + "";
+
+        EquipBuff_Text.text = text;
+
+        GameDataManagement.Instance.equipBuff[0] = equipBuff[0];
+        GameDataManagement.Instance.equipBuff[1] = equipBuff[1];
+    }
+
+    /// <summary>
     /// 設定腳色按鈕Function
     /// </summary>
     /// <param name="roleButton">腳色按鈕</param>
@@ -182,7 +249,7 @@ public class StartSceneUI : MonoBehaviour
     void OnClickRoleButton(int number)
     {
         rolePicture_Image.sprite = roleSelectButton_List[number].GetComponent<Image>().sprite;//設定選擇的腳色(大圖)
-        GameDataManagement.Insrance.selectRoleNumber = number;
+        GameDataManagement.Instance.selectRoleNumber = number;
     }
 
     /// <summary>

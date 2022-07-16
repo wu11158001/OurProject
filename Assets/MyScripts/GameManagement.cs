@@ -28,7 +28,7 @@ public class GameManagement : MonoBehaviour
         }
         gameManagement = this;
         objectHandle = ObjectHandle.GetObjectHandle;
-        loadPath = GameDataManagement.Insrance.loadPath;
+        loadPath = GameDataManagement.Instance.loadPath;
 
         //ª±®a¸}¦â_1
         playerNumber = objectHandle.OnCreateObject(loadPath.playerCharacters_1);

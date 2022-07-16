@@ -23,7 +23,7 @@ public class GameData_LoadPath
     {
         //開始場景
         startVideo = "Video/StartVideo";
-        roleSelect_Button = "RoleSelectButton/RoleSelect_Button";//選擇腳色按鈕
+        roleSelect_Button = "ChooseRoleScreen/RoleSelect_Button";//選擇腳色按鈕
         roleSelect_Sprite = "Sprites/StartScene/ChooseRoleScreen/Role";//腳色選擇圖片
 
         //載入場景

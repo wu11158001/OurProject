@@ -33,7 +33,7 @@ public class LoadScene : MonoBehaviour
 
     void Start()
     {
-        loadPath = GameDataManagement.Insrance.loadPath;
+        loadPath = GameDataManagement.Instance.loadPath;
 
         //¸ü¤J­I´º
         background = ExtensionMethods.FindAnyChild<Image>(transform, "Background_Image");        
