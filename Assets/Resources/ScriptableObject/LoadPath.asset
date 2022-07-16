@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadPath:
     startVideo: Video/StartVideo
-    roleSelect_Button: ChooseRoleScreen/RoleSelect_Button
-    roleSelect_Sprite: Sprites/StartScene/ChooseRoleScreen/Role
+    roleSelect_Button: SelectRoleScreen/RoleSelect_Button
+    roleSelect_Sprite: Sprites/StartScene/SelectRoleScreen/Role
     LoadBackground_1: Sprites/LoadScene/LoadBackground_1
     playerCharacters_1: Characters/PlayerCharacters_1
     playerSkill_1: Skill/PlayerSkill_1

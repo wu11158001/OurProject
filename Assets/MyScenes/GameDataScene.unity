@@ -230,6 +230,20 @@ MonoBehaviour:
   numericalValue:
     gravity: 9.8
     boxCollisionDistance: 0.5
+    buffAbleString:
+    - "\u751F\u547D\u503C"
+    - "\u50B7\u5BB3"
+    - "\u9632\u79A6"
+    - "\u79FB\u52D5"
+    - "\u5438\u8840"
+    - "\u56DE\u8840"
+    buffAbleValue:
+    - 100
+    - 10
+    - 5
+    - 5
+    - 3
+    - 1
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 20
@@ -286,6 +300,8 @@ MonoBehaviour:
     LoadBackground_1: Picture/LoadBackground
     playerCharacters_1: Characters/PlayerCharacters_1
     playerSkill_1: Skill/PlayerSkill_1
+  selectRoleNumber: 0
+  equipBuff: 
 --- !u!4 &470314199
 Transform:
   m_ObjectHideFlags: 0

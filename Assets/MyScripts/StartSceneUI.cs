@@ -23,7 +23,7 @@ public class StartSceneUI : MonoBehaviour
     int startTipGlintControl;//閃爍控制
 
     [Header("選擇腳色畫面")]
-    Transform chooseRoleScreen;//chooseRoleScreen UI控制
+    Transform selectRoleScreen;//SelectRoleScreen UI控制
     Button roleConfirm_Button;//腳色確定按鈕
     [Header("選擇腳色畫面/腳色選擇按鈕")]
     bool isSlideRoleButton;//是否滑動腳色按鈕    
@@ -38,12 +38,15 @@ public class StartSceneUI : MonoBehaviour
     float roleSelectButtonSlideSpeed;//腳色滑動按鈕速度
     float mouseX;//Input MouseX    
     Image rolePicture_Image;//選擇的腳色(大圖)
-
     [Header("選擇腳色畫面/Buff")]
     int[] equipBuff;//裝備的Buff
     Text EquipBuff_Text;//裝備的Buff文字
     public BuffDrop buffBox_1;//Buff裝備框_1
     public BuffDrop buffBox_2;//Buff裝備框_2
+
+    [Header("關卡畫面")]
+    Transform levelScreen;//levelScreen UI控制
+    Button level_1_Button;//關卡1_按鈕
 
     void Awake()
     {
@@ -53,16 +56,17 @@ public class StartSceneUI : MonoBehaviour
             return;
         }
         startSceneUI = this;
+                
+        loadPath = GameDataManagement.Instance.loadPath;
+        numericalValue = GameDataManagement.Instance.numericalValue;
     }
 
     void Start()
-    {
-        loadPath = GameDataManagement.Instance.loadPath;
-        numericalValue = GameDataManagement.Instance.numericalValue;
-
+    {       
         OnInital();
         OnStartScreenPrepare();
-        OnChooseRoleScreenPrepare();        
+        OnChooseRoleScreenPrepare();
+        OnLevelScreenPrepare();
     }
 
     /// <summary>
@@ -86,7 +90,8 @@ public class StartSceneUI : MonoBehaviour
         startScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "StartScreen");//startScreen UI控制        
         startTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "StartTip_Text");//提示文字
 
-        startScreen.gameObject.SetActive(false);
+        //畫面UI控制
+        startScreen.gameObject.SetActive(false);        
     }
 
     /// <summary>
@@ -95,7 +100,7 @@ public class StartSceneUI : MonoBehaviour
     void OnChooseRoleScreenPrepare()
     {
         //選擇腳色畫面
-        chooseRoleScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "ChooseRoleScreen");////chooseRoleScreen UI控制        
+        selectRoleScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "SelectRoleScreen");////SelectRoleScreen UI控制        
         roleConfirm_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleConfirm_Button");//腳色確定按鈕
         roleConfirm_Button.onClick.AddListener(OnRoleConfirm);
         //選擇腳色畫面/腳色選擇按鈕
@@ -121,7 +126,7 @@ public class StartSceneUI : MonoBehaviour
             OnSetRoleButtonFunction(roleButton.GetComponent<Button>(), i);            
             roleSelectButton_List.Add(roleButton);
         }
-
+        
         //選擇的腳色(大圖)
         rolePicture_Image = ExtensionMethods.FindAnyChild<Image>(transform, "RolePicture_Image");
         rolePicture_Image.sprite = roleSelectButton_List[0].GetComponent<Image>().sprite;
@@ -145,8 +150,20 @@ public class StartSceneUI : MonoBehaviour
         EquipBuff_Text = ExtensionMethods.FindAnyChild<Text>(transform, "EquipBuff_Text").GetComponent<Text>();
         EquipBuff_Text.text = "";
 
-        chooseRoleScreen.gameObject.SetActive(false);
+        selectRoleScreen.gameObject.SetActive(false);
     }    
+
+    /// <summary>
+    /// 關卡畫面籌備
+    /// </summary>
+    void OnLevelScreenPrepare()
+    {
+        levelScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "LevelScreen");//levelScreen UI控制
+        level_1_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Level_1_Button");//關卡1_按鈕
+        level_1_Button.onClick.AddListener(() => { OnLoadGameScene(level: 1); });
+
+        levelScreen.gameObject.SetActive(false);
+    }
 
     void Update()
     {
@@ -170,8 +187,11 @@ public class StartSceneUI : MonoBehaviour
             }
             else
             {
-                startScreen.gameObject.SetActive(false);
-                chooseRoleScreen.gameObject.SetActive(true);                
+                if (startScreen.gameObject.activeSelf)
+                {
+                    startScreen.gameObject.SetActive(false);
+                    selectRoleScreen.gameObject.SetActive(true);
+                }
             }
         }
     }
@@ -199,7 +219,8 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     void OnRoleConfirm()
     {
-        chooseRoleScreen.gameObject.SetActive(false);
+        selectRoleScreen.gameObject.SetActive(false);
+        levelScreen.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -305,6 +326,18 @@ public class StartSceneUI : MonoBehaviour
                 roleSelectButton_List[i].localPosition = new Vector3((-roleSelectButtonSizeX - roleSelectButtonSpacing) + (roleSelectButton_List[i].localPosition.x - (roleSelectButtonSizeX + roleSelectButtonSpacing) * (roleSelectButton_List.Count - 1)), 0, 0);
             }
         }
+    }
+    #endregion
+
+    #region 關卡畫面
+    /// <summary>
+    /// 載入關卡
+    /// </summary>
+    /// <param name="level">選擇的關卡</param>
+    void OnLoadGameScene(int level)
+    {
+        levelScreen.gameObject.SetActive(false);
+        StartCoroutine(LoadScene.Instance.OnLoadScene("GameScene" + level));
     }
     #endregion
 }
