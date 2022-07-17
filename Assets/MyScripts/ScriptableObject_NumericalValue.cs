@@ -9,7 +9,7 @@ public class GameData_NumericalValue
     [Header("共通")]
     public float gravity;//重力
     public float boxCollisionDistance;//碰撞框距離(與牆面距離)
-
+    public float criticalBonus;//報擊傷害加成
     [Header("Buff增加數值")]    
     public string[] buffAbleString;//Buff增益文字
     public float[] buffAbleValue;//Buff增益數值
@@ -23,6 +23,7 @@ public class GameData_NumericalValue
     public float playerHp;//玩家生命值
     public float playerMoveSpeed;//玩家移動速度
     public float playerJumpForce;//玩家跳躍力
+    public float playerCriticalRate;//玩家暴擊率
 
     [Header("玩家 普通攻擊")]
     public float[] playerNormalAttackDamge;//玩家普通攻擊傷害
@@ -72,6 +73,7 @@ public class GameData_NumericalValue
         //共通
         gravity = 9.8f;//重力
         boxCollisionDistance = 0.5f;//碰撞框距離(與牆面距離)
+        criticalBonus = 1.3f;//報擊傷害加成
 
         //Buff增加數值
         buffAbleString = new string[] { "生命值", "傷害", "防禦", "移動", "吸血", "回血" };//Buff增益文字
@@ -86,6 +88,7 @@ public class GameData_NumericalValue
         playerHp = 100;//玩家生命值
         playerMoveSpeed = 10;//玩家移動速度        
         playerJumpForce = 16;//玩家跳躍力
+        playerCriticalRate = 30;//玩家暴擊率
 
         //玩家 普通攻擊
         playerNormalAttackDamge = new float[] { 10, 10, 15 };//玩家普通攻擊傷害

@@ -29,11 +29,14 @@ public class GameData_LoadPath
     [Header("骷顱士兵")]
     public string SkeletonSoldier;//骷顱士兵
 
+    [Header("其他")]
+    public string hitNumber;//擊中文字
+
     private GameData_LoadPath()
     {
         //開始場景
         startVideo = "Video/StartVideo";
-        roleSelect_Button = "SelectRoleScreen/RoleSelect_Button";//選擇腳色按鈕
+        roleSelect_Button = "Prefab/UI/RoleSelect_Button";//選擇腳色按鈕
         roleSelect_Sprite = "Sprites/StartScene/SelectRoleScreen/Role";//腳色選擇圖片
 
         //載入場景
@@ -44,14 +47,17 @@ public class GameData_LoadPath
         miniMapMatirial_Object = "Matirials/MiniMap/MiniMpa_Object";//小地圖材質(物件)
         miniMapMatirial_Player = "Matirials/MiniMap/MiniMap_Player";//小地圖材質(玩家)
         miniMapMatirial_Enemy = "Matirials/MiniMap/MiniMap_Enemy";//小地圖材質(敵人)
-        miniMapPoint = "MiniMap/MiniMapPoint";//小地圖(點)
+        miniMapPoint = "Prefab/UI/MiniMapPoint";//小地圖(點)
 
         //玩家
-        playerCharacters = "Characters/PlayerCharacters_1";//玩家腳色
-        playerSkill_1 = "ShootObject/PlayerSkill_1";//玩家技能_1
+        playerCharacters = "Prefab/Characters/Player/PlayerCharacters_1";//玩家腳色
+        playerSkill_1 = "Prefab/ShootObject/PlayerSkill_1";//玩家技能_1
 
         //骷顱士兵
-        SkeletonSoldier = "Characters/SkeletonSoldier";//骷顱士兵
+        SkeletonSoldier = "Prefab/Characters/Enemy/SkeletonSoldier";//骷顱士兵
+
+        //其他
+        hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字
     }
 }
 

@@ -17,6 +17,7 @@ public class AttackBehavior
     public string animationName;//攻擊效果(受擊者播放的動畫名稱)
     public float repel;//擊退距離
     public int direction;//擊退方向((0:擊退 1:擊飛))
+    public bool isCritical;//是否爆擊
 
     //近身
     public Vector3 boxSize;//近身攻擊框Size
@@ -53,7 +54,7 @@ public class AttackBehavior
     /// 打擊攻擊(近身攻擊)
     /// </summary>
     void OnHit()
-    {
+    {        
         //攻擊框
         BoxCollider box = performObject.GetComponent<BoxCollider>();
         Collider[] hits = Physics.OverlapBox(performObject.transform.position + box.center + performObject.transform.forward, boxSize * performObject.transform.lossyScale.x, Quaternion.identity);
@@ -67,7 +68,8 @@ public class AttackBehavior
                                    damage: damage,//造成傷害 
                                    animationName: animationName,//攻擊效果(播放動畫名稱)
                                    knockDirection: direction,//擊中效果(0:擊退, 1:擊飛)
-                                   repel: repel );//擊退距離
+                                   repel: repel,//擊退距離
+                                   isCritical: isCritical) ;//是否爆擊
             }
         }
 
@@ -115,7 +117,8 @@ public class AttackBehavior
                                                                           damage: damage,//造成傷害
                                                                           animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
                                                                           knockDirection: direction,//擊退方向((0:擊退 1:擊飛))
-                                                                          repel: repel);//擊退距離
+                                                                          repel: repel,//擊退距離
+                                                                          isCritical: isCritical);//是否爆擊
 
             record.Add(hit.transform);//紀錄以擊中物件
         }

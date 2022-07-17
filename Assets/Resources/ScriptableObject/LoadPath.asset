@@ -14,8 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadPath:
     startVideo: Video/StartVideo
-    roleSelect_Button: SelectRoleScreen/RoleSelect_Button
+    roleSelect_Button: Prefab/UI/RoleSelect_Button
     roleSelect_Sprite: Sprites/StartScene/SelectRoleScreen/Role
     LoadBackground_1: Sprites/LoadScene/LoadBackground_1
-    playerCharacters_1: Characters/PlayerCharacters_1
-    playerSkill_1: ShootObject/PlayerSkill_1
+    miniMapMatirial_Floor: Matirials/MiniMap/MiniMpa_Floor
+    miniMapMatirial_Object: Matirials/MiniMap/MiniMpa_Object
+    miniMapMatirial_Player: Matirials/MiniMap/MiniMap_Player
+    miniMapMatirial_Enemy: Matirials/MiniMap/MiniMap_Enemy
+    miniMapPoint: Prefab/UI/MiniMapPoint
+    playerCharacters: Prefab/Characters/Player/PlayerCharacters_1
+    playerSkill_1: Prefab/ShootObject/PlayerSkill_1
+    SkeletonSoldier: Prefab/Characters/Enemy/SkeletonSoldier
+    hitNumber: Prefab/UI/HitNumber_Text

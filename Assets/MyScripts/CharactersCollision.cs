@@ -83,7 +83,8 @@ public class CharactersCollision : MonoBehaviour
     /// <param name="animationName">播放動畫名稱</param>
     /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
     /// <param name="repel">擊退距離</param>
-    public void OnGetHit(GameObject attacker, LayerMask layer, float damage, string animationName, int knockDirection, float repel)
+    /// <param name="isCritical">是否爆擊</param>
+    public void OnGetHit(GameObject attacker, LayerMask layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
     {               
         
         //判斷受擊對象
@@ -91,6 +92,11 @@ public class CharactersCollision : MonoBehaviour
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == LayerMask.NameToLayer("Player"))
         {
             Hp -= damage;//生命值減少
+            HitNumber hitNumber = GameManagement.Instance.OnRequestOpenObject(GameManagement.Instance.OnGetObjectNumber("hitNumberNumbering")).GetComponent<HitNumber>();//產生文字
+            hitNumber.OnSetValue(target: transform,//受傷目標
+                                 damage: damage,//受到傷害
+                                 color: isCritical ? Color.yellow : Color.red);//文字顏色
+       
             transform.forward = -attacker.transform.forward;//面向攻擊者
 
             //判斷擊中效果
