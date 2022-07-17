@@ -59,6 +59,10 @@ public class PlayerControl : MonoBehaviour
         //設定攝影機觀看點
         CameraControl.SetLookPoint = ExtensionMethods.FindAnyChild<Transform>(transform, "CameraLookPoint");
 
+        //小地圖攝影機
+        GameObject miniMap_Camera = GameObject.Find("MiniMap_Camera");
+        miniMap_Camera.transform.SetParent(transform);
+
         //鼠標
         Cursor.visible = false;//鼠標隱藏
         Cursor.lockState = CursorLockMode.Locked;//鎖定中央

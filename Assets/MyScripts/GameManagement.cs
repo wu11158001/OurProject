@@ -19,6 +19,9 @@ public class GameManagement : MonoBehaviour
     static int playerNumber;//玩家
     static int playerSkill_1_Number;//玩家技能1
 
+    //物件編號 敵人
+    static int skeletonSoldierNumber;//骷顱士兵
+
     void Awake()
     {       
         if(gameManagement != null)
@@ -29,16 +32,35 @@ public class GameManagement : MonoBehaviour
         gameManagement = this;
         objectHandle = ObjectHandle.GetObjectHandle;
         loadPath = GameDataManagement.Instance.loadPath;
+    }
 
-        //玩家腳色_1
-        playerNumber = objectHandle.OnCreateObject(loadPath.playerCharacters_1);
-        objectNumber_Dictionary.Add("playerNumber", playerNumber);
+    void Start()
+    {
+        //場景物件掛上小地圖點點
+        GameObject stageObject = GameObject.Find("StageObjects");        
+        Transform[] allStageObject = stageObject.GetComponentsInChildren<Transform>();
+        foreach (var item in allStageObject)
+        {
+            if (item.GetComponent<BoxCollider>()) OnSetMiniMapPoint(item, loadPath.miniMapMatirial_Object);
+        }
+
+        //玩家腳色
+        playerNumber = objectHandle.OnCreateObject(loadPath.playerCharacters);//產生至物件池
+        objectNumber_Dictionary.Add("playerNumber", playerNumber);//添加至紀錄中
         GameObject player = objectHandle.OnOpenObject(playerNumber);//產生玩家
-        player.transform.position = new Vector3(0, 0.5f, 0);
+        player.transform.position = new Vector3(0, 0.5f, 0);////設定位置
+        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點
 
         //玩家技能_1
         playerSkill_1_Number = objectHandle.OnCreateObject(loadPath.playerSkill_1);
         objectNumber_Dictionary.Add("playerSkill_1_Number", playerSkill_1_Number);
+
+        //骷顱士兵
+        skeletonSoldierNumber = objectHandle.OnCreateObject(loadPath.SkeletonSoldier);//產生至物件池
+        objectNumber_Dictionary.Add("skeletonSoldierNumber", skeletonSoldierNumber);////添加至紀錄中
+        GameObject skeletonSoldier = objectHandle.OnOpenObject(skeletonSoldierNumber);//產生骷顱士兵
+        skeletonSoldier.transform.position = new Vector3(3, 0.5f, 2);//設定位置
+        OnSetMiniMapPoint(skeletonSoldier.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
     }
 
     void Update()
@@ -84,5 +106,19 @@ public class GameManagement : MonoBehaviour
     {        
         GameObject obj = objectHandle.OnOpenObject(number);//開啟物件
         return obj;//回傳物件
+    }
+
+    /// <summary>
+    /// 設定小地圖點點
+    /// </summary>
+    /// <param name="item">要添加的物件</param>
+    /// <param name="item">點的材質路徑</param>
+    void OnSetMiniMapPoint(Transform item, string materialPath)
+    {
+        GameObject obj = Instantiate(Resources.Load<GameObject>(loadPath.miniMapPoint));
+        obj.transform.localEulerAngles = new Vector3(90, 0, 0);
+        obj.transform.SetParent(item);
+        MiniMapPoint map = obj.GetComponent<MiniMapPoint>();
+        map.pointMaterial = Resources.Load<Material>(materialPath);
     }
 }

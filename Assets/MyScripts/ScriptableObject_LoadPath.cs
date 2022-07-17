@@ -15,9 +15,19 @@ public class GameData_LoadPath
     [Header("載入場景")]
     public string LoadBackground_1;//載入場景背景_1
 
+    [Header("小地圖")]
+    public string miniMapMatirial_Floor;//小地圖材質(地板)
+    public string miniMapMatirial_Object;//小地圖材質(物件)
+    public string miniMapMatirial_Player;//小地圖材質(玩家)
+    public string miniMapMatirial_Enemy;//小地圖材質(敵人)
+    public string miniMapPoint;//小地圖(點)
+
     [Header("玩家")]
-    public string playerCharacters_1;//玩家腳色_1
+    public string playerCharacters;//玩家腳色
     public string playerSkill_1;//玩家技能_1
+
+    [Header("骷顱士兵")]
+    public string SkeletonSoldier;//骷顱士兵
 
     private GameData_LoadPath()
     {
@@ -29,9 +39,19 @@ public class GameData_LoadPath
         //載入場景
         LoadBackground_1 = "Sprites/LoadScene/LoadBackground_1";//載入場景背景
 
+        //小地圖
+        miniMapMatirial_Floor = "Matirials/MiniMap/MiniMpa_Floor";//小地圖材質(地板)
+        miniMapMatirial_Object = "Matirials/MiniMap/MiniMpa_Object";//小地圖材質(物件)
+        miniMapMatirial_Player = "Matirials/MiniMap/MiniMap_Player";//小地圖材質(玩家)
+        miniMapMatirial_Enemy = "Matirials/MiniMap/MiniMap_Enemy";//小地圖材質(敵人)
+        miniMapPoint = "MiniMap/MiniMapPoint";//小地圖(點)
+
         //玩家
-        playerCharacters_1 = "Characters/PlayerCharacters_1";//玩家腳色_1
-        playerSkill_1 = "Skill/PlayerSkill_1";//玩家技能_1
+        playerCharacters = "Characters/PlayerCharacters_1";//玩家腳色
+        playerSkill_1 = "ShootObject/PlayerSkill_1";//玩家技能_1
+
+        //骷顱士兵
+        SkeletonSoldier = "Characters/SkeletonSoldier";//骷顱士兵
     }
 }
 

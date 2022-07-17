@@ -18,4 +18,4 @@ MonoBehaviour:
     roleSelect_Sprite: Sprites/StartScene/SelectRoleScreen/Role
     LoadBackground_1: Sprites/LoadScene/LoadBackground_1
     playerCharacters_1: Characters/PlayerCharacters_1
-    playerSkill_1: Skill/PlayerSkill_1
+    playerSkill_1: ShootObject/PlayerSkill_1

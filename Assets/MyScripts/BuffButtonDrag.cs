@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 public class BuffButtonDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Transform originalParent;//初始父物件
+    public Vector2 originalMousePosition;//滑鼠點擊位置
     public int buffAble;//Buff能力編號
 
     void Start()
@@ -28,7 +29,7 @@ public class BuffButtonDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         buff.GetComponent<Image>().raycastTarget = false;
         buff.transform.SetParent(StartSceneUI.Instance.transform);
-        buff.transform.position = eventData.position;
+        originalMousePosition = eventData.position - (Vector2)buff.transform.position;              
     }
 
     /// <summary>
@@ -38,7 +39,7 @@ public class BuffButtonDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     public void OnDrag(PointerEventData eventData)
     {
         GameObject buff = eventData.pointerDrag;
-        buff.transform.position = eventData.position;
+        buff.transform.position = eventData.position - originalMousePosition;
     }
 
     /// <summary>
