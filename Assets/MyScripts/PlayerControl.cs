@@ -37,9 +37,6 @@ public class PlayerControl : MonoBehaviour
     //技能攻擊
     bool isSkillAttack;//是否技能攻擊
 
-    //其他
-    LayerMask attackMask;//攻擊對象
-
     private void Awake()
     {
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
@@ -70,9 +67,6 @@ public class PlayerControl : MonoBehaviour
 
         //移動
         forwardVector = transform.forward;               
-
-        //其他
-        attackMask = LayerMask.GetMask("Enemy");//攻擊對象
     }
    
     void Update()

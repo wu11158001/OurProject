@@ -31,6 +31,7 @@ public class GameData_LoadPath
 
     [Header("其他")]
     public string hitNumber;//擊中文字
+    public string lifeBar;//生命條
 
     private GameData_LoadPath()
     {
@@ -58,6 +59,7 @@ public class GameData_LoadPath
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字
+        lifeBar = "Prefab/UI/LifeBar";//生命條
     }
 }
 

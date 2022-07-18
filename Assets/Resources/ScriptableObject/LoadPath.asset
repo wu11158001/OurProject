@@ -26,3 +26,4 @@ MonoBehaviour:
     playerSkill_1: Prefab/ShootObject/PlayerSkill_1
     SkeletonSoldier: Prefab/Characters/Enemy/SkeletonSoldier
     hitNumber: Prefab/UI/HitNumber_Text
+    lifeBar: Prefab/UI/LifeBar

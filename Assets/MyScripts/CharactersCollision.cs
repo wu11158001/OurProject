@@ -15,8 +15,12 @@ public class CharactersCollision : MonoBehaviour
     Vector3 boxCenter;
     Vector3 boxSize;
 
+    //生命條
+    LifeBar_Characters lifeBar;//生命條
+
     //數值
     float Hp;//生命值
+    float MaxHp;//最大生命值
 
     public List<CharactersFloating> floating_List = new List<CharactersFloating>();//浮空/跳躍List
 
@@ -38,12 +42,15 @@ public class CharactersCollision : MonoBehaviour
         switch(gameObject.tag)
         {
             case "Player":
-                Hp = NumericalValue.playerHp;
+                MaxHp = NumericalValue.playerHp;
                 break;
-            case "SkeletonSoldier":                
-                Hp = NumericalValue.skeletonSoldierHp;
+            case "SkeletonSoldier":
+                MaxHp = NumericalValue.skeletonSoldierHp;
                 break;
-        }      
+        }
+
+        Hp = MaxHp;
+        OnSetLifeBar_Character(transform);//設定生命條
     }
 
     void Update()
@@ -56,23 +63,14 @@ public class CharactersCollision : MonoBehaviour
     }
 
     /// <summary>
-    /// 浮空
+    /// 設定生命條_遊戲腳色
     /// </summary>
-    void OnFloation()
+    /// <param name="target">掛上的物件</param>
+    void OnSetLifeBar_Character(Transform target)
     {
-        //浮空/跳躍
-        for (int i = 0; i < floating_List.Count; i++)
-        {
-            floating_List[i].OnFloating();
-        }
-
-        //碰撞偵測
-        LayerMask mask = LayerMask.GetMask("StageObject");
-        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
-        {
-            floating_List.Clear();//清除List
-        }
-    }
+        lifeBar = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>());
+        lifeBar.SetTarget = target;
+    }    
 
     /// <summary>
     /// 受到攻擊
@@ -92,12 +90,16 @@ public class CharactersCollision : MonoBehaviour
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == LayerMask.NameToLayer("Player"))
         {
             Hp -= damage;//生命值減少
-            HitNumber hitNumber = GameManagement.Instance.OnRequestOpenObject(GameManagement.Instance.OnGetObjectNumber("hitNumberNumbering")).GetComponent<HitNumber>();//產生文字
+            lifeBar.SetValue = Hp / MaxHp;//設定生命條比例            
+
+            //產生文字
+            HitNumber hitNumber = GameManagement.Instance.OnRequestOpenObject(GameManagement.Instance.OnGetObjectNumber("hitNumberNumbering")).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: damage,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red);//文字顏色
-       
-            transform.forward = -attacker.transform.forward;//面向攻擊者
+
+            //面向攻擊者
+            transform.forward = -attacker.transform.forward;
 
             //判斷擊中效果
             switch (knockDirection)
@@ -123,6 +125,25 @@ public class CharactersCollision : MonoBehaviour
 
             animator.SetBool(animationName, true);
         }        
+    }
+
+    /// <summary>
+    /// 浮空
+    /// </summary>
+    void OnFloation()
+    {
+        //浮空/跳躍
+        for (int i = 0; i < floating_List.Count; i++)
+        {
+            floating_List[i].OnFloating();
+        }
+
+        //碰撞偵測
+        LayerMask mask = LayerMask.GetMask("StageObject");
+        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
+        {
+            floating_List.Clear();//清除List
+        }
     }
 
     /// <summary>

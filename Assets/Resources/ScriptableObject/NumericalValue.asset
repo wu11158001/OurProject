@@ -33,7 +33,7 @@ MonoBehaviour:
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 20
-    playerHp: 100
+    playerHp: 300
     playerMoveSpeed: 10
     playerJumpForce: 16
     playerCriticalRate: 30
@@ -48,7 +48,7 @@ MonoBehaviour:
     playerNormalAttackRepelDistance:
     - 70
     - 80
-    - 18
+    - 11.5
     playerNormalAttackRepelDirection: 000000000000000001000000
     playerNormalAttackEffect:
     - Pain
@@ -71,7 +71,7 @@ MonoBehaviour:
     playerSkillAttack_1_RepelDirection: 0
     playerSkillAttack_2_Damage: 44
     playerSkillAttack_2_Effect: Pain
-    playerSkillAttack_2_Repel: 18
+    playerSkillAttack_2_Repel: 11.5
     playerSkillAttack_2_RepelDirection: 1
     playerSkillAttack_2_BoxSize: {x: 1, y: 1, z: 1}
     playerSkillAttack_3_Damage: 55
@@ -79,4 +79,4 @@ MonoBehaviour:
     playerSkillAttack_3_Repel: 100
     playerSkillAttack_3_RepelDirection: 0
     playerSkillAttack_3_BoxSize: {x: 1, y: 1, z: 1}
-    skeletonSoldierHp: 50
+    skeletonSoldierHp: 300

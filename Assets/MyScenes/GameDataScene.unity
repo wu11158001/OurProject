@@ -230,6 +230,7 @@ MonoBehaviour:
   numericalValue:
     gravity: 9.8
     boxCollisionDistance: 0.5
+    criticalBonus: 1.3
     buffAbleString:
     - "\u751F\u547D\u503C"
     - "\u50B7\u5BB3"
@@ -308,6 +309,7 @@ MonoBehaviour:
     playerSkill_1: Skill/PlayerSkill_1
     SkeletonSoldier: Prefab/Characters/Enemy/SkeletonSoldier
     hitNumber: Prefab/UI/HitNumber_Text
+    lifeBar: Prefab/UI/LifeBar
   selectRoleNumber: 0
   equipBuff: 
 --- !u!4 &470314199

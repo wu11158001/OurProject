@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class HitNumber : MonoBehaviour
 {
-    Canvas gameSceneUI;
+    Canvas canvas_Overlay;
     Text thisText;
 
     Transform target;//受傷目標   
@@ -17,9 +17,8 @@ public class HitNumber : MonoBehaviour
 
     void Start()
     {
-        gameSceneUI = GameObject.Find("GameSceneUI").GetComponent<Canvas>();        
-
-        transform.SetParent(gameSceneUI.transform);
+        canvas_Overlay = GameObject.Find("Canvas_Overlay").GetComponent<Canvas>();     
+        transform.SetParent(canvas_Overlay.transform);
 
         OnInitail();
     }
@@ -27,7 +26,7 @@ public class HitNumber : MonoBehaviour
     
     void Update()
     {
-        OnHitNumber();
+        OnHitNumberBehavior();
     }
 
     /// <summary>
@@ -56,9 +55,9 @@ public class HitNumber : MonoBehaviour
     }
 
     /// <summary>
-    /// 擊中文字
+    /// 擊中文字行為
     /// </summary>
-    void OnHitNumber()
+    void OnHitNumberBehavior()
     {
         if (target == null) return;
 
@@ -73,10 +72,18 @@ public class HitNumber : MonoBehaviour
         //向上飄
         startPosition += Vector3.up * 1 * Time.deltaTime;
 
-        Camera camera = gameSceneUI.worldCamera;
+        Camera camera = canvas_Overlay.worldCamera;
         Vector3 position = Camera.main.WorldToScreenPoint(startPosition);
 
-        if(gameSceneUI.renderMode == RenderMode.ScreenSpaceOverlay || camera == null)
+        //物件在後方
+        if(position.z < 0)
+        {
+            OnInitail();
+            gameObject.SetActive(false);
+        }
+
+        //判斷Canvas的RenderMode
+        if (canvas_Overlay.renderMode == RenderMode.ScreenSpaceOverlay || camera == null)
         {
             transform.position = position;
         }
