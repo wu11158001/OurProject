@@ -13,11 +13,11 @@ public class LifeBar_Characters : MonoBehaviour
 
     void Start()
     {
-        lifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarFront_Image");
-        lifeBarFront_Image.fillAmount = 1;
-        lifeBarMid_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarMid_Image");
-        lifeBarMid_Image.fillAmount = 1;
         hpProportion = 1;
+        lifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarFront_Image");
+        lifeBarFront_Image.fillAmount = hpProportion;
+        lifeBarMid_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarMid_Image");
+        lifeBarMid_Image.fillAmount = hpProportion;        
     }
     
     void Update()

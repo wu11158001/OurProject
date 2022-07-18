@@ -59,7 +59,9 @@ public class CharactersCollision : MonoBehaviour
 
         OnCollisionControl();
         OnAnimationOver();
-        OnFloation();        
+        OnFloation();
+
+        if (Input.GetKeyDown(KeyCode.K)) GameSceneUI.Instance.SetPlayerHpProportion = 50 / MaxHp;//設定玩家生命條比例(玩家的)
     }
 
     /// <summary>
@@ -90,10 +92,11 @@ public class CharactersCollision : MonoBehaviour
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == LayerMask.NameToLayer("Player"))
         {
             Hp -= damage;//生命值減少
-            lifeBar.SetValue = Hp / MaxHp;//設定生命條比例            
+            lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
+            if(gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //產生文字
-            HitNumber hitNumber = GameManagement.Instance.OnRequestOpenObject(GameManagement.Instance.OnGetObjectNumber("hitNumberNumbering")).GetComponent<HitNumber>();
+            HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering")).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: damage,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red);//文字顏色

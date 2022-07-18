@@ -93,7 +93,7 @@ public class GameData_NumericalValue
         //玩家 普通攻擊
         playerNormalAttackDamge = new float[] { 10, 10, 15 };//玩家普通攻擊傷害
         playerNormalAttackMoveDistance = new float[] { 50, 50, 0 };//玩家普通攻擊移動距離
-        playerNormalAttackRepelDistance = new float[] { 70, 80, 11.5f };//玩家普通攻擊 擊退/擊飛距離
+        playerNormalAttackRepelDistance = new float[] { 70, 80, 18 };//玩家普通攻擊 擊退/擊飛距離
         playerNormalAttackRepelDirection = new int[] { 0, 0, 1 };//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
         playerNormalAttackEffect = new string[] { "Pain", "Pain", "Pain" };//玩家普通攻擊效果(受擊者播放的動畫名稱)
         playerNormalAttackBoxSize = new Vector3[] { new Vector3(1, 1, 1), new Vector3(1, 1, 1), new Vector3(1, 1, 1) };//玩家普通攻擊攻擊框Size        
@@ -116,7 +116,7 @@ public class GameData_NumericalValue
         //玩家 技能攻擊_2
         playerSkillAttack_2_Damage = 44;//技能攻擊_1_攻擊傷害
         playerSkillAttack_2_Effect = "Pain";//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
-        playerSkillAttack_2_Repel = 11.5f;//技能攻擊_1_擊退距離
+        playerSkillAttack_2_Repel = 18;//技能攻擊_1_擊退距離
         playerSkillAttack_2_RepelDirection = 1;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
         playerSkillAttack_2_BoxSize = new Vector3(1, 1, 1);//玩家技能攻擊_2_攻擊框Size
 

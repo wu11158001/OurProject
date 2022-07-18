@@ -79,7 +79,7 @@ public class PlayerControl : MonoBehaviour
         if (!isNormalAttack && !isSkillAttack && !isTrick)
         {
             OnMovementControl();            
-        }
+        }        
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public class PlayerControl : MonoBehaviour
         switch (normalAttackNumber)
         {            
             case 1://技能1
-                GameObject obj = GameManagement.Instance.OnRequestOpenObject(GameManagement.Instance.OnGetObjectNumber("playerSkill_1_Numbering"));//產生物件
+                GameObject obj = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("playerSkill_1_Numbering"));//產生物件
                 obj.transform.position = transform.position + boxCenter;
                 
                 //設定AttackBehavior Class數值                
@@ -110,7 +110,7 @@ public class PlayerControl : MonoBehaviour
                 attack.direction = NumericalValue.playerSkillAttack_1_RepelDirection;//擊退方向((0:擊退 1:擊飛))
                 attack.repel = NumericalValue.playerSkillAttack_1_Repel;//擊退距離
                 attack.isCritical = isCritical;//是否爆擊
-                GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)             
+                GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)             
                 break;
             case 2://技能2               
                 attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
@@ -122,7 +122,7 @@ public class PlayerControl : MonoBehaviour
                 attack.repel = NumericalValue.playerSkillAttack_2_Repel;//擊退距離
                 attack.boxSize = NumericalValue.playerSkillAttack_2_BoxSize * transform.lossyScale.x;//近身攻擊框Size
                 attack.isCritical = isCritical;//是否爆擊
-                GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                   
+                GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                   
                 break;
             case 3://技能3                
                 attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
@@ -134,7 +134,7 @@ public class PlayerControl : MonoBehaviour
                 attack.repel = NumericalValue.playerSkillAttack_3_Repel;//擊退距離
                 attack.boxSize = NumericalValue.playerSkillAttack_3_BoxSize * transform.lossyScale.x;//近身攻擊框Size
                 attack.isCritical = isCritical;//是否爆擊
-                GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)     
+                GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)     
                 break;
         }
     }
@@ -158,7 +158,7 @@ public class PlayerControl : MonoBehaviour
         attack.repel = NumericalValue.playerJumpAttackRepelDistance;//擊退距離
         attack.boxSize = NumericalValue.playerJumpAttackBoxSize * transform.lossyScale.x;//近身攻擊框Size
         attack.isCritical = isCritical;//是否爆擊
-        GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ public class PlayerControl : MonoBehaviour
         attack.repel = NumericalValue.playerNormalAttackRepelDistance[normalAttackNumber - 1];//擊退距離
         attack.boxSize = NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
         attack.isCritical = isCritical;//是否爆擊
-        GameManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)       
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)       
     }    
 
     /// <summary>

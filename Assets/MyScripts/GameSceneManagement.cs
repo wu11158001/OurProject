@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 遊戲管理中心
+/// 遊戲場景管理中心
 /// </summary>
-public class GameManagement : MonoBehaviour
+public class GameSceneManagement : MonoBehaviour
 {
-    static GameManagement gameManagement;
-    public static GameManagement Instance => gameManagement;
+    static GameSceneManagement gameSceneManagement;
+    public static GameSceneManagement Instance => gameSceneManagement;
     ObjectHandle objectHandle = new ObjectHandle();
     GameData_LoadPath loadPath;
 
@@ -27,12 +27,12 @@ public class GameManagement : MonoBehaviour
 
     void Awake()
     {       
-        if(gameManagement != null)
+        if(gameSceneManagement != null)
         {
             Destroy(this);
             return;
         }
-        gameManagement = this;
+        gameSceneManagement = this;
         objectHandle = ObjectHandle.GetObjectHandle;
         loadPath = GameDataManagement.Instance.loadPath;
     }
