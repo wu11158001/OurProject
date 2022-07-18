@@ -897,7 +897,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -705, y: -401}
-  m_SizeDelta: {x: 944.5984, y: 176}
+  m_SizeDelta: {x: 655, y: 176}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &323194778
 MonoBehaviour:
@@ -1002,6 +1002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalParent: {fileID: 0}
+  originalMousePosition: {x: 0, y: 0}
   buffAble: 0
 --- !u!114 &374116001
 MonoBehaviour:
@@ -1247,6 +1248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalParent: {fileID: 0}
+  originalMousePosition: {x: 0, y: 0}
   buffAble: 0
 --- !u!114 &495765208
 MonoBehaviour:
@@ -1508,8 +1510,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: de494546b58598742b197bb8fde2c577, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1729,6 +1731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalParent: {fileID: 0}
+  originalMousePosition: {x: 0, y: 0}
   buffAble: 0
 --- !u!114 &649458518
 MonoBehaviour:
@@ -1968,7 +1971,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 379, y: -400.76}
+  m_AnchoredPosition: {x: 59, y: -400.76}
   m_SizeDelta: {x: 197.7956, y: 176.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1026361369
@@ -2035,8 +2038,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: e46a7b9a1f780d54cb0f1a0e4edd6e96, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2105,6 +2108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalParent: {fileID: 0}
+  originalMousePosition: {x: 0, y: 0}
   buffAble: 0
 --- !u!114 &1095740495
 MonoBehaviour:
@@ -2178,7 +2182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -519.21, y: 80}
+  m_AnchoredPosition: {x: -375, y: 80}
   m_SizeDelta: {x: 651.0214, y: 717.2873}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114145886
@@ -2588,6 +2592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalParent: {fileID: 0}
+  originalMousePosition: {x: 0, y: 0}
   buffAble: 0
 --- !u!114 &1672129291
 MonoBehaviour:
@@ -3070,6 +3075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalParent: {fileID: 0}
+  originalMousePosition: {x: 0, y: 0}
   buffAble: 0
 --- !u!114 &1914138480
 MonoBehaviour:

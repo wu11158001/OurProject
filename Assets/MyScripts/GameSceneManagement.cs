@@ -48,15 +48,15 @@ public class GameSceneManagement : MonoBehaviour
         }
 
         //玩家腳色
-        playerNumbering = objectHandle.OnCreateObject(loadPath.playerCharacters);//產生至物件池
+        playerNumbering = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
         objectNumber_Dictionary.Add("playerNumbering", playerNumbering);//添加至紀錄中
         GameObject player = objectHandle.OnOpenObject(playerNumbering);//產生玩家
         player.transform.position = new Vector3(0, 0.5f, 0);////設定位置
         OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點
 
-        //玩家技能_1
-        playerSkill_1_Numbering = objectHandle.OnCreateObject(loadPath.playerSkill_1);
-        objectNumber_Dictionary.Add("playerSkill_1_Numbering", playerSkill_1_Numbering);
+        //玩家腳色1_技能1
+        playerSkill_1_Numbering = objectHandle.OnCreateObject(loadPath.playerCharactersSkill_1);////產生至物件池
+        objectNumber_Dictionary.Add("playerSkill_1_Numbering", playerSkill_1_Numbering);//添加至紀錄中
 
         //骷顱士兵
         skeletonSoldierNumbering = objectHandle.OnCreateObject(loadPath.SkeletonSoldier);//產生至物件池

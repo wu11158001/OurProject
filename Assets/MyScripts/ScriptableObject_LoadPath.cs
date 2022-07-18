@@ -22,9 +22,15 @@ public class GameData_LoadPath
     public string miniMapMatirial_Enemy;//小地圖材質(敵人)
     public string miniMapPoint;//小地圖(點)
 
-    [Header("玩家")]
-    public string playerCharacters;//玩家腳色
-    public string playerSkill_1;//玩家技能_1
+    [Header("玩家腳色")]
+    public string playerCharacters_1;//玩家腳色
+    public string playerCharacters_2;//玩家腳色
+    public string playerCharacters_3;//玩家腳色
+    public string playerCharacters_4;//玩家腳色
+    public string[] allPlayerCharacters;//所有玩家腳色
+
+    [Header("玩家腳色1_技能")]
+    public string playerCharactersSkill_1;//玩家腳色1_技能1
 
     [Header("骷顱士兵")]
     public string SkeletonSoldier;//骷顱士兵
@@ -50,9 +56,15 @@ public class GameData_LoadPath
         miniMapMatirial_Enemy = "Matirials/MiniMap/MiniMap_Enemy";//小地圖材質(敵人)
         miniMapPoint = "Prefab/UI/MiniMapPoint";//小地圖(點)
 
-        //玩家
-        playerCharacters = "Prefab/Characters/Player/PlayerCharacters_1";//玩家腳色
-        playerSkill_1 = "Prefab/ShootObject/PlayerSkill_1";//玩家技能_1
+        //玩家腳色
+        playerCharacters_1 = "Prefab/Characters/Player/PlayerCharacters_1";//玩家腳色1
+        playerCharacters_2 = "Prefab/Characters/Player/PlayerCharacters_2";//玩家腳色2
+        playerCharacters_3 = "Prefab/Characters/Player/PlayerCharacters_3";//玩家腳色3
+        playerCharacters_4 = "Prefab/Characters/Player/PlayerCharacters_4";//玩家腳色4
+        allPlayerCharacters = new string[] { playerCharacters_1 , playerCharacters_2, playerCharacters_3, playerCharacters_4 };//所有玩家腳色
+
+        //玩家技能
+        playerCharactersSkill_1 = "Prefab/ShootObject/PlayerCharacters1_Skill_1";//玩家腳色1_技能1
 
         //骷顱士兵
         SkeletonSoldier = "Prefab/Characters/Enemy/SkeletonSoldier";//骷顱士兵
