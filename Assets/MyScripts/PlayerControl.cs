@@ -257,14 +257,23 @@ public class PlayerControl : MonoBehaviour
                     normalAttackNumber = 0;//´¶³q§ðÀ»½s¸¹
                     animator.SetInteger("NormalAttackNumber", normalAttackNumber);
 
-                    isNormalAttack = false;
-                    animator.SetBool("NormalAttack", isNormalAttack);
+                    if (info.IsTag("NormalAttack"))
+                    {
+                        isNormalAttack = false;
+                        animator.SetBool("NormalAttack", isNormalAttack);
+                    }
 
-                    isSkillAttack = false;
-                    animator.SetBool("SkillAttack", isSkillAttack);
+                    if (info.IsTag("SkillAttack"))
+                    {
+                        isSkillAttack = false;
+                        animator.SetBool("SkillAttack", isSkillAttack);
+                    }
 
-                    isJumpAttack = false;
-                    animator.SetBool("JumpAttack", isJumpAttack);
+                    if (info.IsTag("JumpAttack"))
+                    {
+                        isJumpAttack = false;
+                        animator.SetBool("JumpAttack", isJumpAttack);
+                    }
                 }              
             }
         }     

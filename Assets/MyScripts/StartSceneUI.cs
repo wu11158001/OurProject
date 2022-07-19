@@ -47,6 +47,7 @@ public class StartSceneUI : MonoBehaviour
     [Header("關卡畫面")]
     Transform levelScreen;//levelScreen UI控制
     Button level_1_Button;//關卡1_按鈕
+    Button level_Bakc_Button;//返回按鈕
 
     void Awake()
     {
@@ -159,6 +160,8 @@ public class StartSceneUI : MonoBehaviour
     void OnLevelScreenPrepare()
     {
         levelScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "LevelScreen");//levelScreen UI控制
+        level_Bakc_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Level_Bakc_Button");//返回按鈕
+        level_Bakc_Button.onClick.AddListener(OnBackSelectRoleScreen);
         level_1_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Level_1_Button");//關卡1_按鈕
         level_1_Button.onClick.AddListener(() => { OnLoadGameScene(level: 1); });
 
@@ -338,6 +341,15 @@ public class StartSceneUI : MonoBehaviour
     {
         levelScreen.gameObject.SetActive(false);
         StartCoroutine(LoadScene.Instance.OnLoadScene("GameScene" + level));
+    }
+
+    /// <summary>
+    /// 返回腳色選擇畫面
+    /// </summary>
+    void OnBackSelectRoleScreen()
+    {
+        selectRoleScreen.gameObject.SetActive(true);
+        levelScreen.gameObject.SetActive(false);
     }
     #endregion
 }

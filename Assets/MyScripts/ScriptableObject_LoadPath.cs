@@ -23,10 +23,10 @@ public class GameData_LoadPath
     public string miniMapPoint;//小地圖(點)
 
     [Header("玩家腳色")]
-    public string playerCharacters_1;//玩家腳色
-    public string playerCharacters_2;//玩家腳色
-    public string playerCharacters_3;//玩家腳色
-    public string playerCharacters_4;//玩家腳色
+    public string Warrior;//玩家腳色
+    public string Magician;//玩家腳色
+    public string Archer;//玩家腳色
+    public string Ranger;//玩家腳色
     public string[] allPlayerCharacters;//所有玩家腳色
 
     [Header("玩家腳色1_技能")]
@@ -57,11 +57,11 @@ public class GameData_LoadPath
         miniMapPoint = "Prefab/UI/MiniMapPoint";//小地圖(點)
 
         //玩家腳色
-        playerCharacters_1 = "Prefab/Characters/Player/PlayerCharacters_1";//玩家腳色1
-        playerCharacters_2 = "Prefab/Characters/Player/PlayerCharacters_2";//玩家腳色2
-        playerCharacters_3 = "Prefab/Characters/Player/PlayerCharacters_3";//玩家腳色3
-        playerCharacters_4 = "Prefab/Characters/Player/PlayerCharacters_4";//玩家腳色4
-        allPlayerCharacters = new string[] { playerCharacters_1 , playerCharacters_2, playerCharacters_3, playerCharacters_4 };//所有玩家腳色
+        Warrior = "Prefab/Characters/Player/1_Warrior";//戰士
+        Magician = "Prefab/Characters/Player/2_Magician";//魔法師
+        Archer = "Prefab/Characters/Player/3_Archer";//弓箭手
+        Ranger = "Prefab/Characters/Player/4_Ranger";//遊俠
+        allPlayerCharacters = new string[] { Warrior , Magician, Archer, Ranger };//所有玩家腳色
 
         //玩家技能
         playerCharactersSkill_1 = "Prefab/ShootObject/PlayerCharacters1_Skill_1";//玩家腳色1_技能1

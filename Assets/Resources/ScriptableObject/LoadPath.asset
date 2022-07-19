@@ -22,15 +22,15 @@ MonoBehaviour:
     miniMapMatirial_Player: Matirials/MiniMap/MiniMap_Player
     miniMapMatirial_Enemy: Matirials/MiniMap/MiniMap_Enemy
     miniMapPoint: Prefab/UI/MiniMapPoint
-    playerCharacters_1: Prefab/Characters/Player/PlayerCharacters_1
-    playerCharacters_2: Prefab/Characters/Player/PlayerCharacters_2
-    playerCharacters_3: Prefab/Characters/Player/PlayerCharacters_3
-    playerCharacters_4: Prefab/Characters/Player/PlayerCharacters_4
+    Warrior: Prefab/Characters/Player/1_Warrior
+    Magician: Prefab/Characters/Player/2_Magician
+    Archer: Prefab/Characters/Player/3_Archer
+    Ranger: Prefab/Characters/Player/4_Ranger
     allPlayerCharacters:
-    - Prefab/Characters/Player/PlayerCharacters_1
-    - Prefab/Characters/Player/PlayerCharacters_2
-    - Prefab/Characters/Player/PlayerCharacters_3
-    - Prefab/Characters/Player/PlayerCharacters_4
+    - Prefab/Characters/Player/1_Warrior
+    - Prefab/Characters/Player/2_Magician
+    - Prefab/Characters/Player/3_Archer
+    - Prefab/Characters/Player/4_Ranger
     playerCharactersSkill_1: Prefab/ShootObject/PlayerCharacters1_Skill_1
     SkeletonSoldier: Prefab/Characters/Enemy/SkeletonSoldier
     hitNumber: Prefab/UI/HitNumber_Text
