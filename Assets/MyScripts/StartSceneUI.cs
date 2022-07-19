@@ -23,6 +23,11 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     float startTip_Text_alpha;////提示文字Alpha
     int startTipGlintControl;//閃爍控制
 
+    [Header("選擇模式畫面")]
+    Transform selectModeScreen;//SelectModeScreen UI控制    
+    Button modeSingle_Button;//單人模式按鈕
+    Button modeConnect_Button;//連線模式按鈕
+
     [Header("選擇腳色畫面")]
     Transform selectRoleScreen;//SelectRoleScreen UI控制
     Button roleConfirm_Button;//腳色確定按鈕
@@ -51,11 +56,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     Button level_1_Button;//關卡1_按鈕
     int selectLevel;//選擇的關卡
 
-    [Header("選擇模式畫面")] 
-    Transform selectModeScreen;//SelectModeScreen UI控制
-    Button mode_Back_Button;//返回按鈕
-    Button mode_Single_Button;//單人模式按鈕
-    Button mode_Connect_Button;//連線模式按鈕
+    
 
     [Header("連線模式畫面")]
     Transform connectModeScreen;//ConnectModeScreen UI控制
@@ -110,6 +111,20 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 選擇模式畫面籌備
+    /// </summary>
+    void OnSelectModeScreenPrepare()
+    {
+        selectModeScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "SelectModeScreen");//selectModeScreen UI控制      
+        modeSingle_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ModeSingle_Button");//單人模式按鈕
+        modeSingle_Button.onClick.AddListener(OnIntoSelectRoleScreen);
+        modeConnect_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ModeConnect_Button");//連線模式按鈕
+        modeConnect_Button.onClick.AddListener(OnOpenConnectModeScreen);
+
+        selectModeScreen.gameObject.SetActive(false);
+    }
+
+    /// <summary>
     /// 選角畫面籌備
     /// </summary>
     void OnChooseRoleScreenPrepare()
@@ -117,7 +132,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         //選擇腳色畫面
         selectRoleScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "SelectRoleScreen");////SelectRoleScreen UI控制        
         roleConfirm_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleConfirm_Button");//腳色確定按鈕
-        roleConfirm_Button.onClick.AddListener(OnRoleConfirm);
+        roleConfirm_Button.onClick.AddListener(OnIntoLeaveScreen);
         roleBack_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleBack_Button");//返回按鈕
         roleBack_Button.onClick.AddListener(OnBackSelectModeScreen);
         //選擇腳色畫面/腳色選擇按鈕
@@ -180,23 +195,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         level_1_Button.onClick.AddListener(() => { OnSelectLecel(level: 1); });
 
         levelScreen.gameObject.SetActive(false);
-    }
-
-    /// <summary>
-    /// 選擇模式畫面籌備
-    /// </summary>
-    void OnSelectModeScreenPrepare()
-    {
-        selectModeScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "SelectModeScreen");//selectModeScreen UI控制
-        mode_Back_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Mode_Back_Button");//返回按鈕
-        mode_Back_Button.onClick.AddListener(OnBackLevelScreen);
-        mode_Single_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Mode_Single_Button");//單人模式按鈕
-        mode_Single_Button.onClick.AddListener(OnIntoSelectRoleScreen);
-        mode_Connect_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Mode_Connect_Button");//連線模式按鈕
-        mode_Connect_Button.onClick.AddListener(OnOpenConnectModeScreen);
-
-        selectModeScreen.gameObject.SetActive(false);
-    }
+    }   
 
     /// <summary>
     /// 連線模式畫面籌備
@@ -232,8 +231,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
             {
                 if (startScreen.gameObject.activeSelf)
                 {
-                    startScreen.gameObject.SetActive(false);
-                    levelScreen.gameObject.SetActive(true);
+                    selectModeScreen.gameObject.SetActive(true);
+                    startScreen.gameObject.SetActive(false);                    
                 }
             }
         }
@@ -256,14 +255,42 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     }
     #endregion
 
+    #region 選擇模式畫面   
+    /// <summary>
+    /// 進入選擇腳色畫面
+    /// </summary>
+    void OnIntoSelectRoleScreen()
+    {
+        selectRoleScreen.gameObject.SetActive(true);
+        selectModeScreen.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 開啟連線模式畫面
+    /// </summary>
+    void OnOpenConnectModeScreen()
+    {
+        PhotonNetwork.ConnectUsingSettings();//設定連線
+        connectModeScreen.gameObject.SetActive(true);
+        selectModeScreen.gameObject.SetActive(false);
+    }
+    /// <summary>
+    /// 登入成功
+    /// </summary>
+    public override void OnConnectedToMaster()
+    {
+        //SceneManager.LoadScene("Lobby");        
+    }
+    #endregion
+
     #region 選角畫面
     /// <summary>
-    /// 腳色確定
+    /// 進入關卡畫面
     /// </summary>
-    void OnRoleConfirm()
+    void OnIntoLeaveScreen()
     {
-        selectRoleScreen.gameObject.SetActive(false);
-        StartCoroutine(LoadScene.Instance.OnLoadScene("GameScene" + selectLevel));
+        levelScreen.gameObject.SetActive(true);
+        selectRoleScreen.gameObject.SetActive(false);               
     }
 
     /// <summary>
@@ -389,46 +416,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     void OnSelectLecel(int level)
     {
         selectLevel = level;//選擇的關卡
-
         levelScreen.gameObject.SetActive(false);
-        selectModeScreen.gameObject.SetActive(true);        
+        StartCoroutine(LoadScene.Instance.OnLoadScene("GameScene" + selectLevel));
     }   
-    #endregion
-
-    #region 選擇模式畫面
-    /// <summary>
-    /// 返回關卡畫面
-    /// </summary>
-    void OnBackLevelScreen()
-    {
-        levelScreen.gameObject.SetActive(true);
-        selectModeScreen.gameObject.SetActive(false);
-    }
-
-    /// <summary>
-    /// 進入選擇腳色畫面
-    /// </summary>
-    void OnIntoSelectRoleScreen()
-    {
-        selectRoleScreen.gameObject.SetActive(true);
-        selectModeScreen.gameObject.SetActive(false);        
-    }
-
-    /// <summary>
-    /// 開啟連線模式畫面
-    /// </summary>
-    void OnOpenConnectModeScreen()
-    {
-        PhotonNetwork.ConnectUsingSettings();//設定連線
-        connectModeScreen.gameObject.SetActive(true);
-        selectModeScreen.gameObject.SetActive(false);
-    }
-    /// <summary>
-    /// 登入成功
-    /// </summary>
-    public override void OnConnectedToMaster()
-    {
-        //SceneManager.LoadScene("Lobby");        
-    }
     #endregion
 }
