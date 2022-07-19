@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using Photon.Pun;
 
 /// <summary>
 /// 開始場景管理
 /// </summary>
-public class StartSceneUI : MonoBehaviour
+public class StartSceneUI : MonoBehaviourPunCallbacks
 {
     static StartSceneUI startSceneUI;
     public static StartSceneUI Instance => startSceneUI;
@@ -418,8 +419,16 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     void OnOpenConnectModeScreen()
     {
+        PhotonNetwork.ConnectUsingSettings();//設定連線
         connectModeScreen.gameObject.SetActive(true);
         selectModeScreen.gameObject.SetActive(false);
+    }
+    /// <summary>
+    /// 登入成功
+    /// </summary>
+    public override void OnConnectedToMaster()
+    {
+        //SceneManager.LoadScene("Lobby");        
     }
     #endregion
 }
