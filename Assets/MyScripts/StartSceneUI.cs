@@ -25,6 +25,7 @@ public class StartSceneUI : MonoBehaviour
     [Header("選擇腳色畫面")]
     Transform selectRoleScreen;//SelectRoleScreen UI控制
     Button roleConfirm_Button;//腳色確定按鈕
+    Button roleBack_Button;//返回按鈕
     [Header("選擇腳色畫面/腳色選擇按鈕")]
     bool isSlideRoleButton;//是否滑動腳色按鈕    
     GameObject roleSelect_Button;//腳色選擇按鈕
@@ -45,9 +46,18 @@ public class StartSceneUI : MonoBehaviour
     public BuffDrop buffBox_2;//Buff裝備框_2
 
     [Header("關卡畫面")]
-    Transform levelScreen;//levelScreen UI控制
+    Transform levelScreen;//LevelScreen UI控制
     Button level_1_Button;//關卡1_按鈕
-    Button level_Bakc_Button;//返回按鈕
+    int selectLevel;//選擇的關卡
+
+    [Header("選擇模式畫面")] 
+    Transform selectModeScreen;//SelectModeScreen UI控制
+    Button mode_Back_Button;//返回按鈕
+    Button mode_Single_Button;//單人模式按鈕
+    Button mode_Connect_Button;//連線模式按鈕
+
+    [Header("連線模式畫面")]
+    Transform connectModeScreen;//ConnectModeScreen UI控制
 
     void Awake()
     {
@@ -68,6 +78,8 @@ public class StartSceneUI : MonoBehaviour
         OnStartScreenPrepare();
         OnChooseRoleScreenPrepare();
         OnLevelScreenPrepare();
+        OnSelectModeScreenPrepare();
+        OnConnectModeScreenPrepare();
     }
 
     /// <summary>
@@ -76,6 +88,7 @@ public class StartSceneUI : MonoBehaviour
     private void OnInital()
     {
         GameDataManagement.Instance.selectRoleNumber = 0;//選擇的腳色編號
+        selectLevel = 0;//選擇的關卡
     }
 
     /// <summary>
@@ -104,6 +117,8 @@ public class StartSceneUI : MonoBehaviour
         selectRoleScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "SelectRoleScreen");////SelectRoleScreen UI控制        
         roleConfirm_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleConfirm_Button");//腳色確定按鈕
         roleConfirm_Button.onClick.AddListener(OnRoleConfirm);
+        roleBack_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleBack_Button");//返回按鈕
+        roleBack_Button.onClick.AddListener(OnBackSelectModeScreen);
         //選擇腳色畫面/腳色選擇按鈕
         roleSelectRight_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleSelectRight_Button");////腳色按鈕移動(右)
         roleSelectRight_Button.onClick.AddListener(delegate { OnRoleButtonMove(direction:1); });
@@ -159,13 +174,37 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     void OnLevelScreenPrepare()
     {
-        levelScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "LevelScreen");//levelScreen UI控制
-        level_Bakc_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Level_Bakc_Button");//返回按鈕
-        level_Bakc_Button.onClick.AddListener(OnBackSelectRoleScreen);
+        levelScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "LevelScreen");//LevelScreen UI控制 
         level_1_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Level_1_Button");//關卡1_按鈕
-        level_1_Button.onClick.AddListener(() => { OnLoadGameScene(level: 1); });
+        level_1_Button.onClick.AddListener(() => { OnSelectLecel(level: 1); });
 
         levelScreen.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 選擇模式畫面籌備
+    /// </summary>
+    void OnSelectModeScreenPrepare()
+    {
+        selectModeScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "SelectModeScreen");//selectModeScreen UI控制
+        mode_Back_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Mode_Back_Button");//返回按鈕
+        mode_Back_Button.onClick.AddListener(OnBackLevelScreen);
+        mode_Single_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Mode_Single_Button");//單人模式按鈕
+        mode_Single_Button.onClick.AddListener(OnIntoSelectRoleScreen);
+        mode_Connect_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Mode_Connect_Button");//連線模式按鈕
+        mode_Connect_Button.onClick.AddListener(OnOpenConnectModeScreen);
+
+        selectModeScreen.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 連線模式畫面籌備
+    /// </summary>
+    void OnConnectModeScreenPrepare()
+    {
+        connectModeScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "ConnectModeScreen");//ConnectModeScreen UI控制
+
+        connectModeScreen.gameObject.SetActive(false);
     }
 
     void Update()
@@ -193,7 +232,7 @@ public class StartSceneUI : MonoBehaviour
                 if (startScreen.gameObject.activeSelf)
                 {
                     startScreen.gameObject.SetActive(false);
-                    selectRoleScreen.gameObject.SetActive(true);
+                    levelScreen.gameObject.SetActive(true);
                 }
             }
         }
@@ -223,7 +262,16 @@ public class StartSceneUI : MonoBehaviour
     void OnRoleConfirm()
     {
         selectRoleScreen.gameObject.SetActive(false);
-        levelScreen.gameObject.SetActive(true);
+        StartCoroutine(LoadScene.Instance.OnLoadScene("GameScene" + selectLevel));
+    }
+
+    /// <summary>
+    /// 返回選擇模式畫面
+    /// </summary>
+    void OnBackSelectModeScreen()
+    {
+        selectModeScreen.gameObject.SetActive(true);
+        selectRoleScreen.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -334,22 +382,44 @@ public class StartSceneUI : MonoBehaviour
 
     #region 關卡畫面
     /// <summary>
-    /// 載入關卡
+    /// 選擇關卡
     /// </summary>
     /// <param name="level">選擇的關卡</param>
-    void OnLoadGameScene(int level)
+    void OnSelectLecel(int level)
     {
+        selectLevel = level;//選擇的關卡
+
         levelScreen.gameObject.SetActive(false);
-        StartCoroutine(LoadScene.Instance.OnLoadScene("GameScene" + level));
+        selectModeScreen.gameObject.SetActive(true);        
+    }   
+    #endregion
+
+    #region 選擇模式畫面
+    /// <summary>
+    /// 返回關卡畫面
+    /// </summary>
+    void OnBackLevelScreen()
+    {
+        levelScreen.gameObject.SetActive(true);
+        selectModeScreen.gameObject.SetActive(false);
     }
 
     /// <summary>
-    /// 返回腳色選擇畫面
+    /// 進入選擇腳色畫面
     /// </summary>
-    void OnBackSelectRoleScreen()
+    void OnIntoSelectRoleScreen()
     {
         selectRoleScreen.gameObject.SetActive(true);
-        levelScreen.gameObject.SetActive(false);
+        selectModeScreen.gameObject.SetActive(false);        
+    }
+
+    /// <summary>
+    /// 開啟連線模式畫面
+    /// </summary>
+    void OnOpenConnectModeScreen()
+    {
+        connectModeScreen.gameObject.SetActive(true);
+        selectModeScreen.gameObject.SetActive(false);
     }
     #endregion
 }
