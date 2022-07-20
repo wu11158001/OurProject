@@ -41,6 +41,8 @@ MonoBehaviour:
   - RespawnSpaceship
   - OnReFreshPlayerNickName
   - OnRefreshPlayerCharacters
+  - OnRoomChatMessage
+  - OnLevelNumber
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

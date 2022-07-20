@@ -16,6 +16,7 @@ public class GameDataManagement : MonoBehaviour
 
     [Header("紀錄遊戲資料")]
     public int selectRoleNumber;//選擇的腳色編號
+    public int selectLevelNumber;//選擇的關卡編號
     public int[] equipBuff;//裝備的Buff
 
     void Awake()

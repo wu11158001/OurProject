@@ -65,6 +65,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log("已離線");
+        StartSceneUI.Instance.OnConnectModeBackButton();
     }
     #endregion
 
@@ -94,11 +95,11 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 隨機或創建房間設定
+    /// 加入隨機房間設定
     /// </summary>
-    public void OnRandomOrCreateRoomRoomSetting()
+    public void OnJoinRandomRoomRoomSetting()
     {
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        PhotonNetwork.JoinRandomRoom();
     }
 
     /// <summary>
@@ -108,16 +109,16 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="message"></param>
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.LogError("加入隨機房間失敗:" + returnCode + ":" + message);
+        Debug.Log("目前沒有房間:" + returnCode + ":" + message);
 
-        StartSceneUI.Instance.OnConnectModeSettingTip(tip: "加入隨機房間失敗");
+        StartSceneUI.Instance.OnConnectModeSettingTip(tip: "目前沒有房間");
     }
 
     /// <summary>
-    /// 指定房間設定
+    /// 加入指定房間設定
     /// </summary>
     /// <param name="roomName">欲加入房間名</param>
-    public void OnSpecifyRoomSetting(string roomName)
+    public void OnJoinSpecifyRoomSetting(string roomName)
     {
         PhotonNetwork.JoinRoom(roomName);
     }
@@ -129,7 +130,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="message"></param>
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.LogError("加入房間失敗:" + returnCode + ":" + message);
+        Debug.Log("找不到房間:" + returnCode + ":" + message);
 
         StartSceneUI.Instance.OnConnectModeSettingTip(tip: "找不到房間");
     }
@@ -141,9 +142,10 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("加入" + PhotonNetwork.CurrentRoom.Name + "房間");
 
-        StartSceneUI.Instance.OnTidyConnectModeUI();
+        StartSceneUI.Instance.OnTidyConnectModeUI(roomName: PhotonNetwork.CurrentRoom.Name);
         OnReFreshPlayerNickName();
         OnSendRoomPlayerCharacters();
+        if (PhotonNetwork.IsMasterClient) OnSendLevelNumber(GameDataManagement.Instance.selectLevelNumber);
     }
 
     /// <summary>
@@ -155,6 +157,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         OnReFreshPlayerNickName();
         OnSendRoomPlayerCharacters();
+        if (PhotonNetwork.IsMasterClient) OnSendLevelNumber(GameDataManagement.Instance.selectLevelNumber);
     }
 
     /// <summary>
@@ -165,50 +168,8 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         OnReFreshPlayerNickName();       
         OnSendRoomPlayerCharacters();
+        if (PhotonNetwork.IsMasterClient) OnSendLevelNumber(GameDataManagement.Instance.selectLevelNumber);
     }
-
-    /// <summary>
-    /// 更新玩家暱稱
-    /// </summary>    
-    void OnReFreshPlayerNickName()
-    {
-        //清空List
-        List<string> playerList = new List<string>(); 
-
-        //紀錄玩家暱稱
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        {
-            playerList.Add(PhotonNetwork.PlayerList[i].NickName);
-        }
-        
-        StartSceneUI.Instance.OnRefreshRoomPlayerNickName(playerList, PhotonNetwork.NickName);
-    }
-
-    /// <summary>
-    /// 發送房間玩家腳色
-    /// </summary>
-    public void OnSendRoomPlayerCharacters()
-    {
-        photonView.RPC("OnRefreshPlayerCharacters", RpcTarget.All, PhotonNetwork.NickName, GameDataManagement.Instance.selectRoleNumber);
-    }
-
-    /// <summary>
-    /// 刷新玩家腳色
-    /// </summary>
-    /// <param name="nickName"></param>
-    /// <param name="characters"></param>
-    [PunRPC]
-    void OnRefreshPlayerCharacters(string nickName, int characters )
-    {        
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        {
-           if(PhotonNetwork.PlayerList[i].NickName == nickName)
-            {
-                StartSceneUI.Instance.OnRefreshPlayerCharacters(i, characters);
-                return;
-            }
-        }
-    }   
 
     /// <summary>
     /// 離開房間設定
@@ -226,6 +187,98 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("離開房間");        
+    }
+
+    /// <summary>
+    /// 更新玩家暱稱
+    /// </summary>    
+    void OnReFreshPlayerNickName()
+    {
+        //清空List
+        List<string> playerList = new List<string>();
+
+        //紀錄玩家暱稱
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            playerList.Add(PhotonNetwork.PlayerList[i].NickName);
+        }
+
+        StartSceneUI.Instance.OnRefreshRoomPlayerNickName(playerList, PhotonNetwork.NickName, PhotonNetwork.IsMasterClient);
+    }
+
+    /// <summary>
+    /// 發送房間玩家腳色
+    /// </summary>
+    public void OnSendRoomPlayerCharacters()
+    {
+        photonView.RPC("OnRefreshPlayerCharacters", RpcTarget.All, GameDataManagement.Instance.selectRoleNumber);
+    }
+
+    /// <summary>
+    /// 刷新玩家腳色
+    /// </summary>
+    /// <param name="characters">腳色編號</param>
+    /// <param name="info">傳送者訊息</param>
+    [PunRPC]
+    void OnRefreshPlayerCharacters(int characters, PhotonMessageInfo info)
+    {
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            if (PhotonNetwork.PlayerList[i].NickName == info.Sender.NickName)
+            {
+                StartSceneUI.Instance.OnRefreshPlayerCharacters(i, characters);
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 發送聊天訊息
+    /// </summary>
+    /// <param name="message">訊息</param>
+    public void OnSendRoomChatMessage(string message)
+    {
+        photonView.RPC("OnRoomChatMessage", RpcTarget.All, message);
+    }
+
+    /// <summary>
+    /// 房間訊息
+    /// </summary>
+    /// <param name="message">訊息</param>
+    /// <param name="info">傳送者訊息</param>
+    [PunRPC]
+    void OnRoomChatMessage(string message, PhotonMessageInfo info)
+    {
+        StartSceneUI.Instance.OnGetRoomChatMessage(info.Sender.NickName + ":" + message);
+    }
+
+    /// <summary>
+    /// 發送關卡編號
+    /// </summary>
+    /// <param name="level">選擇的關卡</param>
+    public void OnSendLevelNumber(int level)
+    {
+        photonView.RPC("OnLevelNumber", RpcTarget.All, level);
+    }
+
+    /// <summary>
+    /// 關卡編號
+    /// </summary>
+    /// <param name="level">選擇的關卡</param>
+    /// <param name="info">傳送者訊息</param>
+    [PunRPC]
+    void OnLevelNumber(int level, PhotonMessageInfo info)
+    {
+        StartSceneUI.Instance.OnRoomLevelText(level);
+    }
+
+    /// <summary>
+    /// 開始遊戲
+    /// </summary>
+    /// <param name="level">進入關卡編號</param>
+    public void OnStartGame(int level)
+    {
+        PhotonNetwork.LoadLevel("LevelScene" + level);
     }
     #endregion
 }

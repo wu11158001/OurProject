@@ -56,9 +56,7 @@ public class StartSceneUI : MonoBehaviour
 
     [Header("關卡畫面")]
     Transform levelScreen;//LevelScreen UI控制
-    Button levelBack_Button;//返回按鈕
-    Button level1_Button;//關卡1_按鈕
-    int selectLevel;//選擇的關卡    
+    Button levelBack_Button;//返回按鈕 
 
     [Header("連線模式畫面")]
     Transform conncetModeScreen;//ConncetModScreen UI控制
@@ -77,6 +75,16 @@ public class StartSceneUI : MonoBehaviour
     [SerializeField]List<RectTransform> roomPlayerList = new List<RectTransform>();//紀錄房間玩家
     Button connectRoomLeftRole_Button;//更換腳色(左)
     Button connectRoomRightRole_Button;//更換腳色(右)
+    float connectRoomChangeRoleTime;//更換腳色時間
+    Text roomName_Text;//房間名稱
+    Button roomSendMessage_Button;//發送訊息按鈕
+    Text chatBox_Text;//聊天訊息框
+    InputField roomMessage_InputField;//訊息輸入框
+    List<string> roomChatList = new List<string>();//紀錄房間訊息
+    Button roomLevelLeft_Button;//關卡選擇按鈕(左)
+    Button roomLevelRight_Button;//關卡選擇按鈕(右)
+    Text roomSelectLevel_Text;//選擇的關卡
+    Button roomStartGame_Button;//開始遊戲按鈕
 
     void Awake()
     {
@@ -108,6 +116,8 @@ public class StartSceneUI : MonoBehaviour
         OnTipTextGlintControl();
         OnSlideRoleButton();
         OnConnectModeTip();
+        OnConnectRoomChangeRoleTime();
+        OnKeyboardSendChatMessage();
     }
 
     /// <summary>
@@ -116,7 +126,6 @@ public class StartSceneUI : MonoBehaviour
     private void OnInital()
     {
         GameDataManagement.Instance.selectRoleNumber = 0;//選擇的腳色編號
-        selectLevel = 0;//選擇的關卡
     }
 
     /// <summary>
@@ -219,10 +228,19 @@ public class StartSceneUI : MonoBehaviour
     /// 關卡畫面籌備
     /// </summary>
     void OnLevelScreenPrepare()
-    {
+    {        
         levelScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "LevelScreen");//LevelScreen UI控制 
-        level1_Button = ExtensionMethods.FindAnyChild<Button>(transform, "Level1_Button");//關卡1_按鈕
-        level1_Button.onClick.AddListener(() => { OnSelectLecel(level: 1); });
+
+        //所有關卡
+        Transform allLevels = ExtensionMethods.FindAnyChild<Transform>(transform, "AllLevels");
+        for (int i = 0; i < allLevels.childCount; i++)
+        {
+            Button levelButton = ExtensionMethods.FindAnyChild<Button>(transform, "Level" + (i + 1) + "_Button");//關卡按鈕            
+            OnSetLevelButtonFunction(levelButton: levelButton, level: i + 1);
+        }
+
+        roomName_Text = ExtensionMethods.FindAnyChild<Text>(transform, "RoomName_Text");//房間名稱
+
         levelBack_Button = ExtensionMethods.FindAnyChild<Button>(transform, "LevelBack_Button");//返回按鈕
         levelBack_Button.onClick.AddListener(OnLevelScreenBackButton);
 
@@ -270,6 +288,19 @@ public class StartSceneUI : MonoBehaviour
             ExtensionMethods.FindAnyChild<Transform>(roomPlayerList[i], "Right_Button").gameObject.SetActive(false);
         }
 
+        roomSendMessage_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoomSendMessage_Button");//發送訊息按鈕
+        roomSendMessage_Button.onClick.AddListener(OnRoomSendMessage);
+        chatBox_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ChatBox_Text");//聊天訊息框
+        roomMessage_InputField = ExtensionMethods.FindAnyChild<InputField>(transform, "RoomMessage_InputField");//訊息輸入框
+
+        roomLevelLeft_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoomLevelLeft_Button");//關卡選擇按鈕(左)
+        roomLevelLeft_Button.onClick.AddListener(delegate { OnRoomSelectLevelButton(-1); });
+        roomLevelRight_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoomLevelRight_Button");//關卡選擇按鈕(右)
+        roomLevelRight_Button.onClick.AddListener(delegate { OnRoomSelectLevelButton(1); });
+        roomSelectLevel_Text = ExtensionMethods.FindAnyChild<Text>(transform, "RoomSelectLevel_Text");//選擇的關卡
+        roomSelectLevel_Text.text = GameDataManagement.Instance.numericalValue.levelNames[GameDataManagement.Instance.selectLevelNumber];
+        roomStartGame_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoomStartGame_Button");//開始遊戲按鈕
+        roomStartGame_Button.onClick.AddListener(OnStartConnectGame);
 
         connectRoomScreen.gameObject.SetActive(false);
     }
@@ -481,15 +512,25 @@ public class StartSceneUI : MonoBehaviour
     #endregion
 
     #region 關卡畫面
+
+    /// <summary>
+    /// 設定關卡按鈕事件
+    /// </summary>
+    /// <param name="levelButton"></param>
+    /// <param name="level"></param>
+    void OnSetLevelButtonFunction(Button levelButton, int level)
+    {
+        levelButton.onClick.AddListener(() => { OnSelectLecel(level: level); });
+    }
+
     /// <summary>
     /// 選擇關卡
     /// </summary>
     /// <param name="level">選擇的關卡</param>
     void OnSelectLecel(int level)
     {
-        selectLevel = level;//選擇的關卡
         levelScreen.gameObject.SetActive(false);
-        StartCoroutine(LoadScene.Instance.OnLoadScene("GameScene" + selectLevel));
+        StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene" + level));
     }   
 
     /// <summary>
@@ -506,7 +547,7 @@ public class StartSceneUI : MonoBehaviour
     /// <summary>
     /// 返回按鈕
     /// </summary>
-    void OnConnectModeBackButton()
+    public void OnConnectModeBackButton()
     {
         PhotonConnect.Instance.OnDisconnectSetting();
 
@@ -529,7 +570,7 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     void OnRandomRoomButton()
     {
-        PhotonConnect.Instance.OnRandomOrCreateRoomRoomSetting();
+        PhotonConnect.Instance.OnJoinRandomRoomRoomSetting();
 
         OnConnectModeButtonActiveSetting(active: false);
     }   
@@ -545,7 +586,7 @@ public class StartSceneUI : MonoBehaviour
             return;
         }
 
-        PhotonConnect.Instance.OnSpecifyRoomSetting(specifyRoom_InputField.text);
+        PhotonConnect.Instance.OnJoinSpecifyRoomSetting(specifyRoom_InputField.text);
 
         OnConnectModeButtonActiveSetting(active: false);
     }
@@ -564,11 +605,13 @@ public class StartSceneUI : MonoBehaviour
     /// <summary>
     /// 整理連線模式UI
     /// </summary>
-    public void OnTidyConnectModeUI()
+    /// <param name="roomName">加入防間名稱</param>
+    public void OnTidyConnectModeUI(string roomName)
     {
         connectRoomScreen.gameObject.SetActive(true);
         conncetModeScreen.gameObject.SetActive(false);
 
+        roomName_Text.text = "房間:" + roomName;
         createRoom_InputField.text = "";
         specifyRoom_InputField.text = "";
     }    
@@ -615,10 +658,25 @@ public class StartSceneUI : MonoBehaviour
     /// 刷新玩家暱稱
     /// </summary>
     /// <param name="playerList">玩家列表</param>
-    public void OnRefreshRoomPlayerNickName(List<string> playerList, string selfNickName)
-    {     
-        var i = 0;
-        for (; i < playerList.Count; i++)
+    /// <param name="selfNickName">自己的暱稱</param>
+    /// <param name="isRoomMaster">是否為房主</param>
+    public void OnRefreshRoomPlayerNickName(List<string> playerList, string selfNickName, bool isRoomMaster)
+    {
+        //關卡按鈕
+        roomLevelLeft_Button.gameObject.SetActive(isRoomMaster);
+        roomLevelRight_Button.gameObject.SetActive(isRoomMaster);
+
+        //重製
+        for (int j = 0; j < roomPlayerList.Count; j++)
+        {
+            ExtensionMethods.FindAnyChild<Text>(roomPlayerList[j], "ID_Text").text = "等待玩家";
+            ExtensionMethods.FindAnyChild<Button>(roomPlayerList[j], "Left_Button").gameObject.SetActive(false);//更換腳色(左)
+            ExtensionMethods.FindAnyChild<Button>(roomPlayerList[j], "Right_Button").gameObject.SetActive(false);//更換腳色(右)
+            roomPlayerList[j].GetComponent<Image>().sprite = null;
+        }
+
+        //更新
+        for (int i = 0; i < playerList.Count; i++)
         {
             ExtensionMethods.FindAnyChild<Text>(roomPlayerList[i], "ID_Text").text = playerList[i];
             
@@ -632,12 +690,7 @@ public class StartSceneUI : MonoBehaviour
                 connectRoomRightRole_Button.gameObject.SetActive(true);
                 connectRoomRightRole_Button.onClick.AddListener(delegate { OnConnectRoomChangeRole(1); });
             }           
-        }
-        for (; i < roomPlayerList.Count; i++)
-        {
-            ExtensionMethods.FindAnyChild<Text>(roomPlayerList[i], "ID_Text").text = "等待玩家";
-            roomPlayerList[i].GetComponent<Image>().sprite = null;
-        }        
+        }             
     }
 
     /// <summary>
@@ -658,19 +711,96 @@ public class StartSceneUI : MonoBehaviour
     }
 
     /// <summary>
+    /// 腳色更換時間(避免卡鍵)
+    /// </summary>
+    void OnConnectRoomChangeRoleTime()
+    {
+        if (connectRoomChangeRoleTime > 0) connectRoomChangeRoleTime -= Time.deltaTime;
+    }
+
+    /// <summary>
     /// 更換腳色
     /// </summary>
-    /// <param name="characters"></param>
-    void OnConnectRoomChangeRole(int characters)
+    /// <param name="value">選擇腳色增減</param>
+    void OnConnectRoomChangeRole(int value)
     {
-        int role = GameDataManagement.Instance.selectRoleNumber;
+        if (connectRoomChangeRoleTime <= 0)
+        {
+            connectRoomChangeRoleTime = 0.1f;//避免卡鍵
 
-        role += characters;
-        if (role < 0) role = roleSelect_Sprite.Length - 1;
-        if (role > roleSelect_Sprite.Length - 1) role = 0;
+            int role = GameDataManagement.Instance.selectRoleNumber;
+            role += value;
+            if (role < 0) role = roleSelect_Sprite.Length - 1;
+            if (role > roleSelect_Sprite.Length - 1) role = 0;
 
-        GameDataManagement.Instance.selectRoleNumber = role;
-        PhotonConnect.Instance.OnSendRoomPlayerCharacters();
+            GameDataManagement.Instance.selectRoleNumber = role;
+            PhotonConnect.Instance.OnSendRoomPlayerCharacters();
+        }
     }
+
+    /// <summary>
+    /// 鍵盤發送聊天訊息
+    /// </summary>
+    void OnKeyboardSendChatMessage()
+    {
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) OnRoomSendMessage();
+    }
+
+    /// <summary>
+    /// 發送訊息
+    /// </summary>
+    void OnRoomSendMessage()
+    {
+        char[] charsToTrim = {' '};
+        string mes = roomMessage_InputField.text.Trim(charsToTrim);
+        PhotonConnect.Instance.OnSendRoomChatMessage(mes);
+
+        roomMessage_InputField.text = "";
+        roomMessage_InputField.ActivateInputField();//可以一直輸入
+    }
+
+    /// <summary>
+    /// 接收房間聊天訊息
+    /// </summary>
+    /// <param name="message">訊息</param>
+    public void OnGetRoomChatMessage(string message)
+    {
+        roomChatList.Add(message);
+        if (roomChatList.Count > 6) roomChatList.RemoveAt(0);
+
+        chatBox_Text.text = string.Join("\n", roomChatList);
+    }
+
+    /// <summary>
+    /// 選擇關卡按鈕
+    /// </summary>
+    /// <param name="value">關卡增減</param>
+    void OnRoomSelectLevelButton(int value)
+    {
+        int levelNumber = GameDataManagement.Instance.selectLevelNumber;
+        levelNumber += value;
+        if (levelNumber < 0) levelNumber = GameDataManagement.Instance.numericalValue.levelNames.Length - 1;
+        if (levelNumber > GameDataManagement.Instance.numericalValue.levelNames.Length - 1) levelNumber = 0;
+
+        GameDataManagement.Instance.selectLevelNumber = levelNumber;
+        PhotonConnect.Instance.OnSendLevelNumber(levelNumber);
+    }
+
+    /// <summary>
+    /// 房間關卡文字
+    /// </summary>
+    /// <param name="level">選擇的關卡</param>
+    public void OnRoomLevelText(int level)
+    {        
+        roomSelectLevel_Text.text = GameDataManagement.Instance.numericalValue.levelNames[level];
+    }
+
+    /// <summary>
+    /// 開始連線遊戲
+    /// </summary>
+    void OnStartConnectGame()
+    {
+        PhotonConnect.Instance.OnStartGame(GameDataManagement.Instance.selectLevelNumber + 1);
+    }    
     #endregion
 }

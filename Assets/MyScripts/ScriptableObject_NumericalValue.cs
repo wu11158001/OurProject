@@ -10,6 +10,8 @@ public class GameData_NumericalValue
     public float gravity;//重力
     public float boxCollisionDistance;//碰撞框距離(與牆面距離)
     public float criticalBonus;//報擊傷害加成
+    public string[] levelNames;//關卡名稱
+
     [Header("Buff增加數值")]    
     public string[] buffAbleString;//Buff增益文字
     public float[] buffAbleValue;//Buff增益數值
@@ -74,6 +76,7 @@ public class GameData_NumericalValue
         gravity = 9.8f;//重力
         boxCollisionDistance = 0.5f;//碰撞框距離(與牆面距離)
         criticalBonus = 1.3f;//報擊傷害加成
+        levelNames = new string[] { "Level[1]:我是第一關", "Level[2]:第二關還沒做", "Level[3]:第三關在哪"};//關卡名稱
 
         //Buff增加數值
         buffAbleString = new string[] { "生命值", "傷害", "防禦", "移動", "吸血", "回血" };//Buff增益文字
