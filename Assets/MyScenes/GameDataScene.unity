@@ -305,10 +305,10 @@ MonoBehaviour:
     miniMapMatirial_Player: Matirials/MiniMap/MiniMap_Player
     miniMapMatirial_Enemy: Matirials/MiniMap/MiniMap_Enemy
     miniMapPoint: UI/MiniMapPoint
-    playerCharacters_1: Prefab/Characters/Player/PlayerCharacters_1
-    playerCharacters_2: 
-    playerCharacters_3: 
-    playerCharacters_4: 
+    Warrior: Prefab/Characters/Player/1_Warrior
+    Magician: Prefab/Characters/Player/2_Magician
+    Archer: Prefab/Characters/Player/3_Archer
+    Ranger: Prefab/Characters/Player/4_Ranger
     allPlayerCharacters:
     - Prefab/Characters/Player/PlayerCharacters_1
     - Prefab/Characters/Player/PlayerCharacters_2
@@ -409,6 +409,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583466899}
   m_CullTransparentMesh: 1
+--- !u!1 &732783809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 732783811}
+  - component: {fileID: 732783810}
+  m_Layer: 0
+  m_Name: PhotonConnect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &732783810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732783809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5060e0ecf122eac43b429de517c339a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &732783811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732783809}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 904.36975, y: 658.4283, z: 3.1101685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &785625387
 GameObject:
   m_ObjectHideFlags: 0

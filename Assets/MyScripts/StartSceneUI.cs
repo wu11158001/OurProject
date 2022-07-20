@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
-using Photon.Pun;
-using Photon.Realtime;
 
 /// <summary>
 /// 開始場景管理
 /// </summary>
-public class StartSceneUI : MonoBehaviourPunCallbacks
+public class StartSceneUI : MonoBehaviour
 {
     static StartSceneUI startSceneUI;
     public static StartSceneUI Instance => startSceneUI;
@@ -67,7 +65,10 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     Button createRoom_Button;//創建房間按鈕
     Button randomRoom_Button;//隨機房間按鈕
     Button specifyRoom_Button;//指定房間按鈕
-    InputField room_InputField;//加入房間名稱輸入框
+    InputField specifyRoom_InputField;//加入房間名稱輸入框
+    InputField createRoom_InputField;//創建房間名稱輸入框    
+    float connectModeTipTime;//提示文字時間
+    Text connectModeTip_Text;//提示文字
     Button connectModeBack_Button;//返回按鈕
 
     [Header("連線房間畫面")]
@@ -96,6 +97,14 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         OnSelectModeScreenPrepare();
         OnConnectModeScreenPrepare();
         OnConnectRoomScreenPrepare();
+    }
+
+    void Update()
+    {
+        OnStopVideo();
+        OnTipTextGlintControl();
+        OnSlideRoleButton();
+        OnConnectModeTip();
     }
 
     /// <summary>
@@ -224,12 +233,17 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     {        
         conncetModeScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "ConncetModeScreen");//ConncetModScreen UI控制
         createRoom_Button = ExtensionMethods.FindAnyChild<Button>(transform, "CreateRoom_Button");//創建房間按鈕
-        createRoom_Button.onClick.AddListener(OnCreateRoom);
+        createRoom_Button.onClick.AddListener(OnCreateRoomButton);
         randomRoom_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RandomRoom_Button");//隨機房間按鈕
-        randomRoom_Button.onClick.AddListener(OnRandomRoom);
+        randomRoom_Button.onClick.AddListener(OnRandomRoomButton);
         specifyRoom_Button = ExtensionMethods.FindAnyChild<Button>(transform, "SpecifyRoom_Button");//指定房間按鈕
-        specifyRoom_Button.onClick.AddListener(OnSpecifyRoom);
-        room_InputField = ExtensionMethods.FindAnyChild<InputField>(transform, "Room_InputField");//加入房間名稱輸入框
+        specifyRoom_Button.onClick.AddListener(OnSpecifyRoomButton);
+        specifyRoom_InputField = ExtensionMethods.FindAnyChild<InputField>(transform, "SpecifyRoom_InputField");//加入房間名稱輸入框
+        createRoom_InputField = ExtensionMethods.FindAnyChild<InputField>(transform, "CreateRoom_InputField");//創建房間名稱輸入框
+        connectModeTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ConnectModeTip_Text");//提示文字
+        connectModeTipTime = 0;
+        Color color = new Color(connectModeTip_Text.color.r, connectModeTip_Text.color.g, connectModeTip_Text.color.b, connectModeTipTime);
+        connectModeTip_Text.color = color;
         connectModeBack_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ConnectModeBack_Button");//返回按鈕
         connectModeBack_Button.onClick.AddListener(OnConnectModeBackButton);
 
@@ -246,13 +260,6 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         connectRoomBack_Button.onClick.AddListener(OnConnectRoomScreenBackButton);
 
         connectRoomScreen.gameObject.SetActive(false);
-    }
-
-    void Update()
-    {
-        OnStopVideo();
-        OnTipTextGlintControl();
-        OnSlideRoleButton();
     }
 
     #region 開始畫面  
@@ -311,27 +318,28 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// 開啟連線模式畫面
     /// </summary>
     void OnOpenConnectModeScreen()
-    {                
+    {              
+        PhotonConnect.Instance.OnConnectSetting(nickName:nickName_InputField.text);
+
         modeTip_Text.enabled = true;
         modeSelectBackground_Image.gameObject.SetActive(false);
-
-        PhotonNetwork.ConnectUsingSettings();//設定連線
     }
+
     /// <summary>
     /// 登入成功
     /// </summary>
-    public override void OnConnectedToMaster()
+    public void OnIsConnected()
     {
-        Debug.Log("photon連線成功");
-
         conncetModeScreen.gameObject.SetActive(true);
         modeSelectBackground_Image.gameObject.SetActive(true);
         modeTip_Text.enabled = false;
         selectModeScreen.gameObject.SetActive(false);
+        nickName_InputField.text = "";
 
-        if (nickName_InputField.text == "") PhotonNetwork.NickName = "訪客" + Random.Range(0, 1000);
-        else PhotonNetwork.NickName = nickName_InputField.text;        
-        PhotonNetwork.AutomaticallySyncScene = true;
+        //連線模式按鈕
+        createRoom_Button.enabled = true;
+        randomRoom_Button.enabled = true;
+        specifyRoom_Button.enabled = true;
     }
     #endregion
 
@@ -488,54 +496,95 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnConnectModeBackButton()
     {
+        PhotonConnect.Instance.OnDisconnectSetting();
+
         selectModeScreen.gameObject.SetActive(true);
-        conncetModeScreen.gameObject.SetActive(false);
-        PhotonNetwork.Disconnect();
+        conncetModeScreen.gameObject.SetActive(false);        
     }
 
-    //離線觸發
-    public override void OnDisconnected(DisconnectCause cause)
-    {        
-        Debug.Log("已離線");
-    }
+    
     /// <summary>
-    /// 創建房間
+    /// 創建房間按鈕
     /// </summary>
-    void OnCreateRoom()
+    void OnCreateRoomButton()
     {
-        //(防間名稱, 創建房間選擇(MaxPlayers = 最大人數), 大廳類型)
-        PhotonNetwork.CreateRoom(PhotonNetwork.NickName, new Photon.Realtime.RoomOptions { MaxPlayers = 4 }, null);
+        PhotonConnect.Instance.OnCreateRoomSetting(createRoom_InputField.text);
 
-        createRoom_Button.enabled = false;
-        randomRoom_Button.enabled = false;
+        OnConnectModeButtonActiveSetting(active: false);
+        createRoom_InputField.text = "";
     }
 
     /// <summary>
-    /// 隨機房間
+    /// 隨機房間按鈕
     /// </summary>
-    void OnRandomRoom()
+    void OnRandomRoomButton()
     {
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        PhotonConnect.Instance.OnRandomOrCreateRoomRoomSetting();
+
+        OnConnectModeButtonActiveSetting(active: false);
+    }   
+
+    /// <summary>
+    /// 指定房間按鈕
+    /// </summary>
+    void OnSpecifyRoomButton()
+    {
+        if (specifyRoom_InputField.text == "")
+        {
+            OnConnectModeSettingTip(tip: "請輸入房間名稱");            
+            return;
+        }
+
+        PhotonConnect.Instance.OnSpecifyRoomSetting(specifyRoom_InputField.text);
+
+        OnConnectModeButtonActiveSetting(active: false);
     }
 
     /// <summary>
-    /// 指定房間
+    /// 連線模式畫面按鈕控制
     /// </summary>
-    void OnSpecifyRoom()
+    /// <param name="active">按鈕是否啟動</param>
+    void OnConnectModeButtonActiveSetting(bool active)
     {
-        PhotonNetwork.JoinRoom(room_InputField.text);
+        createRoom_Button.enabled = active;
+        randomRoom_Button.enabled = active;
+        specifyRoom_Button.enabled = active;
     }
 
     /// <summary>
-    /// 加入房間觸發
+    /// 已加入房間
     /// </summary>
-    public override void OnJoinedRoom()
+    public void OnIsJoinedRoom()
     {
-        Debug.Log("加入" + PhotonNetwork.CurrentRoom.Name + "房間");
-
         connectRoomScreen.gameObject.SetActive(true);
-        conncetModeScreen.gameObject.SetActive(false);
+        conncetModeScreen.gameObject.SetActive(false);        
 
+        specifyRoom_InputField.text = "";
+    }    
+
+    /// <summary>
+    /// 設定提示文字
+    /// </summary>
+    /// <param name="tip">提示文字</param>
+    public void OnConnectModeSettingTip(string tip)
+    {
+        connectModeTipTime = 3;//提示文字時間
+        connectModeTip_Text.text = tip;
+
+        OnConnectModeButtonActiveSetting(active: true);
+    }
+
+    /// <summary>
+    /// 提示文字
+    /// </summary>
+    void OnConnectModeTip()
+    {
+        if (connectModeTipTime > 0)
+        {
+            connectModeTipTime -= Time.deltaTime;
+            Color color = new Color(connectModeTip_Text.color.r, connectModeTip_Text.color.g, connectModeTip_Text.color.b, connectModeTipTime);
+            connectModeTip_Text.color = color;
+        }
     }
     #endregion
 
@@ -545,9 +594,10 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnConnectRoomScreenBackButton()
     {
-        selectModeScreen.gameObject.SetActive(true);
-        connectRoomScreen.gameObject.SetActive(false);
-        PhotonNetwork.Disconnect();
+        PhotonConnect.Instance.OnLeaveRoomSetting();
+
+        conncetModeScreen.gameObject.SetActive(true);
+        connectRoomScreen.gameObject.SetActive(false);       
     }
     #endregion
 }
