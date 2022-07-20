@@ -12,7 +12,6 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     static PhotonConnect photonConnect;
     public static PhotonConnect Instance => photonConnect;
 
-
     void Awake()
     {
         if(photonConnect != null)
@@ -24,11 +23,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
-    {
-        
-    }
-
+    #region 連線
     /// <summary>
     /// 連線設定
     /// </summary>
@@ -71,7 +66,9 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("已離線");
     }
+    #endregion
 
+    #region 房間
     /// <summary>
     /// 創建房間設定
     /// </summary>
@@ -85,33 +82,6 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 隨機或創建房間設定
-    /// </summary>
-    public void OnRandomOrCreateRoomRoomSetting()
-    {
-        PhotonNetwork.JoinRandomOrCreateRoom();
-    }
-
-    /// <summary>
-    /// 指定房間設定
-    /// </summary>
-    /// <param name="roomName">欲加入房間名</param>
-    public void OnSpecifyRoomSetting(string roomName)
-    {
-        PhotonNetwork.JoinRoom(roomName);
-    }
-
-    /// <summary>
-    /// 加入房間觸發
-    /// </summary>
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("加入" + PhotonNetwork.CurrentRoom.Name + "房間");
-
-        StartSceneUI.Instance.OnIsJoinedRoom();
-    }
-
-    /// <summary>
     /// 創建房間失敗觸發
     /// </summary>
     /// <param name="returnCode"></param>
@@ -119,6 +89,16 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.LogError("創建房間失敗:" + returnCode + ":" + message);
+
+        StartSceneUI.Instance.OnConnectModeSettingTip(tip: "創建房間失敗");
+    }
+
+    /// <summary>
+    /// 隨機或創建房間設定
+    /// </summary>
+    public void OnRandomOrCreateRoomRoomSetting()
+    {
+        PhotonNetwork.JoinRandomOrCreateRoom();
     }
 
     /// <summary>
@@ -129,6 +109,17 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.LogError("加入隨機房間失敗:" + returnCode + ":" + message);
+
+        StartSceneUI.Instance.OnConnectModeSettingTip(tip: "加入隨機房間失敗");
+    }
+
+    /// <summary>
+    /// 指定房間設定
+    /// </summary>
+    /// <param name="roomName">欲加入房間名</param>
+    public void OnSpecifyRoomSetting(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName);
     }
 
     /// <summary>
@@ -142,6 +133,82 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
 
         StartSceneUI.Instance.OnConnectModeSettingTip(tip: "找不到房間");
     }
+
+    /// <summary>
+    /// 加入房間觸發
+    /// </summary>
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("加入" + PhotonNetwork.CurrentRoom.Name + "房間");
+
+        StartSceneUI.Instance.OnTidyConnectModeUI();
+        OnReFreshPlayerNickName();
+        OnSendRoomPlayerCharacters();
+    }
+
+    /// <summary>
+    /// 有玩家進入房間
+    /// </summary>
+    /// <param name="newPlayer">新玩家</param>
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        OnReFreshPlayerNickName();
+        OnSendRoomPlayerCharacters();
+    }
+
+    /// <summary>
+    /// 有玩家離開房間
+    /// </summary>
+    /// <param name="otherPlayer">離開玩家</param>
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        OnReFreshPlayerNickName();       
+        OnSendRoomPlayerCharacters();
+    }
+
+    /// <summary>
+    /// 更新玩家暱稱
+    /// </summary>    
+    void OnReFreshPlayerNickName()
+    {
+        //清空List
+        List<string> playerList = new List<string>(); 
+
+        //紀錄玩家暱稱
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            playerList.Add(PhotonNetwork.PlayerList[i].NickName);
+        }
+        
+        StartSceneUI.Instance.OnRefreshRoomPlayerNickName(playerList, PhotonNetwork.NickName);
+    }
+
+    /// <summary>
+    /// 發送房間玩家腳色
+    /// </summary>
+    public void OnSendRoomPlayerCharacters()
+    {
+        photonView.RPC("OnRefreshPlayerCharacters", RpcTarget.All, PhotonNetwork.NickName, GameDataManagement.Instance.selectRoleNumber);
+    }
+
+    /// <summary>
+    /// 刷新玩家腳色
+    /// </summary>
+    /// <param name="nickName"></param>
+    /// <param name="characters"></param>
+    [PunRPC]
+    void OnRefreshPlayerCharacters(string nickName, int characters )
+    {        
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+           if(PhotonNetwork.PlayerList[i].NickName == nickName)
+            {
+                StartSceneUI.Instance.OnRefreshPlayerCharacters(i, characters);
+                return;
+            }
+        }
+    }   
 
     /// <summary>
     /// 離開房間設定
@@ -159,5 +226,6 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("離開房間");        
-    }  
+    }
+    #endregion
 }

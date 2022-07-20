@@ -33,6 +33,7 @@ public class StartSceneUI : MonoBehaviour
 
     [Header("選擇腳色畫面")]
     Transform selectRoleScreen;//SelectRoleScreen UI控制
+    Button roleBack_Button;//返回按鈕
     Button roleConfirm_Button;//腳色確定按鈕    
     [Header("選擇腳色畫面/腳色選擇按鈕")]
     bool isSlideRoleButton;//是否滑動腳色按鈕    
@@ -51,29 +52,31 @@ public class StartSceneUI : MonoBehaviour
     int[] equipBuff;//裝備的Buff
     Text EquipBuff_Text;//裝備的Buff文字
     public BuffDrop buffBox_1;//Buff裝備框_1
-    public BuffDrop buffBox_2;//Buff裝備框_2
-    Button roleBack_Button;//返回按鈕
+    public BuffDrop buffBox_2;//Buff裝備框_2    
 
     [Header("關卡畫面")]
     Transform levelScreen;//LevelScreen UI控制
-    Button level1_Button;//關卡1_按鈕
-    int selectLevel;//選擇的關卡
     Button levelBack_Button;//返回按鈕
+    Button level1_Button;//關卡1_按鈕
+    int selectLevel;//選擇的關卡    
 
     [Header("連線模式畫面")]
     Transform conncetModeScreen;//ConncetModScreen UI控制
+    Button connectModeBack_Button;//返回按鈕
     Button createRoom_Button;//創建房間按鈕
     Button randomRoom_Button;//隨機房間按鈕
     Button specifyRoom_Button;//指定房間按鈕
     InputField specifyRoom_InputField;//加入房間名稱輸入框
     InputField createRoom_InputField;//創建房間名稱輸入框    
     float connectModeTipTime;//提示文字時間
-    Text connectModeTip_Text;//提示文字
-    Button connectModeBack_Button;//返回按鈕
+    Text connectModeTip_Text;//提示文字    
 
     [Header("連線房間畫面")]
     Transform connectRoomScreen;//connectRoomScreen UI控制
     Button connectRoomBack_Button;//返回按鈕
+    [SerializeField]List<RectTransform> roomPlayerList = new List<RectTransform>();//紀錄房間玩家
+    Button connectRoomLeftRole_Button;//更換腳色(左)
+    Button connectRoomRightRole_Button;//更換腳色(右)
 
     void Awake()
     {
@@ -258,6 +261,15 @@ public class StartSceneUI : MonoBehaviour
         connectRoomScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "ConnectRoomScreen");//ConnectRoomScreen UI控制
         connectRoomBack_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ConnectRoomBack_Button");//返回按鈕
         connectRoomBack_Button.onClick.AddListener(OnConnectRoomScreenBackButton);
+
+        //房間玩家UI
+        for (int i = 0; i < 4; i++)
+        {
+            roomPlayerList.Add(ExtensionMethods.FindAnyChild<RectTransform>(transform, "Player" + (i + 1) + "_Image"));
+            ExtensionMethods.FindAnyChild<Transform>(roomPlayerList[i], "Left_Button").gameObject.SetActive(false);
+            ExtensionMethods.FindAnyChild<Transform>(roomPlayerList[i], "Right_Button").gameObject.SetActive(false);
+        }
+
 
         connectRoomScreen.gameObject.SetActive(false);
     }
@@ -453,7 +465,7 @@ public class StartSceneUI : MonoBehaviour
         //滑動腳色按鈕
         for (int i = 0; i < roleSelectButton_List.Count; i++)
         {            
-            roleSelectButton_List[i].localPosition = roleSelectButton_List[i].localPosition + Vector3.right * mouseX * roleSelectButtonSlideSpeed;
+            if(mouseX > 0.1f || mouseX < -0.1f) roleSelectButton_List[i].localPosition = roleSelectButton_List[i].localPosition + Vector3.right * mouseX * roleSelectButtonSlideSpeed;
 
             //邊界設定
             if (roleSelectButton_List[i].localPosition.x <= -roleSelectButtonSizeX)
@@ -501,7 +513,6 @@ public class StartSceneUI : MonoBehaviour
         selectModeScreen.gameObject.SetActive(true);
         conncetModeScreen.gameObject.SetActive(false);        
     }
-
     
     /// <summary>
     /// 創建房間按鈕
@@ -510,8 +521,7 @@ public class StartSceneUI : MonoBehaviour
     {
         PhotonConnect.Instance.OnCreateRoomSetting(createRoom_InputField.text);
 
-        OnConnectModeButtonActiveSetting(active: false);
-        createRoom_InputField.text = "";
+        OnConnectModeButtonActiveSetting(active: false);        
     }
 
     /// <summary>
@@ -552,13 +562,14 @@ public class StartSceneUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 已加入房間
+    /// 整理連線模式UI
     /// </summary>
-    public void OnIsJoinedRoom()
+    public void OnTidyConnectModeUI()
     {
         connectRoomScreen.gameObject.SetActive(true);
-        conncetModeScreen.gameObject.SetActive(false);        
+        conncetModeScreen.gameObject.SetActive(false);
 
+        createRoom_InputField.text = "";
         specifyRoom_InputField.text = "";
     }    
 
@@ -598,6 +609,68 @@ public class StartSceneUI : MonoBehaviour
 
         conncetModeScreen.gameObject.SetActive(true);
         connectRoomScreen.gameObject.SetActive(false);       
+    }
+
+    /// <summary>
+    /// 刷新玩家暱稱
+    /// </summary>
+    /// <param name="playerList">玩家列表</param>
+    public void OnRefreshRoomPlayerNickName(List<string> playerList, string selfNickName)
+    {     
+        var i = 0;
+        for (; i < playerList.Count; i++)
+        {
+            ExtensionMethods.FindAnyChild<Text>(roomPlayerList[i], "ID_Text").text = playerList[i];
+            
+            //顯示更換腳色按鈕
+            if(selfNickName == playerList[i])
+            {
+                connectRoomLeftRole_Button = ExtensionMethods.FindAnyChild<Button>(roomPlayerList[i], "Left_Button");//更換腳色(左)
+                connectRoomLeftRole_Button.gameObject.SetActive(true);
+                connectRoomLeftRole_Button.onClick.AddListener(delegate { OnConnectRoomChangeRole(-1); });
+                connectRoomRightRole_Button = ExtensionMethods.FindAnyChild<Button>(roomPlayerList[i], "Right_Button");//更換腳色(右)
+                connectRoomRightRole_Button.gameObject.SetActive(true);
+                connectRoomRightRole_Button.onClick.AddListener(delegate { OnConnectRoomChangeRole(1); });
+            }           
+        }
+        for (; i < roomPlayerList.Count; i++)
+        {
+            ExtensionMethods.FindAnyChild<Text>(roomPlayerList[i], "ID_Text").text = "等待玩家";
+            roomPlayerList[i].GetComponent<Image>().sprite = null;
+        }        
+    }
+
+    /// <summary>
+    /// 刷新玩家腳色
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="characters"></param>
+    public void OnRefreshPlayerCharacters(int number, int characters)
+    {
+        for (int i = 0; i < roomPlayerList.Count; i++)
+        {
+            if(i == number)
+            {
+                roomPlayerList[i].GetComponent<Image>().sprite = roleSelect_Sprite[characters];
+                continue;
+            }            
+        }
+    }
+
+    /// <summary>
+    /// 更換腳色
+    /// </summary>
+    /// <param name="characters"></param>
+    void OnConnectRoomChangeRole(int characters)
+    {
+        int role = GameDataManagement.Instance.selectRoleNumber;
+
+        role += characters;
+        if (role < 0) role = roleSelect_Sprite.Length - 1;
+        if (role > roleSelect_Sprite.Length - 1) role = 0;
+
+        GameDataManagement.Instance.selectRoleNumber = role;
+        PhotonConnect.Instance.OnSendRoomPlayerCharacters();
     }
     #endregion
 }
