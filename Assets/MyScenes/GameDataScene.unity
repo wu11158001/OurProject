@@ -231,6 +231,10 @@ MonoBehaviour:
     gravity: 9.8
     boxCollisionDistance: 0.5
     criticalBonus: 1.3
+    levelNames:
+    - "Level[1]:\u6211\u662F\u7B2C\u4E00\u95DC"
+    - "Level[2]:\u7B2C\u4E8C\u95DC\u9084\u6C92\u505A"
+    - "Level[3]:\u7B2C\u4E09\u95DC\u5728\u54EA"
     buffAbleString:
     - "\u751F\u547D\u503C"
     - "\u50B7\u5BB3"
@@ -308,7 +312,6 @@ MonoBehaviour:
     Warrior: Prefab/Characters/Player/1_Warrior
     Magician: Prefab/Characters/Player/2_Magician
     Archer: Prefab/Characters/Player/3_Archer
-    Ranger: Prefab/Characters/Player/4_Ranger
     allPlayerCharacters:
     - Prefab/Characters/Player/PlayerCharacters_1
     - Prefab/Characters/Player/PlayerCharacters_2
@@ -318,7 +321,9 @@ MonoBehaviour:
     SkeletonSoldier: Prefab/Characters/Enemy/SkeletonSoldier
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
+  isConnect: 0
   selectRoleNumber: 0
+  selectLevelNumber: 0
   equipBuff: 
 --- !u!4 &470314199
 Transform:
@@ -796,7 +801,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 467f3a380712e75499ae71811079fd17, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

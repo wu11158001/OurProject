@@ -28,17 +28,23 @@ public class ObjectHandle
     /// <returns></returns>
     public int OnCreateObject(string path)
     {
-        GameObject obj = Resources.Load(path) as GameObject;
+        
+        //GameObject obj = Resources.Load(path) as GameObject;
+
 
         //創建物件
         TemporaryObject temp = new TemporaryObject();
-        temp.obj = GameObject.Instantiate(obj);//產生物件
+
+        //判斷是否為連線模式
+        if (GameDataManagement.Instance.isConnect) temp.obj = PhotonConnect.Instance.OnCreateObject(path);
+        else temp.obj = GameObject.Instantiate(Resources.Load(path) as GameObject);//產生物件
+
         temp.obj.SetActive(false);//關閉物件
 
         //存下物件
         List<TemporaryObject> temp_List = new List<TemporaryObject>();//臨時存放
         temp_List.Add(temp);
-        cerateGameObject_List.Add(obj);//存放物件(重新創建用)
+        cerateGameObject_List.Add(temp.obj);//存放物件(重新創建用)
         searchGameObject_List.Add(temp_List);//存放項目(開啟/關閉用)
 
         return searchGameObject_List.Count - 1;//回傳物件編號

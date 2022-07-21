@@ -85,6 +85,8 @@ public class StartSceneUI : MonoBehaviour
     Button roomLevelRight_Button;//關卡選擇按鈕(右)
     Text roomSelectLevel_Text;//選擇的關卡
     Button roomStartGame_Button;//開始遊戲按鈕
+    Text roomTip_Text;//提示文字
+    float roomTipTime;//提示文字時間
 
     void Awake()
     {
@@ -118,6 +120,7 @@ public class StartSceneUI : MonoBehaviour
         OnConnectModeTip();
         OnConnectRoomChangeRoleTime();
         OnKeyboardSendChatMessage();
+        OnRoomTipTime();
     }
 
     /// <summary>
@@ -301,6 +304,9 @@ public class StartSceneUI : MonoBehaviour
         roomSelectLevel_Text.text = GameDataManagement.Instance.numericalValue.levelNames[GameDataManagement.Instance.selectLevelNumber];
         roomStartGame_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoomStartGame_Button");//開始遊戲按鈕
         roomStartGame_Button.onClick.AddListener(OnStartConnectGame);
+        roomTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "RoomTip_Text");//提示文字
+        Color color = new Color(roomTip_Text.color.r, roomTip_Text.color.g, roomTip_Text.color.b, roomTipTime);
+        roomTip_Text.color = color;
 
         connectRoomScreen.gameObject.SetActive(false);
     }
@@ -662,6 +668,9 @@ public class StartSceneUI : MonoBehaviour
     /// <param name="isRoomMaster">是否為房主</param>
     public void OnRefreshRoomPlayerNickName(List<string> playerList, string selfNickName, bool isRoomMaster)
     {
+        //開始遊戲按鈕
+        roomStartGame_Button.gameObject.SetActive(isRoomMaster);
+
         //關卡按鈕
         roomLevelLeft_Button.gameObject.SetActive(isRoomMaster);
         roomLevelRight_Button.gameObject.SetActive(isRoomMaster);
@@ -800,7 +809,24 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     void OnStartConnectGame()
     {
-        PhotonConnect.Instance.OnStartGame(GameDataManagement.Instance.selectLevelNumber + 1);
+        if (PhotonConnect.Instance.OnStartGame(GameDataManagement.Instance.selectLevelNumber + 1))
+        {
+            PhotonConnect.Instance.OnStartGame(GameDataManagement.Instance.selectLevelNumber + 1);
+        }
+        else roomTipTime = 3;
     }    
+
+    /// <summary>
+    /// 房間提示文字
+    /// </summary>
+    void OnRoomTipTime()
+    {
+        if (roomTipTime > 0)
+        {
+            roomTipTime -= Time.deltaTime;
+            Color color = new Color(roomTip_Text.color.r, roomTip_Text.color.g, roomTip_Text.color.b, roomTipTime);
+            roomTip_Text.color = color;
+        }
+    }
     #endregion
 }

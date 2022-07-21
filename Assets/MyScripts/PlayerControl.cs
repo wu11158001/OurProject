@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 /// <summary>
 /// 玩家控制
 /// </summary>
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviourPunCallbacks
 {
     Animator animator;
     CharactersCollision charactersCollision;
@@ -39,6 +40,9 @@ public class PlayerControl : MonoBehaviour
 
     private void Awake()
     {
+        //連線 並不是房主
+        if (PhotonNetwork.IsConnected && !photonView.IsMine ) Destroy(this);        
+
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
 
         animator = GetComponent<Animator>();
@@ -58,8 +62,8 @@ public class PlayerControl : MonoBehaviour
         miniMap_Camera.transform.SetParent(transform);
 
         //鼠標
-        Cursor.visible = false;//鼠標隱藏
-        Cursor.lockState = CursorLockMode.Locked;//鎖定中央
+       /* Cursor.visible = false;//鼠標隱藏
+        Cursor.lockState = CursorLockMode.Locked;//鎖定中央*/
 
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
@@ -79,7 +83,7 @@ public class PlayerControl : MonoBehaviour
         if (!isNormalAttack && !isSkillAttack && !isTrick)
         {
             OnMovementControl();            
-        }        
+        }  
     }
 
     /// <summary>
@@ -231,7 +235,7 @@ public class PlayerControl : MonoBehaviour
             {
                 isNormalAttack = true;
                 normalAttackNumber = 1;
-                animator.SetBool("NormalAttack", isNormalAttack);              
+                animator.SetBool("NormalAttack", isNormalAttack);                             
             }
 
             //切換普通攻擊招式

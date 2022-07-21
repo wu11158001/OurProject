@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 /// <summary>
 /// 遊戲場景管理中心
 /// </summary>
-public class GameSceneManagement : MonoBehaviour
+public class GameSceneManagement : MonoBehaviourPunCallbacks
 {
     static GameSceneManagement gameSceneManagement;
     public static GameSceneManagement Instance => gameSceneManagement;
@@ -16,7 +17,7 @@ public class GameSceneManagement : MonoBehaviour
     public List<AttackBehavior> AttackBehavior_List = new List<AttackBehavior>();//紀錄所有攻擊行為    
 
     //物件編號 玩家
-    static int playerNumbering;//玩家
+    static int playerNumbering;//玩家腳色
     static int playerSkill_1_Numbering;//玩家技能1
 
     //物件編號 敵人
@@ -51,9 +52,10 @@ public class GameSceneManagement : MonoBehaviour
         playerNumbering = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
         objectNumber_Dictionary.Add("playerNumbering", playerNumbering);//添加至紀錄中
         GameObject player = objectHandle.OnOpenObject(playerNumbering);//產生玩家
-        player.transform.position = new Vector3(0, 0.5f, 0);////設定位置
-        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點
+        player.transform.position = new Vector3(0, 0.7f, 0);////設定位置
+        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點     
 
+        /*
         //玩家腳色1_技能1
         playerSkill_1_Numbering = objectHandle.OnCreateObject(loadPath.playerCharactersSkill_1);////產生至物件池
         objectNumber_Dictionary.Add("playerSkill_1_Numbering", playerSkill_1_Numbering);//添加至紀錄中
@@ -62,17 +64,17 @@ public class GameSceneManagement : MonoBehaviour
         skeletonSoldierNumbering = objectHandle.OnCreateObject(loadPath.SkeletonSoldier);//產生至物件池
         objectNumber_Dictionary.Add("skeletonSoldierNumbering", skeletonSoldierNumbering);////添加至紀錄中
         GameObject skeletonSoldier = objectHandle.OnOpenObject(skeletonSoldierNumbering);//產生骷顱士兵
-        skeletonSoldier.transform.position = new Vector3(3, 0.5f, 2);//設定位置
+        skeletonSoldier.transform.position = new Vector3(3, 1.7f, 2);//設定位置
         OnSetMiniMapPoint(skeletonSoldier.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
 
         //其他
         hitNumberNumbering = objectHandle.OnCreateObject(loadPath.hitNumber);//產生至物件池;//擊中數字
-        objectNumber_Dictionary.Add("hitNumberNumbering", hitNumberNumbering);////添加至紀錄中
+        objectNumber_Dictionary.Add("hitNumberNumbering", hitNumberNumbering);////添加至紀錄中*/
     }
 
     void Update()
     {        
-        OnAttackBehavior();
+        OnAttackBehavior();   
     }
 
     //攻擊行為

@@ -47,7 +47,8 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("連線成功");
 
-        StartSceneUI.Instance.OnIsConnected();   
+        StartSceneUI.Instance.OnIsConnected();
+        GameDataManagement.Instance.isConnect = true;
     }
 
     /// <summary>
@@ -66,6 +67,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("已離線");
         StartSceneUI.Instance.OnConnectModeBackButton();
+        GameDataManagement.Instance.isConnect = false;
     }
     #endregion
 
@@ -276,9 +278,28 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// 開始遊戲
     /// </summary>
     /// <param name="level">進入關卡編號</param>
-    public void OnStartGame(int level)
+    public bool OnStartGame(int level)
     {
+        bool isStartGame = false;
+
         PhotonNetwork.LoadLevel("LevelScene" + level);
+        //2人以上開始
+        /*if (PhotonNetwork.CurrentRoom.PlayerCount > 1) PhotonNetwork.LoadLevel("LevelScene" + level);
+        else isStartGame = false;*/
+
+        return isStartGame;
+    }
+    #endregion
+
+    #region 遊戲中
+    /// <summary>
+    /// 創建物件
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public GameObject OnCreateObject(string path)
+    {
+        return PhotonNetwork.Instantiate(path, Vector3.zero, Quaternion.identity);
     }
     #endregion
 }

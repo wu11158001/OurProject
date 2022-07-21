@@ -15,6 +15,7 @@ public class GameDataManagement : MonoBehaviour
     public GameData_LoadPath loadPath;//遊戲物件(路徑)
 
     [Header("紀錄遊戲資料")]
+    public bool isConnect;//是否連線
     public int selectRoleNumber;//選擇的腳色編號
     public int selectLevelNumber;//選擇的關卡編號
     public int[] equipBuff;//裝備的Buff

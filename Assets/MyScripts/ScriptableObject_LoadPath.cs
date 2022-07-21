@@ -26,7 +26,6 @@ public class GameData_LoadPath
     public string Warrior;//玩家腳色
     public string Magician;//玩家腳色
     public string Archer;//玩家腳色
-    public string Ranger;//玩家腳色
     public string[] allPlayerCharacters;//所有玩家腳色
 
     [Header("玩家腳色1_技能")]
@@ -60,8 +59,7 @@ public class GameData_LoadPath
         Warrior = "Prefab/Characters/Player/1_Warrior";//戰士
         Magician = "Prefab/Characters/Player/2_Magician";//魔法師
         Archer = "Prefab/Characters/Player/3_Archer";//弓箭手
-        Ranger = "Prefab/Characters/Player/4_Ranger";//遊俠
-        allPlayerCharacters = new string[] { Warrior , Magician, Archer, Ranger };//所有玩家腳色
+        allPlayerCharacters = new string[] { Warrior , Magician, Archer };//所有玩家腳色
 
         //玩家技能
         playerCharactersSkill_1 = "Prefab/ShootObject/PlayerCharacters1_Skill_1";//玩家腳色1_技能1
