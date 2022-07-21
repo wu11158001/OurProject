@@ -37,8 +37,8 @@ public class ObjectHandle
 
         //判斷是否為連線模式
         if (GameDataManagement.Instance.isConnect) temp.obj = PhotonConnect.Instance.OnCreateObject(path);
-        else temp.obj = GameObject.Instantiate(Resources.Load(path) as GameObject);//產生物件
-
+        //else temp.obj = GameObject.Instantiate(Resources.Load(path) as GameObject);//產生物件
+        
         temp.obj.SetActive(false);//關閉物件
 
         //存下物件

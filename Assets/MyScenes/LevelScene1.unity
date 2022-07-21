@@ -602,7 +602,7 @@ GameObject:
   - component: {fileID: 674066039}
   - component: {fileID: 674066038}
   m_Layer: 0
-  m_Name: GameManagement
+  m_Name: GameSceneManagement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

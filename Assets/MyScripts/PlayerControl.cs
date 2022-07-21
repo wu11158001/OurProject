@@ -41,7 +41,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     private void Awake()
     {
         //連線 並不是房主
-        if (PhotonNetwork.IsConnected && !photonView.IsMine ) Destroy(this);        
+        if (!photonView.IsMine) this.enabled = false;        
 
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
 

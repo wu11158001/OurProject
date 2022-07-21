@@ -53,7 +53,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         objectNumber_Dictionary.Add("playerNumbering", playerNumbering);//添加至紀錄中
         GameObject player = objectHandle.OnOpenObject(playerNumbering);//產生玩家
         player.transform.position = new Vector3(0, 0.7f, 0);////設定位置
-        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點     
+        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點    
 
         /*
         //玩家腳色1_技能1

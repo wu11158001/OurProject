@@ -299,6 +299,8 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <returns></returns>
     public GameObject OnCreateObject(string path)
     {
+        /*GameObject obj = null;
+        if (PhotonNetwork.IsMasterClient) obj = */
         return PhotonNetwork.Instantiate(path, Vector3.zero, Quaternion.identity);
     }
     #endregion
