@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -145,9 +146,16 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="active">激活狀態</param>
     public void OnConnectObjectActive(int id, bool active)
     {
-        foreach(var obj in connectObject_Dixtionary)
-        {
-            if (obj.Key == id) obj.Value.SetActive(active);
-        }
+        connectObject_Dixtionary[id].SetActive(active);
+    }
+
+    /// <summary>
+    /// 獲取連線物件
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public GameObject OnGetConnectObject(int id)
+    {
+        return connectObject_Dixtionary[id];
     }
 }

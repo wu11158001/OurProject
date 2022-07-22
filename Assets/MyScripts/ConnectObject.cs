@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class ConnectObject : MonoBehaviourPunCallbacks
 {
+    public int id;
     void Awake()
     {
         //³s½u¼Ò¦¡
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine)
         {
-            GameSceneManagement.Instance.OnRecordConnectObject(GetComponent<PhotonView>().ViewID, gameObject);
+            id = GetComponent<PhotonView>().ViewID;
+            GameSceneManagement.Instance.OnRecordConnectObject(id, gameObject);
             gameObject.SetActive(false);
         }
     }

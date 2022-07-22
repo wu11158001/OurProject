@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -85,8 +86,8 @@ public class CharactersCollision : MonoBehaviour
     /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
     public void OnGetHit(GameObject attacker, LayerMask layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {               
-        
+    {
+ 
         //判斷受擊對象
         if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == LayerMask.NameToLayer("Enemy") || 
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == LayerMask.NameToLayer("Player"))
@@ -100,6 +101,8 @@ public class CharactersCollision : MonoBehaviour
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: damage,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red);//文字顏色
+       
+            if (GameDataManagement.Instance.isConnect) GameSceneManagement.Instance.OnConnectLifeBar(hitNumber.GetComponent<ConnectObject>().id, );
 
             //面向攻擊者
             transform.forward = -attacker.transform.forward;
