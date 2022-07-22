@@ -101,8 +101,11 @@ public class CharactersCollision : MonoBehaviour
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: damage,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red);//文字顏色
-       
-            if (GameDataManagement.Instance.isConnect) GameSceneManagement.Instance.OnConnectLifeBar(hitNumber.GetComponent<ConnectObject>().id, );
+
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendHitNumberValue(hitNumber.transform, transform, damage, isCritical, lifeBar.transform, Hp / MaxHp);//擊中數字
+            }
 
             //面向攻擊者
             transform.forward = -attacker.transform.forward;

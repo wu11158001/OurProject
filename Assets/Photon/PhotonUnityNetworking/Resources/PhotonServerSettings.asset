@@ -49,6 +49,8 @@ MonoBehaviour:
   - OnOthersCreateObject
   - OnOthersCopyObject
   - OnObjectActive
+  - OnHitNumberValue
+  - OnLifeValue
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

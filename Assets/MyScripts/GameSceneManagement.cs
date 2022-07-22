@@ -146,16 +146,58 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="active">激活狀態</param>
     public void OnConnectObjectActive(int id, bool active)
     {
-        connectObject_Dixtionary[id].SetActive(active);
+        foreach(var obj in connectObject_Dixtionary)
+        {
+            if (obj.Key == id) obj.Value.SetActive(active);
+        }        
     }
 
     /// <summary>
     /// 獲取連線物件
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">物件ID</param>
     /// <returns></returns>
     public GameObject OnGetConnectObject(int id)
     {
-        return connectObject_Dixtionary[id];
+        GameObject theObj = null;
+
+        foreach (var obj in connectObject_Dixtionary)
+        {
+            if (obj.Key == id) theObj = obj.Value;
+        }
+        return theObj;
+    }
+
+    /// <summary>
+    /// 連線生命數值
+    /// </summary>
+    /// <param name="numberID">數字物件ID</param>
+    /// <param name="targetID">受擊目標ID</param>
+    /// <param name="damage">受到傷害</param>
+    /// <param name="isCritical">是否爆擊</param>
+    /// <param name="lifeBarID">生命條物件ID</param>
+    /// <param name="HpProportion">生命比例</param>
+    public void OnConnectLifeValue(int numberID, int targetID, float damage, bool isCritical, int lifeBarID, float HpProportion)
+    {
+   
+        Transform target = null;
+
+        //目標物件
+        foreach (var obj in connectObject_Dixtionary)
+        {
+            if (obj.Key == targetID) target = obj.Value.transform;
+        }
+
+        //擊中數字
+        foreach (var hitNumber in connectObject_Dixtionary)
+        {
+            if (hitNumber.Key == numberID) hitNumber.Value.GetComponent<HitNumber>().OnSetValue(target: target, damage: damage, color: isCritical ? Color.yellow : Color.red);
+        }
+
+        //頭頂生命條
+        foreach (var lifeBar in connectObject_Dixtionary)
+        {
+            if (lifeBar.Key == numberID) lifeBar.Value.GetComponent<LifeBar_Characters>().SetValue = HpProportion;
+        }
     }
 }

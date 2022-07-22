@@ -13,7 +13,6 @@ public class GameSceneUI : MonoBehaviour
     Image playerLifeBarFront_Image;//生命條(前)
     Image playerLifeBarMid_Image;//生命條(中)
 
-
     void Awake()
     {
         if(gameSceneUI != null)
@@ -28,7 +27,7 @@ public class GameSceneUI : MonoBehaviour
     {
         //玩家生命條
         playerHpProportion = 1;
-        playerLifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerLifeBarFront_Image");////生命條(前
+        playerLifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerLifeBarFront_Image");//生命條(前)
         playerLifeBarFront_Image.fillAmount = playerHpProportion;
         playerLifeBarMid_Image = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerLifeBarMid_Image");//生命條(中)
         playerLifeBarMid_Image.fillAmount = playerHpProportion;

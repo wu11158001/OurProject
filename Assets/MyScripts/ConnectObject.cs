@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ConnectObject : MonoBehaviourPunCallbacks
-{
+{    
     public int id;
     void Awake()
     {

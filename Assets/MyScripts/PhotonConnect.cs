@@ -324,5 +324,34 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         GameSceneManagement.Instance.OnConnectObjectActive(id, active);
     }
+
+    /// <summary>
+    /// 發送擊中數字數值
+    /// </summary>
+    /// <param name="hitNumber">擊中數字物件</param>
+    /// <param name="target">受擊目標</param>
+    /// <param name="damage">受到傷害</param>
+    /// <param name="isCritical">是否爆擊</param>
+    /// <param name="lifeBar">生命條物件</param>
+    /// <param name="HpProportion">HP比例</param>
+    public void OnSendHitNumberValue(Transform hitNumber, Transform target, float damage, bool isCritical, Transform lifeBar, float HpProportion)
+    {
+        photonView.RPC("OnHitNumberValue", RpcTarget.Others, hitNumber.GetComponent<PhotonView>().ViewID, target.GetComponent<PhotonView>().ViewID, damage, isCritical, lifeBar.GetComponent<PhotonView>().ViewID, HpProportion);
+    }
+
+    /// <summary>
+    /// 生命數值
+    /// </summary>
+    /// <param name="numberID">擊中數字物件ID</param>
+    /// <param name="targetID">受擊目標ID</param>
+    /// <param name="damage">受到傷害</param>
+    /// <param name="isCritical">是否爆擊</param>
+    /// <param name="lifeBarID">生命條物件ID</param>
+    /// <param name="HpProportion">HP比例</param>
+    [PunRPC]
+    void OnLifeValue(int numberID, int targetID, float damage, bool isCritical, int lifeBarID, float HpProportion)
+    {
+        GameSceneManagement.Instance.OnConnectLifeValue(numberID, targetID, damage, isCritical, lifeBarID, HpProportion);
+    }
     #endregion
 }
