@@ -96,7 +96,7 @@ public class CharactersCollision : MonoBehaviour
             if(gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //產生文字
-            HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering")).GetComponent<HitNumber>();
+            HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering"), GameSceneManagement.Instance.loadPath.hitNumber).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: damage,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red);//文字顏色

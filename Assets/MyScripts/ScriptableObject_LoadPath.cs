@@ -19,6 +19,7 @@ public class GameData_LoadPath
     public string miniMapMatirial_Floor;//小地圖材質(地板)
     public string miniMapMatirial_Object;//小地圖材質(物件)
     public string miniMapMatirial_Player;//小地圖材質(玩家)
+    public string miniMapMatirial_OtherPlayer;//小地圖材質(其他玩家)
     public string miniMapMatirial_Enemy;//小地圖材質(敵人)
     public string miniMapPoint;//小地圖(點)
 
@@ -52,6 +53,7 @@ public class GameData_LoadPath
         miniMapMatirial_Floor = "Matirials/MiniMap/MiniMpa_Floor";//小地圖材質(地板)
         miniMapMatirial_Object = "Matirials/MiniMap/MiniMpa_Object";//小地圖材質(物件)
         miniMapMatirial_Player = "Matirials/MiniMap/MiniMap_Player";//小地圖材質(玩家)
+        miniMapMatirial_OtherPlayer = "Matirials/MiniMap/MiniMap_OtherPlayer";//小地圖材質(其他玩家)
         miniMapMatirial_Enemy = "Matirials/MiniMap/MiniMap_Enemy";//小地圖材質(敵人)
         miniMapPoint = "Prefab/UI/MiniMapPoint";//小地圖(點)
 

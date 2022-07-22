@@ -1005,6 +1005,7 @@ GameObject:
   - component: {fileID: 1766886306}
   - component: {fileID: -6351560159761805871}
   - component: {fileID: -6197225636500816605}
+  - component: {fileID: -2129552885994858048}
   m_Layer: 9
   m_Name: SkeletonSoldier
   m_TagString: SkeletonSoldier
@@ -1091,7 +1092,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -6197225636500816605}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1111,6 +1113,18 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &-2129552885994858048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589467900598420448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887e23fd9ef5a6d449d5d6e73a668d3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1589467900598420450
 GameObject:
   m_ObjectHideFlags: 0

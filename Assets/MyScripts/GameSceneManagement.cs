@@ -1,7 +1,7 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 /// <summary>
 /// 遊戲場景管理中心
@@ -11,20 +11,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     static GameSceneManagement gameSceneManagement;
     public static GameSceneManagement Instance => gameSceneManagement;
     ObjectHandle objectHandle = new ObjectHandle();
-    GameData_LoadPath loadPath;
+    public GameData_LoadPath loadPath;
 
     Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
     public List<AttackBehavior> AttackBehavior_List = new List<AttackBehavior>();//紀錄所有攻擊行為    
 
-    //物件編號 玩家
-    static int playerNumbering;//玩家腳色
-    static int playerSkill_1_Numbering;//玩家技能1
-
-    //物件編號 敵人
-    static int skeletonSoldierNumbering;//骷顱士兵
-
-    //物件編號 其他
-    static int hitNumberNumbering;//擊中數字
+    Dictionary<int, GameObject> connectObject_Dixtionary = new Dictionary<int, GameObject>();//記錄所有連線物件
 
     void Awake()
     {       
@@ -48,28 +40,32 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (item.GetComponent<BoxCollider>()) OnSetMiniMapPoint(item, loadPath.miniMapMatirial_Object);
         }
 
-        //玩家腳色
-        playerNumbering = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
-        objectNumber_Dictionary.Add("playerNumbering", playerNumbering);//添加至紀錄中
-        GameObject player = objectHandle.OnOpenObject(playerNumbering);//產生玩家
-        player.transform.position = new Vector3(0, 0.7f, 0);////設定位置
-        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點    
+        int number = 0;
 
-        /*
+        //玩家腳色
+        number = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
+        objectNumber_Dictionary.Add("playerNumbering", number);//添加至紀錄中
+        GameObject player = OnRequestOpenObject(OnGetObjectNumber("playerNumbering"), loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//開啟物件
+        player.transform.position = new Vector3(0, 0.7f, 0);////設定位置
+        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點   
+
         //玩家腳色1_技能1
-        playerSkill_1_Numbering = objectHandle.OnCreateObject(loadPath.playerCharactersSkill_1);////產生至物件池
-        objectNumber_Dictionary.Add("playerSkill_1_Numbering", playerSkill_1_Numbering);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.playerCharactersSkill_1);////產生至物件池
+        objectNumber_Dictionary.Add("playerSkill_1_Numbering", number);//添加至紀錄中
 
         //骷顱士兵
-        skeletonSoldierNumbering = objectHandle.OnCreateObject(loadPath.SkeletonSoldier);//產生至物件池
-        objectNumber_Dictionary.Add("skeletonSoldierNumbering", skeletonSoldierNumbering);////添加至紀錄中
-        GameObject skeletonSoldier = objectHandle.OnOpenObject(skeletonSoldierNumbering);//產生骷顱士兵
-        skeletonSoldier.transform.position = new Vector3(3, 1.7f, 2);//設定位置
-        OnSetMiniMapPoint(skeletonSoldier.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
-
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
+        {
+            number = objectHandle.OnCreateObject(loadPath.SkeletonSoldier);//產生至物件池
+            objectNumber_Dictionary.Add("skeletonSoldierNumbering", number);////添加至紀錄中
+            GameObject skeletonSoldier = OnRequestOpenObject(OnGetObjectNumber("skeletonSoldierNumbering"), loadPath.SkeletonSoldier);//開啟物件
+            skeletonSoldier.transform.position = new Vector3(3, 1.7f, 2);//設定位置
+            OnSetMiniMapPoint(skeletonSoldier.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+        }
+        
         //其他
-        hitNumberNumbering = objectHandle.OnCreateObject(loadPath.hitNumber);//產生至物件池;//擊中數字
-        objectNumber_Dictionary.Add("hitNumberNumbering", hitNumberNumbering);////添加至紀錄中*/
+        number = objectHandle.OnCreateObject(loadPath.hitNumber);//產生至物件池;//擊中數字
+        objectNumber_Dictionary.Add("hitNumberNumbering", number);////添加至紀錄中
     }
 
     void Update()
@@ -110,10 +106,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// 要求開啟物件
     /// </summary>
     /// <param name="number">物件編號</param>
+    /// <param name="path">prefab路徑</param>
     /// <returns></returns>
-    public GameObject OnRequestOpenObject(int number)
+    public GameObject OnRequestOpenObject(int number, string path)
     {        
-        GameObject obj = objectHandle.OnOpenObject(number);//開啟物件
+        GameObject obj = objectHandle.OnOpenObject(number, path);//開啟物件
         return obj;//回傳物件
     }
 
@@ -122,12 +119,35 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="item">要添加的物件</param>
     /// <param name="item">點的材質路徑</param>
-    void OnSetMiniMapPoint(Transform item, string materialPath)
+    public void OnSetMiniMapPoint(Transform item, string materialPath)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(loadPath.miniMapPoint));
         obj.transform.localEulerAngles = new Vector3(90, 0, 0);
         obj.transform.SetParent(item);
         MiniMapPoint map = obj.GetComponent<MiniMapPoint>();
         map.pointMaterial = Resources.Load<Material>(materialPath);
+    }  
+
+    /// <summary>
+    /// 紀錄連線物件
+    /// </summary>
+    /// <param name="id">物件ID</param>
+    /// <param name="obj">物件</param>
+    public void OnRecordConnectObject(int id, GameObject obj)
+    {
+        connectObject_Dixtionary.Add(id, obj);
+    }
+
+    /// <summary>
+    /// 連線物件激活狀態
+    /// </summary>
+    /// <param name="id">物件ID</param>
+    /// <param name="active">激活狀態</param>
+    public void OnConnectObjectActive(int id, bool active)
+    {
+        foreach(var obj in connectObject_Dixtionary)
+        {
+            if (obj.Key == id) obj.Value.SetActive(active);
+        }
     }
 }

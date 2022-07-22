@@ -295,13 +295,34 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <summary>
     /// 創建物件
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="path">prefeb路徑</param>
     /// <returns></returns>
     public GameObject OnCreateObject(string path)
-    {
-        /*GameObject obj = null;
-        if (PhotonNetwork.IsMasterClient) obj = */
+    {        
         return PhotonNetwork.Instantiate(path, Vector3.zero, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// 發送物件激活狀態
+    /// </summary>
+    /// <param name="obj">物件ID</param>
+    /// <param name="active">激活狀態</param>
+    public void OnSendObjectActive(GameObject obj, bool active)
+    {
+        int id = obj.GetComponent<PhotonView>().ViewID;
+        photonView.RPC("OnObjectActive", RpcTarget.Others, id, active);
+    }
+
+    /// <summary>
+    /// 物件激活
+    /// </summary>
+    /// <param name="id">物件ID</param>
+    /// <param name="active">激活狀態</param>
+    /// <param name="info">傳送者訊息</param>
+    [PunRPC]
+    void OnObjectActive(int id, bool active, PhotonMessageInfo info)
+    {
+        GameSceneManagement.Instance.OnConnectObjectActive(id, active);
     }
     #endregion
 }

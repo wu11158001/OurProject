@@ -43,6 +43,12 @@ MonoBehaviour:
   - OnRefreshPlayerCharacters
   - OnRoomChatMessage
   - OnLevelNumber
+  - OnRecordCreateObject
+  - OnCreateObject
+  - OnGetCreateObject
+  - OnOthersCreateObject
+  - OnOthersCopyObject
+  - OnObjectActive
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

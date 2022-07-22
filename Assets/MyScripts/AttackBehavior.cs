@@ -84,7 +84,8 @@ public class AttackBehavior
         //生存時間
         lifeTime -= Time.deltaTime;
         if (lifeTime <= 0)
-        {         
+        {
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
             performObject.SetActive(false);
             GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
         }
