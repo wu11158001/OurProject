@@ -49,12 +49,12 @@ public class LifeBar_Characters : MonoBehaviour
     void OnLifeBarBehavior()
     {
         if (target == null) return;
-
+        
         //跟隨目標
         Camera cnavasCamera = canvas_World.worldCamera;
         transform.position = new Vector3(target.position.x, target.position.y, target.position.z);
         transform.rotation = cnavasCamera.transform.rotation;
-
+        
         //生命條行為
         if (hpProportion <= 0) hpProportion = 0;//生命比例                
         lifeBarFront_Image.fillAmount = hpProportion;//生命條(前)        

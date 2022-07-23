@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine;
 /// <summary>
 /// 腳色碰撞
 /// </summary>
-public class CharactersCollision : MonoBehaviour
+public class CharactersCollision : MonoBehaviourPunCallbacks
 {
     Animator animator;
     AnimatorStateInfo info;
@@ -62,7 +63,7 @@ public class CharactersCollision : MonoBehaviour
         OnAnimationOver();
         OnFloation();
 
-        if (Input.GetKeyDown(KeyCode.K)) GameSceneUI.Instance.SetPlayerHpProportion = 50 / MaxHp;//設定玩家生命條比例(玩家的)
+       // if (Input.GetKeyDown(KeyCode.K)) GameSceneUI.Instance.SetPlayerHpProportion = 50 / MaxHp;//設定玩家生命條比例(玩家的)
     }
 
     /// <summary>
@@ -71,10 +72,7 @@ public class CharactersCollision : MonoBehaviour
     /// <param name="target">掛上的物件</param>
     void OnSetLifeBar_Character(Transform target)
     {
-        //判斷是否連線
-        if (GameDataManagement.Instance.isConnect) lifeBar = PhotonConnect.Instance.OnCreateObject(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>();
-        else lifeBar = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>());
-
+        lifeBar = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>());
         lifeBar.SetTarget = target;
     }    
 
@@ -88,31 +86,26 @@ public class CharactersCollision : MonoBehaviour
     /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
     /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
-    public void OnGetHit(GameObject attacker, LayerMask layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
+    public void OnGetHit(GameObject attacker, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
     {
- 
+
         //判斷受擊對象
-        if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == LayerMask.NameToLayer("Enemy") || 
-            gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == LayerMask.NameToLayer("Player"))
+        if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == "Enemy" ||
+            gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Player")
         {
-            Hp -= damage;//生命值減少           
-            HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering"), GameSceneManagement.Instance.loadPath.hitNumber).GetComponent<HitNumber>();
+            Hp -= damage;//生命值減少
 
-            //連線模式
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendLifeValue(hitNumber.transform, transform, damage, isCritical, lifeBar.transform, Hp / MaxHp);//擊中數字            
-            else
-            {
-                lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
-                if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
-
-                //產生文字                
-                hitNumber.OnSetValue(target: transform,//受傷目標
-                                     damage: damage,//受到傷害
-                                     color: isCritical ? Color.yellow : Color.red);//文字顏色
-            }
+            lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
+            if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //面向攻擊者
             transform.forward = -attacker.transform.forward;
+
+            //產生文字
+            HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering"), GameSceneManagement.Instance.loadPath.hitNumber).GetComponent<HitNumber>();                            
+            hitNumber.OnSetValue(target: transform,//受傷目標
+                                 damage: damage,//受到傷害
+                                 color: isCritical ? Color.yellow : Color.red);//文字顏色
 
             //判斷擊中效果
             switch (knockDirection)

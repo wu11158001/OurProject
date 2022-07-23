@@ -113,7 +113,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 attack.speed = NumericalValue.playerSkillAttack_1_FlyingSpeed;//飛行速度
                 attack.diration = transform.forward;//飛行方向
                 attack.lifeTime = NumericalValue.playerSkillAttack_1_LifeTime;//生存時間                                                                                             
-                attack.layer = gameObject.layer;//攻擊者layer
+                attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
                 attack.damage = NumericalValue.playerSkillAttack_1_Damage * rate;//造成傷害
                 attack.animationName = NumericalValue.playerSkillAttack_1_Effect;//攻擊效果(受擊者播放的動畫名稱)
                 attack.direction = NumericalValue.playerSkillAttack_1_RepelDirection;//擊退方向((0:擊退 1:擊飛))
@@ -124,7 +124,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             case 2://技能2               
                 attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
                 attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
-                attack.layer = gameObject.layer;//攻擊者layer
+                attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
                 attack.damage = NumericalValue.playerSkillAttack_2_Damage * rate;//造成傷害 
                 attack.animationName = NumericalValue.playerSkillAttack_2_Effect;//攻擊效果(播放動畫名稱)
                 attack.direction = NumericalValue.playerSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
@@ -136,7 +136,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             case 3://技能3                
                 attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
                 attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
-                attack.layer = gameObject.layer;//攻擊者layer
+                attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
                 attack.damage = NumericalValue.playerSkillAttack_3_Damage * rate;//造成傷害 
                 attack.animationName = NumericalValue.playerSkillAttack_3_Effect;//攻擊效果(播放動畫名稱)
                 attack.direction = NumericalValue.playerSkillAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
@@ -160,7 +160,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         AttackBehavior attack = AttackBehavior.Instance;
         attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
-        attack.layer = gameObject.layer;//攻擊者layer
+        attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.damage = NumericalValue.playerJumpAttackDamage * rate;//造成傷害 
         attack.animationName = NumericalValue.playerJumpAttackEffect;//攻擊效果(播放動畫名稱)
         attack.direction = NumericalValue.playerJumpAttackRepelDirection;//擊退方向(0:擊退, 1:擊飛)
@@ -175,8 +175,11 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnNormalAttackBehavior()
     {
+        //連線模式
+        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
+
         //攻擊移動
-        /* transform.position = transform.position + transform.forward * NumericalValue.playerNormalAttackMoveDistance[normalAttackNumber - 1] * Time.deltaTime;
+         transform.position = transform.position + transform.forward * NumericalValue.playerNormalAttackMoveDistance[normalAttackNumber - 1] * Time.deltaTime;
 
          bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
          float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
@@ -185,31 +188,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
          AttackBehavior attack = AttackBehavior.Instance;
          attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
          attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
-         attack.layer = gameObject.layer;//攻擊者layer
+         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
          attack.damage = NumericalValue.playerNormalAttackDamge[normalAttackNumber - 1] * rate;//造成傷害 
          attack.animationName = NumericalValue.playerNormalAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
          attack.direction = NumericalValue.playerNormalAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
          attack.repel = NumericalValue.playerNormalAttackRepelDistance[normalAttackNumber - 1];//擊退距離
          attack.boxSize = NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
          attack.isCritical = isCritical;//是否爆擊
-         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行) */
-        GameObject obj = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("playerSkill_1_Numbering"), GameSceneManagement.Instance.loadPath.playerCharactersSkill_1);//產生物件
-        obj.transform.position = transform.position + boxCenter;
-
-        //設定AttackBehavior Class數值
-        AttackBehavior attack = AttackBehavior.Instance;
-        attack.function = new Action(attack.OnSetShootFunction);//設定執行函式
-        attack.performObject = obj;//執行攻擊的物件(自身/射出物件) 
-        attack.speed = NumericalValue.playerSkillAttack_1_FlyingSpeed;//飛行速度
-        attack.diration = transform.forward;//飛行方向
-        attack.lifeTime = NumericalValue.playerSkillAttack_1_LifeTime;//生存時間                                                                                             
-        attack.layer = gameObject.layer;//攻擊者layer
-        attack.damage = NumericalValue.playerSkillAttack_1_Damage * 1;//造成傷害
-        attack.animationName = NumericalValue.playerSkillAttack_1_Effect;//攻擊效果(受擊者播放的動畫名稱)
-        attack.direction = NumericalValue.playerSkillAttack_1_RepelDirection;//擊退方向((0:擊退 1:擊飛))
-        attack.repel = NumericalValue.playerSkillAttack_1_Repel;//擊退距離
-        attack.isCritical = true;//是否爆擊
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)         
+         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
     }    
 
     /// <summary>
@@ -239,8 +225,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 if (inputX != 0 && inputZ != 0) transform.forward = (horizontalCross * inputX) + (forwardVector * inputZ);//斜邊
                 else if (inputX != 0) transform.forward = horizontalCross * inputX;//左右
                 else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
-
+                
                 animator.SetBool("SkillAttack", isSkillAttack);
+                if(GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
                 return;
             }            
 
@@ -248,7 +235,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (isJump)
             {
                 isJumpAttack = true;
+
                 animator.SetBool("JumpAttack", isJumpAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "JumpAttack", isJumpAttack);
                 return;
             }
 
@@ -257,7 +246,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             {
                 isNormalAttack = true;
                 normalAttackNumber = 1;
-                animator.SetBool("NormalAttack", isNormalAttack);                             
+
+                animator.SetBool("NormalAttack", isNormalAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
             }
 
             //切換普通攻擊招式
@@ -270,7 +261,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 if (inputX != 0 && inputZ != 0) transform.forward = (horizontalCross * inputX) + (forwardVector * inputZ);//斜邊
                 else if (inputX != 0) transform.forward = horizontalCross * inputX;//左右
                 else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
+
                 animator.SetInteger("NormalAttackNumber", normalAttackNumber);
+                if (GameDataManagement.Instance.isConnect)  PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
             }          
         }       
         else
@@ -281,24 +274,31 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 if (info.IsTag("NormalAttack") || info.IsTag("SkillAttack") || info.IsTag("JumpAttack"))
                 {                    
                     normalAttackNumber = 0;//普通攻擊編號
+
                     animator.SetInteger("NormalAttackNumber", normalAttackNumber);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
 
                     if (info.IsTag("NormalAttack"))
                     {
                         isNormalAttack = false;
+
                         animator.SetBool("NormalAttack", isNormalAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
                     }
 
                     if (info.IsTag("SkillAttack"))
                     {
                         isSkillAttack = false;
+
                         animator.SetBool("SkillAttack", isSkillAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
                     }
 
                     if (info.IsTag("JumpAttack"))
                     {
                         isJumpAttack = false;
                         animator.SetBool("JumpAttack", isJumpAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "JumpAttack", isJumpAttack);
                     }
                 }              
             }
@@ -308,35 +308,18 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if(info.IsTag("SkillAttack") && isNormalAttack)
         {
             isNormalAttack = false;
-            animator.SetBool("NormalAttack", isNormalAttack);
-        }
-        
-        //絕招
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            if (!isJump)
-            {
-                isNormalAttack = false;
-                isTrick = true;
-                animator.SetBool("Trick", isTrick);
-                animator.SetBool("NormalAttack", isNormalAttack);
-            }
-        }
 
+            animator.SetBool("NormalAttack", isNormalAttack);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
+        }        
+      
         if(isTrick)//轉向
         {
             //轉向               
             if (inputX != 0 && inputZ != 0) transform.forward = (horizontalCross * inputX) + (forwardVector * inputZ);//斜邊
             else if (inputX != 0) transform.forward = horizontalCross * inputX;//左右
             else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
-        }
-
-        //絕招結束
-        if(info.IsTag("Trick") && info.normalizedTime > 1)
-        {
-            isTrick = false;
-            animator.SetBool("Trick", isTrick);
-        }        
+        }     
     }      
     
     /// <summary>
@@ -361,8 +344,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {
             isLockMove = false;
             isJump = false;
+
             animator.SetBool("Jump", isJump);
             animator.SetBool("JumpAttack", isJump);
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "Jump", isJump);
+                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "JumpAttack", isJump);
+            }
         }
     }
 
@@ -379,6 +368,11 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             isNormalAttack = false;
             animator.SetBool("NormalAttack", isNormalAttack);
             animator.SetBool("Jump", isJump);
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
+                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "Jump", isJump);
+            }
         }        
     }
 
@@ -404,6 +398,13 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         transform.position = transform.position + transform.forward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
 
         animator.SetFloat("Run", inputValue);
+        if (GameDataManagement.Instance.isConnect)
+        {
+            if (inputValue > 0.1f && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") || inputValue < 0.1f && animator.GetCurrentAnimatorStateInfo(0).IsTag("Run"))
+            {
+                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "Run", inputValue);
+            }
+        }
     }           
 
     /// <summary>
@@ -424,5 +425,5 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (!Cursor.visible) Cursor.lockState = CursorLockMode.Locked;//鎖定中央
             else Cursor.lockState = CursorLockMode.None;
         }
-    }
- }
+    } 
+}

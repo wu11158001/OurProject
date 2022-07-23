@@ -73,8 +73,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {        
         OnAttackBehavior();   
     }
-
-    //攻擊行為
+    #region 一般
+    /// <summary>
+    /// 攻擊行為
+    /// </summary>
     void OnAttackBehavior()
     {
         for (int i = 0; i < AttackBehavior_List.Count; i++)
@@ -127,8 +129,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         obj.transform.SetParent(item);
         MiniMapPoint map = obj.GetComponent<MiniMapPoint>();
         map.pointMaterial = Resources.Load<Material>(materialPath);
-    }  
+    }
+    #endregion
 
+    #region 連線
     /// <summary>
     /// 紀錄連線物件
     /// </summary>
@@ -152,7 +156,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         }        
     }
 
-    /// <summary>
+   /*/// <summary>
     /// 獲取連線物件
     /// </summary>
     /// <param name="id">物件ID</param>
@@ -166,37 +170,70 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (obj.Key == id) theObj = obj.Value;
         }
         return theObj;
-    }
+    }*/
 
     /// <summary>
-    /// 連線生命數值
+    /// 連線受擊訊息
     /// </summary>
-    /// <param name="numberID">數字物件ID</param>
-    /// <param name="targetID">受擊目標ID</param>
-    /// <param name="damage">受到傷害</param>
+    /// <param name="targetID">受擊者物件ID</param>
+    /// <param name="attackerID">攻擊者物件ID</param>
+    /// <param name="layer">攻擊者layer</param>
+    /// <param name="damage">造成傷害</param>
+    /// <param name="animationName">播放動畫名稱</param>
+    /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
+    /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
-    /// <param name="lifeBarID">生命條物件ID</param>
-    /// <param name="HpProportion">生命比例</param>
-    public void OnConnectLifeValue(int numberID, int targetID, float damage, bool isCritical, int lifeBarID, float HpProportion)
-    {   
-        Transform target = null;
+    public void OnConnectGetHit(int targetID, int attackerID, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
+    {
+        GameObject attacker = null;
 
-        //目標物件
+        //搜尋攻擊者物件
+        foreach(var attack in connectObject_Dixtionary)
+        {
+            if (attack.Key == attackerID)
+            {
+                attacker = attack.Value;
+                break;
+            }
+        }
+
+        //搜尋受擊者物件
         foreach (var obj in connectObject_Dixtionary)
         {
-            if (obj.Key == targetID) target = obj.Value.transform;
-        }
+            if(obj.Key == targetID)
+            {
+                obj.Value.GetComponent<CharactersCollision>().OnGetHit(attacker: attacker, layer: layer, damage: damage, animationName: animationName, knockDirection: knockDirection, repel: repel, isCritical: isCritical);
+                return;
+            }
+        }               
+    }
 
-        //擊中數字
-        foreach (var hitNumber in connectObject_Dixtionary)
+    
+    public void OnConnectCharactersAnimation<T>(int targetID, string anmationName, T animationType) 
+    {
+        
+        //搜尋攻擊者物件
+        foreach (var target in connectObject_Dixtionary)
         {
-            if (hitNumber.Key == numberID) hitNumber.Value.GetComponent<HitNumber>().OnSetValue(target: target, damage: damage, color: isCritical ? Color.yellow : Color.red);
-        }
-
-        //頭頂生命條
-        foreach (var lifeBar in connectObject_Dixtionary)
-        {
-            if (lifeBar.Key == lifeBarID) lifeBar.Value.GetComponent<LifeBar_Characters>().SetValue = HpProportion;
+            if (target.Key == targetID)
+            {
+                Animator animator = target.Value.GetComponent<Animator>();
+                switch(animationType.GetType().Name)
+                {
+                    case "Boolean":
+                        animator.SetBool(anmationName, Convert.ToBoolean(animationType));
+                        break;
+                    case "Single":
+                        animator.SetFloat(anmationName, Convert.ToSingle(animationType));
+                        break;
+                    case "Int32":
+                        animator.SetInteger(anmationName, Convert.ToInt32(animationType));
+                        break;
+                        
+                }              
+            }
         }
     }
+
+    #endregion
 }

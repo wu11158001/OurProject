@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b1e59f6f76f3e3c47ac2a4142c7dddc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 66efb24ed46044ab8a039599cbc47d7b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -176,9 +176,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3179042195456338910}
   - component: {fileID: 7585962013431118027}
-  - component: {fileID: -4879018038136700316}
-  - component: {fileID: -5373827847810501815}
-  - component: {fileID: 2197567199312759322}
   m_Layer: 5
   m_Name: LifeBar
   m_TagString: Untagged
@@ -220,58 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69be00a0f63439146b9bfca887a5cc7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-4879018038136700316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5064222719156859650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: -5373827847810501815}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &-5373827847810501815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5064222719156859650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
---- !u!114 &2197567199312759322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5064222719156859650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 887e23fd9ef5a6d449d5d6e73a668d3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
 --- !u!1 &6418275511284691419
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +282,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b1e59f6f76f3e3c47ac2a4142c7dddc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 66efb24ed46044ab8a039599cbc47d7b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 
 /// <summary>
 /// Photon連線
@@ -36,7 +37,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
 
         //設定暱稱
-        if (nickName == "") PhotonNetwork.NickName = "訪客" + Random.Range(0, 1000);
+        if (nickName == "") PhotonNetwork.NickName = "訪客" + UnityEngine.Random.Range(0, 1000);
         else PhotonNetwork.NickName = nickName;
     }
 
@@ -310,7 +311,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public void OnSendObjectActive(GameObject obj, bool active)
     {
         int id = obj.GetComponent<PhotonView>().ViewID;
-        photonView.RPC("OnObjectActive", RpcTarget.All, id, active);
+        photonView.RPC("OnObjectActive", RpcTarget.Others, id, active);
     }
 
     /// <summary>
@@ -326,32 +327,71 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 發送生命數字數值
+    /// 發送受擊訊息
     /// </summary>
-    /// <param name="hitNumber">擊中數字物件</param>
-    /// <param name="target">受擊目標</param>
-    /// <param name="damage">受到傷害</param>
+    /// <param name="targetID">受擊者物件ID</param>
+    /// <param name="attackerID">攻擊者物件ID</param>
+    /// <param name="layer">攻擊者layer</param>
+    /// <param name="damage">造成傷害</param>
+    /// <param name="animationName">播放動畫名稱</param>
+    /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
+    /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
-    /// <param name="lifeBar">生命條物件</param>
-    /// <param name="HpProportion">HP比例</param>
-    public void OnSendLifeValue(Transform hitNumber, Transform target, float damage, bool isCritical, Transform lifeBar, float HpProportion)
+    public void OnSendGetHit(int targetID, int attackerID, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
     {
-        photonView.RPC("OnLifeValue", RpcTarget.All, hitNumber.GetComponent<PhotonView>().ViewID, target.GetComponent<PhotonView>().ViewID, damage, isCritical, lifeBar.GetComponent<PhotonView>().ViewID, HpProportion);
+        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, attackerID, layer, damage, animationName, knockDirection, repel, isCritical);
     }
 
     /// <summary>
-    /// 生命數值
-    /// </summary>
-    /// <param name="numberID">擊中數字物件ID</param>
-    /// <param name="targetID">受擊目標ID</param>
-    /// <param name="damage">受到傷害</param>
+    /// 受擊訊息
+    /// </summary>    
+    /// <param name="targetID">受擊者物件ID</param>
+    /// <param name="attackerID">攻擊者物件ID</param>
+    /// <param name="layer">攻擊者layer</param>
+    /// <param name="damage">造成傷害</param>
+    /// <param name="animationName">播放動畫名稱</param>
+    /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
+    /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
-    /// <param name="lifeBarID">生命條物件ID</param>
-    /// <param name="HpProportion">HP比例</param>
     [PunRPC]
-    void OnLifeValue(int numberID, int targetID, float damage, bool isCritical, int lifeBarID, float HpProportion)
+    void OnGetHit(int targetID, int attackerID, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
     {
-        GameSceneManagement.Instance.OnConnectLifeValue(numberID, targetID, damage, isCritical, lifeBarID, HpProportion);
+        GameSceneManagement.Instance.OnConnectGetHit(targetID, attackerID, layer, damage, animationName, knockDirection, repel, isCritical);
+    }
+
+    public void OnSendCharacterAniamtion<T>(int targetID, string anmationName, T animationType)
+    {
+        Debug.LogError(animationType.GetType().Name);
+        switch (animationType.GetType().Name)
+        {
+            case "Boolean":
+                photonView.RPC("OnCharacterAniamtion_Bool", RpcTarget.Others, targetID, anmationName, Convert.ToBoolean(animationType));
+                break;
+            case "Single":
+                photonView.RPC("OnCharacterAniamtion_Single", RpcTarget.Others, targetID, anmationName, Convert.ToSingle(animationType));
+                break;
+            case "Int32":
+                photonView.RPC("OnCharacterAniamtion_Int32", RpcTarget.Others, targetID, anmationName, Convert.ToInt32(animationType));
+                break;
+        }        
+    }
+
+    [PunRPC]
+    void OnCharacterAniamtion_Bool(int targetID, string anmationName, bool animationType)
+    {
+        GameSceneManagement.Instance.OnConnectCharactersAnimation(targetID, anmationName, animationType);
+    }
+
+    [PunRPC]
+    void OnCharacterAniamtion_Single(int targetID, string anmationName, float animationType)
+    {
+        GameSceneManagement.Instance.OnConnectCharactersAnimation(targetID, anmationName, animationType);
+    }
+
+    [PunRPC]
+    void OnCharacterAniamtion_Int32(int targetID, string anmationName, int animationType)
+    {
+        GameSceneManagement.Instance.OnConnectCharactersAnimation(targetID, anmationName, animationType);
     }
     #endregion
 }

@@ -12,7 +12,7 @@ public class AttackBehavior
 
     //通用
     public GameObject performObject;//執行攻擊的物件(自身/射出物件)    
-    public LayerMask layer;//攻擊者layer
+    public string layer;//攻擊者layer
     public float damage;//造成傷害
     public string animationName;//攻擊效果(受擊者播放的動畫名稱)
     public float repel;//擊退距離
@@ -63,13 +63,7 @@ public class AttackBehavior
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
             if (collision != null)
             {
-                collision.OnGetHit(attacker: performObject,//攻擊者物件
-                                   layer: performObject.layer,//攻擊者layer
-                                   damage: damage,//造成傷害 
-                                   animationName: animationName,//攻擊效果(播放動畫名稱)
-                                   knockDirection: direction,//擊中效果(0:擊退, 1:擊飛)
-                                   repel: repel,//擊退距離
-                                   isCritical: isCritical) ;//是否爆擊
+                OnSetAttackNumbericalValue(collision);
             }
         }
 
@@ -112,16 +106,41 @@ public class AttackBehavior
                 if (record[i] == hit.transform) return;
             }
 
-            CharactersCollision charactersCollision = hit.GetComponent<CharactersCollision>();
-            if (charactersCollision != null) charactersCollision.OnGetHit(attacker: performObject,//攻擊者物件
-                                                                          layer: layer,//攻擊者layer
-                                                                          damage: damage,//造成傷害
-                                                                          animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
-                                                                          knockDirection: direction,//擊退方向((0:擊退 1:擊飛))
-                                                                          repel: repel,//擊退距離
-                                                                          isCritical: isCritical);//是否爆擊
+            CharactersCollision collision = hit.GetComponent<CharactersCollision>();
+            if (collision != null)
+            {
+                OnSetAttackNumbericalValue(collision);
+                
 
-            record.Add(hit.transform);//紀錄以擊中物件
+                record.Add(hit.transform);//紀錄以擊中物件                
+            }            
+        }
+    }
+
+    /// <summary>
+    /// 設定攻擊數值
+    /// </summary>
+    /// <param name="charactersCollision">受攻擊物件的碰撞腳本</param>
+    void OnSetAttackNumbericalValue(CharactersCollision charactersCollision)
+    {
+        charactersCollision.OnGetHit(attacker: performObject,//攻擊者物件
+                                     layer: layer,//攻擊者layer
+                                     damage: damage,//造成傷害
+                                     animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
+                                     knockDirection: direction,//擊退方向((0:擊退 1:擊飛))
+                                     repel: repel,//擊退距離
+                                     isCritical: isCritical);//是否爆擊
+        
+        //連線模式
+        if (GameDataManagement.Instance.isConnect)
+        {
+            PhotonConnect.Instance.OnSendGetHit(charactersCollision.GetComponent<ConnectObject>().id,//受擊者物件ID
+                                                performObject.GetComponent<ConnectObject>().id,//攻擊者物件ID
+                                                layer, damage,//造成傷害
+                                                animationName,//攻擊效果(受擊者播放的動畫名稱)
+                                                direction,//擊退方向((0:擊退 1:擊飛))
+                                                repel,//擊退距離
+                                                isCritical);//是否爆擊
         }
     }
 }

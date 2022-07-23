@@ -51,6 +51,11 @@ MonoBehaviour:
   - OnObjectActive
   - OnHitNumberValue
   - OnLifeValue
+  - OnGetHit
+  - OnCharacterAniamtion
+  - OnCharacterAniamtion_Bool
+  - OnCharacterAniamtion_Single
+  - OnCharacterAniamtion_Int32
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
