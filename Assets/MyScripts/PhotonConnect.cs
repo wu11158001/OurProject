@@ -310,7 +310,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public void OnSendObjectActive(GameObject obj, bool active)
     {
         int id = obj.GetComponent<PhotonView>().ViewID;
-        photonView.RPC("OnObjectActive", RpcTarget.Others, id, active);
+        photonView.RPC("OnObjectActive", RpcTarget.All, id, active);
     }
 
     /// <summary>
@@ -326,7 +326,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 發送擊中數字數值
+    /// 發送生命數字數值
     /// </summary>
     /// <param name="hitNumber">擊中數字物件</param>
     /// <param name="target">受擊目標</param>
@@ -334,9 +334,9 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="isCritical">是否爆擊</param>
     /// <param name="lifeBar">生命條物件</param>
     /// <param name="HpProportion">HP比例</param>
-    public void OnSendHitNumberValue(Transform hitNumber, Transform target, float damage, bool isCritical, Transform lifeBar, float HpProportion)
+    public void OnSendLifeValue(Transform hitNumber, Transform target, float damage, bool isCritical, Transform lifeBar, float HpProportion)
     {
-        photonView.RPC("OnHitNumberValue", RpcTarget.Others, hitNumber.GetComponent<PhotonView>().ViewID, target.GetComponent<PhotonView>().ViewID, damage, isCritical, lifeBar.GetComponent<PhotonView>().ViewID, HpProportion);
+        photonView.RPC("OnLifeValue", RpcTarget.All, hitNumber.GetComponent<PhotonView>().ViewID, target.GetComponent<PhotonView>().ViewID, damage, isCritical, lifeBar.GetComponent<PhotonView>().ViewID, HpProportion);
     }
 
     /// <summary>

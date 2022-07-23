@@ -71,7 +71,10 @@ public class CharactersCollision : MonoBehaviour
     /// <param name="target">掛上的物件</param>
     void OnSetLifeBar_Character(Transform target)
     {
-        lifeBar = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>());
+        //判斷是否連線
+        if (GameDataManagement.Instance.isConnect) lifeBar = PhotonConnect.Instance.OnCreateObject(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>();
+        else lifeBar = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>());
+
         lifeBar.SetTarget = target;
     }    
 
@@ -92,19 +95,20 @@ public class CharactersCollision : MonoBehaviour
         if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == LayerMask.NameToLayer("Enemy") || 
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == LayerMask.NameToLayer("Player"))
         {
-            Hp -= damage;//生命值減少
-            lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
-            if(gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
-
-            //產生文字
+            Hp -= damage;//生命值減少           
             HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering"), GameSceneManagement.Instance.loadPath.hitNumber).GetComponent<HitNumber>();
-            hitNumber.OnSetValue(target: transform,//受傷目標
-                                 damage: damage,//受到傷害
-                                 color: isCritical ? Color.yellow : Color.red);//文字顏色
 
-            if (GameDataManagement.Instance.isConnect)
+            //連線模式
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendLifeValue(hitNumber.transform, transform, damage, isCritical, lifeBar.transform, Hp / MaxHp);//擊中數字            
+            else
             {
-                PhotonConnect.Instance.OnSendHitNumberValue(hitNumber.transform, transform, damage, isCritical, lifeBar.transform, Hp / MaxHp);//擊中數字
+                lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
+                if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+
+                //產生文字                
+                hitNumber.OnSetValue(target: transform,//受傷目標
+                                     damage: damage,//受到傷害
+                                     color: isCritical ? Color.yellow : Color.red);//文字顏色
             }
 
             //面向攻擊者

@@ -46,8 +46,7 @@ public class HitNumber : MonoBehaviour
     public void OnSetValue(Transform target, float damage, Color color)
     {
         if (thisText == null) thisText = GetComponent<Text>();
-
-
+        Debug.LogError("s");
         this.target = target;//受傷目標
         thisText.text = damage.ToString();//受到傷害
         startPosition = target.position + Vector3.up * 1;//初始位置

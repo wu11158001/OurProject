@@ -178,8 +178,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="lifeBarID">生命條物件ID</param>
     /// <param name="HpProportion">生命比例</param>
     public void OnConnectLifeValue(int numberID, int targetID, float damage, bool isCritical, int lifeBarID, float HpProportion)
-    {
-   
+    {   
         Transform target = null;
 
         //目標物件
@@ -197,7 +196,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //頭頂生命條
         foreach (var lifeBar in connectObject_Dixtionary)
         {
-            if (lifeBar.Key == numberID) lifeBar.Value.GetComponent<LifeBar_Characters>().SetValue = HpProportion;
+            if (lifeBar.Key == lifeBarID) lifeBar.Value.GetComponent<LifeBar_Characters>().SetValue = HpProportion;
         }
     }
 }

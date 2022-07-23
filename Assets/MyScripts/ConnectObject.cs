@@ -9,7 +9,7 @@ public class ConnectObject : MonoBehaviourPunCallbacks
     void Awake()
     {
         //³s½u¼Ò¦¡
-        if (GameDataManagement.Instance.isConnect && !photonView.IsMine)
+        if (GameDataManagement.Instance.isConnect && photonView.IsMine)
         {
             id = GetComponent<PhotonView>().ViewID;
             GameSceneManagement.Instance.OnRecordConnectObject(id, gameObject);
