@@ -29,7 +29,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
     //普通攻擊
     bool isNormalAttack;//是否普通攻擊
-    bool isTrick;//是否使用絕招
     int normalAttackNumber;//普通攻擊編號
 
     //跳躍攻擊
@@ -85,7 +84,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         OnAttackControl();
         OnJumpBehavior();
 
-        if (!isNormalAttack && !isSkillAttack && !isTrick)
+        if (!isNormalAttack && !isSkillAttack)
         {
             OnMovementControl();            
         }  
@@ -96,6 +95,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnSkillAttackBehavior()
     {
+        //連線模式
+        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
+
         AttackBehavior attack = AttackBehavior.Instance;
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
@@ -153,6 +155,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpAttackBehavior()
     {
+        //連線模式
+        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
+
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
@@ -206,7 +211,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
         //普通攻擊
-        if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack") && !isTrick)
+        if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack"))
         {
             //技能攻擊
             if (Input.GetMouseButtonDown(1))
@@ -227,7 +232,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
                 
                 animator.SetBool("SkillAttack", isSkillAttack);
-                if(GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
+                if(GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack", isSkillAttack);
                 return;
             }            
 
@@ -237,7 +242,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 isJumpAttack = true;
 
                 animator.SetBool("JumpAttack", isJumpAttack);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "JumpAttack", isJumpAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
                 return;
             }
 
@@ -248,7 +253,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 normalAttackNumber = 1;
 
                 animator.SetBool("NormalAttack", isNormalAttack);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
             }
 
             //切換普通攻擊招式
@@ -263,7 +268,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
 
                 animator.SetInteger("NormalAttackNumber", normalAttackNumber);
-                if (GameDataManagement.Instance.isConnect)  PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
+                if (GameDataManagement.Instance.isConnect)  PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
             }          
         }       
         else
@@ -273,53 +278,43 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             {                                
                 if (info.IsTag("NormalAttack") || info.IsTag("SkillAttack") || info.IsTag("JumpAttack"))
                 {                    
-                    normalAttackNumber = 0;//普通攻擊編號
+                    normalAttackNumber = 0;//普通攻擊編號                    
+                    isNormalAttack = false;
+                    isSkillAttack = false;
+                    isJumpAttack = false;
 
                     animator.SetInteger("NormalAttackNumber", normalAttackNumber);
-                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
 
                     if (info.IsTag("NormalAttack"))
                     {
-                        isNormalAttack = false;
-
                         animator.SetBool("NormalAttack", isNormalAttack);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
                     }
 
                     if (info.IsTag("SkillAttack"))
                     {
-                        isSkillAttack = false;
-
                         animator.SetBool("SkillAttack", isSkillAttack);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack", isSkillAttack);
                     }
 
                     if (info.IsTag("JumpAttack"))
-                    {
-                        isJumpAttack = false;
+                    {                        
                         animator.SetBool("JumpAttack", isJumpAttack);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "JumpAttack", isJumpAttack);
-                    }
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
+                    }  
                 }              
             }
         }     
 
         //技能攻擊中關閉普通攻擊
-        if(info.IsTag("SkillAttack") && isNormalAttack)
+        if(isNormalAttack && info.IsTag("SkillAttack") && info.normalizedTime > 0.35f)
         {
             isNormalAttack = false;
 
             animator.SetBool("NormalAttack", isNormalAttack);
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
-        }        
-      
-        if(isTrick)//轉向
-        {
-            //轉向               
-            if (inputX != 0 && inputZ != 0) transform.forward = (horizontalCross * inputX) + (forwardVector * inputZ);//斜邊
-            else if (inputX != 0) transform.forward = horizontalCross * inputX;//左右
-            else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
-        }     
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+        }           
     }      
     
     /// <summary>
@@ -349,8 +344,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             animator.SetBool("JumpAttack", isJump);
             if (GameDataManagement.Instance.isConnect)
             {
-                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "Jump", isJump);
-                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "JumpAttack", isJump);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJump);
             }
         }
     }
@@ -370,12 +365,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             animator.SetBool("Jump", isJump);
             if (GameDataManagement.Instance.isConnect)
             {
-                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
-                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "Jump", isJump);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
             }
         }        
     }
-
+    bool isSendRun;
     /// <summary>
     /// 移動控制
     /// </summary>
@@ -400,9 +395,15 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         animator.SetFloat("Run", inputValue);
         if (GameDataManagement.Instance.isConnect)
         {
-            if (inputValue > 0.1f && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Run") || inputValue < 0.1f && animator.GetCurrentAnimatorStateInfo(0).IsTag("Run"))
+            if (inputValue > 0.1f && !isSendRun)
             {
-                PhotonConnect.Instance.OnSendCharacterAniamtion(photonView.ViewID, "Run", inputValue);
+                isSendRun = true;
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", inputValue);
+            }
+            if (inputValue < 0.1f && isSendRun)
+            {
+                isSendRun = false;
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
             }
         }
     }           

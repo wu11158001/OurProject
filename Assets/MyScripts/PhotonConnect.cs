@@ -359,39 +359,63 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         GameSceneManagement.Instance.OnConnectGetHit(targetID, attackerID, layer, damage, animationName, knockDirection, repel, isCritical);
     }
 
-    public void OnSendCharacterAniamtion<T>(int targetID, string anmationName, T animationType)
-    {
-        Debug.LogError(animationType.GetType().Name);
+    /// <summary>
+    /// 發送動畫訊息_Boolean
+    /// </summary>
+    /// <typeparam name="T">泛型</typeparam>
+    /// <param name="targetID">動畫更換目標ID</param>
+    /// <param name="anmationName">執行動畫名稱</param>
+    /// <param name="animationType">動畫Type</param>
+    public void OnSendAniamtion_Boolean<T>(int targetID, string anmationName, T animationType)
+    {        
         switch (animationType.GetType().Name)
         {
             case "Boolean":
-                photonView.RPC("OnCharacterAniamtion_Bool", RpcTarget.Others, targetID, anmationName, Convert.ToBoolean(animationType));
+                photonView.RPC("OnSetAniamtion_Boolean", RpcTarget.Others, targetID, anmationName, Convert.ToBoolean(animationType));
                 break;
             case "Single":
-                photonView.RPC("OnCharacterAniamtion_Single", RpcTarget.Others, targetID, anmationName, Convert.ToSingle(animationType));
+                photonView.RPC("OnSetAniamtion_Single", RpcTarget.Others, targetID, anmationName, Convert.ToSingle(animationType));
                 break;
             case "Int32":
-                photonView.RPC("OnCharacterAniamtion_Int32", RpcTarget.Others, targetID, anmationName, Convert.ToInt32(animationType));
+                photonView.RPC("OnSetAniamtion_Int32", RpcTarget.Others, targetID, anmationName, Convert.ToInt32(animationType));
                 break;
         }        
     }
 
+    /// <summary>
+    /// 設定動畫_Boolean
+    /// </summary>
+    /// <param name="targetID">動畫更換目標ID</param>
+    /// <param name="anmationName">執行動畫名稱</param>
+    /// <param name="animationType">動畫Type</param>
     [PunRPC]
-    void OnCharacterAniamtion_Bool(int targetID, string anmationName, bool animationType)
+    void OnSetAniamtion_Boolean(int targetID, string anmationName, bool animationType)
     {
-        GameSceneManagement.Instance.OnConnectCharactersAnimation(targetID, anmationName, animationType);
+        GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, animationType);
     }
 
+    /// <summary>
+    /// 設定動畫_Single
+    /// </summary>
+    /// <param name="targetID">動畫更換目標ID</param>
+    /// <param name="anmationName">執行動畫名稱</param>
+    /// <param name="animationType">動畫Type</param>
     [PunRPC]
-    void OnCharacterAniamtion_Single(int targetID, string anmationName, float animationType)
+    void OnSetAniamtion_Single(int targetID, string anmationName, float animationType)
     {
-        GameSceneManagement.Instance.OnConnectCharactersAnimation(targetID, anmationName, animationType);
+        GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, animationType);
     }
 
+    /// <summary>
+    /// 設定動畫_Int32
+    /// </summary>
+    /// <param name="targetID">動畫更換目標ID</param>
+    /// <param name="anmationName">執行動畫名稱</param>
+    /// <param name="animationType">動畫Type</param>
     [PunRPC]
-    void OnCharacterAniamtion_Int32(int targetID, string anmationName, int animationType)
+    void OnSetAniamtion_Int32(int targetID, string anmationName, int animationType)
     {
-        GameSceneManagement.Instance.OnConnectCharactersAnimation(targetID, anmationName, animationType);
+        GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, animationType);
     }
     #endregion
 }

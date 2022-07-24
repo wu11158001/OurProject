@@ -155,23 +155,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (obj.Key == id) obj.Value.SetActive(active);
         }        
     }
-
-   /*/// <summary>
-    /// 獲取連線物件
-    /// </summary>
-    /// <param name="id">物件ID</param>
-    /// <returns></returns>
-    public GameObject OnGetConnectObject(int id)
-    {
-        GameObject theObj = null;
-
-        foreach (var obj in connectObject_Dixtionary)
-        {
-            if (obj.Key == id) theObj = obj.Value;
-        }
-        return theObj;
-    }*/
-
+    
     /// <summary>
     /// 連線受擊訊息
     /// </summary>
@@ -201,15 +185,27 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         foreach (var obj in connectObject_Dixtionary)
         {
             if(obj.Key == targetID)
-            {
-                obj.Value.GetComponent<CharactersCollision>().OnGetHit(attacker: attacker, layer: layer, damage: damage, animationName: animationName, knockDirection: knockDirection, repel: repel, isCritical: isCritical);
-                return;
+            {                
+                obj.Value.GetComponent<CharactersCollision>().OnGetHit(attacker: attacker,//攻擊者物件
+                                                                       layer: layer,//攻擊者layer
+                                                                       damage: damage,//造成傷害
+                                                                       animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
+                                                                       knockDirection: knockDirection,//擊退方向((0:擊退 1:擊飛))
+                                                                       repel: repel,//擊退距離
+                                                                       isCritical: isCritical);//是否爆擊
+                break;
             }
         }               
     }
 
-    
-    public void OnConnectCharactersAnimation<T>(int targetID, string anmationName, T animationType) 
+    /// <summary>
+    /// 連線動畫設定
+    /// </summary>
+    /// <typeparam name="T">泛型</typeparam>
+    /// <param name="targetID">動畫更換目標ID</param>
+    /// <param name="anmationName">動畫更換目標ID</param>
+    /// <param name="animationType">動畫Type</param>
+    public void OnConnectAnimationSetting<T>(int targetID, string anmationName, T animationType) 
     {
         
         //搜尋攻擊者物件
