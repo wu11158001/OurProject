@@ -307,6 +307,7 @@ MonoBehaviour:
     miniMapMatirial_Floor: Matirials/MiniMap/MiniMpa_Floor
     miniMapMatirial_Object: Matirials/MiniMap/MiniMpa_Object
     miniMapMatirial_Player: Matirials/MiniMap/MiniMap_Player
+    miniMapMatirial_OtherPlayer: Matirials/MiniMap/MiniMap_OtherPlayer
     miniMapMatirial_Enemy: Matirials/MiniMap/MiniMap_Enemy
     miniMapPoint: UI/MiniMapPoint
     Warrior: Prefab/Characters/Player/1_Warrior

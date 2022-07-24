@@ -47,7 +47,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
         objectNumber_Dictionary.Add("playerNumbering", number);//添加至紀錄中
         GameObject player = OnRequestOpenObject(OnGetObjectNumber("playerNumbering"), loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//開啟物件
-        player.transform.position = new Vector3(0, 0.7f, 0);////設定位置
+        player.transform.position = new Vector3(23, 2f, 40);////設定位置
         OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點   
 
         //玩家腳色1_技能1

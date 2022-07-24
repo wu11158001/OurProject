@@ -172,8 +172,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         RaycastHit hit;
         for (int i = 0; i < rayDiration.Length; i++)
         {
-            if (Physics.BoxCast(transform.position + boxCenter, boxSize/2 * transform.localScale.x, rayDiration[i], out hit, transform.rotation, NumericalValue.boxCollisionDistance, mask))
+            if (Physics.BoxCast(transform.position + boxCenter + transform.up * 0.1f, boxSize/2 * transform.localScale.x, rayDiration[i], out hit, transform.rotation, NumericalValue.boxCollisionDistance, mask))
             {
+                Debug.Log("hit point: " + hit.point);
                 transform.position = transform.position - rayDiration[i] * (NumericalValue.boxCollisionDistance - hit.distance);
             }
         }
@@ -218,5 +219,30 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         animator.SetBool(aniamtionName, false);
         yield return new WaitForSeconds(0.03f);
         animator.SetBool(aniamtionName, true);
+    }
+
+    private void OnDrawGizmos()
+    {
+        boxCenter = GetComponent<BoxCollider>().center;
+        boxSize = GetComponent<BoxCollider>().size;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position + boxCenter, boxSize / 2 * transform.localScale.x);
+        /*
+        Vector3[] rayDiration = new Vector3[] { transform.forward,
+                                                transform.forward - transform.right,
+                                                transform.right,
+                                                transform.right + transform.forward,
+                                               -transform.forward,
+                                               -transform.forward + transform.right,
+                                               -transform.right,
+                                               -transform.right -transform.forward };
+        for (int i = 0; i < rayDiration.Length; i++)
+        {
+            Gizmos.DrawWireCube(transform.position + boxCenter, boxSize / 2 * transform.localScale.x);
+        }
+        */
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2));
     }
 }
