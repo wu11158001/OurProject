@@ -377,7 +377,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     void OnMovementControl()
     {                
         //轉向
-        float maxRadiansDelta = 0.055f;
+        float maxRadiansDelta = 0.075f;//轉向角度
         if (inputX != 0 && inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, (horizontalCross * inputX) + (forwardVector * inputZ), maxRadiansDelta, maxRadiansDelta);//斜邊
         else if (inputX != 0) transform.forward = Vector3.RotateTowards(transform.forward, horizontalCross * inputX, maxRadiansDelta, maxRadiansDelta);//左右
         else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      
