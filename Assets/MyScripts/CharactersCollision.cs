@@ -16,6 +16,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
+    float collisiionHight;//碰撞框高度(走樓梯用)
+    bool isCollisionStairs;//是否碰撞樓梯
 
     //生命條
     LifeBar_Characters lifeBar;//生命條
@@ -172,11 +174,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         RaycastHit hit;
         for (int i = 0; i < rayDiration.Length; i++)
         {
-            if (Physics.BoxCast(transform.position + boxCenter + transform.up * 0.1f, boxSize/2 * transform.localScale.x, rayDiration[i], out hit, transform.rotation, NumericalValue.boxCollisionDistance, mask))
+            if (Physics.BoxCast(transform.position + boxCenter + transform.up * collisiionHight, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2), rayDiration[i], out hit, transform.rotation, NumericalValue.boxCollisionDistance, mask))
             {
-                Debug.Log("hit point: " + hit.point);
-                transform.position = transform.position - rayDiration[i] * (NumericalValue.boxCollisionDistance - hit.distance);
-            }
+                if (hit.transform.name == "col_2m_step") collisiionHight += 0.1f;//樓梯碰撞(提高碰裝框高度)               
+                else if(hit.transform.name == "col_1m_step") collisiionHight += 0.8f;//樓梯碰撞(提高碰裝框高度)  
+                else collisiionHight = 0;
+
+                transform.position = transform.position - rayDiration[i] * (NumericalValue.boxCollisionDistance - hit.distance);                
+            }           
         }
 
         //牆壁碰撞(第2層)
@@ -223,26 +228,6 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
-        boxCenter = GetComponent<BoxCollider>().center;
-        boxSize = GetComponent<BoxCollider>().size;
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(transform.position + boxCenter, boxSize / 2 * transform.localScale.x);
-        /*
-        Vector3[] rayDiration = new Vector3[] { transform.forward,
-                                                transform.forward - transform.right,
-                                                transform.right,
-                                                transform.right + transform.forward,
-                                               -transform.forward,
-                                               -transform.forward + transform.right,
-                                               -transform.right,
-                                               -transform.right -transform.forward };
-        for (int i = 0; i < rayDiration.Length; i++)
-        {
-            Gizmos.DrawWireCube(transform.position + boxCenter, boxSize / 2 * transform.localScale.x);
-        }
-        */
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2));
+        Gizmos.DrawCube(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2));
     }
 }

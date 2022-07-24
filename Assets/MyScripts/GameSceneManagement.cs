@@ -125,10 +125,21 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public void OnSetMiniMapPoint(Transform item, string materialPath)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(loadPath.miniMapPoint));
+        obj.transform.SetParent(item);        
+
+        //位置
+        Vector3 itemBoxCenter = item.GetComponent<BoxCollider>().center;
+        obj.transform.localPosition = new Vector3(0, 0, itemBoxCenter.z);
+
+        //Size
+        Vector3 itemBoxSize = item.GetComponent<BoxCollider>().size;        
+        obj.transform.localScale = new Vector3(itemBoxSize.x, itemBoxSize.z, 1);
+
+        //選轉
         obj.transform.localEulerAngles = new Vector3(90, 0, 0);
-        obj.transform.SetParent(item);
-        MiniMapPoint map = obj.GetComponent<MiniMapPoint>();
-        map.pointMaterial = Resources.Load<Material>(materialPath);
+
+        //材質球(顏色)
+        obj.GetComponent<Renderer>().material = Resources.Load<Material>(materialPath);
     }
     #endregion
 
