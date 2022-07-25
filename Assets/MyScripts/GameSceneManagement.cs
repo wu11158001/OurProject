@@ -15,7 +15,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public GameData_LoadPath loadPath;
 
     Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
-    public List<AttackBehavior> AttackBehavior_List = new List<AttackBehavior>();//紀錄所有攻擊行為    
+    public List<AttackMode> AttackBehavior_List = new List<AttackMode>();//紀錄所有攻擊行為    
 
     Dictionary<int, GameObject> connectObject_Dixtionary = new Dictionary<int, GameObject>();//記錄所有連線物件
 
@@ -54,14 +54,18 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.playerCharactersSkill_1);////產生至物件池
         objectNumber_Dictionary.Add("playerSkill_1_Numbering", number);//添加至紀錄中
 
-        //骷顱士兵
+        //敵人
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
-            number = objectHandle.OnCreateObject(loadPath.SkeletonSoldier);//產生至物件池
-            objectNumber_Dictionary.Add("skeletonSoldierNumbering", number);////添加至紀錄中
-            GameObject skeletonSoldier = OnRequestOpenObject(OnGetObjectNumber("skeletonSoldierNumbering"), loadPath.SkeletonSoldier);//開啟物件
-            skeletonSoldier.transform.position = new Vector3(3, 1.7f, 2);//設定位置
-            OnSetMiniMapPoint(skeletonSoldier.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            number = objectHandle.OnCreateObject(loadPath.enemy);//產生至物件池
+            objectNumber_Dictionary.Add("enemy", number);////添加至紀錄中
+            for (int i = 0; i < 6; i++)
+            {
+                GameObject skeletonSoldier = OnRequestOpenObject(OnGetObjectNumber("enemy"), loadPath.enemy);//開啟物件
+                skeletonSoldier.transform.position = new Vector3(24 + i * 1, 2f, 40);//設定位置
+                OnSetMiniMapPoint(skeletonSoldier.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            }
+            
         }
         
         //其他
@@ -129,7 +133,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         //位置
         Vector3 itemBoxCenter = item.GetComponent<BoxCollider>().center;
-        obj.transform.localPosition = new Vector3(0, 0, itemBoxCenter.z);
+        obj.transform.localPosition = new Vector3(itemBoxCenter.x, 0, itemBoxCenter.z);
 
         //Size
         Vector3 itemBoxSize = item.GetComponent<BoxCollider>().size;        
@@ -235,6 +239,9 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         break;
                     case "Int32":
                         animator.SetInteger(anmationName, Convert.ToInt32(animationType));
+                        break;
+                    case "String":
+                        animator.SetTrigger(anmationName);
                         break;
                         
                 }              

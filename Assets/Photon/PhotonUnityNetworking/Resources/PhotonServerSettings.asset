@@ -59,6 +59,7 @@ MonoBehaviour:
   - OnSetAniamtion_Boolean
   - OnSetAniamtion_Int32
   - OnSetAniamtion_Single
+  - OnSetAniamtion_String
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

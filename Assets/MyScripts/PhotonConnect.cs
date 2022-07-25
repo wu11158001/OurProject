@@ -379,6 +379,9 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
             case "Int32":
                 photonView.RPC("OnSetAniamtion_Int32", RpcTarget.Others, targetID, anmationName, Convert.ToInt32(animationType));
                 break;
+            case "String":
+                photonView.RPC("OnSetAniamtion_String", RpcTarget.Others, targetID, anmationName, Convert.ToString(animationType));
+                break;            
         }        
     }
 
@@ -416,6 +419,18 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnSetAniamtion_Int32(int targetID, string anmationName, int animationType)
     {
         GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, animationType);
+    }
+
+    /// <summary>
+    /// 設定動畫_String
+    /// </summary>
+    /// <param name="targetID">動畫更換目標ID</param>
+    /// <param name="anmationName">執行動畫名稱</param>
+    /// <param name="animationType">動畫Type</param>
+    [PunRPC]
+    void OnSetAniamtion_String(int targetID, string anmationName, bool animationType)
+    {
+        GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, "");
     }
     #endregion
 }

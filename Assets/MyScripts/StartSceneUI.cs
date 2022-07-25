@@ -135,15 +135,13 @@ public class StartSceneUI : MonoBehaviour
     /// 開始畫面籌備
     /// </summary>
     void OnStartScreenPrepare()
-    {
-        
-        videoPlayer = Camera.main.GetComponent<VideoPlayer>();//影片
-        videoPlayer.clip = Resources.Load<VideoClip>(loadPath.startVideo);        
+    {        
+        videoPlayer = Camera.main.GetComponent<VideoPlayer>();//影片    
         startScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "StartScreen");//startScreen UI控制        
         startTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "StartTip_Text");//提示文字
         background_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Background_Image");//背景
         background_Image.gameObject.SetActive(false);
-
+        
         //畫面UI控制
         startScreen.gameObject.SetActive(false);        
     }
@@ -316,7 +314,7 @@ public class StartSceneUI : MonoBehaviour
     /// 影片停止
     /// </summary>
     void OnStopVideo()
-    {
+    {        
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
             if (videoPlayer.isPlaying)

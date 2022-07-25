@@ -150,7 +150,7 @@ RectTransform:
   m_GameObject: {fileID: 312229238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.34, y: 1, z: 1}
+  m_LocalScale: {x: 0.92, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 871033952}
   m_RootOrder: 2
@@ -256,48 +256,49 @@ MonoBehaviour:
     playerMoveSpeed: 10
     playerJumpForce: 16
     playerCriticalRate: 30
-    playerNormalAttackDamge:
+    warriorNormalAttackDamge:
     - 10
     - 10
     - 15
-    playerNormalAttackMoveDistance:
+    warriorNormalAttackMoveDistance:
     - 50
     - 50
-    - 0
-    playerNormalAttackRepelDistance:
+    - 50
+    warriorNormalAttackRepelDistance:
     - 70
     - 80
     - 18
-    playerNormalAttackRepelDirection: 000000000000000001000000
-    playerNormalAttackEffect:
+    warriorNormalAttackRepelDirection: 000000000000000000000000
+    warriorNormalAttackEffect:
     - Pain
     - Pain
     - Pain
-    playerNormalAttackBoxSize:
+    warriorNormalAttackBoxSize:
     - {x: 1, y: 1, z: 1}
-    - {x: 0.5, y: 1, z: 0.5}
-    - {x: 2, y: 2, z: 2}
-    playerJumpAttackDamage: 10
-    playerJumpAttackEffect: KnockBack
-    playerJumpAttackRepelDistance: 50
-    playerJumpAttackBoxSize: {x: 1, y: 0.5, z: 1}
-    playerJumpAttackRepelDirection: 0
-    playerSkillAttack_1_Damage: 33
-    playerSkillAttack_1_Effect: KnockBack
-    playerSkillAttack_1_FlyingSpeed: 11.5
-    playerSkillAttack_1_LifeTime: 0.75
-    playerSkillAttack_1_Repel: 70
-    playerSkillAttack_1_RepelDirection: 0
-    playerSkillAttack_2_Damage: 44
-    playerSkillAttack_2_Effect: Pain
-    playerSkillAttack_2_Repel: 18
-    playerSkillAttack_2_RepelDirection: 1
-    playerSkillAttack_2_BoxSize: {x: 1, y: 1, z: 1}
-    playerSkillAttack_3_Damage: 55
-    playerSkillAttack_3_Effect: KnockBack
-    playerSkillAttack_3_Repel: 100
-    playerSkillAttack_3_RepelDirection: 0
-    playerSkillAttack_3_BoxSize: {x: 1, y: 1, z: 1}
+    - {x: 1, y: 1, z: 1}
+    - {x: 1, y: 1, z: 1}
+    warriorJumpAttackDamage: 10
+    warriorJumpAttackEffect: Pain
+    warriorJumpAttackRepelDistance: 50
+    warriorJumpAttackBoxSize: {x: 1, y: 0.5, z: 1}
+    warriorJumpAttackRepelDirection: 0
+    warriorSkillAttackDamage:
+    - 10
+    - 20
+    - 30
+    warriorSkillAttackEffect:
+    - Pain
+    - Pain
+    - Pain
+    warriorSkillAttackRepelDirection: 000000000000000000000000
+    warriorSkillAttackRepel:
+    - 50
+    - 50
+    - 50
+    warriorSkillAttackBoxSize:
+    - {x: 1, y: 1, z: 1}
+    - {x: 1, y: 1, z: 1}
+    - {x: 1, y: 1, z: 1}
     skeletonSoldierHp: 50
   loadPath:
     startVideo: Video/StartVideo
@@ -319,7 +320,7 @@ MonoBehaviour:
     - Prefab/Characters/Player/PlayerCharacters_3
     - Prefab/Characters/Player/PlayerCharacters_4
     playerCharactersSkill_1: Prefab/ShootObject/PlayerSkill_1
-    SkeletonSoldier: Prefab/Characters/Enemy/SkeletonSoldier
+    enemy: Prefab/Characters/Enemy/Enemy
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
   isConnect: 0

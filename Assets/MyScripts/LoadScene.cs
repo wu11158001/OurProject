@@ -73,7 +73,9 @@ public class LoadScene : MonoBehaviour
     /// <param name="path">場景名稱</param>
     /// <returns></returns>
     public IEnumerator OnLoadScene(string scene)
-    {       
+    {
+        loadFront_Image.rectTransform.localScale = new Vector3(0, 1, 1);//初始數值
+
         //判斷場景(設定背景圖)
         switch (scene)
         {

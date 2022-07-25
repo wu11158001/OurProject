@@ -27,42 +27,27 @@ public class GameData_NumericalValue
     public float playerJumpForce;//玩家跳躍力
     public float playerCriticalRate;//玩家暴擊率
 
-    [Header("玩家 普通攻擊")]
-    public float[] playerNormalAttackDamge;//玩家普通攻擊傷害
-    public float[] playerNormalAttackMoveDistance;//玩家普通攻擊 移動距離
-    public float[] playerNormalAttackRepelDistance;//玩家普通攻擊 擊退/擊飛距離
-    public int[] playerNormalAttackRepelDirection;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
-    public string[] playerNormalAttackEffect;//玩家普通攻擊效果(受擊者播放的動畫名稱)
-    public Vector3[] playerNormalAttackBoxSize;//玩家普通攻擊框Size
+    [Header("戰士 普通攻擊")]
+    public float[] warriorNormalAttackDamge;//玩家普通攻擊傷害
+    public float[] warriorNormalAttackMoveDistance;//玩家普通攻擊 移動距離
+    public float[] warriorNormalAttackRepelDistance;//玩家普通攻擊 擊退/擊飛距離
+    public int[] warriorNormalAttackRepelDirection;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
+    public string[] warriorNormalAttackEffect;//玩家普通攻擊效果(受擊者播放的動畫名稱)
+    public Vector3[] warriorNormalAttackBoxSize;//玩家普通攻擊框Size
 
-    [Header("玩家 跳躍攻擊")]
-    public float playerJumpAttackDamage;//玩家跳躍攻擊傷害
-    public string playerJumpAttackEffect;//玩家跳躍攻擊效果(受擊者播放的動畫名稱)
-    public float playerJumpAttackRepelDistance;//玩家跳躍攻擊 擊退距離
-    public Vector3 playerJumpAttackBoxSize;//玩家跳躍攻擊框Size
-    public int playerJumpAttackRepelDirection;//玩家跳躍攻擊擊退方向(0:擊退 1:擊飛)
+    [Header("戰士 跳躍攻擊")]
+    public float warriorJumpAttackDamage;//玩家跳躍攻擊傷害
+    public string warriorJumpAttackEffect;//玩家跳躍攻擊效果(受擊者播放的動畫名稱)
+    public float warriorJumpAttackRepelDistance;//玩家跳躍攻擊 擊退距離
+    public Vector3 warriorJumpAttackBoxSize;//玩家跳躍攻擊框Size
+    public int warriorJumpAttackRepelDirection;//玩家跳躍攻擊擊退方向(0:擊退 1:擊飛)
 
-    [Header("玩家 技能攻擊_1")]
-    public float playerSkillAttack_1_Damage;//技能攻擊_1_攻擊傷害
-    public string playerSkillAttack_1_Effect;//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
-    public float playerSkillAttack_1_FlyingSpeed;//技能攻擊_1_物件飛行速度
-    public float playerSkillAttack_1_LifeTime;//技能攻擊_1_生存時間
-    public float playerSkillAttack_1_Repel;//技能攻擊_1_擊退距離
-    public int playerSkillAttack_1_RepelDirection;//玩家技能攻擊_1_擊退方向(0:擊退 1:擊飛)
-
-    [Header("玩家 技能攻擊_2")]
-    public float playerSkillAttack_2_Damage;//技能攻擊_2_攻擊傷害
-    public string playerSkillAttack_2_Effect;//技能攻擊_2_攻擊效果(受擊者播放的動畫名稱)    
-    public float playerSkillAttack_2_Repel;//技能攻擊_2_擊退距離
-    public int playerSkillAttack_2_RepelDirection;//玩家技能攻擊_2_擊退方向(0:擊退 1:擊飛)
-    public Vector3 playerSkillAttack_2_BoxSize;//玩家技能攻擊_2_攻擊框Size
-
-    [Header("玩家 技能攻擊_3")]
-    public float playerSkillAttack_3_Damage;//技能攻擊_3_攻擊傷害
-    public string playerSkillAttack_3_Effect;//技能攻擊_3_攻擊效果(受擊者播放的動畫名稱)    
-    public float playerSkillAttack_3_Repel;//技能攻擊_3_擊退距離
-    public int playerSkillAttack_3_RepelDirection;//玩家技能攻擊_3_擊退方向(0:擊退 1:擊飛)
-    public Vector3 playerSkillAttack_3_BoxSize;//玩家技能攻擊_3_攻擊框Size
+    [Header("戰士 技能攻擊")]
+    public float[] warriorSkillAttackDamage;//技能攻擊傷害
+    public string[] warriorSkillAttackEffect;//技能攻擊攻擊效果(受擊者播放的動畫名稱)    
+    public int[] warriorSkillAttackRepelDirection;//玩家技能攻擊擊退方向(0:擊退 1:擊飛)
+    public float[] warriorSkillAttackRepel;//技能攻擊擊退距離    
+    public Vector3[] warriorSkillAttackBoxSize;//玩家技能攻擊攻擊框Size
 
     [Header("玩家 骷顱士兵")]
     public float skeletonSoldierHp;//骷顱士兵生命值
@@ -90,45 +75,30 @@ public class GameData_NumericalValue
         //玩家
         playerHp = 300;//玩家生命值
         playerMoveSpeed = 5;//玩家移動速度        
-        playerJumpForce = 16;//玩家跳躍力
+        playerJumpForce = 14.5f;//玩家跳躍力
         playerCriticalRate = 30;//玩家暴擊率
 
-        //玩家 普通攻擊
-        playerNormalAttackDamge = new float[] { 10, 10, 15 };//玩家普通攻擊傷害
-        playerNormalAttackMoveDistance = new float[] { 50, 50, 0 };//玩家普通攻擊移動距離
-        playerNormalAttackRepelDistance = new float[] { 70, 80, 18 };//玩家普通攻擊 擊退/擊飛距離
-        playerNormalAttackRepelDirection = new int[] { 0, 0, 1 };//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
-        playerNormalAttackEffect = new string[] { "Pain", "Pain", "Pain" };//玩家普通攻擊效果(受擊者播放的動畫名稱)
-        playerNormalAttackBoxSize = new Vector3[] { new Vector3(1, 1, 1), new Vector3(1, 1, 1), new Vector3(1, 1, 1) };//玩家普通攻擊攻擊框Size        
+        //戰士 普通攻擊
+        warriorNormalAttackDamge = new float[] { 10, 10, 15 };//戰士普通攻擊傷害
+        warriorNormalAttackMoveDistance = new float[] { 50, 50, 50 };//戰士攻擊移動距離
+        warriorNormalAttackRepelDistance = new float[] { 70, 80, 18 };//戰士普通攻擊 擊退/擊飛距離
+        warriorNormalAttackRepelDirection = new int[] { 0, 0, 0 };//戰士普通攻擊擊退方向(0:擊退 1:擊飛)
+        warriorNormalAttackEffect = new string[] { "Pain", "Pain", "Pain" };//戰士普通攻擊效果(受擊者播放的動畫名稱)
+        warriorNormalAttackBoxSize = new Vector3[] { new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f) };//戰士普通攻擊攻擊框Size        
 
-        //玩家 跳躍攻擊
-        playerJumpAttackDamage = 10;//玩家跳躍攻擊傷害
-        playerJumpAttackEffect = "KnockBack";//玩家跳躍攻擊效果(受擊者播放的動畫名稱)
-        playerJumpAttackRepelDistance = 50;//玩家跳躍攻擊 擊退距離
-        playerJumpAttackBoxSize = new Vector3(1, 0.5f, 1);//玩家跳躍攻擊攻擊框Size
-        playerJumpAttackRepelDirection = 0;//玩家跳躍攻擊擊退方向(0:擊退 1:擊飛)
+        //戰士 跳躍攻擊
+        warriorJumpAttackDamage = 10;//戰士跳躍攻擊傷害
+        warriorJumpAttackEffect = "Pain";//戰士跳躍攻擊效果(受擊者播放的動畫名稱)
+        warriorJumpAttackRepelDistance = 50;//戰士跳躍攻擊 擊退距離
+        warriorJumpAttackBoxSize = new Vector3(1.5f, 1f, 1.5f);//戰士跳躍攻擊攻擊框Size
+        warriorJumpAttackRepelDirection = 0;//戰士跳躍攻擊擊退方向(0:擊退 1:擊飛)
 
-        //玩家 技能攻擊_1
-        playerSkillAttack_1_Damage = 33;//技能攻擊_1_攻擊傷害
-        playerSkillAttack_1_Effect = "KnockBack";//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
-        playerSkillAttack_1_FlyingSpeed = 11.5f;//技能攻擊_1_物件飛行速度
-        playerSkillAttack_1_LifeTime = 0.75f;//技能攻擊_1_生存時間
-        playerSkillAttack_1_Repel = 70;//技能攻擊_1_擊退距離
-        playerSkillAttack_1_RepelDirection = 0;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
-
-        //玩家 技能攻擊_2
-        playerSkillAttack_2_Damage = 44;//技能攻擊_1_攻擊傷害
-        playerSkillAttack_2_Effect = "Pain";//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
-        playerSkillAttack_2_Repel = 18;//技能攻擊_1_擊退距離
-        playerSkillAttack_2_RepelDirection = 1;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
-        playerSkillAttack_2_BoxSize = new Vector3(1, 1, 1);//玩家技能攻擊_2_攻擊框Size
-
-        //玩家 技能攻擊_3
-        playerSkillAttack_3_Damage = 55;//技能攻擊_1_攻擊傷害
-        playerSkillAttack_3_Effect = "KnockBack";//技能攻擊_1_攻擊效果(受擊者播放的動畫名稱)
-        playerSkillAttack_3_Repel = 100;//技能攻擊_1_擊退距離
-        playerSkillAttack_3_RepelDirection = 0;//玩家普通攻擊擊退方向(0:擊退 1:擊飛)
-        playerSkillAttack_3_BoxSize = new Vector3(1, 1, 1);//玩家技能攻擊_2_攻擊框Size
+        //戰士 技能攻擊
+        warriorSkillAttackDamage = new float[] { 10, 20, 30 };//技能攻擊傷害
+        warriorSkillAttackEffect = new string[] { "Pain", "Pain", "Pain" };//技能攻擊攻擊效果(受擊者播放的動畫名稱)    
+        warriorSkillAttackRepelDirection = new int[] { 0, 0, 0 };//技能攻擊擊退方向(0:擊退 1:擊飛)
+        warriorSkillAttackRepel = new float[] { 50, 50, 50};//技能攻擊擊退距離        
+        warriorSkillAttackBoxSize = new Vector3[] { new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f) , new Vector3(1.5f, 1.5f, 1.5f) };//技能攻擊攻擊框Size         
 
         //骷顱士兵
         skeletonSoldierHp = 300;//骷顱士兵生命值

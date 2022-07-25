@@ -9,7 +9,7 @@ using Photon.Pun;
 /// </summary>
 public class PlayerControl : MonoBehaviourPunCallbacks
 {
-    Animator animator;
+    Animator animator;    
     CharactersCollision charactersCollision;
     GameData_NumericalValue NumericalValue;
 
@@ -27,14 +27,10 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     //跳躍
     bool isJump;//是否跳躍
 
-    //普通攻擊
+    //攻擊
     bool isNormalAttack;//是否普通攻擊
     int normalAttackNumber;//普通攻擊編號
-
-    //跳躍攻擊
     bool isJumpAttack;//是否跳躍攻擊
-
-    //技能攻擊
     bool isSkillAttack;//是否技能攻擊
 
     private void Awake()
@@ -42,6 +38,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
 
         animator = GetComponent<Animator>();
+        
         if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
         charactersCollision = GetComponent<CharactersCollision>();
 
@@ -64,96 +61,77 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //小地圖攝影機
         GameObject miniMap_Camera = GameObject.Find("MiniMap_Camera");
         miniMap_Camera.transform.SetParent(transform);
-
-        //鼠標
-       /* Cursor.visible = false;//鼠標隱藏
-        Cursor.lockState = CursorLockMode.Locked;//鎖定中央*/
+        miniMap_Camera.transform.localPosition = new Vector3(0, 10, 0);               
 
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
         boxSize = GetComponent<BoxCollider>().size;
 
         //移動
-        forwardVector = transform.forward;               
-    }
-   
-    void Update()
-    {        
-        OnInput();
-        OnJumpControl();
-        OnAttackControl();
-        OnJumpBehavior();
+        forwardVector = transform.forward;
 
-        if (!isNormalAttack && !isSkillAttack)
+        //鼠標
+        /* Cursor.visible = false;//鼠標隱藏
+         Cursor.lockState = CursorLockMode.Locked;//鎖定中央*/
+
+        //Level Door
+        DoorControl[] doorControl = GameObject.FindObjectsOfType<DoorControl>();
+        foreach(var door in doorControl)
         {
-            OnMovementControl();            
-        }  
+            door.player = gameObject;
+        }
     }
 
+    void Update()
+    {
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (!charactersCollision.isDie)
+        {
+            OnInput();
+            OnJumpControl();
+            OnAttackControl();
+            OnJumpBehavior();
+
+            if (!isNormalAttack && !isSkillAttack && !info.IsName("Pain"))
+            {
+                OnMovementControl();
+                OnDodgeControl();
+            }
+
+            OnAttackMove_Warrior();
+        }       
+    }
+
+    #region 戰士攻擊
     /// <summary>
-    /// 技能攻擊行為
+    /// 技能攻擊行為_戰士
     /// </summary>
-    void OnSkillAttackBehavior()
+    void OnSkillAttackBehavior_Warrior()
     {
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
-        AttackBehavior attack = AttackBehavior.Instance;
+        AttackMode attack = AttackMode.Instance;
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
-
-        //判斷目前普通攻擊編號
-        switch (normalAttackNumber)
-        {            
-            case 1://技能1
-                GameObject obj = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("playerSkill_1_Numbering"), GameSceneManagement.Instance.loadPath.playerCharactersSkill_1);//產生物件
-                obj.transform.position = transform.position + boxCenter;
-                
-                //設定AttackBehavior Class數值                
-                attack.function = new Action(attack.OnSetShootFunction);//設定執行函式
-                attack.performObject = obj;//執行攻擊的物件(自身/射出物件) 
-                attack.speed = NumericalValue.playerSkillAttack_1_FlyingSpeed;//飛行速度
-                attack.diration = transform.forward;//飛行方向
-                attack.lifeTime = NumericalValue.playerSkillAttack_1_LifeTime;//生存時間                                                                                             
-                attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
-                attack.damage = NumericalValue.playerSkillAttack_1_Damage * rate;//造成傷害
-                attack.animationName = NumericalValue.playerSkillAttack_1_Effect;//攻擊效果(受擊者播放的動畫名稱)
-                attack.direction = NumericalValue.playerSkillAttack_1_RepelDirection;//擊退方向((0:擊退 1:擊飛))
-                attack.repel = NumericalValue.playerSkillAttack_1_Repel;//擊退距離
-                attack.isCritical = isCritical;//是否爆擊
-                GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)             
-                break;
-            case 2://技能2               
-                attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
-                attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
-                attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
-                attack.damage = NumericalValue.playerSkillAttack_2_Damage * rate;//造成傷害 
-                attack.animationName = NumericalValue.playerSkillAttack_2_Effect;//攻擊效果(播放動畫名稱)
-                attack.direction = NumericalValue.playerSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
-                attack.repel = NumericalValue.playerSkillAttack_2_Repel;//擊退距離
-                attack.boxSize = NumericalValue.playerSkillAttack_2_BoxSize * transform.lossyScale.x;//近身攻擊框Size
-                attack.isCritical = isCritical;//是否爆擊
-                GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                   
-                break;
-            case 3://技能3                
-                attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
-                attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
-                attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
-                attack.damage = NumericalValue.playerSkillAttack_3_Damage * rate;//造成傷害 
-                attack.animationName = NumericalValue.playerSkillAttack_3_Effect;//攻擊效果(播放動畫名稱)
-                attack.direction = NumericalValue.playerSkillAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
-                attack.repel = NumericalValue.playerSkillAttack_3_Repel;//擊退距離
-                attack.boxSize = NumericalValue.playerSkillAttack_3_BoxSize * transform.lossyScale.x;//近身攻擊框Size
-                attack.isCritical = isCritical;//是否爆擊
-                GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)     
-                break;
-        }
+        
+        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
+        attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
+        attack.damage = NumericalValue.warriorSkillAttackDamage[normalAttackNumber - 1] * rate;//造成傷害 
+        attack.animationName = NumericalValue.warriorSkillAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
+        attack.direction = NumericalValue.warriorSkillAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.warriorSkillAttackRepel[normalAttackNumber - 1];//擊退距離
+        attack.boxSize = NumericalValue.warriorSkillAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
+        attack.isCritical = isCritical;//是否爆擊
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)              
     }
- 
+
     /// <summary>
-    /// 跳躍攻擊行為
+    /// 跳躍攻擊行為_戰士
     /// </summary>
-    void OnJumpAttackBehavior()
+    void OnJumpAttackBehavior_Warrior()
     {
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
@@ -162,46 +140,66 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         //設定AttackBehavior Class數值
-        AttackBehavior attack = AttackBehavior.Instance;
+        AttackMode attack = AttackMode.Instance;
         attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
-        attack.damage = NumericalValue.playerJumpAttackDamage * rate;//造成傷害 
-        attack.animationName = NumericalValue.playerJumpAttackEffect;//攻擊效果(播放動畫名稱)
-        attack.direction = NumericalValue.playerJumpAttackRepelDirection;//擊退方向(0:擊退, 1:擊飛)
-        attack.repel = NumericalValue.playerJumpAttackRepelDistance;//擊退距離
-        attack.boxSize = NumericalValue.playerJumpAttackBoxSize * transform.lossyScale.x;//近身攻擊框Size
+        attack.damage = NumericalValue.warriorJumpAttackDamage * rate;//造成傷害 
+        attack.animationName = NumericalValue.warriorJumpAttackEffect;//攻擊效果(播放動畫名稱)
+        attack.direction = NumericalValue.warriorJumpAttackRepelDirection;//擊退方向(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.warriorJumpAttackRepelDistance;//擊退距離
+        attack.boxSize = NumericalValue.warriorJumpAttackBoxSize * transform.lossyScale.x;//近身攻擊框Size
         attack.isCritical = isCritical;//是否爆擊
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
     }
 
     /// <summary>
-    /// 普通攻擊行為
+    /// 普通攻擊行為_戰士
     /// </summary>
-    void OnNormalAttackBehavior()
+    void OnNormalAttackBehavior_Warrior()
     {
         //連線模式
-        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
+        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;        
 
-        //攻擊移動
-         transform.position = transform.position + transform.forward * NumericalValue.playerNormalAttackMoveDistance[normalAttackNumber - 1] * Time.deltaTime;
+        bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
+        float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
-         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
-         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+        //設定AttackBehavior Class數值
+        AttackMode attack = AttackMode.Instance;
+        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
+        attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
+        attack.damage = NumericalValue.warriorNormalAttackDamge[normalAttackNumber - 1] * rate;//造成傷害 
+        attack.animationName = NumericalValue.warriorNormalAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
+        attack.direction = NumericalValue.warriorNormalAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.warriorNormalAttackRepelDistance[normalAttackNumber - 1];//擊退距離
+        attack.boxSize = NumericalValue.warriorNormalAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
+        attack.isCritical = isCritical;//是否爆擊
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+    }
 
-         //設定AttackBehavior Class數值
-         AttackBehavior attack = AttackBehavior.Instance;
-         attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
-         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
-         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
-         attack.damage = NumericalValue.playerNormalAttackDamge[normalAttackNumber - 1] * rate;//造成傷害 
-         attack.animationName = NumericalValue.playerNormalAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
-         attack.direction = NumericalValue.playerNormalAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
-         attack.repel = NumericalValue.playerNormalAttackRepelDistance[normalAttackNumber - 1];//擊退距離
-         attack.boxSize = NumericalValue.playerNormalAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
-         attack.isCritical = isCritical;//是否爆擊
-         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
-    }    
+    /// <summary>
+    /// 攻擊移動_戰士
+    /// </summary>
+    void OnAttackMove_Warrior()
+    {
+        AnimatorStateInfo animationInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float move = 3.5f;
+
+        if(GameDataManagement.Instance.selectRoleNumber == 0)
+        {
+            if (animationInfo.IsName("NormalAttack_1") && animationInfo.normalizedTime > 0.35f && animationInfo.normalizedTime < 0.6f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+            if (animationInfo.IsName("NormalAttack_2") && animationInfo.normalizedTime > 0.4f && animationInfo.normalizedTime < 0.5f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+            if (animationInfo.IsName("NormalAttack_3") && animationInfo.normalizedTime > 0.35f && animationInfo.normalizedTime < 0.45f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+            if (animationInfo.IsName("SkillAttack_1") && animationInfo.normalizedTime > 0.55f && animationInfo.normalizedTime < 0.65f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+            if (animationInfo.IsName("SkillAttack_2") && animationInfo.normalizedTime > 0.35f && animationInfo.normalizedTime < 0.45f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+            if (animationInfo.IsName("SkillAttack_2") && animationInfo.normalizedTime > 0.6f && animationInfo.normalizedTime < 0.7f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+            if (animationInfo.IsName("SkillAttack_3") && animationInfo.normalizedTime > 0.2f && animationInfo.normalizedTime < 0.3f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+            if (animationInfo.IsName("SkillAttack_3") && animationInfo.normalizedTime > 0.35f && animationInfo.normalizedTime < 0.45f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+            if (animationInfo.IsName("SkillAttack_3") && animationInfo.normalizedTime > 0.58f && animationInfo.normalizedTime < 0.68f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
+        }
+    }
+    #endregion
 
     /// <summary>
     /// 攻擊控制
@@ -318,11 +316,34 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     }      
     
     /// <summary>
+    /// 閃躲控制
+    /// </summary>
+    void OnDodgeControl()
+    {
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (info.IsName("Idle") || info.IsName("Run"))
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                animator.SetBool("Dodge", true);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", true);
+            }
+        }
+
+        if (info.IsName("Dodge") && info.normalizedTime > 1)
+        {
+            animator.SetBool("Dodge", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
+        }
+    }
+
+    /// <summary>
     /// 跳躍行為
     /// </summary>
     void OnJumpBehavior()
     {       
-        if (isJump) StartCoroutine(OnWaitJump());       
+        if (isJump) StartCoroutine(OnWaitJump());          
     }
 
     /// <summary>

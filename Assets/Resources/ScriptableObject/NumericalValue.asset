@@ -39,7 +39,7 @@ MonoBehaviour:
     limitDownAngle: 20
     playerHp: 300
     playerMoveSpeed: 5
-    playerJumpForce: 16
+    playerJumpForce: 14.5
     playerCriticalRate: 30
     playerNormalAttackDamge:
     - 10
@@ -48,12 +48,12 @@ MonoBehaviour:
     playerNormalAttackMoveDistance:
     - 50
     - 50
-    - 0
+    - 50
     playerNormalAttackRepelDistance:
     - 70
     - 80
     - 18
-    playerNormalAttackRepelDirection: 000000000000000001000000
+    playerNormalAttackRepelDirection: 000000000000000000000000
     playerNormalAttackEffect:
     - Pain
     - Pain

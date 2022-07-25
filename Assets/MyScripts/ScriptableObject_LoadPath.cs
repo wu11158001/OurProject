@@ -8,7 +8,6 @@ using UnityEngine.Video;
 public class GameData_LoadPath
 {
     [Header("開始場景")]
-    public string startVideo;//開始影片
     public string roleSelect_Button;//選擇腳色按鈕
     public string roleSelect_Sprite;//腳色選擇圖片
 
@@ -32,8 +31,8 @@ public class GameData_LoadPath
     [Header("玩家腳色1_技能")]
     public string playerCharactersSkill_1;//玩家腳色1_技能1
 
-    [Header("骷顱士兵")]
-    public string SkeletonSoldier;//骷顱士兵
+    [Header("敵人")]
+    public string enemy;//敵人
 
     [Header("其他")]
     public string hitNumber;//擊中文字
@@ -42,7 +41,6 @@ public class GameData_LoadPath
     private GameData_LoadPath()
     {
         //開始場景
-        startVideo = "Video/StartVideo";
         roleSelect_Button = "Prefab/UI/RoleSelect_Button";//選擇腳色按鈕
         roleSelect_Sprite = "Sprites/StartScene/SelectRoleScreen/Role";//腳色選擇圖片
 
@@ -66,8 +64,8 @@ public class GameData_LoadPath
         //玩家技能
         playerCharactersSkill_1 = "Prefab/ShootObject/PlayerCharacters1_Skill_1";//玩家腳色1_技能1
 
-        //骷顱士兵
-        SkeletonSoldier = "Prefab/Characters/Enemy/SkeletonSoldier";//骷顱士兵
+        //敵人
+        enemy = "Prefab/Characters/Enemy/Enemy";//敵人
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字
