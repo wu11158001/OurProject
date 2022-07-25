@@ -33,7 +33,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NormalAttack_1
-  m_Speed: 1.7
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6932029798926885849}
@@ -296,7 +296,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SkillAttack_3
-  m_Speed: 1.7
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3685015374556644384}
@@ -373,7 +373,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SkillAttack_2
-  m_Speed: 1.7
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 892472063489387284}
@@ -534,61 +534,61 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: NormalAttack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: NormalAttackNumber
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Jump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: JumpAttack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: SkillAttack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Trick
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Pain
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Dodge
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Die
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -610,7 +610,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NormalAttack_2
-  m_Speed: 1.3
+  m_Speed: 1.6
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2850330540220075665}
@@ -639,7 +639,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SkillAttack_1
-  m_Speed: 1.5
+  m_Speed: 1.7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2163702843370305539}
@@ -1044,7 +1044,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NormalAttack_3
-  m_Speed: 1.7
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3872606589291653031}
@@ -1185,13 +1185,13 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2731643212375151753}
-    m_Position: {x: 490, y: 250, z: 0}
+    m_Position: {x: 340, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 93667921573227419}
-    m_Position: {x: 480, y: 160, z: 0}
+    m_Position: {x: 340, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3112782885010332945}
-    m_Position: {x: 480, y: 340, z: 0}
+    m_Position: {x: 340, y: 330, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

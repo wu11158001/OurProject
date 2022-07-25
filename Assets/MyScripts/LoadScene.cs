@@ -96,7 +96,7 @@ public class LoadScene : MonoBehaviour
         if (ao == null) yield break;//沒場景以下不做
 
         ao.allowSceneActivation = false;//載入完成自動切換
-
+        
         while (!ao.isDone)//載入未完成
         {
             loadValue = 0.5f;
@@ -104,7 +104,7 @@ public class LoadScene : MonoBehaviour
             {
                 loadValue = 0.7f;
                 yield return new WaitForSeconds(0.3f);
-
+                
                 loadValue = 0.9f;
                 yield return new WaitForSeconds(0.3f);
 

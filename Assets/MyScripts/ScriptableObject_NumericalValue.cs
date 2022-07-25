@@ -26,6 +26,7 @@ public class GameData_NumericalValue
     public float playerMoveSpeed;//玩家移動速度
     public float playerJumpForce;//玩家跳躍力
     public float playerCriticalRate;//玩家暴擊率
+    public float playerDodgeSeppd;//玩家閃躲速度
 
     [Header("戰士 普通攻擊")]
     public float[] warriorNormalAttackDamge;//玩家普通攻擊傷害
@@ -50,7 +51,7 @@ public class GameData_NumericalValue
     public Vector3[] warriorSkillAttackBoxSize;//玩家技能攻擊攻擊框Size
 
     [Header("玩家 骷顱士兵")]
-    public float skeletonSoldierHp;//骷顱士兵生命值
+    public float enemyHp;//骷顱士兵生命值
 
     /// <summary>
     /// 建構子
@@ -77,11 +78,12 @@ public class GameData_NumericalValue
         playerMoveSpeed = 5;//玩家移動速度        
         playerJumpForce = 14.5f;//玩家跳躍力
         playerCriticalRate = 30;//玩家暴擊率
+        playerDodgeSeppd = 3;//玩家閃躲速度
 
         //戰士 普通攻擊
         warriorNormalAttackDamge = new float[] { 10, 10, 15 };//戰士普通攻擊傷害
         warriorNormalAttackMoveDistance = new float[] { 50, 50, 50 };//戰士攻擊移動距離
-        warriorNormalAttackRepelDistance = new float[] { 70, 80, 18 };//戰士普通攻擊 擊退/擊飛距離
+        warriorNormalAttackRepelDistance = new float[] { 120, 80, 60 };//戰士普通攻擊 擊退/擊飛距離
         warriorNormalAttackRepelDirection = new int[] { 0, 0, 0 };//戰士普通攻擊擊退方向(0:擊退 1:擊飛)
         warriorNormalAttackEffect = new string[] { "Pain", "Pain", "Pain" };//戰士普通攻擊效果(受擊者播放的動畫名稱)
         warriorNormalAttackBoxSize = new Vector3[] { new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f) };//戰士普通攻擊攻擊框Size        
@@ -101,7 +103,7 @@ public class GameData_NumericalValue
         warriorSkillAttackBoxSize = new Vector3[] { new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f) , new Vector3(1.5f, 1.5f, 1.5f) };//技能攻擊攻擊框Size         
 
         //骷顱士兵
-        skeletonSoldierHp = 300;//骷顱士兵生命值
+        enemyHp = 50;//骷顱士兵生命值
     }
 }
 

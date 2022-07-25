@@ -533,6 +533,7 @@ public class StartSceneUI : MonoBehaviour
     /// <param name="level">選擇的關卡</param>
     void OnSelectLecel(int level)
     {
+        background_Image.enabled = false;
         levelScreen.gameObject.SetActive(false);
         StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene" + level));
     }   

@@ -15,6 +15,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
+    Vector3 safePosition;//紀錄卡牆前的位置
 
     float collisiionHight;//碰撞框高度(走樓梯用)
 
@@ -51,13 +52,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case "Player":
                 MaxHp = NumericalValue.playerHp;
                 break;
-            case "SkeletonSoldier":
-                MaxHp = NumericalValue.skeletonSoldierHp;
+            case "Enemy":
+                MaxHp = NumericalValue.enemyHp;
                 break;
         }
-
-        Hp = MaxHp;
+        
         OnSetLifeBar_Character(transform);//設定生命條
+        OnInitial();//初始化
     }
 
     void Update()
@@ -68,7 +69,23 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         OnAnimationOver();
         OnFloation();
 
+        //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, "Enemy", 100, "Pain", 0, 1, false);
+    }
+
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    public void OnInitial()
+    {
+        Hp = MaxHp;
+
+        //生命條(頭頂)
+        if (lifeBar != null)
+        {
+            lifeBar.gameObject.SetActive(true);
+            lifeBar.SetValue = Hp / MaxHp;
+        }
     }
 
     /// <summary>
@@ -96,7 +113,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
         //閃躲
-        if (info.IsName("Dodge")) return;
+        if (info.IsName("Dodge") || info.IsName("Die")) return;
 
         //判斷受擊對象
         if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == "Enemy" ||
@@ -115,7 +132,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering"), GameSceneManagement.Instance.loadPath.hitNumber).GetComponent<HitNumber>();                            
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: damage,//受到傷害
-                                 color: isCritical ? Color.yellow : Color.red);//文字顏色
+                                 color: isCritical ? Color.yellow : Color.red,//文字顏色
+                                 isCritical: isCritical);//是否爆擊
 
             //判斷擊中效果
             switch (knockDirection)
@@ -128,8 +146,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     break;
             }
 
+            //死亡
             if(Hp <= 0)
-            {
+            {                
                 isDie = true;
                 animator.SetTrigger("Die");
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Die", "Die");
@@ -147,6 +166,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (info.IsTag("KnockBack") && animationName == "Pain") animator.SetBool("KnockBack", false);
             if (info.IsTag("Pain") && animationName == "KnockBack") animator.SetBool("Pain", false);
 
+            //待機 & 奔跑 才執行受擊動畫
             if(info.IsName("Idle") || info.IsName("Run")) animator.SetBool(animationName, true);
         }        
     }
@@ -205,11 +225,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             }
         }
 
-        //牆壁碰撞(第2層)
-        if(Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2), Quaternion.identity, mask))
+       /* //牆壁碰撞(第2層)
+        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2), Quaternion.identity, mask))
         {
-            transform.position = transform.position + transform.forward * 5 * Time.deltaTime;
+            transform.position = safePosition;
         }
+        else safePosition = transform.position;*/
 
         //地板碰撞
         if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
@@ -233,7 +254,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
         if (info.IsTag("Pain") && info.normalizedTime >= 1) animator.SetBool("Pain", false);
-        if (info.IsTag("KnockBack") && info.normalizedTime >= 1) animator.SetBool("KnockBack", false);       
+        if (info.IsTag("KnockBack") && info.normalizedTime >= 1) animator.SetBool("KnockBack", false);
+        if (info.IsTag("Die") && info.normalizedTime >= 1)
+        {
+            lifeBar.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -246,11 +272,5 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         animator.SetBool(aniamtionName, false);
         yield return new WaitForSeconds(0.03f);
         animator.SetBool(aniamtionName, true);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawCube(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2));
-        
-    }
+    }       
 }

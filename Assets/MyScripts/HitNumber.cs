@@ -14,6 +14,7 @@ public class HitNumber : MonoBehaviour
     Transform target;//受傷目標   
     Vector3 startPosition;//初始位置
     float lifeTime;//生存時間
+    float floatDiration;//漂浮方向
 
     void Start()
     {
@@ -34,7 +35,7 @@ public class HitNumber : MonoBehaviour
     /// </summary>
     void OnInitail()
     {
-        lifeTime = 1.5f;//生存時間
+        lifeTime = 1.5f;//生存時間        
     }
 
     /// <summary>
@@ -43,14 +44,20 @@ public class HitNumber : MonoBehaviour
     /// <param name="target">受傷目標</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="color">文字顏色</param>
-    public void OnSetValue(Transform target, float damage, Color color)
+    /// <param name="isCritical">是否爆擊</param>
+    public void OnSetValue(Transform target, float damage, Color color, bool isCritical)
     {
         if (thisText == null) thisText = GetComponent<Text>();
-        
+
+        //爆擊字放大
+        if (isCritical) thisText.fontSize = 105;
+        else thisText.fontSize = 60;
+
         this.target = target;//受傷目標
         thisText.text = damage.ToString();//受到傷害
         startPosition = target.position + Vector3.up * 1;//初始位置
         thisText.color = color;//文字顏色        
+        floatDiration = 7.8f;//漂浮方向
     }
 
     /// <summary>
@@ -60,8 +67,11 @@ public class HitNumber : MonoBehaviour
     {
         if (target == null) return;
 
-        //向上飄
-        startPosition += Vector3.up * 1 * Time.deltaTime;
+        //漂浮方向
+        floatDiration -= 60 * Time.deltaTime;
+
+        //文字移動
+        startPosition += Vector3.up * floatDiration * Time.deltaTime;
 
         Camera camera = canvas_Overlay.worldCamera;
         Vector3 position = Camera.main.WorldToScreenPoint(startPosition);

@@ -18,7 +18,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     Vector3 boxSize;
 
     //移動
-    bool isLockMove;//是否鎖住移動
     float inputX;//輸入X值
     float inputZ;//輸入Z值
     Vector3 forwardVector;//前方向量
@@ -36,6 +35,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     private void Awake()
     {       
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
+        gameObject.tag = "Player";//設定Tag
 
         animator = GetComponent<Animator>();
         
@@ -322,6 +322,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
+        //閃躲控制
         if (info.IsName("Idle") || info.IsName("Run"))
         {
             if (Input.GetKeyDown(KeyCode.F))
@@ -331,6 +332,13 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             }
         }
 
+        //閃躲移動
+        if (info.IsName("Dodge") && info.normalizedTime < 1)
+        {
+            transform.position = transform.position + transform.forward * GameDataManagement.Instance.numericalValue.playerDodgeSeppd * Time.deltaTime;
+        }
+
+            //閃躲結束
         if (info.IsName("Dodge") && info.normalizedTime > 1)
         {
             animator.SetBool("Dodge", false);
@@ -358,7 +366,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
         {
-            isLockMove = false;
             isJump = false;
 
             animator.SetBool("Jump", isJump);
@@ -404,10 +411,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      
         
         float inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
-
-        //跳躍中不可再增加推力
-        if (isJump && inputValue == 0) isLockMove = true;       
-        if (isLockMove) inputValue = 0;
 
         //移動
         if (inputValue > 1) inputValue = 1;

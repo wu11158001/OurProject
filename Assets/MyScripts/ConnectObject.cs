@@ -15,5 +15,10 @@ public class ConnectObject : MonoBehaviourPunCallbacks
             GameSceneManagement.Instance.OnRecordConnectObject(id, gameObject);
             gameObject.SetActive(false);
         }
+        else
+        {
+            Destroy(GetComponent<PhotonView>());
+            Destroy(GetComponent<PhotonTransformView>());
+        }
     }
 }

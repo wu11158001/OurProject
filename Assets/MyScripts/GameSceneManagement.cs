@@ -59,23 +59,32 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         {
             number = objectHandle.OnCreateObject(loadPath.enemy);//產生至物件池
             objectNumber_Dictionary.Add("enemy", number);////添加至紀錄中
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 1; i++)
             {
-                GameObject skeletonSoldier = OnRequestOpenObject(OnGetObjectNumber("enemy"), loadPath.enemy);//開啟物件
-                skeletonSoldier.transform.position = new Vector3(24 + i * 1, 2f, 40);//設定位置
-                OnSetMiniMapPoint(skeletonSoldier.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemy"), loadPath.enemy);//開啟物件
+                enemy.transform.position = new Vector3(24 + i * 1, 2f, 40);//設定位置
+                OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
             
         }
-        
-        //其他
-        number = objectHandle.OnCreateObject(loadPath.hitNumber);//產生至物件池;//擊中數字
+         
+        //擊中數字
+        number = objectHandle.OnCreateObject(loadPath.hitNumber);//產生至物件池;
         objectNumber_Dictionary.Add("hitNumberNumbering", number);////添加至紀錄中
     }
 
     void Update()
     {        
         OnAttackBehavior();   
+        
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemy"), loadPath.enemy);//開啟物件
+            CharactersCollision collision = enemy.GetComponent<CharactersCollision>();
+            if (collision != null) collision.OnInitial();
+            enemy.transform.position = new Vector3(24 + 2 * 1, 2f, 40);//設定位置
+            OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+        }
     }
     #region 一般
     /// <summary>

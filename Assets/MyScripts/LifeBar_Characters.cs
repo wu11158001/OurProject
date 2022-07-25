@@ -10,6 +10,7 @@ public class LifeBar_Characters : MonoBehaviour
     Transform target;//目標物件
     Image lifeBarFront_Image;//生命條(前)
     Image lifeBarMid_Image;//生命條(中)
+    float targetHight;//物件高度
 
     void Start()
     {
@@ -33,6 +34,7 @@ public class LifeBar_Characters : MonoBehaviour
         set
         {
             target = value;
+            targetHight = target.GetComponent<BoxCollider>().size.y / 2.5f;
             canvas_World = GameObject.Find("Canvas_World").GetComponent<Canvas>();
             transform.SetParent(canvas_World.transform); 
         }
@@ -52,7 +54,7 @@ public class LifeBar_Characters : MonoBehaviour
         
         //跟隨目標
         Camera cnavasCamera = canvas_World.worldCamera;
-        transform.position = new Vector3(target.position.x, target.position.y, target.position.z);
+        transform.position = new Vector3(target.position.x, target.position.y + targetHight, target.position.z);
         transform.rotation = cnavasCamera.transform.rotation;
         
         //生命條行為

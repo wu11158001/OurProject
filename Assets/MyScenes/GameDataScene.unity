@@ -256,6 +256,7 @@ MonoBehaviour:
     playerMoveSpeed: 10
     playerJumpForce: 16
     playerCriticalRate: 30
+    playerDodgeSeppd: 3
     warriorNormalAttackDamge:
     - 10
     - 10
@@ -299,9 +300,8 @@ MonoBehaviour:
     - {x: 1, y: 1, z: 1}
     - {x: 1, y: 1, z: 1}
     - {x: 1, y: 1, z: 1}
-    skeletonSoldierHp: 50
+    enemyHp: 300
   loadPath:
-    startVideo: Video/StartVideo
     roleSelect_Button: RoleSelectButton
     roleSelect_Sprite: Sprites/ChooseRoleScreen/Role
     LoadBackground_1: Picture/LoadBackground
@@ -803,7 +803,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fd92ed2549cd89d4caf707978d8310a9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

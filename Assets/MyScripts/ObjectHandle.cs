@@ -10,8 +10,7 @@ public class ObjectHandle
     static ObjectHandle objectHandle;
     public static ObjectHandle GetObjectHandle => objectHandle;
 
-    List<List<TemporaryObject>> searchGameObject_List = new List<List<TemporaryObject>>();//紀錄所有遊戲物件(開啟/關閉用)
-    List<List<TemporaryObject>> searchConnectGameObject_List = new List<List<TemporaryObject>>();//紀錄所有遊戲物件(連線用)
+    List<List<TemporaryObject>> searchGameObject_List = new List<List<TemporaryObject>>();//紀錄所有遊戲物件(開啟/關閉用)    
     List<GameObject> cerateGameObject_List = new List<GameObject>();//創建物件(重新創建用)
 
     /// <summary>
@@ -80,8 +79,8 @@ public class ObjectHandle
         //判斷是否為連線模式
         if (GameDataManagement.Instance.isConnect) temp.obj = PhotonConnect.Instance.OnCreateObject(path);//創建物品
         else temp.obj = GameObject.Instantiate(cerateGameObject_List[number]) as GameObject;//創建新物件(複製物件)
-                                                                                            //
-        temp.obj.SetActive(true);//開啟物件
+                                                                                            
+        temp.obj.SetActive(true);//開啟物件        
         searchGameObject_List[number].Add(temp);//存下物件
 
         return temp.obj;//回傳新物件

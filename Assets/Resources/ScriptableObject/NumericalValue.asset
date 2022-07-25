@@ -41,46 +41,48 @@ MonoBehaviour:
     playerMoveSpeed: 5
     playerJumpForce: 14.5
     playerCriticalRate: 30
-    playerNormalAttackDamge:
+    playerDodgeSeppd: 3
+    warriorNormalAttackDamge:
     - 10
     - 10
     - 15
-    playerNormalAttackMoveDistance:
+    warriorNormalAttackMoveDistance:
     - 50
     - 50
     - 50
-    playerNormalAttackRepelDistance:
-    - 70
+    warriorNormalAttackRepelDistance:
+    - 120
     - 80
-    - 18
-    playerNormalAttackRepelDirection: 000000000000000000000000
-    playerNormalAttackEffect:
+    - 60
+    warriorNormalAttackRepelDirection: 000000000000000000000000
+    warriorNormalAttackEffect:
     - Pain
     - Pain
     - Pain
-    playerNormalAttackBoxSize:
-    - {x: 1, y: 1, z: 1}
-    - {x: 1, y: 1, z: 1}
-    - {x: 1, y: 1, z: 1}
-    playerJumpAttackDamage: 10
-    playerJumpAttackEffect: KnockBack
-    playerJumpAttackRepelDistance: 50
-    playerJumpAttackBoxSize: {x: 1, y: 0.5, z: 1}
-    playerJumpAttackRepelDirection: 0
-    playerSkillAttack_1_Damage: 33
-    playerSkillAttack_1_Effect: KnockBack
-    playerSkillAttack_1_FlyingSpeed: 11.5
-    playerSkillAttack_1_LifeTime: 0.75
-    playerSkillAttack_1_Repel: 70
-    playerSkillAttack_1_RepelDirection: 0
-    playerSkillAttack_2_Damage: 44
-    playerSkillAttack_2_Effect: Pain
-    playerSkillAttack_2_Repel: 18
-    playerSkillAttack_2_RepelDirection: 1
-    playerSkillAttack_2_BoxSize: {x: 1, y: 1, z: 1}
-    playerSkillAttack_3_Damage: 55
-    playerSkillAttack_3_Effect: KnockBack
-    playerSkillAttack_3_Repel: 100
-    playerSkillAttack_3_RepelDirection: 0
-    playerSkillAttack_3_BoxSize: {x: 1, y: 1, z: 1}
-    skeletonSoldierHp: 300
+    warriorNormalAttackBoxSize:
+    - {x: 1.5, y: 1.5, z: 1.5}
+    - {x: 1.5, y: 1.5, z: 1.5}
+    - {x: 1.5, y: 1.5, z: 1.5}
+    warriorJumpAttackDamage: 10
+    warriorJumpAttackEffect: Pain
+    warriorJumpAttackRepelDistance: 50
+    warriorJumpAttackBoxSize: {x: 1.5, y: 1, z: 1.5}
+    warriorJumpAttackRepelDirection: 0
+    warriorSkillAttackDamage:
+    - 10
+    - 20
+    - 30
+    warriorSkillAttackEffect:
+    - Pain
+    - Pain
+    - Pain
+    warriorSkillAttackRepelDirection: 000000000000000000000000
+    warriorSkillAttackRepel:
+    - 50
+    - 50
+    - 50
+    warriorSkillAttackBoxSize:
+    - {x: 1.5, y: 1.5, z: 1.5}
+    - {x: 1.5, y: 1.5, z: 1.5}
+    - {x: 1.5, y: 1.5, z: 1.5}
+    enemyHp: 50
