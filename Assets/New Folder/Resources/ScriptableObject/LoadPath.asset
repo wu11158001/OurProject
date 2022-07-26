@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 184e7ec1c31b585498683d2e5a5a0aab, type: 3}
+  m_Name: LoadPath
+  m_EditorClassIdentifier: 
+  loadPath:
+    startVideo: Video/StartVideo
+    roleSelect_Button: Prefab/UI/RoleSelect_Button
+    roleSelect_Sprite: Sprites/StartScene/SelectRoleScreen/Role
+    LoadBackground_1: Sprites/LoadScene/LoadBackground_1
+    miniMapMatirial_Floor: Matirials/MiniMap/MiniMpa_Floor
+    miniMapMatirial_Object: Matirials/MiniMap/MiniMpa_Object
+    miniMapMatirial_Player: Matirials/MiniMap/MiniMap_Player
+    miniMapMatirial_Enemy: Matirials/MiniMap/MiniMap_Enemy
+    miniMapPoint: Prefab/UI/MiniMapPoint
+    Warrior: Prefab/Characters/Player/1_Warrior
+    Magician: Prefab/Characters/Player/2_Magician
+    Archer: Prefab/Characters/Player/3_Archer
+    allPlayerCharacters:
+    - Prefab/Characters/Player/1_Warrior
+    - Prefab/Characters/Player/2_Magician
+    - Prefab/Characters/Player/3_Archer
+    playerCharactersSkill_1: Prefab/ShootObject/PlayerCharacters1_Skill_1
+    SkeletonSoldier: Prefab/Characters/Enemy/SkeletonSoldier
+    hitNumber: Prefab/UI/HitNumber_Text
+    lifeBar: Prefab/UI/LifeBar
