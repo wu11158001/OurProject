@@ -83,7 +83,7 @@ public class GameData_NumericalValue
         //戰士 普通攻擊
         warriorNormalAttackDamge = new float[] { 10, 10, 15 };//戰士普通攻擊傷害
         warriorNormalAttackMoveDistance = new float[] { 50, 50, 50 };//戰士攻擊移動距離
-        warriorNormalAttackRepelDistance = new float[] { 120, 80, 60 };//戰士普通攻擊 擊退/擊飛距離
+        warriorNormalAttackRepelDistance = new float[] { 50, 50, 50 };//戰士普通攻擊 擊退/擊飛距離
         warriorNormalAttackRepelDirection = new int[] { 0, 0, 0 };//戰士普通攻擊擊退方向(0:擊退 1:擊飛)
         warriorNormalAttackEffect = new string[] { "Pain", "Pain", "Pain" };//戰士普通攻擊效果(受擊者播放的動畫名稱)
         warriorNormalAttackBoxSize = new Vector3[] { new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f) };//戰士普通攻擊攻擊框Size        

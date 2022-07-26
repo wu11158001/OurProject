@@ -38,7 +38,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     void Start()
     {
         NumericalValue = GameDataManagement.Instance.numericalValue;
-
+        
         //碰撞框
         if (GetComponent<BoxCollider>() != null)
         {
@@ -63,6 +63,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        lifeBar.gameObject.SetActive(gameObject.activeSelf);
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;//連線模式      
 
         OnCollisionControl();
@@ -79,11 +80,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public void OnInitial()
     {
         Hp = MaxHp;
-
+        
         //生命條(頭頂)
         if (lifeBar != null)
         {
-            lifeBar.gameObject.SetActive(true);
             lifeBar.SetValue = Hp / MaxHp;
         }
     }
@@ -163,11 +163,23 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             }
 
             //狀態改變(關閉前一個動畫)
-            if (info.IsTag("KnockBack") && animationName == "Pain") animator.SetBool("KnockBack", false);
-            if (info.IsTag("Pain") && animationName == "KnockBack") animator.SetBool("Pain", false);
+            if (info.IsTag("KnockBack") && animationName == "Pain")
+            {
+                animator.SetBool("KnockBack", false);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "KnockBack", false);
+            }
+            if (info.IsTag("Pain") && animationName == "KnockBack")
+            {
+                animator.SetBool("Pain", false);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Pain", false);
+            }
 
             //待機 & 奔跑 才執行受擊動畫
-            if(info.IsName("Idle") || info.IsName("Run")) animator.SetBool(animationName, true);
+            if (info.IsName("Idle") || info.IsName("Run"))
+            {
+                animator.SetBool(animationName, true);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, true);
+            }
         }        
     }
 
@@ -253,11 +265,26 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (info.IsTag("Pain") && info.normalizedTime >= 1) animator.SetBool("Pain", false);
-        if (info.IsTag("KnockBack") && info.normalizedTime >= 1) animator.SetBool("KnockBack", false);
-        if (info.IsTag("Die") && info.normalizedTime >= 1)
+        if (info.IsTag("Pain") && info.normalizedTime >= 1)
         {
-            lifeBar.gameObject.SetActive(false);
+            animator.SetBool("Pain", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Pain", false);
+        }
+
+        if (info.IsTag("KnockBack") && info.normalizedTime >= 1)
+        {
+            animator.SetBool("KnockBack", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "KnockBack", false);
+        }
+        if (info.IsTag("Die") && info.normalizedTime >= 1)
+        {            
+            //連線模式
+            if (GameDataManagement.Instance.isConnect && photonView.IsMine)
+            {                
+                PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
+            }
+
+            //關閉物件
             gameObject.SetActive(false);
         }
     }
@@ -270,7 +297,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     IEnumerator OnAniamtionRepeatTrigger(string aniamtionName)
     {
         animator.SetBool(aniamtionName, false);
+        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, aniamtionName, false);
+
         yield return new WaitForSeconds(0.03f);
+
         animator.SetBool(aniamtionName, true);
+        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, aniamtionName, true);
     }       
 }

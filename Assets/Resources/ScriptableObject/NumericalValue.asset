@@ -51,9 +51,9 @@ MonoBehaviour:
     - 50
     - 50
     warriorNormalAttackRepelDistance:
-    - 120
-    - 80
-    - 60
+    - 50
+    - 50
+    - 50
     warriorNormalAttackRepelDirection: 000000000000000000000000
     warriorNormalAttackEffect:
     - Pain

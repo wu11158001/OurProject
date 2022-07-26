@@ -10,15 +10,17 @@ public class LifeBar_Characters : MonoBehaviour
     Transform target;//目標物件
     Image lifeBarFront_Image;//生命條(前)
     Image lifeBarMid_Image;//生命條(中)
+    Image lifeBarBack_Image;//生命條(後)
     float targetHight;//物件高度
 
     void Start()
     {
         hpProportion = 1;
-        lifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarFront_Image");
+        lifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarFront_Image");//生命條(前)
         lifeBarFront_Image.fillAmount = hpProportion;
-        lifeBarMid_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarMid_Image");
-        lifeBarMid_Image.fillAmount = hpProportion;        
+        lifeBarMid_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarMid_Image");//生命條(中)
+        lifeBarMid_Image.fillAmount = hpProportion;
+        lifeBarBack_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarBack_Image");//生命條(後)
     }
     
     void Update()
@@ -51,7 +53,7 @@ public class LifeBar_Characters : MonoBehaviour
     void OnLifeBarBehavior()
     {
         if (target == null) return;
-        
+               
         //跟隨目標
         Camera cnavasCamera = canvas_World.worldCamera;
         transform.position = new Vector3(target.position.x, target.position.y + targetHight, target.position.z);
@@ -63,6 +65,22 @@ public class LifeBar_Characters : MonoBehaviour
         if (lifeBarFront_Image.fillAmount < lifeBarMid_Image.fillAmount)//生命條(中)
         {
             lifeBarMid_Image.fillAmount -= 0.5f * Time.deltaTime;
+        }
+
+        //關閉物件
+        if (lifeBarMid_Image.fillAmount <= 0)
+        {
+            lifeBarFront_Image.enabled = false;//生命條(前)
+            lifeBarMid_Image.enabled = false;//生命條(中)
+            lifeBarBack_Image.enabled = false;//生命條(後)
+        }
+
+        //開啟物件
+        if(lifeBarFront_Image.fillAmount > 0 && !lifeBarFront_Image.enabled)
+        {
+            lifeBarFront_Image.enabled = true;//生命條(前)
+            lifeBarMid_Image.enabled = true;//生命條(中)
+            lifeBarBack_Image.enabled = true;//生命條(後)
         }
     }
 }

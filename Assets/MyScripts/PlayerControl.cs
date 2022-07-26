@@ -157,7 +157,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// 普通攻擊行為_戰士
     /// </summary>
     void OnNormalAttackBehavior_Warrior()
-    {
+    {        
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;        
 
@@ -183,6 +183,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnAttackMove_Warrior()
     {
+        //連線模式
+        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
+
         AnimatorStateInfo animationInfo = animator.GetCurrentAnimatorStateInfo(0);
         float move = 3.5f;
 
@@ -198,6 +201,16 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (animationInfo.IsName("SkillAttack_3") && animationInfo.normalizedTime > 0.35f && animationInfo.normalizedTime < 0.45f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
             if (animationInfo.IsName("SkillAttack_3") && animationInfo.normalizedTime > 0.58f && animationInfo.normalizedTime < 0.68f) transform.position = transform.position + transform.forward * (move - Time.deltaTime) * Time.deltaTime;
         }
+    }
+    #endregion
+
+    #region 弓箭手攻擊
+    /// <summary>
+    /// 普通攻擊行為_弓箭手
+    /// </summary>
+    void OnNormalAttackBehavior_Archer()
+    {
+
     }
     #endregion
 

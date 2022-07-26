@@ -58,10 +58,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
             number = objectHandle.OnCreateObject(loadPath.enemy);//產生至物件池
-            objectNumber_Dictionary.Add("enemy", number);////添加至紀錄中
+            objectNumber_Dictionary.Add("enemyNumbering", number);////添加至紀錄中
+
             for (int i = 0; i < 1; i++)
-            {
-                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemy"), loadPath.enemy);//開啟物件
+            {                
+                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemyNumbering"), loadPath.enemy);//開啟物件
                 enemy.transform.position = new Vector3(24 + i * 1, 2f, 40);//設定位置
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
@@ -79,11 +80,14 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         
         if(Input.GetKeyDown(KeyCode.O))
         {
-            GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemy"), loadPath.enemy);//開啟物件
-            CharactersCollision collision = enemy.GetComponent<CharactersCollision>();
-            if (collision != null) collision.OnInitial();
-            enemy.transform.position = new Vector3(24 + 2 * 1, 2f, 40);//設定位置
-            OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
+            {
+                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemyNumbering"), loadPath.enemy);//開啟物件
+                CharactersCollision collision = enemy.GetComponent<CharactersCollision>();
+                if (collision != null) collision.OnInitial();//初始化
+                enemy.transform.position = new Vector3(24 + 2 * 1, 2f, 40);//設定位置
+                OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            }
         }
     }
     #region 一般
@@ -176,7 +180,16 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {
         foreach(var obj in connectObject_Dixtionary)
         {
-            if (obj.Key == id) obj.Value.SetActive(active);
+            if (obj.Key == id)
+            {
+                obj.Value.SetActive(active);
+
+                if (active)
+                {
+                    CharactersCollision collision = obj.Value.GetComponent<CharactersCollision>();
+                    if (collision != null) collision.OnInitial();//初始化                
+                }
+            }
         }        
     }
     

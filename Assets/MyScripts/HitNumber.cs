@@ -14,7 +14,6 @@ public class HitNumber : MonoBehaviour
     Transform target;//受傷目標   
     Vector3 startPosition;//初始位置
     float lifeTime;//生存時間
-    float floatDiration;//漂浮方向
 
     void Start()
     {
@@ -56,8 +55,7 @@ public class HitNumber : MonoBehaviour
         this.target = target;//受傷目標
         thisText.text = damage.ToString();//受到傷害
         startPosition = target.position + Vector3.up * 1;//初始位置
-        thisText.color = color;//文字顏色        
-        floatDiration = 7.8f;//漂浮方向
+        thisText.color = color;//文字顏色       
     }
 
     /// <summary>
@@ -67,11 +65,8 @@ public class HitNumber : MonoBehaviour
     {
         if (target == null) return;
 
-        //漂浮方向
-        floatDiration -= 60 * Time.deltaTime;
-
         //文字移動
-        startPosition += Vector3.up * floatDiration * Time.deltaTime;
+        startPosition += Vector3.up * 1 * Time.deltaTime;
 
         Camera camera = canvas_Overlay.worldCamera;
         Vector3 position = Camera.main.WorldToScreenPoint(startPosition);

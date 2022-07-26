@@ -309,9 +309,12 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="obj">物件ID</param>
     /// <param name="active">激活狀態</param>
     public void OnSendObjectActive(GameObject obj, bool active)
-    {
-        int id = obj.GetComponent<PhotonView>().ViewID;
-        photonView.RPC("OnObjectActive", RpcTarget.Others, id, active);
+    {        
+        if (obj.GetComponent<PhotonView>())
+        {
+            int id = obj.GetComponent<PhotonView>().ViewID;
+            photonView.RPC("OnObjectActive", RpcTarget.Others, id, active);
+        }
     }
 
     /// <summary>
@@ -428,9 +431,9 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="anmationName">執行動畫名稱</param>
     /// <param name="animationType">動畫Type</param>
     [PunRPC]
-    void OnSetAniamtion_String(int targetID, string anmationName, bool animationType)
+    void OnSetAniamtion_String(int targetID, string anmationName, string animationType)
     {
-        GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, "");
+        GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, anmationName);
     }
     #endregion
 }
