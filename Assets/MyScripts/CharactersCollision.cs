@@ -109,7 +109,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
     public void OnGetHit(GameObject attacker, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {
+    {       
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
         //閃躲
@@ -126,7 +126,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //面向攻擊者
-            transform.forward = -attacker.transform.forward;
+            transform.forward = -attacker.transform.forward;                        
 
             //產生文字
             HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering"), GameSceneManagement.Instance.loadPath.hitNumber).GetComponent<HitNumber>();                            
@@ -134,6 +134,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  damage: damage,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
                                  isCritical: isCritical);//是否爆擊
+                        
 
             //判斷擊中效果
             switch (knockDirection)

@@ -11,7 +11,7 @@ public class HitNumber : MonoBehaviour
     Canvas canvas_Overlay;
     Text thisText;
 
-    Transform target;//受傷目標   
+    [SerializeField]Transform target;//受傷目標   
     Vector3 startPosition;//初始位置
     float lifeTime;//生存時間
 

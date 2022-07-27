@@ -66,9 +66,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 enemy.transform.position = new Vector3(24 + i * 1, 2f, 40);//設定位置
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
-            
         }
-         
+
         //擊中數字
         number = objectHandle.OnCreateObject(loadPath.hitNumber);//產生至物件池;
         objectNumber_Dictionary.Add("hitNumberNumbering", number);////添加至紀錄中
@@ -191,48 +190,6 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 }
             }
         }        
-    }
-    
-    /// <summary>
-    /// 連線受擊訊息
-    /// </summary>
-    /// <param name="targetID">受擊者物件ID</param>
-    /// <param name="attackerID">攻擊者物件ID</param>
-    /// <param name="layer">攻擊者layer</param>
-    /// <param name="damage">造成傷害</param>
-    /// <param name="animationName">播放動畫名稱</param>
-    /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
-    /// <param name="repel">擊退距離</param>
-    /// <param name="isCritical">是否爆擊</param>
-    public void OnConnectGetHit(int targetID, int attackerID, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {
-        GameObject attacker = null;
-
-        //搜尋攻擊者物件
-        foreach(var attack in connectObject_Dixtionary)
-        {
-            if (attack.Key == attackerID)
-            {
-                attacker = attack.Value;
-                break;
-            }
-        }
-
-        //搜尋受擊者物件
-        foreach (var obj in connectObject_Dixtionary)
-        {
-            if(obj.Key == targetID)
-            {                
-                obj.Value.GetComponent<CharactersCollision>().OnGetHit(attacker: attacker,//攻擊者物件
-                                                                       layer: layer,//攻擊者layer
-                                                                       damage: damage,//造成傷害
-                                                                       animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
-                                                                       knockDirection: knockDirection,//擊退方向((0:擊退 1:擊飛))
-                                                                       repel: repel,//擊退距離
-                                                                       isCritical: isCritical);//是否爆擊
-                break;
-            }
-        }               
     }
 
     /// <summary>

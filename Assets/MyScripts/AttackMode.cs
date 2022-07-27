@@ -129,18 +129,6 @@ public class AttackMode
                                      animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
                                      knockDirection: direction,//擊退方向((0:擊退 1:擊飛))
                                      repel: repel,//擊退距離
-                                     isCritical: isCritical);//是否爆擊
-        
-        //連線模式
-        if (GameDataManagement.Instance.isConnect)
-        {
-            PhotonConnect.Instance.OnSendGetHit(charactersCollision.GetComponent<ConnectObject>().id,//受擊者物件ID
-                                                performObject.GetComponent<ConnectObject>().id,//攻擊者物件ID
-                                                layer, damage,//造成傷害
-                                                animationName,//攻擊效果(受擊者播放的動畫名稱)
-                                                direction,//擊退方向((0:擊退 1:擊飛))
-                                                repel,//擊退距離
-                                                isCritical);//是否爆擊
-        }
+                                     isCritical: isCritical);//是否爆擊          
     }
 }
