@@ -100,7 +100,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             }
 
             OnAttackMove_Warrior();
-        }       
+        }
     }
 
     #region 戰士攻擊
@@ -157,7 +157,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// 普通攻擊行為_戰士
     /// </summary>
     void OnNormalAttackBehavior_Warrior()
-    {        
+    {
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;        
 

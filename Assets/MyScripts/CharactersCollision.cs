@@ -111,7 +111,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public void OnGetHit(GameObject attacker, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
     {       
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-
+        
         //閃躲
         if (info.IsName("Dodge") || info.IsName("Die")) return;
 
@@ -126,10 +126,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //面向攻擊者
-            transform.forward = -attacker.transform.forward;                        
+            transform.forward = -attacker.transform.forward;
 
-            //產生文字
-            HitNumber hitNumber = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("hitNumberNumbering"), GameSceneManagement.Instance.loadPath.hitNumber).GetComponent<HitNumber>();                            
+            //產生文字            
+            HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: damage,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
@@ -147,8 +147,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     break;
             }
 
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendGetHit(photonView.ViewID, transform.position, transform.rotation, damage, isCritical);
+
             //死亡
-            if(Hp <= 0)
+            if (Hp <= 0)
             {                
                 isDie = true;
                 animator.SetTrigger("Die");
@@ -180,8 +182,31 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 animator.SetBool(animationName, true);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, true);
-            }
+            }            
         }        
+    }
+
+    /// <summary>
+    /// 連線他人物件受擊
+    /// </summary>
+    /// <param name="position">位置</param>
+    /// <param name="rotation">選轉</param>
+    /// <param name="damage">受到傷害</param>
+    /// <param name="isCritical">是否爆擊</param>
+    public void OnConnectOtherGetHit(Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    {
+        transform.position = position;
+        transform.rotation = rotation;
+        
+        Hp -= damage;//生命值減少
+        lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+
+        //產生文字
+        HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
+        hitNumber.OnSetValue(target: transform,//受傷目標
+                             damage: damage,//受到傷害
+                             color: isCritical ? Color.yellow : Color.red,//文字顏色
+                             isCritical: isCritical);//是否爆擊
     }
 
     /// <summary>

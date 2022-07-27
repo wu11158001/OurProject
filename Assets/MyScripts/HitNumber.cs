@@ -20,21 +20,13 @@ public class HitNumber : MonoBehaviour
         canvas_Overlay = GameObject.Find("Canvas_Overlay").GetComponent<Canvas>();     
         transform.SetParent(canvas_Overlay.transform);
 
-        OnInitail();
+        lifeTime = 1.5f;//生存時間
     }
 
     
     void Update()
     {
         OnHitNumberBehavior();
-    }
-
-    /// <summary>
-    /// 初始化
-    /// </summary>
-    void OnInitail()
-    {
-        lifeTime = 1.5f;//生存時間        
     }
 
     /// <summary>
@@ -86,8 +78,7 @@ public class HitNumber : MonoBehaviour
         lifeTime -= Time.deltaTime;
         if (lifeTime <= 0 || position.z < 0)
         {
-            OnInitail();
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

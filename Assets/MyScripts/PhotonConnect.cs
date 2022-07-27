@@ -306,7 +306,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <summary>
     /// 發送物件激活狀態
     /// </summary>
-    /// <param name="obj">物件ID</param>
+    /// <param name="obj">物件</param>
     /// <param name="active">激活狀態</param>
     public void OnSendObjectActive(GameObject obj, bool active)
     {        
@@ -320,14 +320,33 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <summary>
     /// 物件激活
     /// </summary>
-    /// <param name="id">物件ID</param>
+    /// <param name="targetID">物件ID</param>
     /// <param name="active">激活狀態</param>
     /// <param name="info">傳送者訊息</param>
     [PunRPC]
-    void OnObjectActive(int id, bool active, PhotonMessageInfo info)
+    void OnObjectActive(int targetID, bool active, PhotonMessageInfo info)
     {
-        GameSceneManagement.Instance.OnConnectObjectActive(id, active);
+        GameSceneManagement.Instance.OnConnectObjectActive(targetID, active);
     }  
+
+    /// <summary>
+    /// 發送受擊訊息
+    /// </summary>
+    /// <param name="targetID">目標ID</param>
+    /// <param name="position">位置</param>
+    /// <param name="rotation">選轉</param>
+    /// <param name="damage">受到傷害</param>
+    /// <param name="isCritical">是否爆擊</param>
+    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    {
+        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical);
+    }
+
+    [PunRPC]
+    void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    {
+        GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical);
+    }
 
     /// <summary>
     /// 發送動畫訊息_Boolean
