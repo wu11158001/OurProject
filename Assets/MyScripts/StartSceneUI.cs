@@ -320,9 +320,10 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     void OnStopVideo()
     {
+        //StartScene未開啟
         if (!background_Image.gameObject.activeSelf)
         {
-            if (videoTime > 0) videoTime -= Time.deltaTime;
+            if (videoTime > 0) videoTime -= Time.deltaTime;//影片時間
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
             {
                 if (videoPlayer.isPlaying || videoTime <= 0)
@@ -331,6 +332,20 @@ public class StartSceneUI : MonoBehaviour
                     startScreen.gameObject.SetActive(true);
                 }
                 else
+                {
+                    background_Image.gameObject.SetActive(true);
+                    selectModeScreen.gameObject.SetActive(true);
+                    startScreen.gameObject.SetActive(false);
+                }
+            }
+
+            //影片撥放結束
+            if(videoTime <= 0)
+            {
+                videoPlayer.Stop();
+                startScreen.gameObject.SetActive(true);
+
+                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
                 {
                     background_Image.gameObject.SetActive(true);
                     selectModeScreen.gameObject.SetActive(true);
