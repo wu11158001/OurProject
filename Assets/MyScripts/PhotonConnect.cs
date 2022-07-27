@@ -327,40 +327,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnObjectActive(int id, bool active, PhotonMessageInfo info)
     {
         GameSceneManagement.Instance.OnConnectObjectActive(id, active);
-    }
-
-    /// <summary>
-    /// 發送受擊訊息
-    /// </summary>
-    /// <param name="targetID">受擊者物件ID</param>
-    /// <param name="attackerID">攻擊者物件ID</param>
-    /// <param name="layer">攻擊者layer</param>
-    /// <param name="damage">造成傷害</param>
-    /// <param name="animationName">播放動畫名稱</param>
-    /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
-    /// <param name="repel">擊退距離</param>
-    /// <param name="isCritical">是否爆擊</param>
-    public void OnSendGetHit(int targetID, int attackerID, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {
-        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, attackerID, layer, damage, animationName, knockDirection, repel, isCritical);
-    }
-
-    /// <summary>
-    /// 受擊訊息
-    /// </summary>    
-    /// <param name="targetID">受擊者物件ID</param>
-    /// <param name="attackerID">攻擊者物件ID</param>
-    /// <param name="layer">攻擊者layer</param>
-    /// <param name="damage">造成傷害</param>
-    /// <param name="animationName">播放動畫名稱</param>
-    /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
-    /// <param name="repel">擊退距離</param>
-    /// <param name="isCritical">是否爆擊</param>
-    [PunRPC]
-    void OnGetHit(int targetID, int attackerID, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {
-        GameSceneManagement.Instance.OnConnectGetHit(targetID, attackerID, layer, damage, animationName, knockDirection, repel, isCritical);
-    }
+    }  
 
     /// <summary>
     /// 發送動畫訊息_Boolean
