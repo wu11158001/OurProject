@@ -14,7 +14,10 @@ public class StartSceneUI : MonoBehaviour
 
     GameData_LoadPath loadPath;
     GameData_NumericalValue numericalValue;
+
+    [Header("影片")]
     VideoPlayer videoPlayer;
+    double videoTime;//影片長度
 
     [Header("開始畫面")]
     Image background_Image;//背景
@@ -136,7 +139,9 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     void OnStartScreenPrepare()
     {        
-        videoPlayer = Camera.main.GetComponent<VideoPlayer>();//影片    
+        videoPlayer = Camera.main.GetComponent<VideoPlayer>();//影片   
+        videoTime = videoPlayer.clip.length;//影片長度
+        videoPlayer.Play();//播放影片
         startScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "StartScreen");//startScreen UI控制        
         startTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "StartTip_Text");//提示文字
         background_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Background_Image");//背景
@@ -314,24 +319,20 @@ public class StartSceneUI : MonoBehaviour
     /// 影片停止
     /// </summary>
     void OnStopVideo()
-    {        
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+    {
+        if(videoTime > 0) videoTime -= Time.deltaTime;
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return) || videoTime <= 0)
         {
-            if (videoPlayer.isPlaying)
+            videoPlayer.Stop();
+            startScreen.gameObject.SetActive(true);
+
+            if (startScreen.gameObject.activeSelf)
             {
-                videoPlayer.Stop();
-                startScreen.gameObject.SetActive(true);
+                background_Image.gameObject.SetActive(true);
+                selectModeScreen.gameObject.SetActive(true);
+                startScreen.gameObject.SetActive(false);
             }
-            else
-            {
-                if (startScreen.gameObject.activeSelf)
-                {
-                    background_Image.gameObject.SetActive(true);
-                    selectModeScreen.gameObject.SetActive(true);
-                    startScreen.gameObject.SetActive(false);                    
-                }
-            }
-        }
+        }        
     }
 
     /// <summary>
