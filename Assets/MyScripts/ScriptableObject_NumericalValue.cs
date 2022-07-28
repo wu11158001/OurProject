@@ -28,26 +28,58 @@ public class GameData_NumericalValue
     public float playerCriticalRate;//玩家暴擊率
     public float playerDodgeSeppd;//玩家閃躲速度
 
-    [Header("戰士 普通攻擊")]
-    public float[] warriorNormalAttackDamge;//戰士普通攻擊傷害
-    public float[] warriorNormalAttackRepelDistance;//戰士普通攻擊 擊退/擊飛距離
-    public int[] warriorNormalAttackRepelDirection;//戰士普通攻擊擊退方向(0:擊退 1:擊飛)
-    public string[] warriorNormalAttackEffect;//戰士普通攻擊效果(受擊者播放的動畫名稱)
-    public Vector3[] warriorNormalAttackBoxSize;//戰士普通攻擊框Size
+    [Header("戰士 普通攻擊1")]
+    public float warriorNormalAttack_1_Damge;//戰士普通攻擊1_傷害
+    public int warriorNormalAttack_1_RepelDirection;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
+    public float warriorNormalAttack_1_RepelDistance;//戰士普通攻擊1_擊退/擊飛距離    
+    public string warriorNormalAttack_1_Effect;//戰士普通攻擊1_效果(受擊者播放的動畫名稱)        
+    public float warriorNormalAttack_1_ForwardDistance;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
+    public float warriorNormalAttack_1_attackRadius;//戰士普通攻擊1_攻擊半徑
+    public bool warriorNormalAttack_1_IsAttackBehind;//戰士普通攻擊1_是否攻擊背後敵人
+
+    [Header("戰士 普通攻擊2")]
+    public float warriorNormalAttack_2_Damge;//戰士普通攻擊2_傷害
+    public int warriorNormalAttack_2_RepelDirection;//戰士普通攻擊2_擊退方向(0:擊退 1:擊飛)
+    public float warriorNormalAttack_2_RepelDistance;//戰士普通攻擊2_擊退/擊飛距離    
+    public string warriorNormalAttack_2_Effect;//戰士普通攻擊2_效果(受擊者播放的動畫名稱)        
+    public float warriorNormalAttack_2_ForwardDistance;//戰士普通攻擊2_攻擊範圍中心點距離物件前方
+    public float warriorNormalAttack_2_attackRadius;//戰士普通攻擊2_攻擊半徑
+    public bool warriorNormalAttack_2_IsAttackBehind;//戰士普通攻擊2_是否攻擊背後敵人
+
+    [Header("戰士 普通攻擊3")]
+    public float warriorNormalAttack_3_Damge;//戰士普通攻擊3_傷害
+    public int warriorNormalAttack_3_RepelDirection;//戰士普通攻擊3_擊退方向(0:擊退 1:擊飛)
+    public float warriorNormalAttack_3_RepelDistance;//戰士普通攻擊3_擊退/擊飛距離    
+    public string warriorNormalAttack_3_Effect;//戰士普通攻擊3_效果(受擊者播放的動畫名稱)        
+    public float warriorNormalAttack_3_ForwardDistance;//戰士普通攻擊3_攻擊範圍中心點距離物件前方
+    public float warriorNormalAttack_3_attackRadius;//戰士普通攻擊3_攻擊半徑
+    public bool warriorNormalAttack_3_IsAttackBehind;//戰士普通攻擊3_是否攻擊背後敵人
 
     [Header("戰士 跳躍攻擊")]
-    public float warriorJumpAttackDamage;//戰士跳躍攻擊傷害
-    public string warriorJumpAttackEffect;//戰士跳躍攻擊效果(受擊者播放的動畫名稱)
-    public float warriorJumpAttackRepelDistance;//戰士跳躍攻擊 擊退距離
-    public Vector3 warriorJumpAttackBoxSize;//戰士跳躍攻擊框Size
-    public int warriorJumpAttackRepelDirection;//戰士跳躍攻擊擊退方向(0:擊退 1:擊飛)
+    public float warriorJumpAttack_Damage;//戰士跳躍攻擊_傷害
+    public int warriorJumpAttack_RepelDirection;//戰士跳躍攻擊_擊退方向(0:擊退 1:擊飛)
+    public float warriorJumpAttac_kRepelDistance;//戰士跳躍攻擊_擊退距離
+    public string warriorJumpAttack_Effect;//戰士跳躍攻擊效果(受擊者播放的動畫名稱)
+    public float warriorJumpAttack_ForwardDistance;//戰士普通攻擊3_攻擊範圍中心點距離物件前方
+    public float warriorJumpAttack_attackRadius;//戰士普通攻擊3_攻擊半徑
+    public bool warriorJumpAttack_IsAttackBehind;//戰士普通攻擊3_是否攻擊背後敵人
 
-    [Header("戰士 技能攻擊")]
-    public float[] warriorSkillAttackDamage;//戰士技能攻擊傷害
-    public string[] warriorSkillAttackEffect;//戰士技能攻擊攻擊效果(受擊者播放的動畫名稱)    
-    public int[] warriorSkillAttackRepelDirection;//戰士技能攻擊擊退方向(0:擊退 1:擊飛)
-    public float[] warriorSkillAttackRepel;//戰士技能攻擊擊退距離    
-    public Vector3[] warriorSkillAttackBoxSize;//戰士技能攻擊攻擊框Size
+    [Header("戰士 技能攻擊1")]
+    public float warriorSkillAttack_1_Damge;//戰士技能1_傷害
+    public int warriorSkillAttack_1_RepelDirection;//戰士技能1_擊退方向(0:擊退 1:擊飛)
+    public float warriorSkillAttack_1_RepelDistance;//戰士技能1_擊退/擊飛距離    
+    public string warriorSkillAttack_1_Effect;//戰士技能1_效果(受擊者播放的動畫名稱)
+    public float warriorSkillAttack_1_FlightSpeed;//戰士技能1_飛行速度
+    public float warriorSkillAttack_1_LifeTime;//戰士技能1_生存時間
+
+    [Header("戰士 技能攻擊2")]
+    public float warriorSkillAttack_2_Damge;//戰士技能攻擊2_傷害
+    public int warriorSkillAttack_2_RepelDirection;//戰士技能攻擊2_擊退方向(0:擊退 1:擊飛)
+    public float warriorSkillAttack_2_RepelDistance;//戰士技能攻擊2_擊退/擊飛距離    
+    public string warriorSkillAttack_2_Effect;//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
+    public float warriorSkillAttack_2_ForwardDistance;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
+    public float warriorSkillAttack_2_attackRadius;//戰士技能攻擊2_攻擊半徑
+    public bool warriorSkillAttack_2_IsAttackBehind;//戰士技能攻擊2_是否攻擊背後敵人
 
     [Header("弓箭手 基礎數值")]
     public float arrowFloatSpeed;//弓箭飛行速度
@@ -100,32 +132,66 @@ public class GameData_NumericalValue
         playerHp = 300;//玩家生命值
         playerMoveSpeed = 5;//玩家移動速度        
         playerJumpForce = 14.5f;//玩家跳躍力
-        playerCriticalRate = 30;//玩家暴擊率
+        playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 3;//玩家閃躲速度
 
-        //戰士 普通攻擊
-        warriorNormalAttackDamge = new float[] { 10, 10, 15 };//戰士普通攻擊傷害
-        warriorNormalAttackRepelDistance = new float[] { 50, 50, 50 };//戰士普通攻擊 擊退/擊飛距離
-        warriorNormalAttackRepelDirection = new int[] { 0, 0, 0 };//戰士普通攻擊擊退方向(0:擊退 1:擊飛)
-        warriorNormalAttackEffect = new string[] { "Pain", "Pain", "Pain" };//戰士普通攻擊效果(受擊者播放的動畫名稱)
-        warriorNormalAttackBoxSize = new Vector3[] { new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f) };//戰士普通攻擊攻擊框Size        
+        #region 戰士
+        //戰士 普通攻擊1
+        warriorNormalAttack_1_Damge = 10;//戰士普通攻擊1_傷害
+        warriorNormalAttack_1_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
+        warriorNormalAttack_1_RepelDistance = 50;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_1_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
+        warriorNormalAttack_1_ForwardDistance = 1.3f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
+        warriorNormalAttack_1_attackRadius = 1.2f;//戰士普通攻擊1_攻擊半徑    
+        warriorNormalAttack_1_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
+
+        //戰士 普通攻擊2
+        warriorNormalAttack_2_Damge = 11;//戰士普通攻擊1_傷害
+        warriorNormalAttack_2_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
+        warriorNormalAttack_2_RepelDistance = 50;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_2_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
+        warriorNormalAttack_2_ForwardDistance = 1.3f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
+        warriorNormalAttack_2_attackRadius = 1.2f;//戰士普通攻擊1_攻擊半徑    
+        warriorNormalAttack_2_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
+
+        //戰士 普通攻擊3
+        warriorNormalAttack_3_Damge = 12;//戰士普通攻擊1_傷害
+        warriorNormalAttack_3_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
+        warriorNormalAttack_3_RepelDistance = 50;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_3_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
+        warriorNormalAttack_3_ForwardDistance = 0.5f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
+        warriorNormalAttack_3_attackRadius = 1.55f;//戰士普通攻擊1_攻擊半徑    
+        warriorNormalAttack_3_IsAttackBehind = true;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 跳躍攻擊
-        warriorJumpAttackDamage = 10;//戰士跳躍攻擊傷害
-        warriorJumpAttackEffect = "Pain";//戰士跳躍攻擊效果(受擊者播放的動畫名稱)
-        warriorJumpAttackRepelDistance = 50;//戰士跳躍攻擊 擊退距離
-        warriorJumpAttackBoxSize = new Vector3(1.5f, 1f, 1.5f);//戰士跳躍攻擊攻擊框Size
-        warriorJumpAttackRepelDirection = 0;//戰士跳躍攻擊擊退方向(0:擊退 1:擊飛)
+        warriorJumpAttack_Damage = 11;//戰士跳躍攻擊_傷害
+        warriorJumpAttack_RepelDirection = 0;//戰士跳躍攻擊_擊退方向(0:擊退 1:擊飛)
+        warriorJumpAttac_kRepelDistance = 50;//戰士跳躍攻擊_擊退距離
+        warriorJumpAttack_Effect = "Pain";//戰士跳躍攻擊效果(受擊者播放的動畫名稱)
+        warriorJumpAttack_ForwardDistance = 0.77f;//戰士普通攻擊3_攻擊範圍中心點距離物件前方
+        warriorJumpAttack_attackRadius = 1.0f;//戰士普通攻擊3_攻擊半徑
+        warriorJumpAttack_IsAttackBehind = false;//戰士普通攻擊3_是否攻擊背後敵人
 
-        //戰士 技能攻擊
-        warriorSkillAttackDamage = new float[] { 10, 20, 30 };//戰士技能攻擊傷害
-        warriorSkillAttackEffect = new string[] { "Pain", "Pain", "Pain" };//戰士技能攻擊攻擊效果(受擊者播放的動畫名稱)    
-        warriorSkillAttackRepelDirection = new int[] { 0, 0, 0 };//戰士技能攻擊擊退方向(0:擊退 1:擊飛)
-        warriorSkillAttackRepel = new float[] { 50, 50, 50};//戰士技能攻擊擊退距離        
-        warriorSkillAttackBoxSize = new Vector3[] { new Vector3(1.5f, 1.5f, 1.5f), new Vector3(1.5f, 1.5f, 1.5f) , new Vector3(1.5f, 1.5f, 1.5f) };//戰士技能攻擊攻擊框Size         
+        //戰士 技能攻擊1
+        warriorSkillAttack_1_Damge = 9;//戰士技能1_傷害
+        warriorSkillAttack_1_RepelDirection = 0;//戰士技能1_擊退方向(0:擊退 1:擊飛)
+        warriorSkillAttack_1_RepelDistance = 50;//戰士技能1_擊退/擊飛距離    
+        warriorSkillAttack_1_Effect = "Pain";//戰士技能1_效果(受擊者播放的動畫名稱)
+        warriorSkillAttack_1_FlightSpeed = 20;//戰士技能1_飛行速度
+        warriorSkillAttack_1_LifeTime = 0.2f;//戰士技能1_生存時間
 
-        //弓箭手 基礎數值
-        arrowFloatSpeed = 20;//弓箭飛行速度
+        //戰士 技能攻擊2
+        warriorSkillAttack_2_Damge = 13;//戰士技能攻擊2_傷害
+        warriorSkillAttack_2_RepelDirection = 0;//戰士技能攻擊2_擊退方向(0:擊退 1:擊飛)
+        warriorSkillAttack_2_RepelDistance = 50;//戰士技能攻擊2_擊退/擊飛距離    
+        warriorSkillAttack_2_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
+        warriorSkillAttack_2_ForwardDistance = 1.3f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
+        warriorSkillAttack_2_attackRadius = 1.2f;//戰士技能攻擊2_攻擊半徑
+        warriorSkillAttack_2_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
+        #endregion
+
+    //弓箭手 基礎數值
+    arrowFloatSpeed = 20;//弓箭飛行速度
         arrowLifeTime = 1.5f;//弓箭生存時間
 
         //弓箭手 普通攻擊

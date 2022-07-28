@@ -19,13 +19,15 @@ public class AttackMode
     public int direction;//擊退方向((0:擊退 1:擊飛))
     public bool isCritical;//是否爆擊
 
-    //近身
-    public Vector3 boxSize;//近身攻擊框Size
+    //近身    
+    public float forwardDistance;//攻擊範圍中心點距離物件前方
+    public float attackRadius;//攻擊半徑
+    public bool isAttackBehind;//是否攻擊背後敵人
 
     //遠程
     List<Transform> record = new List<Transform>();//紀錄已擊中的物件
-    public float speed;//飛行速度
-    public Vector3 diration;//飛行方向
+    public float flightSpeed;//飛行速度
+    public Vector3 flightDiration;//飛行方向
     public float lifeTime;//生存時間    
 
     /// <summary>
@@ -37,7 +39,7 @@ public class AttackMode
     /// 設定打擊事件
     /// </summary>
     public void OnSetHitFunction()
-    {
+    {        
         function = OnHit;
     }
 
@@ -63,20 +65,36 @@ public class AttackMode
     /// 打擊攻擊(近身攻擊)
     /// </summary>
     void OnHit()
-    {        
-        //攻擊框
+    {
         BoxCollider box = performObject.GetComponent<BoxCollider>();
-        Collider[] hits = Physics.OverlapBox(performObject.transform.position + box.center + performObject.transform.forward, boxSize * performObject.transform.lossyScale.x, Quaternion.identity);
+        
+        Collider[] hits = Physics.OverlapSphere(performObject.transform.position + box.center + performObject.transform.forward * forwardDistance, attackRadius);
         foreach (var hit in hits)
         {
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
             if (collision != null)
             {
+                //是否攻擊背後敵人
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0) continue;
                 OnSetAttackNumbericalValue(collision);
             }
         }
+        
 
-        GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+
+       /*//攻擊框
+       BoxCollider box = performObject.GetComponent<BoxCollider>();
+       Collider[] hits = Physics.OverlapBox(performObject.transform.position + box.center + performObject.transform.forward, boxSize * performObject.transform.lossyScale.x, Quaternion.identity);
+       foreach (var hit in hits)
+       {
+           CharactersCollision collision = hit.GetComponent<CharactersCollision>();
+           if (collision != null)
+           {
+               OnSetAttackNumbericalValue(collision);
+           }
+       }*/
+
+       GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
     }   
 
     /// <summary>
@@ -94,10 +112,10 @@ public class AttackMode
         }
 
         //設定前方
-        if(performObject.transform.forward != diration) performObject.transform.forward = diration;
+        if(performObject.transform.forward != flightDiration) performObject.transform.forward = flightDiration;
         
         //物件飛行
-        performObject.transform.position = performObject.transform.position + performObject.transform.forward * speed * Time.deltaTime;
+        performObject.transform.position = performObject.transform.position + performObject.transform.forward * flightSpeed * Time.deltaTime;
     }
 
     /// <summary>
@@ -160,5 +178,5 @@ public class AttackMode
                                      knockDirection: direction,//擊退方向((0:擊退 1:擊飛))
                                      repel: repel,//擊退距離
                                      isCritical: isCritical);//是否爆擊          
-    }
+    }       
 }

@@ -50,15 +50,19 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         player.transform.position = new Vector3(23, 2f, 40);////設定位置
         OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點   
 
-        //弓箭手_弓箭物件
-        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_1_Arrow);//普通攻擊弓箭物件_1
-        objectNumber_Dictionary.Add("archerNormalAttack_1_Arrow", number);//添加至紀錄中
-        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_2_Arrow);//普通攻擊弓箭物件_2
-        objectNumber_Dictionary.Add("archerNormalAttack_2_Arrow", number);//添加至紀錄中
-        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_3_Arrow);//普通攻擊弓箭物件_3
-        objectNumber_Dictionary.Add("archerNormalAttack_3_Arrow", number);//添加至紀錄中
-        number = objectHandle.OnCreateObject(loadPath.archerSkilllAttack_1_Arrow);//技能攻擊弓箭物件_1
-        objectNumber_Dictionary.Add("archerSkilllAttack_1_Arrow", number);//添加至紀錄中
+        //戰士物件
+        number = objectHandle.OnCreateObject(loadPath.warriorSkillAttack_1);//戰士技能攻擊_1物件
+        objectNumber_Dictionary.Add("warriorSkillAttack_1", number);//添加至紀錄中
+
+        //弓箭手物件
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_1);//普通攻擊_1物件
+        objectNumber_Dictionary.Add("archerNormalAttack_1", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_2);//普通攻擊_2物件
+        objectNumber_Dictionary.Add("archerNormalAttack_2", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_3);//普通攻擊_3物件
+        objectNumber_Dictionary.Add("archerNormalAttack_3", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerSkilllAttack_1);//技能攻擊_1物件
+        objectNumber_Dictionary.Add("archerSkilllAttack_1", number);//添加至紀錄中
 
         //敵人
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)

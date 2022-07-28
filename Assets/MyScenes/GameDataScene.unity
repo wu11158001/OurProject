@@ -257,54 +257,72 @@ MonoBehaviour:
     playerJumpForce: 16
     playerCriticalRate: 30
     playerDodgeSeppd: 3
-    warriorNormalAttackDamge:
-    - 10
-    - 10
-    - 15
-    warriorNormalAttackMoveDistance:
-    - 50
-    - 50
-    - 50
-    warriorNormalAttackRepelDistance:
-    - 70
-    - 80
-    - 18
-    warriorNormalAttackRepelDirection: 000000000000000000000000
-    warriorNormalAttackEffect:
-    - Pain
-    - Pain
-    - Pain
-    warriorNormalAttackBoxSize:
-    - {x: 1, y: 1, z: 1}
-    - {x: 1, y: 1, z: 1}
-    - {x: 1, y: 1, z: 1}
-    warriorJumpAttackDamage: 10
-    warriorJumpAttackEffect: Pain
-    warriorJumpAttackRepelDistance: 50
-    warriorJumpAttackBoxSize: {x: 1, y: 0.5, z: 1}
-    warriorJumpAttackRepelDirection: 0
-    warriorSkillAttackDamage:
-    - 10
-    - 20
-    - 30
-    warriorSkillAttackEffect:
-    - Pain
-    - Pain
-    - Pain
-    warriorSkillAttackRepelDirection: 000000000000000000000000
-    warriorSkillAttackRepel:
-    - 50
-    - 50
-    - 50
-    warriorSkillAttackBoxSize:
-    - {x: 1, y: 1, z: 1}
-    - {x: 1, y: 1, z: 1}
-    - {x: 1, y: 1, z: 1}
+    warriorNormalAttack_1_Damge: 10
+    warriorNormalAttack_1_RepelDirection: 0
+    warriorNormalAttack_1_RepelDistance: 50
+    warriorNormalAttack_1_Effect: Pain
+    warriorNormalAttack_1_ForwardDistance: 1.3
+    warriorNormalAttack_1_attackRadius: 1.2
+    warriorNormalAttack_1_IsAttackBehind: 0
+    warriorNormalAttack_2_Damge: 11
+    warriorNormalAttack_2_RepelDirection: 0
+    warriorNormalAttack_2_RepelDistance: 50
+    warriorNormalAttack_2_Effect: Pain
+    warriorNormalAttack_2_ForwardDistance: 1.3
+    warriorNormalAttack_2_attackRadius: 1.2
+    warriorNormalAttack_2_IsAttackBehind: 0
+    warriorNormalAttack_3_Damge: 12
+    warriorNormalAttack_3_RepelDirection: 0
+    warriorNormalAttack_3_RepelDistance: 50
+    warriorNormalAttack_3_Effect: Pain
+    warriorNormalAttack_3_ForwardDistance: 0
+    warriorNormalAttack_3_attackRadius: 1.2
+    warriorNormalAttack_3_IsAttackBehind: 1
+    warriorJumpAttack_Damage: 11
+    warriorJumpAttack_RepelDirection: 0
+    warriorJumpAttac_kRepelDistance: 50
+    warriorJumpAttack_Effect: Pain
+    warriorJumpAttack_ForwardDistance: 0
+    warriorJumpAttack_attackRadius: 1.3
+    warriorJumpAttack_IsAttackBehind: 1
+    warriorSkillAttack_1_Damge: 0
+    warriorSkillAttack_1_RepelDirection: 0
+    warriorSkillAttack_1_RepelDistance: 0
+    warriorSkillAttack_1_Effect: 
+    warriorSkillAttack_1_flightSpeed: 20
+    warriorSkillAttackDamage_2: 10
+    warriorSkillAttackEffect_2: Pain
+    warriorSkillAttackRepelDirection_2: 0
+    warriorSkillAttackRepel_2: 50
+    warriorSkillAttackBoxSize_2: {x: 1.5, y: 1.5, z: 1.5}
+    arrowFloatSpeed: 20
+    arrowLifeTime: 1.5
     archerNormalAttackDamge: []
-    archerNormalAttackMoveDistance: []
     archerNormalAttackRepelDistance: []
     archerNormalAttackRepelDirection: 
     archerNormalAttackEffect: []
+    archerJumpAttackDamage: 11
+    archerJumpAttackEffect: Pain
+    archerJumpAttackRepelDistance: 50
+    archerJumpAttackBoxSize: {x: 1.5, y: 1, z: 1.5}
+    archerJumpAttackRepelDirection: 0
+    archerSkillAttackDamage:
+    - 11
+    - 12
+    - 13
+    archerSkillAttackEffect:
+    - Pain
+    - Pain
+    - Pain
+    archerSkillAttackRepelDirection: 000000000000000000000000
+    archerSkillAttackRepel:
+    - 50
+    - 50
+    - 50
+    archerSkillAttackBoxSize:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.5, y: 1.5, z: 1.5}
+    - {x: 5, y: 5, z: 5}
     enemyHp: 300
   loadPath:
     roleSelect_Button: RoleSelectButton
@@ -324,13 +342,15 @@ MonoBehaviour:
     - Prefab/Characters/Player/PlayerCharacters_2
     - Prefab/Characters/Player/PlayerCharacters_3
     - Prefab/Characters/Player/PlayerCharacters_4
-    archerNormalAttack_1_Arrow: Prefab/ShootObject/Arrow_1
-    archerNormalAttack_2_Arrow: 
-    archerNormalAttack_3_Arrow: 
-    archerNormalAttackArrows:
-    - Prefab/ShootObject/NormalAttack_1_Arrow
-    - Prefab/ShootObject/NormalAttack_2_Arrow
-    - Prefab/ShootObject/NormalAttack_3_Arrow
+    warriorSkillAttack_1: Prefab/ShootObject/Warrior/Warrior_SkillAttack_1
+    archerNormalAttack_1: Prefab/ShootObject/Archer/ArcherNormalAttack_1_Arrow
+    archerNormalAttack_2: Prefab/ShootObject/Archer/ArcherNormalAttack_2_Arrow
+    archerNormalAttack_3: Prefab/ShootObject/Archer/ArcherNormalAttack_3_Arrow
+    archerAllNormalAttack:
+    - Prefab/ShootObject/Archer/ArcherNormalAttack_1_Arrow
+    - Prefab/ShootObject/Archer/ArcherNormalAttack_2_Arrow
+    - Prefab/ShootObject/Archer/ArcherNormalAttack_3_Arrow
+    archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1_Arrow
     enemy: Prefab/Characters/Enemy/Enemy
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar

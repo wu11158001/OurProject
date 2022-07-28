@@ -60,16 +60,16 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
             float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
             attack.function = new Action(attack.OnSetShootFunction_Single);//設定執行函式
-            attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("archerSkilllAttack_1_Arrow"), GameSceneManagement.Instance.loadPath.archerSkilllAttack_1_Arrow);//執行攻擊的物件(自身/射出物件)
+            attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("archerSkilllAttack_1_Arrow"), GameSceneManagement.Instance.loadPath.archerSkilllAttack_1);//執行攻擊的物件(自身/射出物件)
             attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
             attack.damage = NumericalValue.archerSkillAttackDamage[normalAttackNumber - 1] * rate;//造成傷害 
             attack.animationName = NumericalValue.archerSkillAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
             attack.direction = NumericalValue.archerSkillAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
             attack.repel = NumericalValue.archerSkillAttackRepel[normalAttackNumber - 1];//擊退/擊飛距離
             attack.isCritical = isCritical;//是否爆擊
-            attack.speed = NumericalValue.arrowFloatSpeed;//飛行速度
+            attack.flightSpeed = NumericalValue.arrowFloatSpeed;//飛行速度
             attack.lifeTime = NumericalValue.arrowLifeTime;//生存時間
-            attack.diration = diration[i];//飛行方向        
+            attack.flightDiration = diration[i];//飛行方向        
             attack.performObject.transform.position = transform.position + Vector3.up * shoopPosition[0] + transform.forward * shoopPosition[1];//射出位置
             GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
         }        
@@ -95,7 +95,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.animationName = NumericalValue.archerSkillAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
         attack.direction = NumericalValue.archerSkillAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerSkillAttackRepel[normalAttackNumber - 1];//擊退/擊飛距離
-        attack.boxSize = NumericalValue.archerSkillAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
+        
         attack.isCritical = isCritical;//是否爆擊
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
     }
@@ -120,7 +120,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.animationName = NumericalValue.archerSkillAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
         attack.direction = NumericalValue.archerSkillAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerSkillAttackRepel[normalAttackNumber - 1];//擊退/擊飛距離
-        attack.boxSize = NumericalValue.archerSkillAttackBoxSize[normalAttackNumber - 1] * transform.lossyScale.x;//近身攻擊框Size
+        
         attack.isCritical = isCritical;//是否爆擊
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
     }
@@ -145,7 +145,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.animationName = NumericalValue.archerJumpAttackEffect;//攻擊效果(播放動畫名稱)
         attack.direction = NumericalValue.archerJumpAttackRepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerJumpAttackRepelDistance;//擊退距離
-        attack.boxSize = NumericalValue.archerJumpAttackBoxSize * transform.lossyScale.x;//近身攻擊框Size
+        
         attack.isCritical = isCritical;//是否爆擊
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
     }
@@ -164,16 +164,16 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         //設定AttackBehavior Class數值
         AttackMode attack = AttackMode.Instance;
         attack.function = new Action(attack.OnSetShootFunction_Single);//設定執行函式
-        attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber(normalAttackArrows[normalAttackNumber - 1]), GameSceneManagement.Instance.loadPath.archerNormalAttackArrows[normalAttackNumber - 1]);//執行攻擊的物件(自身/射出物件)
+        attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber(normalAttackArrows[normalAttackNumber - 1]), GameSceneManagement.Instance.loadPath.archerAllNormalAttack[normalAttackNumber - 1]);//執行攻擊的物件(自身/射出物件)
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.damage = NumericalValue.archerNormalAttackDamge[normalAttackNumber - 1] * rate;//造成傷害 
         attack.animationName = NumericalValue.archerNormalAttackEffect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
         attack.direction = NumericalValue.archerNormalAttackRepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerNormalAttackRepelDistance[normalAttackNumber - 1];//擊退/擊飛距離
         attack.isCritical = isCritical;//是否爆擊
-        attack.speed = NumericalValue.arrowFloatSpeed;//飛行速度
+        attack.flightSpeed = NumericalValue.arrowFloatSpeed;//飛行速度
         attack.lifeTime = NumericalValue.arrowLifeTime;//生存時間
-        attack.diration = transform.forward;//飛行方向        
+        attack.flightDiration = transform.forward;//飛行方向        
         attack.performObject.transform.position = transform.position + Vector3.up * shoopPosition[0] + transform.forward * shoopPosition[1];//射出位置
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
     }
