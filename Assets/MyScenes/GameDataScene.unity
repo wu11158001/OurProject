@@ -261,10 +261,6 @@ MonoBehaviour:
     - 10
     - 10
     - 15
-    warriorNormalAttackMoveDistance:
-    - 50
-    - 50
-    - 50
     warriorNormalAttackRepelDistance:
     - 70
     - 80
@@ -300,11 +296,34 @@ MonoBehaviour:
     - {x: 1, y: 1, z: 1}
     - {x: 1, y: 1, z: 1}
     - {x: 1, y: 1, z: 1}
+    arrowFloatSpeed: 20
+    arrowLifeTime: 1.5
     archerNormalAttackDamge: []
-    archerNormalAttackMoveDistance: []
     archerNormalAttackRepelDistance: []
     archerNormalAttackRepelDirection: 
     archerNormalAttackEffect: []
+    archerJumpAttackDamage: 11
+    archerJumpAttackEffect: Pain
+    archerJumpAttackRepelDistance: 50
+    archerJumpAttackBoxSize: {x: 1.5, y: 1, z: 1.5}
+    archerJumpAttackRepelDirection: 0
+    archerSkillAttackDamage:
+    - 11
+    - 12
+    - 13
+    archerSkillAttackEffect:
+    - Pain
+    - Pain
+    - Pain
+    archerSkillAttackRepelDirection: 000000000000000000000000
+    archerSkillAttackRepel:
+    - 50
+    - 50
+    - 50
+    archerSkillAttackBoxSize:
+    - {x: 0, y: 0, z: 0}
+    - {x: 1.5, y: 1.5, z: 1.5}
+    - {x: 5, y: 5, z: 5}
     enemyHp: 300
   loadPath:
     roleSelect_Button: RoleSelectButton
@@ -331,6 +350,7 @@ MonoBehaviour:
     - Prefab/ShootObject/NormalAttack_1_Arrow
     - Prefab/ShootObject/NormalAttack_2_Arrow
     - Prefab/ShootObject/NormalAttack_3_Arrow
+    archerSkilllAttack_1_Arrow: Prefab/ShootObject/ArcherSkilllAttack_1_Arrow
     enemy: Prefab/Characters/Enemy/Enemy
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar

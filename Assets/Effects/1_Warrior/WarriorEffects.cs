@@ -30,54 +30,45 @@ public class WarriorEffects : MonoBehaviour
 
     void WarNormalAttack1()
     {
-        float delay = 0.35f;       //控制播放時間點，面板務必保持為0   
-        if (animInfo.IsName("Attack.NormalAttack_1") && animInfo.normalizedTime > delay)
-        {
-            if (!NormalAttack_1.isPlaying) NormalAttack_1.Play();
-            if (animInfo.normalizedTime > delay + 0.1f) NormalAttack_1.Stop();
-        }
-        else NormalAttack_1.Stop();
+        var idelName = "Attack.NormalAttack_1";         //動作名稱
+        float delay = 0.35f;                            //控制播放時間點，面板務必保持為0   
+        var effect = NormalAttack_1;                    //特效名稱
+        DoEffects(idelName, delay, effect);
     }
 
     void WarNormalAttack3()
     {
-        float delay = 0.55f;       //控制播放時間點，面板務必保持為0
-        if (animInfo.IsName("Attack.NormalAttack_3") && animInfo.normalizedTime > delay)
-        {
-            if (!NormalAttack_3.isPlaying) NormalAttack_3.Play();
-            if (animInfo.normalizedTime > delay + 0.1f) NormalAttack_3.Stop();
-        }
-        else NormalAttack_3.Stop();
+        var idelName = "Attack.NormalAttack_3";         //動作名稱
+        float delay = 0.55f;                            //控制播放時間點，面板務必保持為0   
+        var effect = NormalAttack_3;                    //特效名稱
+        DoEffects(idelName, delay, effect);
     }
 
     void WarSkillAttack3()
     {
-        var SkillAttack_30 = SkillAttack_3.transform.GetChild(0).GetComponent<ParticleSystem>();
-        float delay = 0.1f;
-        if (animInfo.IsName("Attack.SkillAttack_3") && animInfo.normalizedTime > delay)
-        {
-            if (!SkillAttack_30.isPlaying) SkillAttack_30.Play();
-            if (animInfo.normalizedTime > delay + 0.1f) SkillAttack_30.Stop();
-        }
-        else SkillAttack_30.Stop();
+        var idelName = "Attack.SkillAttack_3";         //動作名稱
+        var skill = SkillAttack_3;                     //三個不同時間播放特效
 
-        var SkillAttack_31 = SkillAttack_3.transform.GetChild(1).GetComponent<ParticleSystem>();
-        float delay1 = 0.4f;
-        if (animInfo.IsName("Attack.SkillAttack_3") && animInfo.normalizedTime > delay1)
-        {
-            if (!SkillAttack_31.isPlaying) SkillAttack_31.Play();
-            if (animInfo.normalizedTime > delay1 + 0.1f) SkillAttack_31.Stop();
-        }
-        else SkillAttack_31.Stop();
+        var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
+        float delay = 0.1f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
+        DoEffects(idelName, delay, SkillAttack_30);
 
-        var SkillAttack_32 = SkillAttack_3.transform.GetChild(2).GetComponent<ParticleSystem>();
-        float delay2 = 0.7f;
-        if (animInfo.IsName("Attack.SkillAttack_3") && animInfo.normalizedTime > delay2)
+        var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
+        float delay1 = 0.3f;                            //SkillAttack_31特效播放時間點
+        DoEffects(idelName, delay1, SkillAttack_31);
+
+        var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
+        float delay2 = 0.7f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        DoEffects(idelName, delay2, SkillAttack_32);
+    }
+
+    void DoEffects(string idelName, float delay, ParticleSystem effect)
+    {
+
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay)
         {
-            Debug.Log("11");
-            if (!SkillAttack_32.isPlaying) SkillAttack_32.Play();
-            if (animInfo.normalizedTime > delay2 + 0.1f) SkillAttack_32.Stop();
+            if (!effect.isPlaying) effect.Play();
         }
-        else SkillAttack_32.Stop();
+        else effect.Stop();
     }
 }
