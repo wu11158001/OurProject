@@ -62,7 +62,10 @@ public class ObjectHandle
             if(!getGameObject_List[i].obj.activeSelf)//若物件處於關閉狀態
             {
                 //連線模式
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(getGameObject_List[i].obj, true);
+                if (GameDataManagement.Instance.isConnect)
+                {
+                    if(getGameObject_List[i].obj.GetComponent<HitNumber>() == null) PhotonConnect.Instance.OnSendObjectActive(getGameObject_List[i].obj, true);
+                }
                 
                 getGameObject_List[i].obj.SetActive(true);//開啟物件
                 return getGameObject_List[i].obj;//回傳物件

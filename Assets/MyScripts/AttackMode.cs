@@ -42,12 +42,21 @@ public class AttackMode
     }
 
     /// <summary>
-    /// 設定射擊事件
+    /// 設定射擊事件_群體攻擊
     /// </summary>
-    public void OnSetShootFunction()
+    public void OnSetShootFunction_Group()
     {
         function = OnShoot;
-        function += OnShootionCollision;
+        function += OnShootionCollision_Group;
+    }
+
+    /// <summary>
+    /// 設定射擊事件_單體攻擊
+    /// </summary>
+    public void OnSetShootFunction_Single()
+    {        
+        function = OnShoot;
+        function += OnShootionCollision_Single;        
     }
 
     /// <summary>
@@ -68,7 +77,7 @@ public class AttackMode
         }
 
         GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
-    }
+    }   
 
     /// <summary>
     /// 射出物件(遠程攻擊)
@@ -83,18 +92,18 @@ public class AttackMode
             performObject.SetActive(false);
             GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
         }
-   
+
         //設定前方
         if(performObject.transform.forward != diration) performObject.transform.forward = diration;
-       
+        
         //物件飛行
         performObject.transform.position = performObject.transform.position + performObject.transform.forward * speed * Time.deltaTime;
     }
 
     /// <summary>
-    /// 碰撞偵測(射擊物件)
+    /// 碰撞偵測_群體攻擊(射擊物件)
     /// </summary>
-    void OnShootionCollision()
+    void OnShootionCollision_Group()
     {
         SphereCollider sphere = performObject.GetComponent<SphereCollider>();
         Collider[] hits = Physics.OverlapSphere(performObject.transform.position, sphere.radius * sphere.transform.localScale.x);     
@@ -109,11 +118,32 @@ public class AttackMode
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
             if (collision != null)
             {
-                OnSetAttackNumbericalValue(collision);
-                
-
+                OnSetAttackNumbericalValue(collision);               
                 record.Add(hit.transform);//紀錄以擊中物件                
             }            
+        }
+    }
+
+    /// <summary>
+    /// 碰撞偵測_單體攻擊(射擊物件)
+    /// </summary>
+    void OnShootionCollision_Single()
+    {
+        SphereCollider sphere = performObject.GetComponent<SphereCollider>();
+        Collider[] hits = Physics.OverlapSphere(performObject.transform.position, sphere.radius * sphere.transform.localScale.x);
+        foreach (var hit in hits)
+        {
+            CharactersCollision collision = hit.GetComponent<CharactersCollision>();
+            if (collision != null)
+            {
+                OnSetAttackNumbericalValue(collision);
+                
+                //物件關閉
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
+                performObject.SetActive(false);
+                GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+                return;
+            }
         }
     }
 

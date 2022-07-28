@@ -17,7 +17,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
     public List<AttackMode> AttackBehavior_List = new List<AttackMode>();//紀錄所有攻擊行為    
 
-    Dictionary<int, GameObject> connectObject_Dixtionary = new Dictionary<int, GameObject>();//記錄所有連線物件
+    Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
 
     void Awake()
     {       
@@ -50,9 +50,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         player.transform.position = new Vector3(23, 2f, 40);////設定位置
         OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點   
 
-        //玩家腳色1_技能1
-        number = objectHandle.OnCreateObject(loadPath.playerCharactersSkill_1);////產生至物件池
-        objectNumber_Dictionary.Add("playerSkill_1_Numbering", number);//添加至紀錄中
+        //弓箭手_弓箭物件
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_1_Arrow);//普通攻擊弓箭物件_1
+        objectNumber_Dictionary.Add("archerNormalAttack_1_Arrow", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_2_Arrow);//普通攻擊弓箭物件_2
+        objectNumber_Dictionary.Add("archerNormalAttack_2_Arrow", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_3_Arrow);//普通攻擊弓箭物件_3
+        objectNumber_Dictionary.Add("archerNormalAttack_3_Arrow", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerSkilllAttack_1_Arrow);//技能攻擊弓箭物件_1
+        objectNumber_Dictionary.Add("archerSkilllAttack_1_Arrow", number);//添加至紀錄中
 
         //敵人
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
@@ -67,10 +73,6 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
         }
-
-        //擊中數字
-        number = objectHandle.OnCreateObject(loadPath.hitNumber);//產生至物件池;
-        objectNumber_Dictionary.Add("hitNumberNumbering", number);////添加至紀錄中
     }
 
     void Update()
@@ -167,29 +169,23 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="obj">物件</param>
     public void OnRecordConnectObject(int id, GameObject obj)
     {
-        connectObject_Dixtionary.Add(id, obj);
+        connectObject_Dictionary.Add(id, obj);
     }
 
     /// <summary>
     /// 連線物件激活狀態
     /// </summary>
-    /// <param name="id">物件ID</param>
+    /// <param name="targetID">目標ID</param>
     /// <param name="active">激活狀態</param>
-    public void OnConnectObjectActive(int id, bool active)
+    public void OnConnectObjectActive(int targetID, bool active)
     {
-        foreach(var obj in connectObject_Dixtionary)
-        {
-            if (obj.Key == id)
-            {
-                obj.Value.SetActive(active);
+        connectObject_Dictionary[targetID].SetActive(active);
 
-                if (active)
-                {
-                    CharactersCollision collision = obj.Value.GetComponent<CharactersCollision>();
-                    if (collision != null) collision.OnInitial();//初始化                
-                }
-            }
-        }        
+        if (active)
+        {
+            CharactersCollision collision = connectObject_Dictionary[targetID].GetComponent<CharactersCollision>();
+            if (collision != null) collision.OnInitial();//初始化                
+        }
     }
 
     /// <summary>
@@ -201,32 +197,42 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="animationType">動畫Type</param>
     public void OnConnectAnimationSetting<T>(int targetID, string anmationName, T animationType) 
     {
-        
-        //搜尋攻擊者物件
-        foreach (var target in connectObject_Dixtionary)
+        Animator animator = connectObject_Dictionary[targetID].GetComponent<Animator>();
+        if (animator != null)
         {
-            if (target.Key == targetID)
+            switch (animationType.GetType().Name)
             {
-                Animator animator = target.Value.GetComponent<Animator>();
-                switch(animationType.GetType().Name)
-                {
-                    case "Boolean":
-                        animator.SetBool(anmationName, Convert.ToBoolean(animationType));
-                        break;
-                    case "Single":
-                        animator.SetFloat(anmationName, Convert.ToSingle(animationType));
-                        break;
-                    case "Int32":
-                        animator.SetInteger(anmationName, Convert.ToInt32(animationType));
-                        break;
-                    case "String":
-                        animator.SetTrigger(anmationName);
-                        break;
-                        
-                }              
+                case "Boolean":
+                    animator.SetBool(anmationName, Convert.ToBoolean(animationType));
+                    break;
+                case "Single":
+                    animator.SetFloat(anmationName, Convert.ToSingle(animationType));
+                    break;
+                case "Int32":
+                    animator.SetInteger(anmationName, Convert.ToInt32(animationType));
+                    break;
+                case "String":
+                    animator.SetTrigger(anmationName);
+                    break;
             }
         }
     }
 
+    /// <summary>
+    /// 連線受擊
+    /// </summary>
+    /// <param name="targetID">目標ID</param>
+    /// <param name="position">位置</param>
+    /// <param name="rotation">選轉</param>
+    /// <param name="damage">受到傷害</param>
+    /// <param name="isCritical">是否爆擊</param>
+    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    {       
+        CharactersCollision collision = connectObject_Dictionary[targetID].GetComponent<CharactersCollision>();
+        if (collision != null)
+        {
+            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical);
+        }
+    }
     #endregion
 }

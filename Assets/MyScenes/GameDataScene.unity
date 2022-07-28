@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -300,6 +300,11 @@ MonoBehaviour:
     - {x: 1, y: 1, z: 1}
     - {x: 1, y: 1, z: 1}
     - {x: 1, y: 1, z: 1}
+    archerNormalAttackDamge: []
+    archerNormalAttackMoveDistance: []
+    archerNormalAttackRepelDistance: []
+    archerNormalAttackRepelDirection: 
+    archerNormalAttackEffect: []
     enemyHp: 300
   loadPath:
     roleSelect_Button: RoleSelectButton
@@ -319,7 +324,13 @@ MonoBehaviour:
     - Prefab/Characters/Player/PlayerCharacters_2
     - Prefab/Characters/Player/PlayerCharacters_3
     - Prefab/Characters/Player/PlayerCharacters_4
-    playerCharactersSkill_1: Prefab/ShootObject/PlayerSkill_1
+    archerNormalAttack_1_Arrow: Prefab/ShootObject/Arrow_1
+    archerNormalAttack_2_Arrow: 
+    archerNormalAttack_3_Arrow: 
+    archerNormalAttackArrows:
+    - Prefab/ShootObject/NormalAttack_1_Arrow
+    - Prefab/ShootObject/NormalAttack_2_Arrow
+    - Prefab/ShootObject/NormalAttack_3_Arrow
     enemy: Prefab/Characters/Enemy/Enemy
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
