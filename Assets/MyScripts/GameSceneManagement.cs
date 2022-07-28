@@ -50,9 +50,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         player.transform.position = new Vector3(23, 2f, 40);////設定位置
         OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點   
 
-        //玩家腳色1_技能1
-        number = objectHandle.OnCreateObject(loadPath.playerCharactersSkill_1);////產生至物件池
-        objectNumber_Dictionary.Add("playerSkill_1_Numbering", number);//添加至紀錄中
+        //弓箭手_弓箭物件
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_1_Arrow);//普通攻擊弓箭物件_1
+        objectNumber_Dictionary.Add("archerNormalAttack_1_Arrow", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_2_Arrow);//普通攻擊弓箭物件_2
+        objectNumber_Dictionary.Add("archerNormalAttack_2_Arrow", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_3_Arrow);//普通攻擊弓箭物件_3
+        objectNumber_Dictionary.Add("archerNormalAttack_3_Arrow", number);//添加至紀錄中
+        number = objectHandle.OnCreateObject(loadPath.archerSkilllAttack_1_Arrow);//技能攻擊弓箭物件_1
+        objectNumber_Dictionary.Add("archerSkilllAttack_1_Arrow", number);//添加至紀錄中
 
         //敵人
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
