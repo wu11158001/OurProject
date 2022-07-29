@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ffd6b5aa77d5a0e4fa2c296f6cbd2dc6
+guid: f3d45d6a61320ad419016512b8710967
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -8,25 +8,30 @@ ModelImporter:
     second: mixamo.com
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MariaMat
+    second: {fileID: 2100000, guid: fca011c13f05cdd4396045cc89f4950a, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: maria_diffuse
-    second: {fileID: 2800000, guid: fe190a1bcdd490549957d23ebac36aa3, type: 3}
+    second: {fileID: 2800000, guid: 122ae50365e4eaf499575e69632462c8, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: maria_normal
-    second: {fileID: 2800000, guid: c2114aea76d56a141994341ee5fa0c23, type: 3}
+    second: {fileID: 2800000, guid: bd9184a766462db4f8fe00d732d808e8, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: maria_specular
-    second: {fileID: 2800000, guid: 8e82ec9c68f3c574a9a3dfc308e275ac, type: 3}
+    second: {fileID: 2800000, guid: eb991141040b22d409f79475971097f7, type: 3}
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
