@@ -48,7 +48,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("連線成功");
 
-        StartSceneUI.Instance.OnIsConnected();
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景)  StartSceneUI.Instance.OnIsConnected();
         GameDataManagement.Instance.isConnect = true;
     }
 
@@ -66,8 +66,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="cause">離線原因</param>
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("已離線");
-        StartSceneUI.Instance.OnConnectModeBackButton();
+        Debug.Log("已離線");       
         GameDataManagement.Instance.isConnect = false;
     }
     #endregion
@@ -94,7 +93,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.LogError("創建房間失敗:" + returnCode + ":" + message);
 
-        StartSceneUI.Instance.OnConnectModeSettingTip(tip: "創建房間失敗");
+        if(GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnConnectModeSettingTip(tip: "創建房間失敗");
     }
 
     /// <summary>
@@ -114,7 +113,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("目前沒有房間:" + returnCode + ":" + message);
 
-        StartSceneUI.Instance.OnConnectModeSettingTip(tip: "目前沒有房間");
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnConnectModeSettingTip(tip: "目前沒有房間");
     }
 
     /// <summary>
@@ -135,7 +134,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("找不到房間:" + returnCode + ":" + message);
 
-        StartSceneUI.Instance.OnConnectModeSettingTip(tip: "找不到房間");
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnConnectModeSettingTip(tip: "找不到房間");
     }
 
     /// <summary>
@@ -145,7 +144,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("加入" + PhotonNetwork.CurrentRoom.Name + "房間");
 
-        StartSceneUI.Instance.OnTidyConnectModeUI(roomName: PhotonNetwork.CurrentRoom.Name);
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnTidyConnectModeUI(roomName: PhotonNetwork.CurrentRoom.Name);
         OnReFreshPlayerNickName();
         OnSendRoomPlayerCharacters();
         if (PhotonNetwork.IsMasterClient) OnSendLevelNumber(GameDataManagement.Instance.selectLevelNumber);
@@ -195,7 +194,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <summary>
     /// 更新玩家暱稱
     /// </summary>    
-    void OnReFreshPlayerNickName()
+    public void OnReFreshPlayerNickName()
     {
         //清空List
         List<string> playerList = new List<string>();
@@ -206,7 +205,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
             playerList.Add(PhotonNetwork.PlayerList[i].NickName);
         }
 
-        StartSceneUI.Instance.OnRefreshRoomPlayerNickName(playerList, PhotonNetwork.NickName, PhotonNetwork.IsMasterClient);
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnRefreshRoomPlayerNickName(playerList, PhotonNetwork.NickName, PhotonNetwork.IsMasterClient);
     }
 
     /// <summary>
@@ -229,7 +228,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.PlayerList[i].NickName == info.Sender.NickName)
             {
-                StartSceneUI.Instance.OnRefreshPlayerCharacters(i, characters);
+                if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnRefreshPlayerCharacters(i, characters);
                 return;
             }
         }
@@ -252,7 +251,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     [PunRPC]
     void OnRoomChatMessage(string message, PhotonMessageInfo info)
     {
-        StartSceneUI.Instance.OnGetRoomChatMessage(info.Sender.NickName + ":" + message);
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnGetRoomChatMessage(info.Sender.NickName + ":" + message);
     }
 
     /// <summary>
@@ -272,7 +271,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     [PunRPC]
     void OnLevelNumber(int level, PhotonMessageInfo info)
     {
-        StartSceneUI.Instance.OnRoomLevelText(level);
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnRoomLevelText(level);
     }
 
     /// <summary>
@@ -420,6 +419,23 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnSetAniamtion_String(int targetID, string anmationName, string animationType)
     {
         GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, anmationName);
+    }
+
+    /// <summary>
+    /// 發送遊戲結束訊息(房主離開遊戲)
+    /// </summary>
+    public void OnSendGameover()
+    {
+        photonView.RPC("OnGameOver", RpcTarget.Others);
+    }
+
+    /// <summary>
+    /// 遊戲結束
+    /// </summary>
+    [PunRPC]
+    void OnGameOver()
+    {
+        StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
     }
     #endregion
 }

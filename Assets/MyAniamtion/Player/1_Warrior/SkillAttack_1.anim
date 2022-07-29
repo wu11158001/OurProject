@@ -52748,7 +52748,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1.1666666
-    functionName: OnSkillAttackBehavior_Warrior
+    functionName: OnSkillAttack1_Warrior
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

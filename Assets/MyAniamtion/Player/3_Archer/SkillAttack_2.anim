@@ -34524,7 +34524,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.25
-    functionName: OnSkillAttackBehavior_2_Archer
+    functionName: OnSkillAttack2_Archer
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -37,14 +37,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        NumericalValue = GameDataManagement.Instance.numericalValue;
-        
-        //碰撞框
-        if (GetComponent<BoxCollider>() != null)
-        {
-            boxCenter = GetComponent<BoxCollider>().center;
-            boxSize = GetComponent<BoxCollider>().size;
-        }
+        NumericalValue = GameDataManagement.Instance.numericalValue;     
 
         //數值
         switch(gameObject.tag)
@@ -125,8 +118,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
             if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
-            //面向攻擊者
-            transform.forward = -attacker.transform.forward;
+            //面向攻擊者          
+            Vector3 attackerPosition = attacker.transform.position;//攻擊者向量
+            attackerPosition.y = 0;
+            Vector3 targetPosition = transform.position;//受擊者向量
+            targetPosition.y = 0;
+            transform.forward = attackerPosition - targetPosition;
 
             //產生文字            
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
@@ -232,7 +229,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// 碰撞控制
     /// </summary>
     void OnCollisionControl()
-    {       
+    {
+        //碰撞框
+        if (GetComponent<BoxCollider>() != null)
+        {
+            boxCenter = GetComponent<BoxCollider>().center;
+            boxSize = GetComponent<BoxCollider>().size;            
+        }
+        float boxCollisionDistance = boxSize.x > boxSize.z ? boxSize.x : boxSize.z;
+
         //射線方向
         Vector3[] rayDiration = new Vector3[] { transform.forward,
                                                 transform.forward - transform.right,
@@ -243,45 +248,29 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                -transform.right,
                                                -transform.right -transform.forward };
 
-        //碰撞偵測
+        //牆壁碰撞
         LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
         for (int i = 0; i < rayDiration.Length; i++)
-        {
-            /*if (Physics.BoxCast(transform.position + boxCenter + transform.up * collisiionHight, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2), rayDiration[i], out hit, transform.rotation, NumericalValue.boxCollisionDistance, mask))
+        {          
+            if(Physics.Raycast(transform.position + boxCenter + transform.up * collisiionHight, rayDiration[i], out hit, boxCollisionDistance, mask))
             {
-                if (hit.transform.name == "col_2m_step") collisiionHight += 0.3f;//樓梯碰撞(提高碰裝框高度)   
-                else if (hit.transform.name == "col_1m_step") collisiionHight += 0.8f;//樓梯碰撞(提高碰裝框高度)                
-                else collisiionHight = 0;
-
-                transform.position = transform.position + transform.up * collisiionHight - rayDiration[i] * (NumericalValue.boxCollisionDistance - hit.distance);                
-            } */
-
-            if(Physics.Raycast(transform.position + boxCenter + transform.up * collisiionHight, rayDiration[i], out hit, NumericalValue.boxCollisionDistance, mask))
-            {
-                transform.position = transform.position + transform.up * collisiionHight - rayDiration[i] * (NumericalValue.boxCollisionDistance - hit.distance);
+                transform.position = transform.position + transform.up * collisiionHight - rayDiration[i] * (boxCollisionDistance - hit.distance);
             }
-        }
-
-       /* //牆壁碰撞(第2層)
-        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 2, boxSize.y / 4, boxSize.z / 2), Quaternion.identity, mask))
-        {
-            transform.position = safePosition;
-        }
-        else safePosition = transform.position;*/
+        }       
 
         //地板碰撞
-        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
-        {            
-            if (Physics.Raycast(transform.position + boxCenter, -transform.up, out hit, boxSize.y / 2, mask))//地板碰撞(第2層)
-            {           
-                transform.position = transform.position + transform.up * (boxSize.y / 2 - 0.01f - hit.distance);
-            }            
+        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 2 + 0.05f, boxSize.y / 2, boxSize.z / 2 + 0.05f), transform.rotation, mask))
+        {      
+            if(Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxSize.x / 2, 0.1f, boxSize.z / 2), -transform.up, out hit, transform.rotation, boxSize.y - 0.3f, mask))
+            {                
+                if(hit.distance < boxSize.y) transform.position = transform.position + Vector3.up * (boxSize.y - 0.1f - hit.distance);
+            }              
         }       
         else
         {                        
             transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
-        }
+        }      
     }
 
     /// <summary>

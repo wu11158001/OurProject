@@ -42,7 +42,7 @@ public class HitNumber : MonoBehaviour
 
         //爆擊字放大
         if (isCritical) thisText.fontSize = 105;
-        else thisText.fontSize = 60;
+        else thisText.fontSize = 70;
 
         this.target = target;//受傷目標
         thisText.text = damage.ToString();//受到傷害
@@ -58,7 +58,7 @@ public class HitNumber : MonoBehaviour
         if (target == null) return;
 
         //文字移動
-        startPosition += Vector3.up * 1 * Time.deltaTime;
+        startPosition += Vector3.up * 2 * Time.deltaTime;
 
         Camera camera = canvas_Overlay.worldCamera;
         Vector3 position = Camera.main.WorldToScreenPoint(startPosition);

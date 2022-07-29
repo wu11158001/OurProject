@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8319346692349687119}
   - component: {fileID: 7490213045660634153}
   m_Layer: 0
-  m_Name: ArcherNormalAttack_2_Arrow
+  m_Name: ArcherNormalAttack_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,5 +148,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.20553443
-  m_Center: {x: 0, y: 0, z: 0.24}
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0, z: 0.05}

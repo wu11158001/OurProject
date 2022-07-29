@@ -351,5 +351,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (!Cursor.visible) Cursor.lockState = CursorLockMode.Locked;//Âê©w¤¤¥¡
             else Cursor.lockState = CursorLockMode.None;
         }
-    } 
+    }
+
+    private void OnDrawGizmos()
+    {
+        BoxCollider box = GetComponent<BoxCollider>();
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * 0, 5f);        
+    }
 }

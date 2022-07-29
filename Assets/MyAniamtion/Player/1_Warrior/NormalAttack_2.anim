@@ -57104,7 +57104,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.5833333
-    functionName: OnNormalAttackBehavior_Warrior
+    functionName: OnNormalAttack2_Warrior
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

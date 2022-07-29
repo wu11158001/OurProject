@@ -65,9 +65,12 @@ public class WarriorEffects : MonoBehaviour
     void DoEffects(string idelName, float delay, ParticleSystem effect)
     {
 
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay)
-        {
-            if (!effect.isPlaying) effect.Play();
+        var SkillAttack_32 = SkillAttack_3.transform.GetChild(2).GetComponent<ParticleSystem>();
+        float delay2 = 0.7f;
+        if (animInfo.IsName("Attack.SkillAttack_3") && animInfo.normalizedTime > delay2)
+        {            
+            if (!SkillAttack_32.isPlaying) SkillAttack_32.Play();
+            if (animInfo.normalizedTime > delay2 + 0.1f) SkillAttack_32.Stop();
         }
         else effect.Stop();
     }
