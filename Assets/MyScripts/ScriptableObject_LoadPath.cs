@@ -69,7 +69,7 @@ public class GameData_LoadPath
         allPlayerCharacters = new string[] { Warrior , Magician, Archer };//所有玩家腳色
 
         //戰士
-        warriorSkillAttack_1 = "Prefab/ShootObject/Warrior/Warrior_SkillAttack_1";//戰士技能_1物件
+        warriorSkillAttack_1 = "Prefab/ShootObject/Warrior/WarriorSkillAttack_1";//戰士技能_1物件
 
         //弓箭手
         archerNormalAttack_1 = "Prefab/ShootObject/Archer/ArcherNormalAttack_1";//普通攻擊_1弓箭物件

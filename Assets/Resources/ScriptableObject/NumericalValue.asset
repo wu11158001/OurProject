@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numericalValue:
     gravity: 9.8
-    boxCollisionDistance: 0.5
     criticalBonus: 1.3
     levelNames:
     - "Level[1]:\u6211\u662F\u7B2C\u4E00\u95DC"
@@ -40,49 +39,117 @@ MonoBehaviour:
     playerHp: 300
     playerMoveSpeed: 5
     playerJumpForce: 14.5
-    playerCriticalRate: 30
+    playerCriticalRate: 15
     playerDodgeSeppd: 3
-    warriorNormalAttackDamge:
-    - 10
-    - 10
+    warriorNormalAttack_1_Damge: 10
+    warriorNormalAttack_1_RepelDirection: 0
+    warriorNormalAttack_1_RepelDistance: 50
+    warriorNormalAttack_1_Effect: Pain
+    warriorNormalAttack_1_ForwardDistance: 1.3
+    warriorNormalAttack_1_attackRadius: 1.2
+    warriorNormalAttack_1_IsAttackBehind: 0
+    warriorNormalAttack_2_Damge: 11
+    warriorNormalAttack_2_RepelDirection: 0
+    warriorNormalAttack_2_RepelDistance: 50
+    warriorNormalAttack_2_Effect: Pain
+    warriorNormalAttack_2_ForwardDistance: 1.3
+    warriorNormalAttack_2_attackRadius: 1.2
+    warriorNormalAttack_2_IsAttackBehind: 0
+    warriorNormalAttack_3_Damge: 12
+    warriorNormalAttack_3_RepelDirection: 0
+    warriorNormalAttack_3_RepelDistance: 50
+    warriorNormalAttack_3_Effect: Pain
+    warriorNormalAttack_3_ForwardDistance: 0.5
+    warriorNormalAttack_3_attackRadius: 1.55
+    warriorNormalAttack_3_IsAttackBehind: 1
+    warriorJumpAttack_Damage: 11
+    warriorJumpAttack_RepelDirection: 0
+    warriorJumpAttac_kRepelDistance: 50
+    warriorJumpAttack_Effect: Pain
+    warriorJumpAttack_ForwardDistance: 0.77
+    warriorJumpAttack_attackRadius: 1
+    warriorJumpAttack_IsAttackBehind: 0
+    warriorSkillAttack_1_Damge: 9
+    warriorSkillAttack_1_RepelDirection: 0
+    warriorSkillAttack_1_RepelDistance: 50
+    warriorSkillAttack_1_Effect: Pain
+    warriorSkillAttack_1_FlightSpeed: 20
+    warriorSkillAttack_1_LifeTime: 0.2
+    warriorSkillAttack_2_Damge: 13
+    warriorSkillAttack_2_RepelDirection: 0
+    warriorSkillAttack_2_RepelDistance: 50
+    warriorSkillAttack_2_Effect: Pain
+    warriorSkillAttack_2_ForwardDistance: 1.3
+    warriorSkillAttack_2_attackRadius: 1.2
+    warriorSkillAttack_2_IsAttackBehind: 0
+    warriorSkillAttack_3_Damge:
+    - 11
+    - 12
     - 15
-    warriorNormalAttackMoveDistance:
+    warriorSkillAttack_3_RepelDirection: 000000000000000001000000
+    warriorSkillAttack_3_RepelDistance:
     - 50
     - 50
-    - 50
-    warriorNormalAttackRepelDistance:
-    - 50
-    - 50
-    - 50
-    warriorNormalAttackRepelDirection: 000000000000000000000000
-    warriorNormalAttackEffect:
+    - 18
+    warriorSkillAttack_3_Effect:
     - Pain
     - Pain
     - Pain
-    warriorNormalAttackBoxSize:
-    - {x: 1.5, y: 1.5, z: 1.5}
-    - {x: 1.5, y: 1.5, z: 1.5}
-    - {x: 1.5, y: 1.5, z: 1.5}
-    warriorJumpAttackDamage: 10
-    warriorJumpAttackEffect: Pain
-    warriorJumpAttackRepelDistance: 50
-    warriorJumpAttackBoxSize: {x: 1.5, y: 1, z: 1.5}
-    warriorJumpAttackRepelDirection: 0
-    warriorSkillAttackDamage:
-    - 10
-    - 20
+    warriorSkillAttack_3_ForwardDistance:
+    - 0
+    - 0
+    - 0
+    warriorSkillAttack_3_attackRadius:
+    - 1.4
+    - 1.4
+    - 5
+    warriorSkillAttack_3_IsAttackBehind: 010101
+    archerNormalAttack_Damge:
+    - 11
+    - 11
+    - 16
+    archerNormalAttack_RepelDirection: 000000000000000000000000
+    archerNormalAttack_RepelDistance:
     - 30
-    warriorSkillAttackEffect:
+    - 30
+    - 30
+    archerNormalAttack_Effect:
     - Pain
     - Pain
     - Pain
-    warriorSkillAttackRepelDirection: 000000000000000000000000
-    warriorSkillAttackRepel:
+    archerNormalAttack_FloatSpeed:
     - 50
     - 50
     - 50
-    warriorSkillAttackBoxSize:
-    - {x: 1.5, y: 1.5, z: 1.5}
-    - {x: 1.5, y: 1.5, z: 1.5}
-    - {x: 1.5, y: 1.5, z: 1.5}
-    enemyHp: 50
+    archerNormalAttack_LifeTime:
+    - 0.3
+    - 0.3
+    - 0.3
+    archerJumpAttack_Damage: 11
+    archerJumpAttack_RepelDirection: 0
+    archerJumpAttack_RepelDistance: 50
+    archerJumpAttack_Effect: Pain
+    archerJumpAttack_ForwardDistance: 0
+    archerJumpAttack_attackRadius: 1.2
+    archerJumpAttack_IsAttackBehind: 0
+    archerSkillAttack_1_Damage: 11
+    archerSkillAttack_1_RepelDirection: 0
+    archerSkillAttack_1_Repel: 13
+    archerSkillAttack_1_Effect: Pain
+    archerSkillAttack_1_FlightSpeed: 50
+    archerSkillAttack_1_LifeTime: 0.3
+    archerSkillAttack_2_Damge: 11
+    archerSkillAttack_2_RepelDirection: 0
+    archerSkillAttack_2_RepelDistance: 50
+    archerSkillAttack_2_Effect: Pain
+    archerSkillAttack_2_ForwardDistance: 0
+    archerSkillAttack_2_attackRadius: 1.3
+    archerSkillAttack_2_IsAttackBehind: 0
+    archerSkillAttack_3_Damge: 5
+    archerSkillAttack_3_RepelDirection: 1
+    archerSkillAttack_3_RepelDistance: 0
+    archerSkillAttack_3_Effect: Pain
+    archerSkillAttack_3_ForwardDistance: 0
+    archerSkillAttack_3_attackRadius: 5
+    archerSkillAttack_3_IsAttackBehind: 1
+    enemyHp: 1000

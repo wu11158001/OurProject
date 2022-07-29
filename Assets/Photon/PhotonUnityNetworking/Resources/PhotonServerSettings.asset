@@ -60,6 +60,7 @@ MonoBehaviour:
   - OnSetAniamtion_Int32
   - OnSetAniamtion_Single
   - OnSetAniamtion_String
+  - OnGameOver
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

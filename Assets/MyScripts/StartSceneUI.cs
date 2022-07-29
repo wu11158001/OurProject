@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using Photon.Pun;
 
 /// <summary>
 /// 開始場景管理
 /// </summary>
-public class StartSceneUI : MonoBehaviour
+public class StartSceneUI : MonoBehaviourPunCallbacks
 {
     static StartSceneUI startSceneUI;
     public static StartSceneUI Instance => startSceneUI;
 
     GameData_LoadPath loadPath;
-    GameData_NumericalValue numericalValue;
+    GameData_NumericalValue numericalValue;       
 
     [Header("影片")]
     VideoPlayer videoPlayer;
@@ -106,14 +107,15 @@ public class StartSceneUI : MonoBehaviour
     }
 
     void Start()
-    {       
-        OnInital();
+    {      
         OnStartScreenPrepare();
         OnChooseRoleScreenPrepare();
         OnLevelScreenPrepare();
         OnSelectModeScreenPrepare();
         OnConnectModeScreenPrepare();
         OnConnectRoomScreenPrepare();
+
+        OnInital();
     }
 
     void Update()
@@ -132,7 +134,29 @@ public class StartSceneUI : MonoBehaviour
     /// </summary>
     private void OnInital()
     {
+        GameDataManagement.Instance.stage = GameDataManagement.Stage.開始場景;
         GameDataManagement.Instance.selectRoleNumber = 0;//選擇的腳色編號
+
+        //第一次進入遊戲
+        if (!GameDataManagement.Instance.isNotFirstIntoGame)
+        {
+            videoPlayer.Play();//播放影片
+            GameDataManagement.Instance.isNotFirstIntoGame = true;
+        }
+        else
+        {
+            if(PhotonNetwork.IsConnected)//連線狀態
+            {
+                //開啟連線房間畫面
+                background_Image.gameObject.SetActive(true);
+                connectRoomScreen.gameObject.SetActive(true);
+
+                PhotonConnect.Instance.OnReFreshPlayerNickName();
+                PhotonConnect.Instance.OnSendRoomPlayerCharacters();
+                if (PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendLevelNumber(GameDataManagement.Instance.selectLevelNumber);
+            }
+            else OnOpenSelectModeScreen();//開啟選擇模式畫面
+        }
     }
 
     /// <summary>
@@ -142,7 +166,6 @@ public class StartSceneUI : MonoBehaviour
     {        
         videoPlayer = Camera.main.GetComponent<VideoPlayer>();//影片   
         videoTime = videoPlayer.clip.length;//影片長度
-        videoPlayer.Play();//播放影片
         startScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "StartScreen");//startScreen UI控制        
         startTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "StartTip_Text");//提示文字
         background_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Background_Image");//背景
@@ -335,9 +358,7 @@ public class StartSceneUI : MonoBehaviour
                 }
                 else
                 {
-                    background_Image.gameObject.SetActive(true);
-                    selectModeScreen.gameObject.SetActive(true);
-                    startScreen.gameObject.SetActive(false);
+                    OnOpenSelectModeScreen();
                 }
             }
 
@@ -348,13 +369,25 @@ public class StartSceneUI : MonoBehaviour
                 startScreen.gameObject.SetActive(true);
 
                 if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
-                {
-                    background_Image.gameObject.SetActive(true);
-                    selectModeScreen.gameObject.SetActive(true);
-                    startScreen.gameObject.SetActive(false);
+                {                    
+                    OnOpenSelectModeScreen();
                 }
             }
         }
+        else
+        {
+            if (videoPlayer.isPlaying) videoPlayer.Stop();
+        }
+    }
+
+    /// <summary>
+    /// 開啟選擇模式畫面
+    /// </summary>
+    void OnOpenSelectModeScreen()
+    {
+        background_Image.gameObject.SetActive(true);
+        selectModeScreen.gameObject.SetActive(true);
+        startScreen.gameObject.SetActive(false);
     }
 
     /// <summary>

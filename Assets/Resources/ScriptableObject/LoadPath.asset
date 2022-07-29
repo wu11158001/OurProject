@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: LoadPath
   m_EditorClassIdentifier: 
   loadPath:
-    startVideo: Video/StartVideo
     roleSelect_Button: Prefab/UI/RoleSelect_Button
     roleSelect_Sprite: Sprites/StartScene/SelectRoleScreen/Role
     LoadBackground_1: Sprites/LoadScene/LoadBackground_1
     miniMapMatirial_Floor: Matirials/MiniMap/MiniMpa_Floor
     miniMapMatirial_Object: Matirials/MiniMap/MiniMpa_Object
     miniMapMatirial_Player: Matirials/MiniMap/MiniMap_Player
+    miniMapMatirial_OtherPlayer: Matirials/MiniMap/MiniMap_OtherPlayer
     miniMapMatirial_Enemy: Matirials/MiniMap/MiniMap_Enemy
     miniMapPoint: Prefab/UI/MiniMapPoint
     Warrior: Prefab/Characters/Player/1_Warrior
@@ -29,7 +29,15 @@ MonoBehaviour:
     - Prefab/Characters/Player/1_Warrior
     - Prefab/Characters/Player/2_Magician
     - Prefab/Characters/Player/3_Archer
-    playerCharactersSkill_1: Prefab/ShootObject/PlayerCharacters1_Skill_1
-    SkeletonSoldier: Prefab/Characters/Enemy/SkeletonSoldier
+    warriorSkillAttack_1: Prefab/ShootObject/Warrior/WarriorSkillAttack_1
+    archerNormalAttack_1: Prefab/ShootObject/Archer/ArcherNormalAttack_1
+    archerNormalAttack_2: Prefab/ShootObject/Archer/ArcherNormalAttack_2
+    archerNormalAttack_3: Prefab/ShootObject/Archer/ArcherNormalAttack_3
+    archerAllNormalAttack:
+    - Prefab/ShootObject/Archer/ArcherNormalAttack_1
+    - Prefab/ShootObject/Archer/ArcherNormalAttack_2
+    - Prefab/ShootObject/Archer/ArcherNormalAttack_3
+    archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1
+    enemy: Prefab/Characters/Enemy/Enemy
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar

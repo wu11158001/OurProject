@@ -27,6 +27,9 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             return;
         }
         gameSceneManagement = this;
+
+        GameDataManagement.Instance.stage = GameDataManagement.Stage.¹CÀ¸³õ´º;
+
         objectHandle = ObjectHandle.GetObjectHandle;
         loadPath = GameDataManagement.Instance.loadPath;
     }

@@ -150,7 +150,7 @@ RectTransform:
   m_GameObject: {fileID: 312229238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.92, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 871033952}
   m_RootOrder: 2
@@ -229,7 +229,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numericalValue:
     gravity: 9.8
-    boxCollisionDistance: 0.5
     criticalBonus: 1.3
     levelNames:
     - "Level[1]:\u6211\u662F\u7B2C\u4E00\u95DC"
@@ -289,40 +288,85 @@ MonoBehaviour:
     warriorSkillAttack_1_RepelDirection: 0
     warriorSkillAttack_1_RepelDistance: 0
     warriorSkillAttack_1_Effect: 
-    warriorSkillAttack_1_flightSpeed: 20
-    warriorSkillAttackDamage_2: 10
-    warriorSkillAttackEffect_2: Pain
-    warriorSkillAttackRepelDirection_2: 0
-    warriorSkillAttackRepel_2: 50
-    warriorSkillAttackBoxSize_2: {x: 1.5, y: 1.5, z: 1.5}
-    arrowFloatSpeed: 20
-    arrowLifeTime: 1.5
-    archerNormalAttackDamge: []
-    archerNormalAttackRepelDistance: []
-    archerNormalAttackRepelDirection: 
-    archerNormalAttackEffect: []
-    archerJumpAttackDamage: 11
-    archerJumpAttackEffect: Pain
-    archerJumpAttackRepelDistance: 50
-    archerJumpAttackBoxSize: {x: 1.5, y: 1, z: 1.5}
-    archerJumpAttackRepelDirection: 0
-    archerSkillAttackDamage:
+    warriorSkillAttack_1_FlightSpeed: 20
+    warriorSkillAttack_1_LifeTime: 0
+    warriorSkillAttack_2_Damge: 13
+    warriorSkillAttack_2_RepelDirection: 0
+    warriorSkillAttack_2_RepelDistance: 50
+    warriorSkillAttack_2_Effect: Pain
+    warriorSkillAttack_2_ForwardDistance: 1.3
+    warriorSkillAttack_2_attackRadius: 1.2
+    warriorSkillAttack_2_IsAttackBehind: 0
+    warriorSkillAttack_3_Damge:
     - 11
     - 12
-    - 13
-    archerSkillAttackEffect:
+    - 15
+    warriorSkillAttack_3_RepelDirection: 000000000000000001000000
+    warriorSkillAttack_3_RepelDistance:
+    - 50
+    - 50
+    - 18
+    warriorSkillAttack_3_Effect:
     - Pain
     - Pain
     - Pain
-    archerSkillAttackRepelDirection: 000000000000000000000000
-    archerSkillAttackRepel:
+    warriorSkillAttack_3_ForwardDistance:
+    - 1.3
+    - 1.3
+    - 0
+    warriorSkillAttack_3_attackRadius:
+    - 1.2
+    - 1.2
+    - 5
+    warriorSkillAttack_3_IsAttackBehind: 000001
+    archerNormalAttack_Damge:
+    - 11
+    - 11
+    - 16
+    archerNormalAttack_RepelDirection: 000000000000000000000000
+    archerNormalAttack_RepelDistance:
+    - 30
+    - 30
+    - 30
+    archerNormalAttack_Effect:
+    - Pain
+    - Pain
+    - Pain
+    archerNormalAttack_FloatSpeed:
     - 50
     - 50
     - 50
-    archerSkillAttackBoxSize:
-    - {x: 0, y: 0, z: 0}
-    - {x: 1.5, y: 1.5, z: 1.5}
-    - {x: 5, y: 5, z: 5}
+    archerNormalAttack_LifeTime:
+    - 0.3
+    - 0.3
+    - 0.3
+    archerJumpAttack_Damage: 11
+    archerJumpAttack_RepelDirection: 0
+    archerJumpAttack_RepelDistance: 50
+    archerJumpAttack_Effect: Pain
+    archerJumpAttack_ForwardDistance: 0.77
+    archerJumpAttack_attackRadius: 1
+    archerJumpAttack_IsAttackBehind: 0
+    archerSkillAttack_1_Damage: 11
+    archerSkillAttack_1_RepelDirection: 0
+    archerSkillAttack_1_Repel: 13
+    archerSkillAttack_1_Effect: Pain
+    archerSkillAttack_1_FlightSpeed: 50
+    archerSkillAttack_1_LifeTime: 0.3
+    archerSkillAttack_2_Damge: 11
+    archerSkillAttack_2_RepelDirection: 0
+    archerSkillAttack_2_RepelDistance: 50
+    archerSkillAttack_2_Effect: Pain
+    archerSkillAttack_2_ForwardDistance: 0
+    archerSkillAttack_2_attackRadius: 1.3
+    archerSkillAttack_2_IsAttackBehind: 0
+    archerSkillAttack_3_Damge: 5
+    archerSkillAttack_3_RepelDirection: 1
+    archerSkillAttack_3_RepelDistance: 0
+    archerSkillAttack_3_Effect: Pain
+    archerSkillAttack_3_ForwardDistance: 0
+    archerSkillAttack_3_attackRadius: 5
+    archerSkillAttack_3_IsAttackBehind: 1
     enemyHp: 300
   loadPath:
     roleSelect_Button: RoleSelectButton
@@ -355,6 +399,7 @@ MonoBehaviour:
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
   isConnect: 0
+  isNotFirstIntoGame: 0
   selectRoleNumber: 0
   selectLevelNumber: 0
   equipBuff: 
@@ -407,7 +452,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -430, y: -313}
-  m_SizeDelta: {x: 895.0258, y: 100}
+  m_SizeDelta: {x: 928.3, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &583466901
 MonoBehaviour:
@@ -716,7 +761,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.678
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -741,7 +786,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &871033952
 RectTransform:

@@ -357,6 +357,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     {
         BoxCollider box = GetComponent<BoxCollider>();
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * 1.2f, 1.3f);
+        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * 0, 5f);        
     }
 }

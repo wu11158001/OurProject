@@ -93,7 +93,7 @@ public class LoadScene : MonoBehaviour
         loadFront_Image.enabled = true;
 
         ao = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);//載入場景
-        if (ao == null) yield break;//沒場景以下不做
+        //if (ao == null) yield break;//沒場景以下不做
 
         ao.allowSceneActivation = false;//載入完成自動切換
         
@@ -111,16 +111,27 @@ public class LoadScene : MonoBehaviour
                 loadValue = 1.0f;
                 yield return new WaitForSeconds(0.3f);
 
-                //關閉UI
-                background.enabled = false;
-                loadBack_Image.enabled = false;
-                loadFront_Image.enabled = false;
-
                 //進入場景
                 ao.allowSceneActivation = true;
+                StartCoroutine(OnWaitInto());                                            
             }
             yield return 0;
         }
+        yield return 0;
+    }
+
+    /// <summary>
+    /// 等待進入(避免看到間隔中的藍屏)
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator OnWaitInto()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        //關閉UI0.3f
+        background.enabled = false;
+        loadBack_Image.enabled = false;
+        loadFront_Image.enabled = false;
         yield return 0;
     }
 }

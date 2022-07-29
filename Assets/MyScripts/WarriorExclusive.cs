@@ -87,6 +87,35 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 技能攻擊3_戰士
+    /// </summary>
+    /// <param name="count">第幾段攻擊</param>
+    void OnSkillAttack3_Warrior(int count)
+    {
+        //連線模式
+        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
+
+        bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
+        float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+
+        AttackMode attack = AttackMode.Instance;
+        attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
+        attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
+        attack.isCritical = isCritical;//是否爆擊
+
+        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.damage = NumericalValue.warriorSkillAttack_3_Damge[count] * rate;//造成傷害 
+        attack.direction = NumericalValue.warriorSkillAttack_3_RepelDirection[count];//擊退方向(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.warriorSkillAttack_3_RepelDistance[count];//擊退距離
+        attack.animationName = NumericalValue.warriorSkillAttack_3_Effect[count];//攻擊效果(播放動畫名稱)
+        attack.forwardDistance = NumericalValue.warriorSkillAttack_3_ForwardDistance[count];//攻擊範圍中心點距離物件前方
+        attack.attackRadius = NumericalValue.warriorSkillAttack_3_attackRadius[count];//攻擊半徑
+        attack.isAttackBehind = NumericalValue.warriorSkillAttack_3_IsAttackBehind[count];//是否攻擊背後敵人
+
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                  
+    }
+
+    /// <summary>
     /// 跳躍攻擊_戰士
     /// </summary>
     void OnJumpAttack_Warrior()
