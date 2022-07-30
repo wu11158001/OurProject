@@ -12,9 +12,8 @@ public class EnemyControl : MonoBehaviourPunCallbacks
     
     private void Awake()
     {        
-        gameObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
-        gameObject.tag = "Enemy";//設定Tag
-
+        gameObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer        
+        gameObject.tag = "EnemySoldier_1";//設定Tag
         animator = GetComponent<Animator>();
 
         if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();

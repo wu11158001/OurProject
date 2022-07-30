@@ -90,7 +90,7 @@ MonoBehaviour:
     warriorSkillAttack_3_RepelDistance:
     - 50
     - 50
-    - 18
+    - 15
     warriorSkillAttack_3_Effect:
     - Pain
     - Pain
@@ -152,4 +152,4 @@ MonoBehaviour:
     archerSkillAttack_3_ForwardDistance: 0
     archerSkillAttack_3_attackRadius: 5
     archerSkillAttack_3_IsAttackBehind: 1
-    enemyHp: 1000
+    enemySoldier1_Hp: 100

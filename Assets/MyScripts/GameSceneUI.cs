@@ -8,7 +8,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 {
     static GameSceneUI gameSceneUI;
     public static GameSceneUI Instance => gameSceneUI;
-
+       
     [Header("玩家生命條")]    
     float playerHpProportion;
     Image playerLifeBarFront_Image;//生命條(前)
@@ -16,9 +16,11 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
     [Header("選項")]
     Transform options;//Options UI控制
-    bool isOptions;//是否開起選項介面
+    public bool isOptions;//是否開起選項介面
     Button leaveGame_Button;//離開遊戲按鈕
     Button continueGame_Button;//繼續遊戲按鈕
+    AudioSource audioSource;//音樂撥放器
+    Scrollbar volume_Scrollbar;//音量ScrollBar
 
     void Awake()
     {
@@ -46,6 +48,11 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         leaveGame_Button.onClick.AddListener(OnLeaveGame);
         continueGame_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ContinueGame_Button");//繼續遊戲按鈕
         continueGame_Button.onClick.AddListener(OnContinueGame);
+        audioSource = Camera.main.GetComponent<AudioSource>();//音樂撥放器        
+        audioSource.volume = GameDataManagement.Instance.musicVolume;
+        audioSource.Play();
+        volume_Scrollbar = ExtensionMethods.FindAnyChild<Scrollbar>(transform, "Volume_Scrollbar");//音量ScrollBar
+        volume_Scrollbar.value = GameDataManagement.Instance.musicVolume;
     }
         
     void Update()
@@ -83,6 +90,16 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         {
             isOptions = !isOptions; 
             options.gameObject.SetActive(isOptions);
+
+            Cursor.visible = true;//顯示滑鼠
+            Cursor.lockState = CursorLockMode.None;            
+        }
+
+        if(isOptions)
+        {
+            //音量
+            GameDataManagement.Instance.musicVolume = volume_Scrollbar.value;
+            audioSource.volume = GameDataManagement.Instance.musicVolume;
         }
     }
 
@@ -93,13 +110,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     {
         isOptions = false;
         options.gameObject.SetActive(isOptions);
-
-        //連線模式 & 是房主
-        if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
-        {
-            PhotonConnect.Instance.OnSendGameover();
-        }
-        
+      
         StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));        
     }
 

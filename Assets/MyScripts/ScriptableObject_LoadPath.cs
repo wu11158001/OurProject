@@ -39,7 +39,7 @@ public class GameData_LoadPath
     public string archerSkilllAttack_1;//技能攻擊_1弓箭物件
 
     [Header("敵人")]
-    public string enemy;//敵人
+    public string enemySoldier_1;//敵人士兵1
 
     [Header("其他")]
     public string hitNumber;//擊中文字
@@ -79,7 +79,7 @@ public class GameData_LoadPath
         archerSkilllAttack_1 = "Prefab/ShootObject/Archer/ArcherSkilllAttack_1";//技能攻擊_1弓箭物件
 
         //敵人
-        enemy = "Prefab/Characters/Enemy/Enemy";//敵人
+        enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字

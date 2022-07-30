@@ -38,6 +38,6 @@ MonoBehaviour:
     - Prefab/ShootObject/Archer/ArcherNormalAttack_2
     - Prefab/ShootObject/Archer/ArcherNormalAttack_3
     archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1
-    enemy: Prefab/Characters/Enemy/Enemy
+    enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar

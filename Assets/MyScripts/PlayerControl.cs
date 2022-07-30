@@ -72,8 +72,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         forwardVector = transform.forward;
 
         //鼠標
-        /* Cursor.visible = false;//鼠標隱藏
-         Cursor.lockState = CursorLockMode.Locked;//鎖定中央*/
+         Cursor.visible = false;//鼠標隱藏
+         Cursor.lockState = CursorLockMode.Locked;//鎖定中央
 
         //Level Door
         DoorControl[] doorControl = GameObject.FindObjectsOfType<DoorControl>();
@@ -87,9 +87,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (!charactersCollision.isDie)
-        {
-            OnInput();
+        //不是死亡狀態 & 沒有開啟選項介面
+        if (!charactersCollision.isDie && !GameSceneUI.Instance.isOptions)
+        {            
             OnJumpControl();
             OnAttackControl();
             OnJumpBehavior();
@@ -100,6 +100,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 OnDodgeControl();
             } 
         }
+
+        OnInput();
     }        
 
     /// <summary>

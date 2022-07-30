@@ -136,8 +136,8 @@ public class GameData_NumericalValue
     public bool archerSkillAttack_3_IsAttackBehind;//弓箭手技能攻擊3_是否攻擊背後敵人
     #endregion
 
-    [Header("敵人")]
-    public float enemyHp;//骷顱士兵生命值
+    [Header("敵人士兵1")]
+    public float enemySoldier1_Hp;//敵人士兵1_生命值
 
     /// <summary>
     /// 建構子
@@ -275,7 +275,7 @@ public class GameData_NumericalValue
         #endregion
 
         //敵人
-        enemyHp = 1000;//骷顱士兵生命值
+        enemySoldier1_Hp = 100;//敵人士兵1_生命值
     }
 }
 

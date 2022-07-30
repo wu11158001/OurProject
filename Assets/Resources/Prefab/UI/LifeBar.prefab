@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69be00a0f63439146b9bfca887a5cc7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeBarFront_Image: {fileID: 1095782487635980102}
 --- !u!1 &6418275511284691419
 GameObject:
   m_ObjectHideFlags: 0

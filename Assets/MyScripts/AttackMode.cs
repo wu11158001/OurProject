@@ -78,21 +78,7 @@ public class AttackMode
                 if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0) continue;
                 OnSetAttackNumbericalValue(collision);
             }
-        }
-        
-
-
-       /*//§ðÀ»®Ø
-       BoxCollider box = performObject.GetComponent<BoxCollider>();
-       Collider[] hits = Physics.OverlapBox(performObject.transform.position + box.center + performObject.transform.forward, boxSize * performObject.transform.lossyScale.x, Quaternion.identity);
-       foreach (var hit in hits)
-       {
-           CharactersCollision collision = hit.GetComponent<CharactersCollision>();
-           if (collision != null)
-           {
-               OnSetAttackNumbericalValue(collision);
-           }
-       }*/
+        }   
 
        GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
     }   

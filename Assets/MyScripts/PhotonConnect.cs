@@ -134,7 +134,12 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("找不到房間:" + returnCode + ":" + message);
 
-        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnConnectModeSettingTip(tip: "找不到房間");
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景)
+        {
+            if (returnCode == 32765) StartSceneUI.Instance.OnConnectModeSettingTip(tip: "房間已滿");
+            if (returnCode == 32760) StartSceneUI.Instance.OnConnectModeSettingTip(tip: "找不到房間");
+            else StartSceneUI.Instance.OnConnectModeSettingTip(tip: "找不到房間");
+        }
     }
 
     /// <summary>
@@ -282,10 +287,13 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         bool isStartGame = false;
 
-        PhotonNetwork.LoadLevel("LevelScene" + level);
         //2人以上開始
-        /*if (PhotonNetwork.CurrentRoom.PlayerCount > 1) PhotonNetwork.LoadLevel("LevelScene" + level);
-        else isStartGame = false;*/
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
+        {
+            PhotonNetwork.LoadLevel("LevelScene" + level);
+            PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間
+        }
+        else isStartGame = false;
 
         return isStartGame;
     }
@@ -326,7 +334,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnObjectActive(int targetID, bool active, PhotonMessageInfo info)
     {
         GameSceneManagement.Instance.OnConnectObjectActive(targetID, active);
-    }  
+    }
 
     /// <summary>
     /// 發送受擊訊息
@@ -336,11 +344,19 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage,bool isCritical)
     {
         photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical);
     }
 
+    /// <summary>
+    /// 受擊訊息
+    /// </summary>
+    /// <param name="targetID">目標ID</param>
+    /// <param name="position">位置</param>
+    /// <param name="rotation">選轉</param>
+    /// <param name="damage">受到傷害</param>
+    /// <param name="isCritical">是否爆擊</param>
     [PunRPC]
     void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
     {

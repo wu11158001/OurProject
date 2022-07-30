@@ -8,7 +8,7 @@ public class LifeBar_Characters : MonoBehaviour
     Canvas canvas_World;
     float hpProportion;//生命比例
     Transform target;//目標物件
-    Image lifeBarFront_Image;//生命條(前)
+    [SerializeField]Image lifeBarFront_Image;//生命條(前)
     Image lifeBarMid_Image;//生命條(中)
     Image lifeBarBack_Image;//生命條(後)
     float targetHight;//物件高度
@@ -16,7 +16,7 @@ public class LifeBar_Characters : MonoBehaviour
     void Start()
     {
         hpProportion = 1;
-        lifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarFront_Image");//生命條(前)
+        
         lifeBarFront_Image.fillAmount = hpProportion;
         lifeBarMid_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LifeBarMid_Image");//生命條(中)
         lifeBarMid_Image.fillAmount = hpProportion;
@@ -43,6 +43,17 @@ public class LifeBar_Characters : MonoBehaviour
     }
 
     /// <summary>
+    /// 設定顏色
+    /// </summary>
+    public Color SetColor
+    {
+        set
+        {
+            lifeBarFront_Image.color = value;
+        }
+    }
+
+    /// <summary>
     /// 設定數值
     /// </summary>
     public float SetValue { set { hpProportion = value; } }
@@ -52,7 +63,11 @@ public class LifeBar_Characters : MonoBehaviour
     /// </summary>
     void OnLifeBarBehavior()
     {
-        if (target == null) return;
+        if (target == null)
+        {
+            if (gameObject.activeSelf) gameObject.SetActive(false);
+            return;
+        }
                
         //跟隨目標
         Camera cnavasCamera = canvas_World.worldCamera;

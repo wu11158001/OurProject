@@ -23,7 +23,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     LifeBar_Characters lifeBar;//生命條
 
     //數值
-    float Hp;//生命值
+    [SerializeField]float Hp;//生命值
     float MaxHp;//最大生命值
 
     public bool isDie;//是否死亡
@@ -45,8 +45,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case "Player":
                 MaxHp = NumericalValue.playerHp;
                 break;
-            case "Enemy":
-                MaxHp = NumericalValue.enemyHp;
+            case "EnemySoldier_1":
+                MaxHp = NumericalValue.enemySoldier1_Hp;
                 break;
         }
         
@@ -89,6 +89,22 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         lifeBar = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>());
         lifeBar.SetTarget = target;
+
+        //連線模式
+        if (GameDataManagement.Instance.isConnect)
+        {
+            //玩家
+            if (gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                //是自己的腳色
+                if (photonView.IsMine) lifeBar.SetColor = Color.red;//更改生命條顏色
+                else lifeBar.SetColor = Color.blue;//更改生命條顏色
+            }
+        }
+        else//單人模式
+        {            
+            if (gameObject.layer == LayerMask.NameToLayer("Player")) lifeBar.SetColor = Color.red;//更改生命條顏色
+        }
     }    
 
     /// <summary>
@@ -194,7 +210,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         transform.position = position;
         transform.rotation = rotation;
-        
+
         Hp -= damage;//生命值減少
         lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
 

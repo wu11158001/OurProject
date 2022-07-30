@@ -21,6 +21,7 @@ public class GameDataManagement : MonoBehaviour
     public GameData_LoadPath loadPath;//遊戲物件(路徑)
 
     [Header("紀錄遊戲資料")]
+    public float musicVolume;//音樂音量
     public bool isConnect;//是否連線
     public bool isNotFirstIntoGame;//是否第一次進入遊戲
     public int selectRoleNumber;//選擇的腳色編號
@@ -41,6 +42,7 @@ public class GameDataManagement : MonoBehaviour
         loadPath = Resources.Load<ScriptableObject_LoadPath>("ScriptableObject/LoadPath").loadPath;
 
         //紀錄遊戲資料
-        equipBuff = new int[2] { -1, -1};
+        musicVolume = 0.3f;//音樂音量
+        equipBuff = new int[2] { -1, -1};//裝備的Buff
     }   
 }

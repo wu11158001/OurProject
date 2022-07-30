@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
+  - EnemySoldier_1
   layers:
   - Default
   - TransparentFX
