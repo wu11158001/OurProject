@@ -156,8 +156,12 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
             //連線狀態
             if (PhotonNetwork.IsConnected) PhotonConnect.Instance.OnDisconnectSetting();//離線
 
-            audioSource.volume = GameDataManagement.Instance.musicVolume;
-            audioSource.Play();
+            //播放背景音樂
+            if (audioSource.clip != null)
+            {
+                audioSource.volume = GameDataManagement.Instance.musicVolume;                
+                audioSource.Play();
+            }
 
             OnOpenSelectModeScreen();//開啟選擇模式畫面
         }
@@ -172,6 +176,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         videoTime = videoPlayer.clip.length;//影片長度
         audioSource = Camera.main.GetComponent<AudioSource>();//音樂 
         audioSource.volume = GameDataManagement.Instance.musicVolume;
+        audioSource.loop = true;
         audioSource.Stop();
         startScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "StartScreen");//startScreen UI控制        
         startTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "StartTip_Text");//提示文字
