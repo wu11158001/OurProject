@@ -36,22 +36,11 @@ public class LifeBar_Characters : MonoBehaviour
         set
         {
             target = value;
-            targetHight = target.GetComponent<BoxCollider>().size.y / 2.5f;
+            targetHight = target.GetComponent<BoxCollider>().size.y / 5f;
             canvas_World = GameObject.Find("Canvas_World").GetComponent<Canvas>();
             transform.SetParent(canvas_World.transform); 
         }
-    }
-
-    /// <summary>
-    /// 設定顏色
-    /// </summary>
-    public Color SetColor
-    {
-        set
-        {
-            lifeBarFront_Image.color = value;
-        }
-    }
+    }  
 
     /// <summary>
     /// 設定數值

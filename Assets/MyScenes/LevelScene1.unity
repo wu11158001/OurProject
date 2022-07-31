@@ -24,9 +24,9 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.10639064, g: 0.07017155, b: 0.111940324, a: 1}
   m_AmbientGroundColor: {r: 0.10639064, g: 0.07017155, b: 0.111940324, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2039a0ad0a9d05549928b70362f54902, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18827605, g: 0.19113809, b: 0.19109777, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: d18e361882a37fc4ba27f13610724817, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 8dff4befae207764e8dc9f6e982771dd, type: 2}
 --- !u!196 &5
 NavMeshSettings:
@@ -1350,7 +1350,6 @@ GameObject:
   - component: {fileID: 80271139}
   - component: {fileID: 80271141}
   - component: {fileID: 80271140}
-  - component: {fileID: 80271142}
   m_Layer: 0
   m_Name: Sew_MainEntrance_Door
   m_TagString: Untagged
@@ -1421,19 +1420,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 80271138}
   m_Mesh: {fileID: 4300000, guid: 5adf99318824ce144864908233651b3c, type: 3}
---- !u!114 &80271142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80271138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64685a9b40f1c940acde9d1e0c8c572, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!4 &84708697 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 93cf0b0eefea6a3468527aec3f50074b, type: 3}
@@ -3121,7 +3107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 191d9228e2aba784ea4ba9db9f4c65b7, type: 3}
       propertyPath: m_Intensity
-      value: 1.29999995
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 191d9228e2aba784ea4ba9db9f4c65b7, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -4258,7 +4244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -5130,7 +5116,6 @@ GameObject:
   - component: {fileID: 348003166}
   - component: {fileID: 348003168}
   - component: {fileID: 348003167}
-  - component: {fileID: 348003169}
   m_Layer: 0
   m_Name: Sew_MainEntrance_Door
   m_TagString: Untagged
@@ -5201,19 +5186,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348003165}
   m_Mesh: {fileID: 4300000, guid: 5adf99318824ce144864908233651b3c, type: 3}
---- !u!114 &348003169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 348003165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64685a9b40f1c940acde9d1e0c8c572, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!4 &350350463 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 6108f64e7d157574288e286ecede1c0c, type: 3}
@@ -9255,7 +9227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -12748,7 +12720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -14160,7 +14132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -15295,7 +15267,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 21bc78e0985f451418491e3fed21f2cb, type: 3}
       propertyPath: m_Intensity
-      value: .5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 21bc78e0985f451418491e3fed21f2cb, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -24747,7 +24719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -25716,7 +25688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.79999995
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -26355,7 +26327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -27244,7 +27216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -27470,7 +27442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 191d9228e2aba784ea4ba9db9f4c65b7, type: 3}
       propertyPath: m_Intensity
-      value: 1.29999995
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 191d9228e2aba784ea4ba9db9f4c65b7, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -27692,15 +27664,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: bd515fb5fdd114340bdc7f04a6ce9c77, type: 3}
       propertyPath: m_Range
-      value: 1.29999995
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: bd515fb5fdd114340bdc7f04a6ce9c77, type: 3}
       propertyPath: m_Color.b
-      value: .805970132
+      value: 0.80597013
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: bd515fb5fdd114340bdc7f04a6ce9c77, type: 3}
       propertyPath: m_Color.g
-      value: .654803455
+      value: 0.65480345
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: bd515fb5fdd114340bdc7f04a6ce9c77, type: 3}
       propertyPath: m_Color.r
@@ -31147,7 +31119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -32800,7 +32772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -33353,7 +33325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -34599,11 +34571,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: bd515fb5fdd114340bdc7f04a6ce9c77, type: 3}
       propertyPath: m_Color.b
-      value: .805970132
+      value: 0.80597013
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: bd515fb5fdd114340bdc7f04a6ce9c77, type: 3}
       propertyPath: m_Color.g
-      value: .654803455
+      value: 0.65480345
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: bd515fb5fdd114340bdc7f04a6ce9c77, type: 3}
       propertyPath: m_Color.r
@@ -36523,7 +36495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 191d9228e2aba784ea4ba9db9f4c65b7, type: 3}
       propertyPath: m_Intensity
-      value: .800000012
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 191d9228e2aba784ea4ba9db9f4c65b7, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -36774,7 +36746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 21bc78e0985f451418491e3fed21f2cb, type: 3}
       propertyPath: m_Intensity
-      value: .5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 21bc78e0985f451418491e3fed21f2cb, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -37610,7 +37582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped
@@ -37903,7 +37875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_Intensity
-      value: 1.20000005
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: 3a1fd8d986b096b40adb737e6ad4c83b, type: 3}
       propertyPath: m_ActuallyLightmapped

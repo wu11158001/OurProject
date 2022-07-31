@@ -49,13 +49,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 break;
         }
         
-        OnSetLifeBar_Character(transform);//設定生命條
+        //OnSetLifeBar_Character(transform);//設定生命條
         OnInitial();//初始化
     }
 
     void Update()
     {
-        lifeBar.gameObject.SetActive(gameObject.activeSelf);
+        if(lifeBar != null) lifeBar.gameObject.SetActive(gameObject.activeSelf);
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;//連線模式      
 
         OnCollisionControl();
@@ -87,23 +87,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     void OnSetLifeBar_Character(Transform target)
     {
         lifeBar = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.lifeBar).GetComponent<LifeBar_Characters>());
-        lifeBar.SetTarget = target;
-
-        //連線模式
-        if (GameDataManagement.Instance.isConnect)
-        {
-            //玩家
-            if (gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                //是自己的腳色
-                if (photonView.IsMine) lifeBar.SetColor = Color.red;//更改生命條顏色
-                else lifeBar.SetColor = Color.blue;//更改生命條顏色
-            }
-        }
-        else//單人模式
-        {            
-            if (gameObject.layer == LayerMask.NameToLayer("Player")) lifeBar.SetColor = Color.red;//更改生命條顏色
-        }
+        lifeBar.SetTarget = target;      
     }    
 
     /// <summary>
@@ -130,7 +114,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             Hp -= damage;//生命值減少
             if (Hp <= 0) Hp = 0;
 
-            lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
+            if(lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
             if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //面向攻擊者          

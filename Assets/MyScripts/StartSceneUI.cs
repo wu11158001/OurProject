@@ -52,12 +52,6 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     Sprite[] roleSelect_Sprite;//腳色選擇圖片
     Button roleSelectRight_Button;//腳色按鈕移動(右)
     Button roleSelectLeft_Button;//腳色按鈕移動(左)
-    List<Transform> roleSelectButton_List = new List<Transform>();//記錄所有腳色選擇按鈕
-    Image roleSelectBackGround_Image;//腳色選擇背景
-    float roleSelectButtonSizeX;//腳色選擇按鈕SizeX
-    float roleSelectButtonSpacing;//腳色選擇按鈕間距
-    float roleSelectButtonSlideSpeed;//腳色滑動按鈕速度
-    float mouseX;//Input MouseX    
     Image rolePicture_Image;//選擇的腳色(大圖)
     [Header("選擇腳色畫面/Buff")]
     int[] equipBuff;//裝備的Buff
@@ -128,8 +122,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     void Update()
     {
         OnStopVideo();
-        OnTipTextGlintControl();
-        OnSlideRoleButton();
+        OnTipTextGlintControl();        
         OnConnectModeTip();
         OnConnectRoomChangeRoleTime();
         OnKeyboardSendChatMessage();
@@ -227,31 +220,15 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         roleBack_Button.onClick.AddListener(OnSelectRoleScreenBackButton);
         //選擇腳色畫面/腳色選擇按鈕
         roleSelectRight_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleSelectRight_Button");////腳色按鈕移動(右)
-        roleSelectRight_Button.onClick.AddListener(delegate { OnRoleButtonMove(direction:1); });
+        roleSelectRight_Button.onClick.AddListener(delegate { OnRoleButtonMove(number:1); });
         roleSelectLeft_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleSelectLeft_Button");//腳色按鈕移動(左)
-        roleSelectLeft_Button.onClick.AddListener(delegate { OnRoleButtonMove(direction :-1); });
+        roleSelectLeft_Button.onClick.AddListener(delegate { OnRoleButtonMove(number: -1); });
         roleSelect_Button = Resources.Load<GameObject>(loadPath.roleSelect_Button);//腳色選擇按鈕
-        roleSelect_Sprite = Resources.LoadAll<Sprite>(loadPath.roleSelect_Sprite);//腳色選擇圖片
-        roleSelectBackGround_Image = ExtensionMethods.FindAnyChild<Image>(transform, "RoleSelectBackGround_Image");//腳色選擇背景
-        roleSelectButtonSizeX = roleSelect_Button.GetComponent<RectTransform>().rect.width;//腳色選擇按鈕SizeX
-        roleSelectButtonSpacing = 20;//腳色選擇按鈕間距        
-
-        //產生腳色選擇按鈕
-        for (int i = 0; i < roleSelect_Sprite.Length; i++)
-        {
-            Transform roleButton = Instantiate(roleSelect_Button).GetComponent<Transform>();
-            roleButton.name = "RoleButton" + i;
-            roleButton.SetParent(roleSelectBackGround_Image.transform);           
-            roleButton.localPosition = new Vector3(roleSelectButtonSpacing + ((roleSelectButtonSizeX + roleSelectButtonSpacing) * i), 0, 0);
-            roleButton.GetComponent<Image>().sprite = roleSelect_Sprite[i];
-
-            OnSetRoleButtonFunction(roleButton.GetComponent<Button>(), i);            
-            roleSelectButton_List.Add(roleButton);
-        }
+        roleSelect_Sprite = Resources.LoadAll<Sprite>(loadPath.roleSelect_Sprite);//腳色選擇圖片             
         
         //選擇的腳色(大圖)
         rolePicture_Image = ExtensionMethods.FindAnyChild<Image>(transform, "RolePicture_Image");
-        rolePicture_Image.sprite = roleSelectButton_List[0].GetComponent<Image>().sprite;
+        rolePicture_Image.sprite = roleSelect_Sprite[0];
 
         equipBuff = new int[2];//裝備的Buff
 
@@ -574,81 +551,21 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         GameDataManagement.Instance.equipBuff[0] = equipBuff[0];
         GameDataManagement.Instance.equipBuff[1] = equipBuff[1];
     }
-
-    /// <summary>
-    /// 設定腳色按鈕Function
-    /// </summary>
-    /// <param name="roleButton">腳色按鈕</param>
-    /// <param name="i">編號</param>
-    void OnSetRoleButtonFunction(Button roleButton, int i)
-    {
-        roleButton.onClick.AddListener(delegate { OnClickRoleButton(i); });
-    }
-
-    /// <summary>
-    /// 點擊腳按鈕
-    /// </summary>
-    /// <param name="numbrt">編號(選擇的腳色)</param>
-    void OnClickRoleButton(int number)
-    {
-        rolePicture_Image.sprite = roleSelectButton_List[number].GetComponent<Image>().sprite;//設定選擇的腳色(大圖)
-        GameDataManagement.Instance.selectRoleNumber = number;
-    }
-
+    
     /// <summary>
     /// 腳色按鈕移動(左右按鈕)
     /// </summary>
-    /// <param name="direction">移動方向</param>
-    void OnRoleButtonMove(int direction)
+    /// <param name="number">選擇腳色編號</param>
+    void OnRoleButtonMove(int number)
     {
-        for (int i = 0; i < roleSelectButton_List.Count; i++)
-        {
-            roleSelectButton_List[i].localPosition = new Vector3(roleSelectButton_List[i].localPosition.x + direction * (roleSelectButtonSizeX + (roleSelectButtonSpacing )), 0, 0);
-        }
-    }
-    
-    /// <summary>
-    /// 滑動腳色按鈕
-    /// </summary>
-    void OnSlideRoleButton()
-    {
-        //判斷是否在背景上
-        if (RectTransformUtility.RectangleContainsScreenPoint(roleSelectBackGround_Image.GetComponent<RectTransform>(), Input.mousePosition))
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                isSlideRoleButton = true;
-                roleSelectButtonSlideSpeed = 40;
-            }
-        }
+        int role = GameDataManagement.Instance.selectRoleNumber;
+        role += number;
+        if (role < 0) role = roleSelect_Sprite.Length - 1;
+        if (role > roleSelect_Sprite.Length - 1) role = 0;
 
-        if (isSlideRoleButton)
-        {
-            mouseX = Input.GetAxis("Mouse X");
-            if (Input.GetMouseButtonUp(0)) isSlideRoleButton = false;
-        }
-        else 
-        {
-            if(roleSelectButtonSlideSpeed > 0) roleSelectButtonSlideSpeed -= 80 * Time.deltaTime;//滑動速度衰退
-            if (roleSelectButtonSlideSpeed <= 0) roleSelectButtonSlideSpeed = 0;
-        }
-
-        //滑動腳色按鈕
-        for (int i = 0; i < roleSelectButton_List.Count; i++)
-        {            
-            if(mouseX > 0.1f || mouseX < -0.1f) roleSelectButton_List[i].localPosition = roleSelectButton_List[i].localPosition + Vector3.right * mouseX * roleSelectButtonSlideSpeed;
-
-            //邊界設定
-            if (roleSelectButton_List[i].localPosition.x <= -roleSelectButtonSizeX)
-            {
-                roleSelectButton_List[i].localPosition = new Vector3(((roleSelectButtonSizeX + roleSelectButtonSpacing) * (roleSelectButton_List.Count - 1) + ((roleSelectButtonSizeX + roleSelectButtonSpacing) + roleSelectButton_List[i].localPosition.x)), 0, 0);
-            }
-            if (roleSelectButton_List[i].localPosition.x >= (roleSelectButtonSizeX + roleSelectButtonSpacing) * (roleSelectButton_List.Count - 1))
-            {
-                roleSelectButton_List[i].localPosition = new Vector3((-roleSelectButtonSizeX - roleSelectButtonSpacing) + (roleSelectButton_List[i].localPosition.x - (roleSelectButtonSizeX + roleSelectButtonSpacing) * (roleSelectButton_List.Count - 1)), 0, 0);
-            }
-        }
-    }
+        rolePicture_Image.sprite = roleSelect_Sprite[role];//設定選擇的腳色(大圖)
+        GameDataManagement.Instance.selectRoleNumber = role;       
+    }   
     #endregion
 
     #region 關卡畫面

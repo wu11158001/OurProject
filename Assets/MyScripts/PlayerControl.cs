@@ -9,9 +9,10 @@ using Photon.Pun;
 /// </summary>
 public class PlayerControl : MonoBehaviourPunCallbacks
 {
-    Animator animator;    
+    Animator animator;
+    AnimatorStateInfo info;
     CharactersCollision charactersCollision;
-    GameData_NumericalValue NumericalValue;
+    GameData_NumericalValue NumericalValue;    
 
     //碰撞框
     Vector3 boxCenter;
@@ -74,19 +75,10 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //鼠標
          Cursor.visible = false;//鼠標隱藏
          Cursor.lockState = CursorLockMode.Locked;//鎖定中央
-
-        //Level Door
-        DoorControl[] doorControl = GameObject.FindObjectsOfType<DoorControl>();
-        foreach(var door in doorControl)
-        {
-            door.player = gameObject;
-        }
     }
 
     void Update()
     {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-
         //不是死亡狀態 & 沒有開啟選項介面
         if (!charactersCollision.isDie && !GameSceneUI.Instance.isOptions)
         {            
@@ -110,9 +102,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     void OnAttackControl()
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-
         //普通攻擊
-        if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack"))
+        if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack") && !info.IsName("Dodge"))
         {
             //技能攻擊
             if (Input.GetMouseButtonDown(1))
@@ -145,13 +136,13 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 animator.SetBool("JumpAttack", isJumpAttack);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
                 return;
-            }
+            }                        
 
             //普通攻擊(第一次攻擊)
             if (!isSkillAttack && !isNormalAttack)
             {
                 isNormalAttack = true;
-                normalAttackNumber = 1;
+                normalAttackNumber = 1;                
 
                 animator.SetBool("NormalAttack", isNormalAttack);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
@@ -162,7 +153,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             {                                
                 normalAttackNumber++;//普通攻擊編號                
                 if (normalAttackNumber > 3) normalAttackNumber = 0;
-              
+                
                 //轉向               
                 if (inputX != 0 && inputZ != 0) transform.forward = (horizontalCross * inputX) + (forwardVector * inputZ);//斜邊
                 else if (inputX != 0) transform.forward = horizontalCross * inputX;//左右
@@ -223,8 +214,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnDodgeControl()
     {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-
         //閃躲控制
         if (info.IsName("Idle") || info.IsName("Run"))
         {
@@ -286,7 +275,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpControl()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && !isJump)
+        if(Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge"))
         {
             charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity });//浮空List
 
@@ -312,7 +301,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if (inputX != 0 && inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, (horizontalCross * inputX) + (forwardVector * inputZ), maxRadiansDelta, maxRadiansDelta);//斜邊
         else if (inputX != 0) transform.forward = Vector3.RotateTowards(transform.forward, horizontalCross * inputX, maxRadiansDelta, maxRadiansDelta);//左右
         else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      
-        
+
+        if (info.IsName("Dodge")) return;
+
         float inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
 
         //移動
@@ -340,6 +331,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnInput()
     {
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
         inputX = Input.GetAxis("Horizontal");//輸入X值
         inputZ = Input.GetAxis("Vertical");//輸入Z值
 
