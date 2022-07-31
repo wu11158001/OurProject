@@ -16,7 +16,6 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     string[] normalAttackArrows;//弓箭物件
     MeshRenderer arrowMeshRenderer;//弓箭物件皮膚
     int normalAttackNumber;//普通攻擊編號
-    float[] shoopPosition;//射出位置(0:向上距離 1:向前距離)
 
     void Start()
     {
@@ -29,7 +28,6 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
 
         
         normalAttackArrows = new string[] { "archerNormalAttack_1", "archerNormalAttack_2", "archerNormalAttack_3" };//弓箭物件(尋找物件編號用)                
-        shoopPosition = new float[] { 1.35f, 0.65f };//射出位置(0:向上距離 1:向前距離)
     }
    
     void Update()
@@ -72,7 +70,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
             attack.flightSpeed = NumericalValue.archerSkillAttack_1_FlightSpeed;//飛行速度
             attack.lifeTime = NumericalValue.archerSkillAttack_1_LifeTime;//生存時間
             attack.flightDiration = diration[i];//飛行方向        
-            attack.performObject.transform.position = transform.position + GetComponent<BoxCollider>().center + transform.forward * 1;//射出位置
+            attack.performObject.transform.position = arrowMeshRenderer.transform.position;//射出位置
 
             GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
         }        
@@ -177,7 +175,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber(normalAttackArrows[normalAttackNumber - 1]), GameSceneManagement.Instance.loadPath.archerAllNormalAttack[normalAttackNumber - 1]);//執行攻擊的物件(自身/射出物件)
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
-
+        
         attack.function = new Action(attack.OnSetShootFunction_Single);//設定執行函式
         attack.damage = NumericalValue.archerNormalAttack_Damge[normalAttackNumber - 1] * rate;//造成傷害 
         attack.direction = NumericalValue.archerNormalAttack_RepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
@@ -188,8 +186,8 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.flightSpeed = NumericalValue.archerNormalAttack_FloatSpeed[normalAttackNumber - 1];//飛行速度
         attack.lifeTime = NumericalValue.archerNormalAttack_LifeTime[normalAttackNumber - 1];//生存時間
         attack.flightDiration = transform.forward;//飛行方向        
-        attack.performObject.transform.position = transform.position + Vector3.up * shoopPosition[0] + transform.forward * shoopPosition[1];//射出位置
-
+        attack.performObject.transform.position = arrowMeshRenderer.transform.position;//射出位置
+        
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
     }
 
@@ -200,12 +198,25 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (info.IsName("Attack.NormalAttack_1") && info.normalizedTime < 0.45f && !arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
-        else if (info.IsName("Attack.NormalAttack_2") && info.normalizedTime < 0.45f && !arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
-        else if (info.IsName("Attack.NormalAttack_3") && info.normalizedTime > 0.23f && info.normalizedTime < 0.7f && !arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
-        else
+        if (info.IsName("Attack.NormalAttack_1") && info.normalizedTime < 0.4f)
         {
-            if(arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = false;
+            if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
+        }
+        else if (info.IsName("Attack.NormalAttack_2") && info.normalizedTime < 0.4f)
+        {
+            if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
+        }
+        else if (info.IsName("Attack.NormalAttack_3") && info.normalizedTime > 0.2f && info.normalizedTime < 0.68f)
+        {
+            if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
+        }
+        else if (info.IsName("Attack.SkillAttack_1") && info.normalizedTime > 0.2f && info.normalizedTime < 0.68f)
+        {
+            if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
+        }
+        else
+        {            
+            if (arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = false;            
         }
     }
 }

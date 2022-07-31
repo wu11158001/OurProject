@@ -235,8 +235,8 @@ public class GameData_NumericalValue
         archerNormalAttack_RepelDirection = new int[] { 0, 0, 0 };//弓箭手普通攻擊_擊退方向(0:擊退 1:擊飛)
         archerNormalAttack_RepelDistance = new float[] { 30, 30, 30 };//弓箭手普通攻擊_擊退/擊飛距離        
         archerNormalAttack_Effect = new string[] { "Pain", "Pain", "Pain" };//弓箭手普通攻擊_效果(受擊者播放的動畫名稱)     
-        archerNormalAttack_FloatSpeed = new float[] { 50, 50, 50};//弓箭手普通攻擊飛行速度
-        archerNormalAttack_LifeTime = new float[] { 0.3f, 0.3f, 0.3f};//弓箭手普通攻擊生存時間
+        archerNormalAttack_FloatSpeed = new float[] { 30, 30, 30};//弓箭手普通攻擊飛行速度
+        archerNormalAttack_LifeTime = new float[] { 0.4f, 0.4f, 0.4f};//弓箭手普通攻擊生存時間
 
         //弓箭手 跳躍攻擊
         archerJumpAttack_Damage = 11;//弓箭手跳躍攻擊傷害
@@ -252,8 +252,8 @@ public class GameData_NumericalValue
         archerSkillAttack_1_RepelDirection = 0;//弓箭手技能攻擊攻擊1_擊退方向(0:擊退 1:擊飛)
         archerSkillAttack_1_Repel = 13;//弓箭手技能攻擊攻擊1_擊退距離        
         archerSkillAttack_1_Effect = "Pain";//弓箭手技能攻擊攻擊1_效果(受擊者播放的動畫名稱)
-        archerSkillAttack_1_FlightSpeed = 50;//弓箭手技能攻擊攻擊1_飛行速度
-        archerSkillAttack_1_LifeTime = 0.3f;//弓箭手技能攻擊攻擊1_生存時間
+        archerSkillAttack_1_FlightSpeed = 30;//弓箭手技能攻擊攻擊1_飛行速度
+        archerSkillAttack_1_LifeTime = 0.4f;//弓箭手技能攻擊攻擊1_生存時間
 
         //弓箭手 技能攻擊2
         archerSkillAttack_2_Damge = 11;//弓箭手技能攻擊2_傷害

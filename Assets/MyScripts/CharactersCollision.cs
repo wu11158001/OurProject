@@ -15,7 +15,6 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
-    Vector3 safePosition;//紀錄卡牆前的位置
 
     float collisiionHight;//碰撞框高度(走樓梯用)
 

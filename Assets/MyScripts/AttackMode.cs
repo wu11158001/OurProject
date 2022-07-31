@@ -138,7 +138,7 @@ public class AttackMode
         foreach (var hit in hits)
         {
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
-            if (collision != null)
+            if (collision != null && collision.gameObject.layer != LayerMask.NameToLayer(layer))
             {
                 OnSetAttackNumbericalValue(collision);
                 

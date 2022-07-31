@@ -118,13 +118,13 @@ MonoBehaviour:
     - Pain
     - Pain
     archerNormalAttack_FloatSpeed:
-    - 50
-    - 50
-    - 50
+    - 30
+    - 30
+    - 30
     archerNormalAttack_LifeTime:
-    - 0.3
-    - 0.3
-    - 0.3
+    - 0.4
+    - 0.4
+    - 0.4
     archerJumpAttack_Damage: 11
     archerJumpAttack_RepelDirection: 0
     archerJumpAttack_RepelDistance: 50
@@ -136,8 +136,8 @@ MonoBehaviour:
     archerSkillAttack_1_RepelDirection: 0
     archerSkillAttack_1_Repel: 13
     archerSkillAttack_1_Effect: Pain
-    archerSkillAttack_1_FlightSpeed: 50
-    archerSkillAttack_1_LifeTime: 0.3
+    archerSkillAttack_1_FlightSpeed: 30
+    archerSkillAttack_1_LifeTime: 0.4
     archerSkillAttack_2_Damge: 11
     archerSkillAttack_2_RepelDirection: 0
     archerSkillAttack_2_RepelDistance: 50

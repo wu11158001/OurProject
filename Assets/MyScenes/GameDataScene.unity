@@ -320,6 +320,7 @@ MonoBehaviour:
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
+  musicVolume: 0
   isConnect: 0
   isNotFirstIntoGame: 0
   selectRoleNumber: 0
