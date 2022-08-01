@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WarriorEffects : MonoBehaviour
+public class Effects : MonoBehaviour
 {
     public GameObject effects;     //定位特效位置(因為不想用GameObject.Find)     
     Animator anim;                 //對應角色動作組件
@@ -17,6 +17,7 @@ public class WarriorEffects : MonoBehaviour
         NormalAttack_1 = effects.transform.GetChild(0).GetComponent<ParticleSystem>();    //獲得特效組件;
         NormalAttack_3 = effects.transform.GetChild(1).GetComponent<ParticleSystem>();    //獲得特效組件;
         SkillAttack_3 = effects.transform.GetChild(2).GetComponent<ParticleSystem>();    //獲得特效組件;
+
     }
 
     void Update()
@@ -65,13 +66,44 @@ public class WarriorEffects : MonoBehaviour
     void DoEffects(string idelName, float delay, ParticleSystem effect)
     {
 
-        var SkillAttack_32 = SkillAttack_3.transform.GetChild(2).GetComponent<ParticleSystem>();
-        float delay2 = 0.7f;
-        if (animInfo.IsName("Attack.SkillAttack_3") && animInfo.normalizedTime > delay2)
-        {            
-            if (!SkillAttack_32.isPlaying) SkillAttack_32.Play();
-            if (animInfo.normalizedTime > delay2 + 0.1f) SkillAttack_32.Stop();
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay)
+        {
+            if (!effect.isPlaying) effect.Play();
         }
         else effect.Stop();
+    }
+
+    public void HitEffect(GameObject player, Collider hitPos)
+    {
+        if (player.tag == "Player")
+        {
+            Vector3 star = player.transform.GetChild(3).position;
+            Vector3 dir = hitPos.transform.GetChild(0).position - star;
+            if (dir.magnitude < 2)
+            {
+                star = new Vector3(Screen.width / 2, Screen.height / 2);
+                star = Camera.main.ScreenToWorldPoint(star);
+                dir = hitPos.transform.GetChild(0).position - star;
+            }
+            Physics.Raycast(star, dir, out RaycastHit pos, Mathf.Infinity, LayerMask.GetMask("Enemy"));
+            GetHitPs().transform.position = pos.point;
+            GetHitPs().Play();
+        }
+    }
+    List<ParticleSystem> hitList = new List<ParticleSystem>();
+    ParticleSystem HitPool()
+    {
+        ParticleSystem hit = effects.transform.GetChild(3).GetComponent<ParticleSystem>();
+        ParticleSystem hitPs = Instantiate(hit);
+        hitList.Add(hitPs);
+        return hitPs;
+    }
+    ParticleSystem GetHitPs()
+    {
+        foreach (var hl in hitList)
+        {
+            if (!hl.isPlaying) return hl;
+        }
+        return HitPool();
     }
 }
