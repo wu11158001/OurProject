@@ -75,8 +75,10 @@ public class Effects : MonoBehaviour
 
     public void HitEffect(GameObject player, Collider hitPos)
     {
-        if (player.tag == "Player")
+        if (player.tag == "Player" && effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
         {
+
+
             Vector3 star = player.transform.GetChild(3).position;
             Vector3 dir = hitPos.transform.GetChild(0).position - star;
             if (dir.magnitude < 2)
