@@ -8,6 +8,16 @@ ModelImporter:
     second: mixamo.com
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vampire_MAT1
+    second: {fileID: 2100000, guid: 7c068842034acae48871520f4abebac3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vampire_MAT_Transparent
+    second: {fileID: 2100000, guid: fb1b0620610113a48b9c8ad11667ee32, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Vampire_diffuse
@@ -33,7 +43,7 @@ ModelImporter:
       name: Vampire_specular
     second: {fileID: 2800000, guid: 92798d5601cbc7e4ca2fe2910c105e74, type: 3}
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1

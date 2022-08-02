@@ -198,9 +198,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  damage: damage,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
                                  isCritical: isCritical);//是否爆擊
-            
+
             //命中特效
-            //attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
+            attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
 
 
             //判斷擊中效果
