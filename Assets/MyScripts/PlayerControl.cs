@@ -23,6 +23,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     float inputZ;//輸入Z值
     Vector3 forwardVector;//前方向量
     Vector3 horizontalCross;//水平軸
+    bool isSendRun;//是否已發送移動動畫
 
     //跳躍
     bool isJump;//是否跳躍
@@ -300,7 +301,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             }
         }        
     }
-    bool isSendRun;
+    
     /// <summary>
     /// 移動控制
     /// </summary>
@@ -328,13 +329,11 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {
             if (inputValue > 0.1f && !isSendRun)
             {
-                Debug.LogError(inputValue + ":" + isSendRun + ":1");
                 isSendRun = true;
                 PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", inputValue);
             }
             if (inputValue < 0.1f && isSendRun)
             {
-                Debug.LogError(inputValue + ":" + isSendRun + ":2");
                 isSendRun = false;
                 PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
             }
@@ -363,9 +362,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
-        BoxCollider box = GetComponent<BoxCollider>();
+        /*BoxCollider box = GetComponent<BoxCollider>();
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * 3, 1.8f);        
-        Gizmos.DrawWireCube(transform.position + box.center, new Vector3(box.size.x /1.3f, box.size.y, box.size.z/1.3f));
+        Gizmos.DrawWireCube(transform.position + box.center, new Vector3(box.size.x /1.3f, box.size.y, box.size.z/1.3f));*/
     }
 }

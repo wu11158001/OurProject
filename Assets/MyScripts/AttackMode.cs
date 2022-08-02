@@ -217,7 +217,7 @@ public class AttackMode
     /// </summary>
     /// <param name="charactersCollision">受攻擊物件的碰撞腳本</param>
     void OnSetAttackNumbericalValue(CharactersCollision charactersCollision)
-    {
+    {   
         charactersCollision.OnGetHit(attacker: performObject,//攻擊者物件
                                      layer: layer,//攻擊者layer
                                      damage: damage,//造成傷害

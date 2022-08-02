@@ -13,14 +13,18 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     GameData_NumericalValue NumericalValue;    
 
     MeshRenderer arrowMeshRenderer;//弓箭物件皮膚    
+    string[] normalAttackArrowsPath;//普通攻擊弓箭物件
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        NumericalValue = GameDataManagement.Instance.numericalValue;        
- 
+        NumericalValue = GameDataManagement.Instance.numericalValue;
+
+        //弓箭物件皮膚
         arrowMeshRenderer = ExtensionMethods.FindAnyChild<MeshRenderer>(transform, "Arrow");
-        arrowMeshRenderer.enabled = false;             
+        arrowMeshRenderer.enabled = false;
+
+        normalAttackArrowsPath = new string[] { "archerNormalAttack_1", "archerNormalAttack_2", "archerNormalAttack_3" };//普通攻擊弓箭物件
     }
    
     void Update()
@@ -155,7 +159,8 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     /// <summary>
     /// 普通攻擊_弓箭手
     /// </summary>
-    void OnNormalAttacks_Archer()
+    /// <param name="number"></param>
+    void OnNormalAttacks_Archer(int number)
     {
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
@@ -164,20 +169,20 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
-        attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("warriorSkillAttack_1"), GameSceneManagement.Instance.loadPath.warriorSkillAttack_1);//執行攻擊的物件(自身/射出物件)
+        attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber(normalAttackArrowsPath[number]), GameSceneManagement.Instance.loadPath.archerAllNormalAttack[number]);//執行攻擊的物件(自身/射出物件)
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
-        attack.damage = NumericalValue.warriorSkillAttack_1_Damge * rate;//造成傷害 
-        attack.direction = NumericalValue.warriorSkillAttack_1_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
-        attack.repel = NumericalValue.warriorSkillAttack_1_RepelDistance;//擊退/擊飛距離
-        attack.animationName = NumericalValue.warriorSkillAttack_1_Effect;//攻擊效果(播放動畫名稱)        
+        attack.damage = NumericalValue.archerNormalAttack_Damge[number] * rate;//造成傷害 
+        attack.direction = NumericalValue.archerNormalAttack_RepelDirection[number];//擊退方向(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.archerNormalAttack_RepelDistance[number];//擊退/擊飛距離
+        attack.animationName = NumericalValue.archerNormalAttack_Effect[number];//攻擊效果(播放動畫名稱)        
 
-        attack.flightSpeed = NumericalValue.warriorSkillAttack_1_FlightSpeed;//飛行速度
-        attack.lifeTime = NumericalValue.warriorSkillAttack_1_LifeTime;//生存時間
+        attack.flightSpeed = NumericalValue.archerNormalAttack_FloatSpeed[number];//飛行速度
+        attack.lifeTime = NumericalValue.archerNormalAttack_LifeTime[number];//生存時間
         attack.flightDiration = transform.forward;//飛行方向        
-        attack.performObject.transform.position = transform.position + GetComponent<BoxCollider>().center + transform.forward * 1;//射出位置
+        attack.performObject.transform.position = arrowMeshRenderer.transform.position;//射出位置
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
     }
