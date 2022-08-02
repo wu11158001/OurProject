@@ -186,6 +186,15 @@ public class GameData_NumericalValue
     public float[] magicianSkillAttack_2_ForwardDistance;//法師技能攻擊2_攻擊範圍中心點距離物件前方
     public float[] magicianSkillAttack_2_attackRadius;//法師技能攻擊2_攻擊半徑
     public bool[] magicianSkillAttack_2_IsAttackBehind;//法師技能攻擊2_是否攻擊背後敵人
+
+    [Header("法師 技能攻擊3")]
+    public float magicianSkillAttack_3_Damge;//法師技能攻擊3_傷害
+    public int magicianSkillAttack_3_RepelDirection;//法師技能攻擊3_擊退方向(0:擊退 1:擊飛)
+    public float magicianSkillAttack_3_RepelDistance;//法師技能攻擊3_擊退/擊飛距離    
+    public string magicianSkillAttack_32_Effect;//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
+    public float magicianSkillAttack_3_ForwardDistance;//法師技能攻擊3_攻擊範圍中心點距離物件前方
+    public float magicianSkillAttack_3_attackRadius;//法師技能攻擊3_攻擊半徑
+    public bool magicianSkillAttack_3_IsAttackBehind;//法師技能攻擊3_是否攻擊背後敵人
     #endregion
 
     [Header("敵人士兵1")]
@@ -376,6 +385,15 @@ public class GameData_NumericalValue
         magicianSkillAttack_2_ForwardDistance = new float[] { 0, 0, 0, 0, 0, 0};//法師技能攻擊2_攻擊範圍中心點距離物件前方
         magicianSkillAttack_2_attackRadius = new float[] { 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f};//法師技能攻擊2_攻擊半徑
         magicianSkillAttack_2_IsAttackBehind = new bool[] { false, false, false, false, false, false};//法師技能攻擊2_是否攻擊背後敵人
+
+        //法師技能攻擊3
+        magicianSkillAttack_3_Damge = 14;//法師技能攻擊3_傷害
+        magicianSkillAttack_3_RepelDirection = 1;//法師技能攻擊3_擊退方向(0:擊退 1:擊飛)
+        magicianSkillAttack_3_RepelDistance = 15;//法師技能攻擊3_擊退/擊飛距離    
+        magicianSkillAttack_32_Effect = "Pain";//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
+        magicianSkillAttack_3_ForwardDistance = 3;//法師技能攻擊3_攻擊範圍中心點距離物件前方
+        magicianSkillAttack_3_attackRadius = 1.8f;//法師技能攻擊3_攻擊半徑
+        magicianSkillAttack_3_IsAttackBehind = false;//法師技能攻擊3_是否攻擊背後敵人
         #endregion
 
     //敵人

@@ -343,6 +343,13 @@ MonoBehaviour:
     magicianSkillAttack_2_ForwardDistance: []
     magicianSkillAttack_2_attackRadius: []
     magicianSkillAttack_2_IsAttackBehind: 
+    magicianSkillAttack_3_Damge: 14
+    magicianSkillAttack_3_RepelDirection: 1
+    magicianSkillAttack_3_RepelDistance: 15
+    magicianSkillAttack_32_Effect: Pain
+    magicianSkillAttack_3_ForwardDistance: 3
+    magicianSkillAttack_3_attackRadius: 1.8
+    magicianSkillAttack_3_IsAttackBehind: 0
     enemySoldier1_Hp: 1000
   loadPath:
     roleSelect_Button: RoleSelectButton
