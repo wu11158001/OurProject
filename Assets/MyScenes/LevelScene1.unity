@@ -27296,7 +27296,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.678
+  m_MatchWidthOrHeight: 0.617
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -33687,6 +33687,7 @@ MonoBehaviour:
     - Prefab/ShootObject/Archer/ArcherNormalAttack_2
     - Prefab/ShootObject/Archer/ArcherNormalAttack_3
     archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1
+    magicianNormalAttack_1: Prefab/ShootObject/Magician/MagicianNormalAttack_1
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar

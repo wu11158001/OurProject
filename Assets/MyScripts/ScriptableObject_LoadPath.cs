@@ -29,14 +29,17 @@ public class GameData_LoadPath
     public string[] allPlayerCharacters;//所有玩家腳色
 
     [Header("戰士")]
-    public string warriorSkillAttack_1;//戰士技能_1物件
+    public string warriorSkillAttack_1;//技能攻擊_1
 
     [Header("弓箭手")]
-    public string archerNormalAttack_1;//普通攻擊_1弓箭物件
-    public string archerNormalAttack_2;//普通攻擊_2弓箭物件
-    public string archerNormalAttack_3;//普通攻擊_3弓箭物件
-    public string[] archerAllNormalAttack;//所有普通攻擊弓箭物件
-    public string archerSkilllAttack_1;//技能攻擊_1弓箭物件
+    public string archerNormalAttack_1;//普通攻擊_1
+    public string archerNormalAttack_2;//普通攻擊_2
+    public string archerNormalAttack_3;//普通攻擊_3
+    public string[] archerAllNormalAttack;//所有普通攻擊
+    public string archerSkilllAttack_1;//技能攻擊_1
+
+    [Header("法師")]
+    public string magicianNormalAttack_1;//普通攻擊_1
 
     [Header("敵人")]
     public string enemySoldier_1;//敵人士兵1
@@ -69,14 +72,17 @@ public class GameData_LoadPath
         allPlayerCharacters = new string[] { Warrior , Magician, Archer };//所有玩家腳色
 
         //戰士
-        warriorSkillAttack_1 = "Prefab/ShootObject/Warrior/WarriorSkillAttack_1";//戰士技能_1物件
+        warriorSkillAttack_1 = "Prefab/ShootObject/Warrior/WarriorSkillAttack_1";//技攻擊能_1
 
         //弓箭手
-        archerNormalAttack_1 = "Prefab/ShootObject/Archer/ArcherNormalAttack_1";//普通攻擊_1弓箭物件
-        archerNormalAttack_2 = "Prefab/ShootObject/Archer/ArcherNormalAttack_2";//普通攻擊_2弓箭物件
-        archerNormalAttack_3 = "Prefab/ShootObject/Archer/ArcherNormalAttack_3";//普通攻擊_3弓箭物件
+        archerNormalAttack_1 = "Prefab/ShootObject/Archer/ArcherNormalAttack_1";//普通攻擊_1
+        archerNormalAttack_2 = "Prefab/ShootObject/Archer/ArcherNormalAttack_2";//普通攻擊_2
+        archerNormalAttack_3 = "Prefab/ShootObject/Archer/ArcherNormalAttack_3";//普通攻擊_3
         archerAllNormalAttack = new string[] { archerNormalAttack_1 , archerNormalAttack_2 , archerNormalAttack_3 };//所有普通攻擊物件
-        archerSkilllAttack_1 = "Prefab/ShootObject/Archer/ArcherSkilllAttack_1";//技能攻擊_1弓箭物件
+        archerSkilllAttack_1 = "Prefab/ShootObject/Archer/ArcherSkilllAttack_1";//技能攻擊_1
+
+        //法師
+        magicianNormalAttack_1 = "Prefab/ShootObject/Magician/MagicianNormalAttack_1";//普通攻擊_1
 
         //敵人
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1

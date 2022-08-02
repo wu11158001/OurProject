@@ -11,20 +11,15 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 {
     Animator animator;
     GameData_NumericalValue NumericalValue;
-    PlayerControl playerControl;
-
-    int normalAttackNumber;//普通攻擊編號
 
     void Start()
     {
         animator = GetComponent<Animator>();
         NumericalValue = GameDataManagement.Instance.numericalValue;
-        playerControl = GetComponent<PlayerControl>();
     }
 
     void Update()
     {
-        normalAttackNumber = playerControl.GetNormalAttackNumber;//普通攻擊編號
         OnAttackMove_Warrior();//攻擊移動
     }
 
@@ -74,7 +69,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.warriorSkillAttack_2_Damge * rate;//造成傷害 
         attack.direction = NumericalValue.warriorSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorSkillAttack_2_RepelDistance;//擊退距離
@@ -103,7 +98,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.warriorSkillAttack_3_Damge[count] * rate;//造成傷害 
         attack.direction = NumericalValue.warriorSkillAttack_3_RepelDirection[count];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorSkillAttack_3_RepelDistance[count];//擊退距離
@@ -131,7 +126,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.warriorJumpAttack_Damage * rate;//造成傷害 
         attack.direction = NumericalValue.warriorJumpAttack_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorJumpAttac_kRepelDistance;//擊退距離
@@ -159,7 +154,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.warriorNormalAttack_1_Damge * rate;//造成傷害 
         attack.direction = NumericalValue.warriorNormalAttack_1_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorNormalAttack_1_RepelDistance;//擊退距離
@@ -187,7 +182,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.warriorNormalAttack_2_Damge * rate;//造成傷害 
         attack.direction = NumericalValue.warriorNormalAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorNormalAttack_2_RepelDistance;//擊退距離
@@ -215,7 +210,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.warriorNormalAttack_3_Damge * rate;//造成傷害 
         attack.direction = NumericalValue.warriorNormalAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorNormalAttack_3_RepelDistance;//擊退距離

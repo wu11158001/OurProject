@@ -46,9 +46,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     Transform selectRoleScreen;//SelectRoleScreen UI控制
     Button roleBack_Button;//返回按鈕
     Button roleConfirm_Button;//腳色確定按鈕    
-    [Header("選擇腳色畫面/腳色選擇按鈕")]
-    bool isSlideRoleButton;//是否滑動腳色按鈕    
-    GameObject roleSelect_Button;//腳色選擇按鈕
+    [Header("選擇腳色畫面/腳色選擇按鈕")]       
     Sprite[] roleSelect_Sprite;//腳色選擇圖片
     Button roleSelectRight_Button;//腳色按鈕移動(右)
     Button roleSelectLeft_Button;//腳色按鈕移動(左)
@@ -223,7 +221,6 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         roleSelectRight_Button.onClick.AddListener(delegate { OnRoleButtonMove(number:1); });
         roleSelectLeft_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleSelectLeft_Button");//腳色按鈕移動(左)
         roleSelectLeft_Button.onClick.AddListener(delegate { OnRoleButtonMove(number: -1); });
-        roleSelect_Button = Resources.Load<GameObject>(loadPath.roleSelect_Button);//腳色選擇按鈕
         roleSelect_Sprite = Resources.LoadAll<Sprite>(loadPath.roleSelect_Sprite);//腳色選擇圖片             
         
         //選擇的腳色(大圖)
@@ -759,8 +756,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <summary>
     /// 刷新玩家腳色
     /// </summary>
-    /// <param name="number"></param>
-    /// <param name="characters"></param>
+    /// <param name="number">第幾位玩家</param>
+    /// <param name="characters">腳色編號</param>
     public void OnRefreshPlayerCharacters(int number, int characters)
     {
         for (int i = 0; i < roomPlayerList.Count; i++)

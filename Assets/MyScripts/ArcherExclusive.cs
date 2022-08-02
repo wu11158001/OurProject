@@ -10,29 +10,21 @@ using UnityEngine;
 public class ArcherExclusive : MonoBehaviourPunCallbacks
 {
     Animator animator;
-    GameData_NumericalValue NumericalValue;
-    PlayerControl playerControl;
+    GameData_NumericalValue NumericalValue;    
 
-    string[] normalAttackArrows;//弓箭物件
-    MeshRenderer arrowMeshRenderer;//弓箭物件皮膚
-    int normalAttackNumber;//普通攻擊編號
+    MeshRenderer arrowMeshRenderer;//弓箭物件皮膚    
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        NumericalValue = GameDataManagement.Instance.numericalValue;
-        playerControl = GetComponent<PlayerControl>();
+        NumericalValue = GameDataManagement.Instance.numericalValue;        
  
         arrowMeshRenderer = ExtensionMethods.FindAnyChild<MeshRenderer>(transform, "Arrow");
-        arrowMeshRenderer.enabled = false;
-
-        
-        normalAttackArrows = new string[] { "archerNormalAttack_1", "archerNormalAttack_2", "archerNormalAttack_3" };//弓箭物件(尋找物件編號用)                
+        arrowMeshRenderer.enabled = false;             
     }
    
     void Update()
-    {
-        normalAttackNumber = playerControl.GetNormalAttackNumber;//普通攻擊編號
+    {        
         OnArrowEnabledControl();
     }
 
@@ -92,13 +84,13 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.archerSkillAttack_2_Damge * rate;//造成傷害 
         attack.direction = NumericalValue.archerSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerSkillAttack_2_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.archerSkillAttack_2_Effect;//攻擊效果(播放動畫名稱)
         attack.forwardDistance = NumericalValue.archerSkillAttack_2_ForwardDistance;//攻擊範圍中心點距離物件前方
-        attack.attackRadius = NumericalValue.archerSkillAttack_2_attackRadius;//攻擊半徑
+        attack.attackRange = NumericalValue.magicianNormalAttack_2_attackRange;//攻擊範圍
         attack.isAttackBehind = NumericalValue.archerSkillAttack_2_IsAttackBehind;//是否攻擊背後敵人
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
@@ -120,7 +112,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.archerSkillAttack_3_Damge * rate;//造成傷害 
         attack.direction = NumericalValue.archerSkillAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerSkillAttack_3_RepelDistance;//擊退距離
@@ -148,7 +140,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetHitFunction);//設定執行函式
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = NumericalValue.archerJumpAttack_Damage * rate;//造成傷害 
         attack.direction = NumericalValue.archerJumpAttack_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerJumpAttack_RepelDistance;//擊退距離
@@ -171,23 +163,22 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
-        AttackMode attack = AttackMode.Instance;        
-        attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber(normalAttackArrows[normalAttackNumber - 1]), GameSceneManagement.Instance.loadPath.archerAllNormalAttack[normalAttackNumber - 1]);//執行攻擊的物件(自身/射出物件)
+        AttackMode attack = AttackMode.Instance;
+        attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("warriorSkillAttack_1"), GameSceneManagement.Instance.loadPath.warriorSkillAttack_1);//執行攻擊的物件(自身/射出物件)
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
-        
-        attack.function = new Action(attack.OnSetShootFunction_Single);//設定執行函式
-        attack.damage = NumericalValue.archerNormalAttack_Damge[normalAttackNumber - 1] * rate;//造成傷害 
-        attack.direction = NumericalValue.archerNormalAttack_RepelDirection[normalAttackNumber - 1];//擊退方向(0:擊退, 1:擊飛)
-        attack.repel = NumericalValue.archerNormalAttack_RepelDistance[normalAttackNumber - 1];//擊退/擊飛距離
-        attack.animationName = NumericalValue.archerNormalAttack_Effect[normalAttackNumber - 1];//攻擊效果(播放動畫名稱)
-        
 
-        attack.flightSpeed = NumericalValue.archerNormalAttack_FloatSpeed[normalAttackNumber - 1];//飛行速度
-        attack.lifeTime = NumericalValue.archerNormalAttack_LifeTime[normalAttackNumber - 1];//生存時間
+        attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
+        attack.damage = NumericalValue.warriorSkillAttack_1_Damge * rate;//造成傷害 
+        attack.direction = NumericalValue.warriorSkillAttack_1_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.warriorSkillAttack_1_RepelDistance;//擊退/擊飛距離
+        attack.animationName = NumericalValue.warriorSkillAttack_1_Effect;//攻擊效果(播放動畫名稱)        
+
+        attack.flightSpeed = NumericalValue.warriorSkillAttack_1_FlightSpeed;//飛行速度
+        attack.lifeTime = NumericalValue.warriorSkillAttack_1_LifeTime;//生存時間
         attack.flightDiration = transform.forward;//飛行方向        
-        attack.performObject.transform.position = arrowMeshRenderer.transform.position;//射出位置
-        
+        attack.performObject.transform.position = transform.position + GetComponent<BoxCollider>().center + transform.forward * 1;//射出位置
+
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
     }
 

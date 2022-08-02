@@ -67,6 +67,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.archerSkilllAttack_1);//技能攻擊_1物件
         objectNumber_Dictionary.Add("archerSkilllAttack_1", number);//添加至紀錄中
 
+        //法師物件
+        number = objectHandle.OnCreateObject(loadPath.magicianNormalAttack_1);//普通攻擊_1物件
+        objectNumber_Dictionary.Add("magicianNormalAttack_1", number);//添加至紀錄中
+
         //敵人士兵1
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
@@ -239,6 +243,21 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         if (collision != null)
         {
             collision.OnConnectOtherGetHit(position, rotation, damage, isCritical);
+        }
+    }
+
+    /// <summary>
+    /// 連線治療
+    /// </summary>
+    /// <param name="targetID">目標ID</param>
+    /// <param name="heal">治療量</param>
+    /// <param name="isCritical">是否爆擊</param>
+    public void OnConnectGetHeal(int targetID, float heal, bool isCritical)
+    {
+        CharactersCollision collision = connectObject_Dictionary[targetID].GetComponent<CharactersCollision>();
+        if (collision != null)
+        {
+            collision.OnConnectOtherGetHeal(heal, isCritical);
         }
     }
     #endregion

@@ -290,6 +290,59 @@ MonoBehaviour:
     archerSkillAttack_3_ForwardDistance: 0
     archerSkillAttack_3_attackRadius: 5
     archerSkillAttack_3_IsAttackBehind: 1
+    magicianNormalAttack_1_Damage: 15
+    magicianNormalAttack_1_RepelDirection: 0
+    magicianNormalAttack_1_Repel: 50
+    magicianNormalAttack_1_Effect: Pain
+    magicianNormalAttack_1_FlightSpeed: 25
+    magicianNormalAttack_1_LifeTime: 0.5
+    magicianNormalAttack_2_Damge: 0
+    magicianNormalAttack_2_RepelDirection: 0
+    magicianNormalAttack_2_RepelDistance: 0
+    magicianNormalAttack_2_Effect: 
+    magicianNormalAttack_2_ForwardDistance: 0
+    magicianNormalAttack_2_attackRange: {x: 1, y: 1, z: 1}
+    magicianNormalAttack_2_IsAttackBehind: 0
+    magicianNormalAttack_3_Damge: 15
+    magicianNormalAttack_3_RepelDirection: 1
+    magicianNormalAttack_3_RepelDistance: 18
+    magicianNormalAttack_3_Effect: Pain
+    magicianNormalAttack_3_ForwardDistance: 1.8
+    magicianNormalAttack_3_attackRadius: 1.6
+    magicianNormalAttack_3_IsAttackBehind: 0
+    magicianJumpAttack_Damage: 9
+    magicianJumpAttack_RepelDirection: 0
+    magicianJumpAttack_RepelDistance: 50
+    magicianJumpAttack_Effect: Pain
+    magicianJumpAttack_ForwardDistance: 0
+    magicianJumpAttack_attackRadius: 1.2
+    magicianJumpAttack_IsAttackBehind: 0
+    magicianSkillAttack_1_HealValue: 4
+    magicianSkillAttack_1_ForwardDistance: 0
+    magicianSkillAttack_1_attackRange: 5
+    magicianSkillAttack_1_IsAttackBehind: 1
+    magicianSkillAttack_2_Damge:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    magicianSkillAttack_2_RepelDirection: 0000000000000000000000000000000000000000
+    magicianSkillAttack_2_RepelDistance:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 50
+    magicianSkillAttack_2_Effect:
+    - Pain
+    - Pain
+    - Pain
+    - Pain
+    - Pain
+    magicianSkillAttack_2_ForwardDistance: []
+    magicianSkillAttack_2_attackRadius: []
+    magicianSkillAttack_2_IsAttackBehind: 
     enemySoldier1_Hp: 1000
   loadPath:
     roleSelect_Button: RoleSelectButton
@@ -317,6 +370,7 @@ MonoBehaviour:
     - Prefab/ShootObject/Archer/ArcherNormalAttack_2_Arrow
     - Prefab/ShootObject/Archer/ArcherNormalAttack_3_Arrow
     archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1_Arrow
+    magicianNormalAttack_1: 
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
@@ -340,72 +394,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &732783809
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 732783811}
-  - component: {fileID: 732783810}
-  - component: {fileID: 732783812}
-  m_Layer: 0
-  m_Name: PhotonConnect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &732783810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732783809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5060e0ecf122eac43b429de517c339a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &732783811
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732783809}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 904.36975, y: 658.4283, z: 3.1101685}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &732783812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732783809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 1
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &785625387
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,6 +543,72 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2100388543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2100388545}
+  - component: {fileID: 2100388544}
+  - component: {fileID: 2100388546}
+  m_Layer: 0
+  m_Name: PhotonConnect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2100388544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100388543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5060e0ecf122eac43b429de517c339a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2100388545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100388543}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 530, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2100388546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100388543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &6772406787648692004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -649,6 +703,10 @@ PrefabInstance:
     - target: {fileID: 6772406786903536504, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_Name
       value: LoadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772406786903536506, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.617
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}

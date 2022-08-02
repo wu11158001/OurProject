@@ -13,7 +13,7 @@ public class AttackMode
     //通用
     public GameObject performObject;//執行攻擊的物件(自身/射出物件)    
     public string layer;//攻擊者layer
-    public float damage;//造成傷害
+    public float damage;//造成傷害(治療量(%))
     public string animationName;//攻擊效果(受擊者播放的動畫名稱)
     public float repel;//擊退距離
     public int direction;//擊退方向((0:擊退 1:擊飛))
@@ -21,7 +21,8 @@ public class AttackMode
 
     //近身    
     public float forwardDistance;//攻擊範圍中心點距離物件前方
-    public float attackRadius;//攻擊半徑
+    public float attackRadius;//攻擊半徑(圓形)
+    public Vector3 attackRange;//攻擊範圍(方形)
     public bool isAttackBehind;//是否攻擊背後敵人
 
     //遠程
@@ -36,11 +37,27 @@ public class AttackMode
     public static AttackMode Instance => new AttackMode();
 
     /// <summary>
-    /// 設定打擊事件
+    /// 設定治療事件
     /// </summary>
-    public void OnSetHitFunction()
+    public void OnSetHealFunction()
+    {
+        function = OnHeal;
+    }
+
+    /// <summary>
+    /// 設定打擊事件(圓形範圍)
+    /// </summary>
+    public void OnSetHitSphereFunction()
     {        
-        function = OnHit;
+        function = OnHitSphere;
+    }
+
+    /// <summary>
+    /// 設定打擊事件(方形範圍)
+    /// </summary>
+    public void OnSetHitBoxFunction()
+    {
+        function = OnHitBox;
     }
 
     /// <summary>
@@ -62,9 +79,31 @@ public class AttackMode
     }
 
     /// <summary>
-    /// 打擊攻擊(近身攻擊)
+    /// 治療
     /// </summary>
-    void OnHit()
+    void OnHeal()
+    {
+        BoxCollider box = performObject.GetComponent<BoxCollider>();
+
+        Collider[] hits = Physics.OverlapSphere(performObject.transform.position + box.center + performObject.transform.forward * forwardDistance, attackRadius);
+        foreach (var hit in hits)
+        {
+            CharactersCollision collision = hit.GetComponent<CharactersCollision>();
+            if (collision != null)
+            {
+                //是否攻擊背後敵人
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0) continue;
+                OnSetHealNumbericalValue(collision);
+            }
+        }
+
+        GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+    }
+
+    /// <summary>
+    /// 打擊攻擊(近身攻擊(圓形攻擊範圍))
+    /// </summary>
+    void OnHitSphere()
     {
         BoxCollider box = performObject.GetComponent<BoxCollider>();
         
@@ -81,7 +120,29 @@ public class AttackMode
         }   
 
        GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
-    }   
+    }
+
+    /// <summary>
+    /// 打擊攻擊(近身攻擊(方形攻擊範圍))
+    /// </summary>
+    void OnHitBox()
+    {
+        BoxCollider box = performObject.GetComponent<BoxCollider>();
+
+        Collider[] hits = Physics.OverlapBox(performObject.transform.position + box.center + performObject.transform.forward * forwardDistance, attackRange, performObject.transform.rotation);
+        foreach (var hit in hits)
+        {
+            CharactersCollision collision = hit.GetComponent<CharactersCollision>();
+            if (collision != null)
+            {
+                //是否攻擊背後敵人
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0) continue;
+                OnSetAttackNumbericalValue(collision);
+            }
+        }
+
+        GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+    }    
 
     /// <summary>
     /// 射出物件(遠程攻擊)
@@ -164,5 +225,17 @@ public class AttackMode
                                      knockDirection: direction,//擊退方向((0:擊退 1:擊飛))
                                      repel: repel,//擊退距離
                                      isCritical: isCritical);//是否爆擊          
-    }       
+    }
+
+    /// <summary>
+    /// 設定治療數值
+    /// </summary>
+    /// <param name="charactersCollision">受治療物件的碰撞腳本</param>
+    void OnSetHealNumbericalValue(CharactersCollision charactersCollision)
+    {
+        charactersCollision.OnGetHeal(attacker: performObject,//攻擊者物件
+                                     layer: layer,//攻擊者layer
+                                     heal: damage,//造成傷害                                   
+                                     isCritical: isCritical);//是否爆擊          
+    }
 }

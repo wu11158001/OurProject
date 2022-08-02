@@ -217,7 +217,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// 發送房間玩家腳色
     /// </summary>
     public void OnSendRoomPlayerCharacters()
-    {
+    {        
         photonView.RPC("OnRefreshPlayerCharacters", RpcTarget.All, GameDataManagement.Instance.selectRoleNumber);
     }
 
@@ -228,7 +228,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="info">傳送者訊息</param>
     [PunRPC]
     void OnRefreshPlayerCharacters(int characters, PhotonMessageInfo info)
-    {
+    {        
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             if (PhotonNetwork.PlayerList[i].NickName == info.Sender.NickName)
@@ -361,6 +361,29 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
     {
         GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical);
+    }
+
+    /// <summary>
+    /// 發送受治療訊息
+    /// </summary>
+    /// <param name="targetID">目標ID</param>
+    /// <param name="heal">治療量</param>
+    /// <param name="isCritical">是否爆擊</param>
+    public void OnSendGetHeal(int targetID, float heal, bool isCritical)
+    {
+        photonView.RPC("OnGetHeal", RpcTarget.Others, targetID, heal, isCritical);
+    }
+
+    /// <summary>
+    /// 受治療訊息
+    /// </summary>
+    /// <param name="targetID">目標ID</param>
+    /// <param name="heal">治療量</param>
+    /// <param name="isCritical">是否爆擊</param>
+    [PunRPC]
+    void OnGetHeal(int targetID, float heal, bool isCritical)
+    {
+        GameSceneManagement.Instance.OnConnectGetHeal(targetID, heal, isCritical);
     }
 
     /// <summary>
