@@ -200,7 +200,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  isCritical: isCritical);//是否爆擊
             
             //命中特效
-            attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
+            //attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
 
 
             //判斷擊中效果
