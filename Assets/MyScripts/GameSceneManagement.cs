@@ -161,8 +161,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         obj.transform.localPosition = new Vector3(itemBoxCenter.x, 0, itemBoxCenter.z);
 
         //Size
-        Vector3 itemBoxSize = item.GetComponent<BoxCollider>().size;        
-        obj.transform.localScale = new Vector3(itemBoxSize.x, itemBoxSize.z, 1);
+        if (item.gameObject.layer != LayerMask.NameToLayer("Player") && item.gameObject.layer != LayerMask.NameToLayer("Enemy"))
+        {
+            Vector3 itemBoxSize = item.GetComponent<BoxCollider>().size;
+            obj.transform.localScale = new Vector3(itemBoxSize.x, itemBoxSize.z, 1);
+        }
+        else obj.transform.localScale = new Vector3(1, 1, 1);
 
         //¿ïÂà
         obj.transform.localEulerAngles = new Vector3(90, 0, 0);
