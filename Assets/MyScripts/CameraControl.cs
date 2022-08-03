@@ -69,7 +69,7 @@ public class CameraControl : MonoBehaviour
 
         //攝影機障礙物偵測
         LayerMask mask = LayerMask.GetMask("StageObject");        
-        if (Physics.SphereCast(lookPoint.position, 0.08f, -RotateVector, out RaycastHit hit, NumericalValue.distance, mask))
+        if (Physics.SphereCast(lookPoint.position, 0.15f, -RotateVector, out RaycastHit hit, NumericalValue.distance, mask))
         {
             //碰到"StageObject"攝影機移動位置改為(觀看物件位置 - 與碰撞物件距離)
             moveTarget = lookPoint.position - RotateVector * hit.distance;            
