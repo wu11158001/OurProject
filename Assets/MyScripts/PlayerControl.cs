@@ -81,7 +81,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     void Update()
     {
         //不是死亡狀態 & 沒有開啟選項介面
-        if (!charactersCollision.isDie && !GameSceneUI.Instance.isOptions)
+        if (!charactersCollision.isDie && !GameSceneUI.Instance.isOptions && !info.IsName("Pain"))
         {            
             OnJumpControl();
             OnAttackControl();
