@@ -28,7 +28,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
     //跳躍
     bool isJump;//是否跳躍
-    Vector3 jumpForeard;//跳躍前方向量
+    Vector3 jumpForward;//跳躍前方向量
     bool isRunJump;//跳躍前是否向前
 
     //攻擊
@@ -292,7 +292,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
         if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge"))
         {
-            jumpForeard = transform.forward;//跳躍前方向量
+            jumpForward = transform.forward;//跳躍前方向量
             if (inputValue != 0) isRunJump = true;
 
 
@@ -333,7 +333,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
 
             if (inputValue == 0) inputValue = 0;
-            transform.position = transform.position + jumpForeard * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
+            transform.position = transform.position + jumpForward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
             return;
         }
 
@@ -383,7 +383,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     {
         /*BoxCollider box = GetComponent<BoxCollider>();
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * 3, 1.8f);        
-        Gizmos.DrawWireCube(transform.position + box.center, new Vector3(box.size.x /1.3f, box.size.y, box.size.z/1.3f));*/
+        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * 0, 1.3f);        
+        Gizmos.DrawWireCube(transform.position + box.center + transform.forward * 2.5f, new Vector3(1, 1, 4));*/
+        
     }
 }
