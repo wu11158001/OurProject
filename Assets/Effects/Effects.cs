@@ -75,7 +75,7 @@ public class Effects : MonoBehaviour
 
     public void HitEffect(GameObject player, Collider hitPos)
     {
-        if (player.tag == "Player" && effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
+        if (player.layer == LayerMask.NameToLayer("Player") && effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
         {
 
 
