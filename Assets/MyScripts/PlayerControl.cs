@@ -21,12 +21,15 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     //移動
     float inputX;//輸入X值
     float inputZ;//輸入Z值
+    float inputValue;//總輸入值
     Vector3 forwardVector;//前方向量
     Vector3 horizontalCross;//水平軸
     bool isSendRun;//是否已發送移動動畫
 
     //跳躍
     bool isJump;//是否跳躍
+    Vector3 jumpForeard;//跳躍前方向量
+    bool isRunJump;//跳躍前是否向前
 
     //攻擊
     bool isNormalAttack;//是否普通攻擊    
@@ -269,6 +272,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
         {
             isJump = false;
+            isRunJump = false;
 
             animator.SetBool("Jump", isJump);
             animator.SetBool("JumpAttack", isJump);
@@ -288,6 +292,10 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
         if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge"))
         {
+            jumpForeard = transform.forward;//跳躍前方向量
+            if (inputValue != 0) isRunJump = true;
+
+
             charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity });//浮空List
 
             isJump = true;         
@@ -307,7 +315,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnMovementControl()
     {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);     
+
         if (!info.IsName("JumpAttack"))
         {
             //轉向
@@ -316,10 +325,20 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             else if (inputX != 0) transform.forward = Vector3.RotateTowards(transform.forward, horizontalCross * inputX, maxRadiansDelta, maxRadiansDelta);//左右
             else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      
         }
-        if (info.IsName("Dodge")) return;
 
-        float inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
-        
+        if (info.IsName("Dodge")) return;        
+
+        if (isJump)
+        {
+            if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
+
+            if (inputValue == 0) inputValue = 0;
+            transform.position = transform.position + jumpForeard * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
+            return;
+        }
+
+        inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
+
         //移動
         if (inputValue > 1) inputValue = 1;
         transform.position = transform.position + transform.forward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;

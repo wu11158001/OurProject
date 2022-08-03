@@ -144,10 +144,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         Hp += MaxHp * (heal / 100);//回復生命值
         if (Hp >= MaxHp) Hp = MaxHp;
-
+ 
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
 
-        if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+        if (gameObject.layer == LayerMask.NameToLayer("Player") && photonView.IsMine) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
         //產生文字            
         HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
