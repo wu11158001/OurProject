@@ -40,7 +40,7 @@ public class Effects : MonoBehaviour
     void WarNormalAttack3()
     {
         var idelName = "Attack.NormalAttack_3";         //動作名稱
-        float delay = 0.55f;                            //控制播放時間點，面板務必保持為0   
+        float delay = 0.35f;                            //控制播放時間點，面板務必保持為0   
         var effect = NormalAttack_3;                    //特效名稱
         DoEffects(idelName, delay, effect);
     }
