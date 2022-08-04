@@ -27,11 +27,11 @@ public class CameraControl : MonoBehaviour
         cameraControl = this;
 
         NumericalValue = GameDataManagement.Instance.numericalValue;
-    }
+    }   
 
-    void Update()
+    private void LateUpdate()
     {
-        if(lookPoint != null) OnCameraControl();
+        if (lookPoint != null) OnCameraControl();
     }
 
     /// <summary>

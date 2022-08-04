@@ -269,7 +269,23 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         //¸I¼²°»´ú
         LayerMask mask = LayerMask.GetMask("StageObject");
-        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
+        /*if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.Euler(transform.localEulerAngles), mask))
+        {
+            isJump = false;
+            isRunJump = false;
+
+            animator.SetBool("Jump", isJump);
+            animator.SetBool("JumpAttack", isJump);
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJump);
+            }
+        }*/
+        float hight = boxSize.y / 3;
+        float sizeY = 0.1f;
+        RaycastHit hit;
+        if (Physics.BoxCast(transform.position + Vector3.up * hight, new Vector3(boxSize.x / 2, sizeY, boxSize.z / 2), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), hight, mask))
         {
             isJump = false;
             isRunJump = false;

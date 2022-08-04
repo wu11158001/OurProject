@@ -585,7 +585,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     {
         background_Image.enabled = false;
         levelScreen.gameObject.SetActive(false);
-        StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene" + level));
+        StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene" + level));        
     }   
 
     /// <summary>

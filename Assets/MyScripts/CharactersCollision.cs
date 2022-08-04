@@ -297,7 +297,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         //碰撞偵測
         LayerMask mask = LayerMask.GetMask("StageObject");
-        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
+        /*if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
+        {
+            floating_List.Clear();//清除List
+        }*/
+        float hight = boxSize.y / 3;
+        float sizeY = 0.1f;
+        RaycastHit hit;
+        if (Physics.BoxCast(transform.position + Vector3.up * hight, new Vector3(boxSize.x / 2, sizeY, boxSize.z / 2), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), hight, mask))
         {
             floating_List.Clear();//清除List
         }
@@ -326,24 +333,40 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                -transform.right,
                                                -transform.right -transform.forward };
 
+        float hight = boxSize.y / 3;
+        float sizeY = 0.1f;
         //牆壁碰撞
         LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
         for (int i = 0; i < rayDiration.Length; i++)
         {
-            if (Physics.Raycast(transform.position + boxCenter, rayDiration[i], out hit, boxCollisionDistance, mask))
+           /* if (Physics.Raycast(transform.position + boxCenter, rayDiration[i], out hit, boxCollisionDistance, mask))
             {
-                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - 0.01f - hit.distance);
-            }
+               transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - 0.1f - hit.distance);
+            }*/
+            if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * 1, new Vector3(boxSize.x / 2, boxSize.y / 2 - 0.5f, boxSize.z / 2), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
+            {
+                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - sizeY - hit.distance);
+            }    
+            
         }
 
         //地板碰撞
-        if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 2 + 0.05f, boxSize.y / 2, boxSize.z / 2 + 0.05f), transform.rotation, mask))
+        /*if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 2 + 0.05f, boxSize.y / 2, boxSize.z / 2 + 0.05f), transform.rotation, mask))
         {
-            if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxSize.x / 2, 0.1f, boxSize.z / 2), -transform.up, out hit, transform.rotation, boxSize.y, mask))
+            if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 3), new Vector3(boxSize.x / 2, 0.1f, boxSize.z / 2), -transform.up, out hit, transform.rotation, boxSize.y, mask))
             {
-                if (hit.distance < boxSize.y) transform.position = transform.position + Vector3.up * (boxSize.y - 0.1f - hit.distance);
-            }
+                if (hit.distance < boxSize.y) transform.position = transform.position + Vector3.up * ((boxSize.y / 3) - 0.1f - hit.distance);
+            }          
+        }
+        else
+        {
+            //transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
+        }*/
+        
+        if (Physics.BoxCast(transform.position + Vector3.up * hight, new Vector3(boxSize.x / 2, sizeY, boxSize.z / 2), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), hight, mask))
+        {
+            if (hit.distance < hight) transform.position = transform.position + Vector3.up * (hight - sizeY - hit.distance);
         }
         else
         {

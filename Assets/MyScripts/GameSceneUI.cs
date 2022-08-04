@@ -56,9 +56,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     }
         
     void Update()
-    {
+    {        
         OnPlayerLifeBarBehavior();
-        OnOptions();
+        OnOptions();       
     }
 
     /// <summary>
