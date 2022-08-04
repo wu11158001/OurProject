@@ -76,7 +76,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     /// 技能攻擊2_弓箭手
     /// </summary>
     void OnSkillAttack2_Archer()
-    {
+    {        
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
@@ -94,9 +94,9 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.repel = NumericalValue.archerSkillAttack_2_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.archerSkillAttack_2_Effect;//攻擊效果(播放動畫名稱)
         attack.forwardDistance = NumericalValue.archerSkillAttack_2_ForwardDistance;//攻擊範圍中心點距離物件前方
-        attack.attackRange = NumericalValue.magicianNormalAttack_2_attackRange;//攻擊範圍
+        attack.attackRadius = NumericalValue.archerSkillAttack_2_attackRadius;//攻擊範圍
         attack.isAttackBehind = NumericalValue.archerSkillAttack_2_IsAttackBehind;//是否攻擊背後敵人
-
+        
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
     }
 

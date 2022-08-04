@@ -128,8 +128,8 @@ public class AttackMode
     void OnHitBox()
     {
         BoxCollider box = performObject.GetComponent<BoxCollider>();
-
-        Collider[] hits = Physics.OverlapBox(performObject.transform.position + box.center + performObject.transform.forward * forwardDistance, attackRange, performObject.transform.rotation);
+        
+        Collider[] hits = Physics.OverlapBox(performObject.transform.position + box.center + performObject.transform.forward * forwardDistance, attackRange, Quaternion.Euler(performObject.transform.localEulerAngles));
         foreach (var hit in hits)
         {
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
