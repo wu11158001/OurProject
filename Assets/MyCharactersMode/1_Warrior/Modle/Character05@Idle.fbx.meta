@@ -108,7 +108,7 @@ ModelImporter:
       name: Image_9
     second: {fileID: 2800000, guid: 90f684633e3fbd84ca86c25f998e7c46, type: 3}
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1

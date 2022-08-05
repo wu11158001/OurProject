@@ -26,7 +26,7 @@ public class Effects : MonoBehaviour
         animInfo = anim.GetCurrentAnimatorStateInfo(0);                                      //節省廢話
         WarNormalAttack1();
         WarNormalAttack3();
-        WarSkillAttack3();
+     //   WarSkillAttack3();
     }
 
     void WarNormalAttack1()
@@ -51,16 +51,20 @@ public class Effects : MonoBehaviour
         var skill = SkillAttack_3;                     //三個不同時間播放特效
 
         var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
-        float delay = 0.1f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
+        float delay = 0.16f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
         DoEffects(idelName, delay, SkillAttack_30);
 
         var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
-        float delay1 = 0.3f;                            //SkillAttack_31特效播放時間點
+        float delay1 = delay+0.01f;                            //SkillAttack_31特效播放時間點
         DoEffects(idelName, delay1, SkillAttack_31);
 
         var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
-        float delay2 = 0.7f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        float delay2 =0.16f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
         DoEffects(idelName, delay2, SkillAttack_32);
+
+        var SkillAttack_33 = skill.transform.GetChild(3).GetComponent<ParticleSystem>();
+        float delay3 = 0.7f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        DoEffects(idelName, delay3, SkillAttack_33);
     }
 
     void DoEffects(string idelName, float delay, ParticleSystem effect)
@@ -77,8 +81,6 @@ public class Effects : MonoBehaviour
     {
         if (player.layer == LayerMask.NameToLayer("Player") && effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
         {
-
-
             Vector3 star = player.transform.GetChild(3).position;
             Vector3 dir = hitPos.transform.GetChild(0).position - star;
             if (dir.magnitude < 2)
