@@ -333,8 +333,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         if (isJump)
         {
-            if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//¿é¤J­È
-            if (inputValue > 1) inputValue = 1;            
+            if (isRunJump) inputValue = Mathf.Abs(inputX) + inputZ;//¿é¤J­È
+            if (inputValue > 1) inputValue = 1;
+            if (inputValue < 0) inputValue = 0;
 
             transform.position = transform.position + jumpForward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
             return;
