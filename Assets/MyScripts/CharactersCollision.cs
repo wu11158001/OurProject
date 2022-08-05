@@ -67,16 +67,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 
         OnAnimationOver();
         OnFloation();
-        
+        OnCollisionControl();
+
         //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, "Enemy", 100, "Pain", 0, 1, false);
     }
-
-    void LateUpdate()
-    {
-        OnCollisionControl();
-    }
-
+  
     /// <summary>
     /// 初始化
     /// </summary>
@@ -337,17 +333,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);
             }                
         }
-                
+
         //地板碰撞        
         if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y, mask))
         {
             if (hit.distance < boxSize.y)
             {
+                Debug.Log(hit.distance + ":" + boxSize.y);
                 transform.position = transform.position + Vector3.up * (boxSize.y - 0.06f - hit.distance);
-                if(floating_List.Count > 0) floating_List.Clear();//清除List
+                if (floating_List.Count > 0) floating_List.Clear();//清除List                
             }
         }
-        else transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力       
+        else transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
     }
    
     /// <summary>
