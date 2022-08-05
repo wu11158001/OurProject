@@ -17,7 +17,7 @@ public class Effects : MonoBehaviour
         NormalAttack_1 = effects.transform.GetChild(0).GetComponent<ParticleSystem>();    //獲得特效組件;
         NormalAttack_3 = effects.transform.GetChild(1).GetComponent<ParticleSystem>();    //獲得特效組件;
         SkillAttack_3 = effects.transform.GetChild(2).GetComponent<ParticleSystem>();    //獲得特效組件;
-
+        StarShakeSet();                                                                 //畫面震盪
     }
 
     void Update()
@@ -26,7 +26,8 @@ public class Effects : MonoBehaviour
         animInfo = anim.GetCurrentAnimatorStateInfo(0);                                      //節省廢話
         WarNormalAttack1();
         WarNormalAttack3();
-     //   WarSkillAttack3();
+        //   WarSkillAttack3();
+        UpdaSnake();                                                                       //畫面震盪 
     }
 
     void WarNormalAttack1()
@@ -55,11 +56,11 @@ public class Effects : MonoBehaviour
         DoEffects(idelName, delay, SkillAttack_30);
 
         var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
-        float delay1 = delay+0.01f;                            //SkillAttack_31特效播放時間點
+        float delay1 = delay + 0.01f;                            //SkillAttack_31特效播放時間點
         DoEffects(idelName, delay1, SkillAttack_31);
 
         var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
-        float delay2 =0.16f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        float delay2 = 0.16f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
         DoEffects(idelName, delay2, SkillAttack_32);
 
         var SkillAttack_33 = skill.transform.GetChild(3).GetComponent<ParticleSystem>();
@@ -77,22 +78,47 @@ public class Effects : MonoBehaviour
         else effect.Stop();
     }
 
+
+
+    //畫面縮放
+    float xTime = 0f;                                      //縮小的參數，非固定參數
+    void PowerWindownView()
+    {
+        float yTime = 0.7f;                                //縮小的速率，固定參數
+        if (Input.GetKey(KeyCode.P))
+        {
+            isshakeCamera = true;          //畫面震盪
+            var star = new Vector3(Screen.width / 2, Screen.height / 2);
+            star = Camera.main.ScreenToWorldPoint(star);
+            var n = gameObject.transform.GetChild(3).position - star;
+            xTime -= Time.deltaTime;
+            Camera.main.transform.forward = n;
+            Camera.main.transform.position = Camera.main.transform.position - n.normalized * xTime * yTime;
+        }
+        if (Input.GetKeyUp(KeyCode.P)) xTime = 0f;
+    }
+
+
+
+
+
+    #region 命中效果
+
     public void HitEffect(GameObject player, Collider hitPos)
     {
-        if (player.layer == LayerMask.NameToLayer("Player") && effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
+        Vector3 star = player.transform.GetChild(3).position;
+        Vector3 dir = hitPos.transform.GetChild(0).position - star;
+        if (dir.magnitude < 2)
         {
-            Vector3 star = player.transform.GetChild(3).position;
-            Vector3 dir = hitPos.transform.GetChild(0).position - star;
-            if (dir.magnitude < 2)
-            {
-                star = new Vector3(Screen.width / 2, Screen.height / 2);
-                star = Camera.main.ScreenToWorldPoint(star);
-                dir = hitPos.transform.GetChild(0).position - star;
-            }
-            Physics.Raycast(star, dir, out RaycastHit pos, Mathf.Infinity, LayerMask.GetMask("Enemy"));
-            GetHitPs().transform.position = pos.point;
-            GetHitPs().Play();
+            star = new Vector3(Screen.width / 2, Screen.height / 2);
+            star = Camera.main.ScreenToWorldPoint(star);
+            dir = hitPos.transform.GetChild(0).position - star;
         }
+        Physics.Raycast(star, dir, out RaycastHit pos, Mathf.Infinity, LayerMask.GetMask("Enemy"));
+        GetHitPs().transform.position = pos.point;
+        GetHitPs().Play();
+        isshakeCamera = true;          //畫面震盪
+
     }
     List<ParticleSystem> hitList = new List<ParticleSystem>();
     ParticleSystem HitPool()
@@ -110,4 +136,51 @@ public class Effects : MonoBehaviour
         }
         return HitPool();
     }
+    #endregion
+
+    #region 命中震盪   
+    private float shakeTime = 0.0f;
+    private float fps = 20.0f;
+    private float frameTime = 0.0f;
+    private float shakeDelta = 0.005f;
+    // public Camera cam;  不掛鏡頭，減少依賴
+    public bool isshakeCamera = false;
+
+    void StarShakeSet()
+    {
+        shakeTime = 0.2f;
+        fps = 20.0f;
+        frameTime = 0.03f;
+        shakeDelta = 0.005f;
+    }
+    void UpdaSnake()
+    {
+        if (isshakeCamera)
+        {
+            if (shakeTime > 0)  //防呆
+            {
+                shakeTime -= Time.deltaTime;
+                if (shakeTime <= 0)
+                {
+                    Camera.main.rect = new Rect(0.0f, 0.0f, 10.0f, 10.0f);
+                    isshakeCamera = false;
+                    shakeTime = 0.2f;
+                    fps = 20.0f;
+                    frameTime = 0.03f;
+                    shakeDelta = 0.005f;
+                }
+                else
+                {
+                    frameTime += Time.deltaTime;
+
+                    if (frameTime > 1.0 / fps)
+                    {
+                        frameTime = 0;
+                        Camera.main.rect = new Rect(shakeDelta * (-5.0f + 5.0f * Random.value), shakeDelta * (-5.0f + 5.0f * Random.value), 1.0f, 1.0f);
+                    }
+                }
+            }
+        }
+    }
+    #endregion
 }
