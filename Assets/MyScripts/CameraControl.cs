@@ -57,12 +57,12 @@ public class CameraControl : MonoBehaviour
         forwardVector = Quaternion.AngleAxis(mouseX, Vector3.up) * forwardVector;//前方向量
 
         //限制上下角度
-        /*totalVertical += mouseY;//記錄垂直移動量
+        totalVertical += mouseY;//記錄垂直移動量
         if (totalVertical > NumericalValue.limitDownAngle) totalVertical = NumericalValue.limitDownAngle;
-        if (totalVertical < -NumericalValue.limitUpAngle) totalVertical = -NumericalValue.limitUpAngle;*/
+        if (totalVertical < -NumericalValue.limitUpAngle) totalVertical = -NumericalValue.limitUpAngle;
 
         Vector3 tempRotate = Vector3.Cross(Vector3.up, forwardVector);//獲取水平軸
-        Vector3 RotateVector = Quaternion.AngleAxis(-NumericalValue.cameraAngle, -tempRotate) * forwardVector;//最後選轉向量
+        Vector3 RotateVector = Quaternion.AngleAxis(totalVertical, -tempRotate) * forwardVector;//最後選轉向量
         RotateVector.Normalize();
 
         Vector3 moveTarget = lookPoint.position - RotateVector * NumericalValue.distance;//移動目標
@@ -77,12 +77,12 @@ public class CameraControl : MonoBehaviour
              
         transform.position = moveTarget;
         transform.forward = lookPoint.position - transform.position;
-        //Debug.LogError(lookPoint.position.y - transform.position.y);
-        //距離玩家太近
+        
+        /*//距離玩家太近
         if (lookPoint.position.y - transform.position.y >= 0.2f)
         {
-            Debug.LogError("s");
+            Debug.LogError("camera too close");
             transform.position = lookPoint.position + lookPoint.forward * 1;
-        }
+        }*/
     }
 }

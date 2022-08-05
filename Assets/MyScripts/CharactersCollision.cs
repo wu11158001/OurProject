@@ -147,6 +147,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
                 }
             }
+            else
+            {
+                if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+                if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+            }
         }
     }
 
@@ -214,15 +219,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
-            //命中特效
-
-
-
-
-
-
-
-
+            /*//命中特效
             if (gameObject.layer == LayerMask.NameToLayer( "Enemy") && attacker.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
             {
                 attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());

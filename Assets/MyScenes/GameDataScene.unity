@@ -177,7 +177,6 @@ MonoBehaviour:
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 20
-    cameraAngle: 20
     playerHp: 100
     playerMoveSpeed: 10
     playerJumpForce: 16
