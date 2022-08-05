@@ -214,7 +214,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
-            /*//命中特效
+            //命中特效
+
+
+
+
+
+
+
+
             if (gameObject.layer == LayerMask.NameToLayer( "Enemy") && attacker.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
             {
                 attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
