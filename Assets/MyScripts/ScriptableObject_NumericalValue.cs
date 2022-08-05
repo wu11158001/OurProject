@@ -224,7 +224,7 @@ public class GameData_NumericalValue
         //玩家
         playerHp = 300;//玩家生命值
         playerMoveSpeed = 5;//玩家移動速度        
-        playerJumpForce = 14.5f;//玩家跳躍力
+        playerJumpForce = 15.3f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 3;//玩家閃躲速度
 
