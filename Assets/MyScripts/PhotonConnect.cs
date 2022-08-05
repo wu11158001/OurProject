@@ -288,8 +288,10 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         bool isStartGame = false;
 
         //2人以上開始
-        if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
+        if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
+            isStartGame = true;
+
             PhotonNetwork.LoadLevel("LevelScene" + level);
             PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間
         }

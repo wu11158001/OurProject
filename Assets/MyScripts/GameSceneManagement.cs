@@ -37,12 +37,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     void Start()
     {
         //場景物件掛上小地圖點點
-        /*GameObject stageObject = GameObject.Find("StageObjects");        
+        GameObject stageObject = GameObject.Find("StageObjects");        
         Transform[] allStageObject = stageObject.GetComponentsInChildren<Transform>();
         foreach (var item in allStageObject)
         {
             if (item.GetComponent<BoxCollider>()) OnSetMiniMapPoint(item, loadPath.miniMapMatirial_Object);
-        }*/
+        }
 
         int number = 0;
 
@@ -81,7 +81,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             for (int i = 0; i < 1; i++)
             {                
                 GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
-                enemy.transform.position = new Vector3(24 + i * 1, 2f, 40);//設定位置
+                enemy.transform.position = new Vector3(190, -24, -35);//設定位置
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
         }

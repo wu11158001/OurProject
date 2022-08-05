@@ -98,7 +98,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
 
         OnInput();
-    }        
+    }
 
     /// <summary>
     /// 攻擊控制
@@ -265,39 +265,30 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// <returns></returns>
     IEnumerator OnWaitJump()
     {
-        yield return new WaitForSeconds(0.1f);
-
+        yield return new WaitForSeconds(0.5f);
+        
         //碰撞偵測
-        LayerMask mask = LayerMask.GetMask("StageObject");
-        /*if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.Euler(transform.localEulerAngles), mask))
-        {
-            isJump = false;
-            isRunJump = false;
-
-            animator.SetBool("Jump", isJump);
-            animator.SetBool("JumpAttack", isJump);
-            if (GameDataManagement.Instance.isConnect)
-            {
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJump);
-            }
-        }*/
-        float hight = boxSize.y / 3;
-        float sizeY = 0.1f;
+        float boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;        
+        LayerMask mask = LayerMask.GetMask("StageObject");        
         RaycastHit hit;
-        if (Physics.BoxCast(transform.position + Vector3.up * hight, new Vector3(boxSize.x / 2, sizeY, boxSize.z / 2), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), hight, mask))
+        if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y - 0.01f, mask))
         {
-            isJump = false;
-            isRunJump = false;
-
-            animator.SetBool("Jump", isJump);
-            animator.SetBool("JumpAttack", isJump);
-            if (GameDataManagement.Instance.isConnect)
+            if (isJump)
             {
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJump);
+                isJump = false;
+                isRunJump = false;
+                
+                animator.SetBool("Jump", isJump);
+                animator.SetBool("JumpAttack", isJump);
+                if (GameDataManagement.Instance.isConnect)
+                {
+                    PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                    PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJump);
+                }
             }
         }
+
+        yield return 0;
     }
 
     /// <summary>
@@ -306,14 +297,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     void OnJumpControl()
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+
         if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge"))
         {
             jumpForward = transform.forward;//跳躍前方向量
             if (inputValue != 0) isRunJump = true;
 
-
             charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity });//浮空List
-
+            
             isJump = true;         
             isNormalAttack = false;
             animator.SetBool("NormalAttack", isNormalAttack);
@@ -342,21 +333,22 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      
         }
 
-        if (info.IsName("Dodge")) return;        
+        if (info.IsName("Dodge")) return;
+
+        inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
+        if (inputValue > 1) inputValue = 1;
 
         if (isJump)
         {
             if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
+            if (inputValue > 1) inputValue = 1;            
 
-            if (inputValue == 0) inputValue = 0;
             transform.position = transform.position + jumpForward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
             return;
-        }
-
-        inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
+        }        
 
         //移動
-        if (inputValue > 1) inputValue = 1;
+        
         transform.position = transform.position + transform.forward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
 
         animator.SetFloat("Run", inputValue);

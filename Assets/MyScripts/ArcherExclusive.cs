@@ -22,7 +22,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
 
         //弓箭物件皮膚
         arrowMeshRenderer = ExtensionMethods.FindAnyChild<MeshRenderer>(transform, "Arrow");
-        arrowMeshRenderer.enabled = false;
+        //arrowMeshRenderer.enabled = false;
 
         normalAttackArrowsPath = new string[] { "archerNormalAttack_1", "archerNormalAttack_2", "archerNormalAttack_3" };//普通攻擊弓箭物件
     }
@@ -192,7 +192,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     /// </summary>
     void OnArrowEnabledControl()
     {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+       /* AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
         if (info.IsName("Attack.NormalAttack_1") && info.normalizedTime < 0.4f)
         {
@@ -213,6 +213,6 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         else
         {            
             if (arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = false;            
-        }
+        }*/
     }
 }

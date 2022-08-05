@@ -15,6 +15,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
+    float boxCollisionDistance;//碰撞具距離
 
     //生命條
     LifeBar_Characters lifeBar;//生命條
@@ -28,13 +29,21 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public List<CharactersFloating> floating_List = new List<CharactersFloating>();//浮空/跳躍List
 
     private void Awake()
-    {
+    {        
         animator = GetComponent<Animator>();
     }
 
     void Start()
     {
         NumericalValue = GameDataManagement.Instance.numericalValue;
+
+        //碰撞框
+        if (GetComponent<BoxCollider>() != null)
+        {
+            boxCenter = GetComponent<BoxCollider>().center;
+            boxSize = GetComponent<BoxCollider>().size;
+        }
+        boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//碰撞具距離
 
         //數值
         switch (gameObject.tag)
@@ -55,13 +64,17 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         if (lifeBar != null) lifeBar.gameObject.SetActive(gameObject.activeSelf);
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;//連線模式      
-
-        OnCollisionControl();
+                
         OnAnimationOver();
         OnFloation();
-
+        
         //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, "Enemy", 100, "Pain", 0, 1, false);
+    }
+
+    void LateUpdate()
+    {
+        OnCollisionControl();
     }
 
     /// <summary>
@@ -117,11 +130,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Enemy")
         {
             Hp += MaxHp * (heal / 100);//回復生命值
-            if (Hp >= MaxHp) Hp = MaxHp;
-
-            if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
-            if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
-
+            if (Hp >= MaxHp) Hp = MaxHp;            
+            
             //產生文字            
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//治療目標
@@ -129,7 +139,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  color: isCritical ? Color.yellow : Color.green,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendGetHeal(photonView.ViewID, heal, isCritical);
+            //連線
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendGetHeal(photonView.ViewID, heal, isCritical);
+
+                //自己
+                if(photonView.IsMine)
+                {
+                    if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+                    if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+                }
+            }
         }
     }
 
@@ -143,19 +164,17 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public void OnConnectOtherGetHeal(float heal, bool isCritical)
     {
         Hp += MaxHp * (heal / 100);//回復生命值
-        if (Hp >= MaxHp) Hp = MaxHp;
-
-        if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
-
-        if (gameObject.layer == LayerMask.NameToLayer("Player") && photonView.IsMine) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
-
+        if (Hp >= MaxHp) Hp = MaxHp;        
+        
         //產生文字            
         HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
         hitNumber.OnSetValue(target: transform,//治療目標
                              damage: MaxHp * (heal / 100),//受到治療
                              color: isCritical ? Color.yellow : Color.green,//文字顏色
                              isCritical: isCritical);//是否爆擊
-
+        Debug.LogError(Hp + ":" + transform.name);
+        if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+        if (gameObject.layer == LayerMask.NameToLayer("Player") && photonView.IsMine) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
     }
 
     /// <summary>
@@ -199,16 +218,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
-            //命中特效
-
-
-
-
+            /*//命中特效
             if (gameObject.layer == LayerMask.NameToLayer( "Enemy") && attacker.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
             {
                 attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
-            }
-
+            }*/
 
             //判斷擊中效果
             switch (knockDirection)
@@ -293,36 +307,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         for (int i = 0; i < floating_List.Count; i++)
         {
             floating_List[i].OnFloating();
-        }
-
-        //碰撞偵測
-        LayerMask mask = LayerMask.GetMask("StageObject");
-        /*if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 4, boxSize.y / 2, boxSize.z / 4), Quaternion.identity, mask))
-        {
-            floating_List.Clear();//清除List
-        }*/
-        float hight = boxSize.y / 3;
-        float sizeY = 0.1f;
-        RaycastHit hit;
-        if (Physics.BoxCast(transform.position + Vector3.up * hight, new Vector3(boxSize.x / 2, sizeY, boxSize.z / 2), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), hight, mask))
-        {
-            floating_List.Clear();//清除List
-        }
+        }   
     }
 
     /// <summary>
     /// 碰撞控制
     /// </summary>
     void OnCollisionControl()
-    {
-        //碰撞框
-        if (GetComponent<BoxCollider>() != null)
-        {
-            boxCenter = GetComponent<BoxCollider>().center;
-            boxSize = GetComponent<BoxCollider>().size;
-        }
-        float boxCollisionDistance = boxSize.x > boxSize.z ? boxSize.x : boxSize.z;
-
+    {       
         //射線方向
         Vector3[] rayDiration = new Vector3[] { transform.forward,
                                                 transform.forward - transform.right,
@@ -331,49 +323,33 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                -transform.forward,
                                                -transform.forward + transform.right,
                                                -transform.right,
-                                               -transform.right -transform.forward };
+                                               -transform.right -transform.forward,
+                                                transform.up, -transform.up};
 
-        float hight = boxSize.y / 3;
-        float sizeY = 0.1f;
+        float wallHight = boxSize.y * 0.25f;//牆壁高度多少碰撞        
         //牆壁碰撞
         LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
         for (int i = 0; i < rayDiration.Length; i++)
-        {
-           /* if (Physics.Raycast(transform.position + boxCenter, rayDiration[i], out hit, boxCollisionDistance, mask))
+        {           
+            if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
             {
-               transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - 0.1f - hit.distance);
-            }*/
-            if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * 1, new Vector3(boxSize.x / 2, boxSize.y / 2 - 0.5f, boxSize.z / 2), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
+                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);
+            }                
+        }
+                
+        //地板碰撞        
+        if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y, mask))
+        {
+            if (hit.distance < boxSize.y)
             {
-                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - sizeY - hit.distance);
-            }    
-            
+                transform.position = transform.position + Vector3.up * (boxSize.y - 0.06f - hit.distance);
+                if(floating_List.Count > 0) floating_List.Clear();//清除List
+            }
         }
-
-        //地板碰撞
-        /*if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 2 + 0.05f, boxSize.y / 2, boxSize.z / 2 + 0.05f), transform.rotation, mask))
-        {
-            if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 3), new Vector3(boxSize.x / 2, 0.1f, boxSize.z / 2), -transform.up, out hit, transform.rotation, boxSize.y, mask))
-            {
-                if (hit.distance < boxSize.y) transform.position = transform.position + Vector3.up * ((boxSize.y / 3) - 0.1f - hit.distance);
-            }          
-        }
-        else
-        {
-            //transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
-        }*/
-        
-        if (Physics.BoxCast(transform.position + Vector3.up * hight, new Vector3(boxSize.x / 2, sizeY, boxSize.z / 2), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), hight, mask))
-        {
-            if (hit.distance < hight) transform.position = transform.position + Vector3.up * (hight - sizeY - hit.distance);
-        }
-        else
-        {
-            transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
-        }
+        else transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力       
     }
-
+   
     /// <summary>
     /// 動畫結束
     /// </summary>

@@ -139,7 +139,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         //第一次進入遊戲
         if (!GameDataManagement.Instance.isNotFirstIntoGame)
         {
-            videoPlayer.Play();//播放影片
+            if(videoPlayer.clip != null) videoPlayer.Play();//播放影片
             GameDataManagement.Instance.isNotFirstIntoGame = true;
         }
         else
@@ -158,13 +158,14 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         }
     }
 
+    #region 籌備
     /// <summary>
     /// 開始畫面籌備
     /// </summary>
     void OnStartScreenPrepare()
     {        
         videoPlayer = Camera.main.GetComponent<VideoPlayer>();//影片   
-        videoTime = videoPlayer.clip.length;//影片長度
+        if(videoPlayer.clip) videoTime = videoPlayer.clip.length;//影片長度
         audioSource = Camera.main.GetComponent<AudioSource>();//音樂 
         audioSource.volume = GameDataManagement.Instance.musicVolume;
         audioSource.loop = true;
@@ -334,15 +335,22 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         connectRoomScreen.gameObject.SetActive(false);
     }
 
+    #endregion
+
     #region 開始畫面  
     /// <summary>
     /// 影片停止
     /// </summary>
     void OnStopVideo()
     {
+        //沒有影片
+        if (videoPlayer.clip == null)
+        {
+            startScreen.gameObject.SetActive(true);
+        }
         //StartScene未開啟
         if (!background_Image.gameObject.activeSelf)
-        {
+        {           
             if (videoTime > 0) videoTime -= Time.deltaTime;//影片時間
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
             {
@@ -359,16 +367,16 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
             }
 
             //影片撥放結束
-            if(videoTime <= 0)
+            if (videoTime <= 0)
             {
                 videoPlayer.Stop();
                 startScreen.gameObject.SetActive(true);
 
                 if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
-                {                    
+                {
                     OnOpenSelectModeScreen();
                 }
-            }
+            }            
         }
         else
         {
@@ -864,7 +872,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         {     
             roomStartGame_Button.enabled = false;//關閉按鈕(避免連按)
         }
-        else roomTipTime = 3;
+        else roomTipTime = 2;
     }    
 
     /// <summary>

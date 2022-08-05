@@ -105,7 +105,7 @@ public class LoadScene : MonoBehaviour
                 loadValue = 0.7f;
                 yield return new WaitForSeconds(0.3f);
                 
-                loadValue = 0.9f;
+                loadValue = 0.85f;
                 yield return new WaitForSeconds(0.3f);
 
                 loadValue = 1.0f;
@@ -128,7 +128,7 @@ public class LoadScene : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
 
-        //Ãö³¬UI0.3f
+        //Ãö³¬UI
         background.enabled = false;
         loadBack_Image.enabled = false;
         loadFront_Image.enabled = false;
