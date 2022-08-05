@@ -59,12 +59,13 @@ public class LoadScene : MonoBehaviour
     /// 載入
     /// </summary>
     void OnLoading()
-    {
+    {       
         if (loadFront_Image.enabled && loadFront_Image.rectTransform.localScale.x < loadValue)
         {
-            if (loadValue >= 1) loadValue = 1;
-            loadFront_Image.rectTransform.localScale = new Vector3(loadFront_Image.rectTransform.localScale.x + Time.deltaTime, 1, 1);//進度條
-        }
+            if (loadValue >= 1) loadValue = 1;            
+            loadFront_Image.rectTransform.localScale = new Vector3(loadFront_Image.rectTransform.localScale.x + Time.deltaTime, 1, 1);//進度條            
+            if (loadFront_Image.rectTransform.localScale.x >= 1) loadFront_Image.rectTransform.localScale = new Vector3(1, 1, 1);            
+        }        
     }
 
     /// <summary>

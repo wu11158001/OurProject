@@ -1379,12 +1379,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Hips'\n\tTransform 'LeftHandRing2'\n\tTransform
-    'Spine1'\n\tTransform 'Neck'\n\tTransform 'LeftHandThumb1'\n\tTransform 'RightForeArm'\n\tTransform
-    'LeftLeg'\n\tTransform 'LeftHandPinky3'\n\tTransform 'LeftArm'\n\tTransform 'RightShoulder'\n\tand
-    more ...\n\tFrom animation clip 'Die'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -1399,8 +1394,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.67718506, y: 1.8070395, z: 0.4834957}
-  m_Center: {x: -0.010761261, y: 0.8985039, z: -0.021521568}
+  m_Size: {x: 0.67718506, y: 1.7842479, z: 0.4834957}
+  m_Center: {x: -0.010761261, y: 0.8798394, z: -0.021521568}
 --- !u!114 &1809515316587891749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1458,7 +1453,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 9131579214672066325}
-  sceneViewId: 0
+  sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &9131579214672066325

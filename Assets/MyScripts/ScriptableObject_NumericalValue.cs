@@ -19,6 +19,7 @@ public class GameData_NumericalValue
     public float distance;//與玩家距離
     public float limitUpAngle;//限制向上角度
     public float limitDownAngle;//限制向下角度
+    public float cameraAngle;//攝影機角度
 
     [Header("玩家")]
     public float playerHp;//玩家生命值
@@ -218,6 +219,7 @@ public class GameData_NumericalValue
         distance = 2.6f;//與玩家距離        
         limitUpAngle = 35;//限制向上角度
         limitDownAngle = 20;//限制向下角度
+        cameraAngle = 20;//攝影機角度
 
         //玩家
         playerHp = 300;//玩家生命值

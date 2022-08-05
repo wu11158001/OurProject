@@ -24,7 +24,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     float inputValue;//總輸入值
     Vector3 forwardVector;//前方向量
     Vector3 horizontalCross;//水平軸
-    bool isSendRun;//是否已發送移動動畫
+    bool isSendRun;//是否已發送移動動畫       
 
     //跳躍
     bool isJump;//是否跳躍
@@ -88,7 +88,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {            
             OnJumpControl();
             OnAttackControl();
-            OnJumpBehavior();
 
             if (!isNormalAttack && !isSkillAttack && !info.IsName("Pain"))
             {
@@ -97,6 +96,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             } 
         }
 
+        OnYieldWaitJump();
         OnInput();
     }
 
@@ -252,31 +252,58 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 跳躍行為
+    /// 跳躍控制
     /// </summary>
-    void OnJumpBehavior()
-    {       
-        if (isJump) StartCoroutine(OnWaitJump());          
+    void OnJumpControl()
+    {
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        
+        if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && charactersCollision.floating_List.Count < 1)
+        {
+            jumpForward = transform.forward;//跳躍前方向量
+            if (inputValue != 0) isRunJump = true;
+
+            charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity });//浮空List
+            
+            isJump = true;
+            isNormalAttack = false;
+            animator.SetBool("NormalAttack", isNormalAttack);
+            animator.SetBool("Jump", isJump);
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+            }
+        }
     }
 
+    /// <summary>
+    /// 等待跳躍
+    /// </summary>
+    void OnYieldWaitJump()
+    {
+        if(isJump) StartCoroutine(OnWaitJump());
+    }
+      
     /// <summary>
     /// 等待跳躍(避免無法觸發動畫)
     /// </summary>
     /// <returns></returns>
     IEnumerator OnWaitJump()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.75f);
         
         //碰撞偵測
         float boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;        
         LayerMask mask = LayerMask.GetMask("StageObject");        
         RaycastHit hit;
-        if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y - 0.01f, mask))
+        if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y + 0.2f, mask))
         {
             if (isJump)
             {
                 isJump = false;
                 isRunJump = false;
+                charactersCollision.floating_List.Clear();
                 
                 animator.SetBool("Jump", isJump);
                 animator.SetBool("JumpAttack", isJump);
@@ -289,33 +316,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
 
         yield return 0;
-    }
-
-    /// <summary>
-    /// 跳躍控制
-    /// </summary>
-    void OnJumpControl()
-    {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-
-        if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge"))
-        {
-            jumpForward = transform.forward;//跳躍前方向量
-            if (inputValue != 0) isRunJump = true;
-
-            charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity });//浮空List
-            
-            isJump = true;         
-            isNormalAttack = false;
-            animator.SetBool("NormalAttack", isNormalAttack);
-            animator.SetBool("Jump", isJump);
-            if (GameDataManagement.Instance.isConnect)
-            {
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
-            }
-        }        
-    }
+    }    
     
     /// <summary>
     /// 移動控制
@@ -347,8 +348,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             return;
         }        
 
-        //移動
-        
+        //移動        
         transform.position = transform.position + transform.forward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
 
         animator.SetFloat("Run", inputValue);

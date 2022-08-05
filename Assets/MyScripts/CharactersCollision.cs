@@ -298,11 +298,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// 浮空
     /// </summary>
     void OnFloation()
-    {
+    {       
         //浮空/跳躍
         for (int i = 0; i < floating_List.Count; i++)
         {
             floating_List[i].OnFloating();
+            if (floating_List[i].force <= 0) floating_List.RemoveAt(i);
         }   
     }
 
@@ -335,14 +336,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }
 
         //地板碰撞        
-        if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y, mask))
+        if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.2f, mask))
         {
-            if (hit.distance < boxSize.y)
-            {
-                Debug.Log(hit.distance + ":" + boxSize.y);
-                transform.position = transform.position + Vector3.up * (boxSize.y - 0.06f - hit.distance);
-                if (floating_List.Count > 0) floating_List.Clear();//清除List                
-            }
+            transform.position = transform.position + Vector3.up * ((boxSize.y / 2) - hit.distance);                          
         }
         else transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
     }
