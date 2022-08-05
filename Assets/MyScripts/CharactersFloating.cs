@@ -21,7 +21,7 @@ public class CharactersFloating
     {
         force -= gravity * Time.deltaTime;//向上力量
         if (force <= 0) force = 0;
-
+        
         target.position = target.position + Vector3.up * force * Time.deltaTime;//物件向上
     }
 }

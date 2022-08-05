@@ -290,7 +290,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     /// <returns></returns>
     IEnumerator OnWaitJump()
-    {
+    {        
         yield return new WaitForSeconds(0.75f);
         
         //¸I¼²°»´ú
