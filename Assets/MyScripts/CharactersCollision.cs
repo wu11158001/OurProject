@@ -310,8 +310,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //¯BªÅ/¸õÅD
         for (int i = 0; i < floating_List.Count; i++)
         {
-            floating_List[i].OnFloating();
-            if (floating_List[i].force <= 0) floating_List.RemoveAt(i);
+            floating_List[i].OnFloating();            
         }
     }
 
@@ -329,7 +328,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                -transform.forward + transform.right,
                                                -transform.right,
                                                -transform.right -transform.forward,
-                                                transform.up, -transform.up};
+                                                transform.up,};
 
         float wallHight = boxSize.y * 0.25f;//Àð¾À°ª«×¦h¤Ö¸I¼²        
         //Àð¾À¸I¼²
@@ -338,8 +337,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         for (int i = 0; i < rayDiration.Length; i++)
         {
             if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
-            {
-                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);
+            {                
+                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);                
             }
         }
 

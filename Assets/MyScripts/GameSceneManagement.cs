@@ -72,7 +72,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.magicianNormalAttack_1);//普通攻擊_1物件
         objectNumber_Dictionary.Add("magicianNormalAttack_1", number);//添加至紀錄中
 
-        //敵人士兵1
+        /*//敵人士兵1
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
             number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
@@ -84,7 +84,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 enemy.transform.position = new Vector3(190, -24, -35);//設定位置
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
-        }
+        }*/
     }
 
     void Update()

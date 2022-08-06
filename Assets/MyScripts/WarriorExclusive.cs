@@ -11,11 +11,13 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 {
     Animator animator;
     GameData_NumericalValue NumericalValue;
+    PlayerControl playerControl;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         NumericalValue = GameDataManagement.Instance.numericalValue;
+        playerControl = GetComponent<PlayerControl>();
     }
 
     void Update()
@@ -107,7 +109,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorSkillAttack_3_attackRadius[count];//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorSkillAttack_3_IsAttackBehind[count];//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                  
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                                 
     }
 
     /// <summary>
@@ -136,6 +138,8 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.isAttackBehind = NumericalValue.warriorJumpAttack_IsAttackBehind;//是否攻擊背後敵人
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+
+        playerControl.isLockJumpHight = false;//是否鎖住跳躍高度
     }
 
     /// <summary>
