@@ -29,7 +29,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public List<CharactersFloating> floating_List = new List<CharactersFloating>();//浮空/跳躍List
 
     private void Awake()
-    {        
+    {
         animator = GetComponent<Animator>();
     }
 
@@ -64,7 +64,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         if (lifeBar != null) lifeBar.gameObject.SetActive(gameObject.activeSelf);
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;//連線模式      
-                
+
         OnAnimationOver();
         OnFloation();
         OnCollisionControl();
@@ -72,7 +72,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, "Enemy", 100, "Pain", 0, 1, false);
     }
-  
+
     /// <summary>
     /// 初始化
     /// </summary>
@@ -126,8 +126,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Enemy")
         {
             Hp += MaxHp * (heal / 100);//回復生命值
-            if (Hp >= MaxHp) Hp = MaxHp;            
-            
+            if (Hp >= MaxHp) Hp = MaxHp;
+
             //產生文字            
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//治療目標
@@ -141,7 +141,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 PhotonConnect.Instance.OnSendGetHeal(photonView.ViewID, heal, isCritical);
 
                 //自己
-                if(photonView.IsMine)
+                if (photonView.IsMine)
                 {
                     if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
                     if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
@@ -165,8 +165,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public void OnConnectOtherGetHeal(float heal, bool isCritical)
     {
         Hp += MaxHp * (heal / 100);//回復生命值
-        if (Hp >= MaxHp) Hp = MaxHp;        
-        
+        if (Hp >= MaxHp) Hp = MaxHp;
+
         //產生文字            
         HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
         hitNumber.OnSetValue(target: transform,//治療目標
@@ -219,11 +219,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
-            /*//命中特效
-            if (gameObject.layer == LayerMask.NameToLayer( "Enemy") && attacker.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
+            //命中特效
+            if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
-            }*/
+                if (attacker.GetComponent<Effects>()!=null &&attacker.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
+                {
+                     attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
+                }
+            }
 
             //判斷擊中效果
             switch (knockDirection)
@@ -303,20 +306,20 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// 浮空
     /// </summary>
     void OnFloation()
-    {       
+    {
         //浮空/跳躍
         for (int i = 0; i < floating_List.Count; i++)
         {
             floating_List[i].OnFloating();
             if (floating_List[i].force <= 0) floating_List.RemoveAt(i);
-        }   
+        }
     }
 
     /// <summary>
     /// 碰撞控制
     /// </summary>
     void OnCollisionControl()
-    {       
+    {
         //射線方向
         Vector3[] rayDiration = new Vector3[] { transform.forward,
                                                 transform.forward - transform.right,
@@ -333,11 +336,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
         for (int i = 0; i < rayDiration.Length; i++)
-        {           
+        {
             if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
             {
                 transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);
-            }                
+            }
         }
 
         //地板碰撞        
@@ -346,11 +349,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             transform.position = transform.position + Vector3.up * ((boxSize.y / 2) - hit.distance);
         }
         else
-        {            
+        {
             transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
         }
     }
-   
+
     /// <summary>
     /// 動畫結束
     /// </summary>
