@@ -50,7 +50,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
         objectNumber_Dictionary.Add("playerNumbering", number);//添加至紀錄中
         GameObject player = OnRequestOpenObject(OnGetObjectNumber("playerNumbering"), loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//開啟物件
-        player.transform.position = new Vector3(210, -22, -60);//設定位置
+        player.transform.position = new Vector3(222, -22, -60);//設定位置
         player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
         OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點   
 
@@ -81,7 +81,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             for (int i = 0; i < 1; i++)
             {                
                 GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
-                enemy.transform.position = new Vector3(190, -24, -35);//設定位置
+                enemy.transform.position = new Vector3(188, -24, -37);//設定位置
+                enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
         }
