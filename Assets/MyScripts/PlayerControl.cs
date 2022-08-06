@@ -273,6 +273,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     {        
         if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge"))
         {
+            //先向上一點
             transform.position = transform.position + Vector3.up * NumericalValue.playerJumpForce * Time.deltaTime;
 
             jumpForward = transform.forward;//跳躍前方向量
