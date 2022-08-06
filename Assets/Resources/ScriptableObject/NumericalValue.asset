@@ -40,7 +40,7 @@ MonoBehaviour:
     playerMoveSpeed: 6.3
     playerJumpForce: 14.8
     playerCriticalRate: 15
-    playerDodgeSeppd: 3
+    playerDodgeSeppd: 7.5
     warriorNormalAttack_1_Damge: 10
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 30

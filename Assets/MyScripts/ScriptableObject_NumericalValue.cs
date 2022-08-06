@@ -226,7 +226,7 @@ public class GameData_NumericalValue
         playerMoveSpeed = 6.3f;//玩家移動速度        
         playerJumpForce = 14.8f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
-        playerDodgeSeppd = 3;//玩家閃躲速度
+        playerDodgeSeppd = 7.5f;//玩家閃躲速度
 
         #region 戰士
         //戰士 普通攻擊1
