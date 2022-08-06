@@ -36,10 +36,9 @@ MonoBehaviour:
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 20
-    cameraAngle: 20
     playerHp: 300
-    playerMoveSpeed: 5
-    playerJumpForce: 14.5
+    playerMoveSpeed: 7.3
+    playerJumpForce: 15.3
     playerCriticalRate: 15
     playerDodgeSeppd: 3
     warriorNormalAttack_1_Damge: 10

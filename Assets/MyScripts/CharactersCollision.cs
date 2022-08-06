@@ -343,9 +343,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //地板碰撞        
         if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.2f, mask))
         {
-            transform.position = transform.position + Vector3.up * ((boxSize.y / 2) - hit.distance);                          
+            transform.position = transform.position + Vector3.up * ((boxSize.y / 2) - hit.distance);
         }
-        else transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
+        else
+        {            
+            transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
+        }
     }
    
     /// <summary>
