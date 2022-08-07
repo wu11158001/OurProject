@@ -24,7 +24,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
 
         //弓箭物件皮膚
         arrowMeshRenderer = ExtensionMethods.FindAnyChild<MeshRenderer>(transform, "Arrow");
-        //arrowMeshRenderer.enabled = false;
+        arrowMeshRenderer.enabled = false;
 
         normalAttackArrowsPath = new string[] { "archerNormalAttack_1", "archerNormalAttack_2", "archerNormalAttack_3" };//普通攻擊弓箭物件
     }
@@ -196,18 +196,33 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     /// </summary>
     void OnArrowEnabledControl()
     {
-       /* AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (info.IsName("Attack.NormalAttack_1") && info.normalizedTime < 0.4f)
+        if (info.IsName("Attack.NormalAttack_1") && info.normalizedTime < 0.35f)
         {
-            if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
+            if (!arrowMeshRenderer.enabled)
+            {
+                //位置
+                arrowMeshRenderer.transform.localPosition = new Vector3(-0.000209999998f, 0.00526000001f, 0.000190000006f);
+                arrowMeshRenderer.transform.localRotation = Quaternion.Euler(272.496521f, 261.24234f, 8.01684952f);
+
+                arrowMeshRenderer.enabled = true;
+            }
         }
-        else if (info.IsName("Attack.NormalAttack_2") && info.normalizedTime < 0.4f)
+        else if (info.IsName("Attack.NormalAttack_2") && info.normalizedTime < 0.35f)
         {
+            //位置
+            arrowMeshRenderer.transform.localPosition = new Vector3(-0.000209999998f, 0.00526000001f, 0.000190000006f);
+            arrowMeshRenderer.transform.localRotation = Quaternion.Euler(272.496521f, 261.24234f, 8.01684952f);
+
             if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
         }
         else if (info.IsName("Attack.NormalAttack_3") && info.normalizedTime > 0.2f && info.normalizedTime < 0.68f)
         {
+            //位置
+            arrowMeshRenderer.transform.localPosition = new Vector3(1.99999995e-05f, 0.00486999983f, 0.00153999997f);
+            arrowMeshRenderer.transform.localRotation = Quaternion.Euler(286.910248f, 1.72138309f, 257.902863f);
+
             if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
         }
         else if (info.IsName("Attack.SkillAttack_1") && info.normalizedTime > 0.2f && info.normalizedTime < 0.68f)
@@ -217,6 +232,6 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         else
         {            
             if (arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = false;            
-        }*/
+        }
     }
 }

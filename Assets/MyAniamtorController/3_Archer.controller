@@ -584,7 +584,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NormalAttack_2
-  m_Speed: 1.1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -983030768139151073}
@@ -742,7 +742,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NormalAttack_3
-  m_Speed: 1.5
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5955613589539182323}
@@ -898,7 +898,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NormalAttack_1
-  m_Speed: 1.1
+  m_Speed: 0.1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8213466814227945327}
@@ -972,7 +972,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: aa41b3bd3b21e9740abcdf62d2007df1, type: 3}
+  m_Motion: {fileID: 7400000, guid: 686dc0e5d2500f74da9d07ad1bc266d1, type: 2}
   m_Tag: Run
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1176,7 +1176,7 @@ AnimatorStateMachine:
     m_Position: {x: -220, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1591795896990737378}
-    m_Position: {x: -200, y: 420, z: 0}
+    m_Position: {x: -220, y: 420, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4011611684179198216}
     m_Position: {x: -220, y: 250, z: 0}
