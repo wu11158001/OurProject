@@ -407,7 +407,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 896ceef59aa22e44d9c751ab3bd258dc, type: 2}
+  m_Motion: {fileID: 7400000, guid: 0ef2fa85eb749a64a9742ac699210e7d, type: 2}
   m_Tag: JumpAttack
   m_SpeedParameter: 
   m_MirrorParameter: 
