@@ -10,7 +10,8 @@ using UnityEngine;
 public class ArcherExclusive : MonoBehaviourPunCallbacks
 {
     Animator animator;
-    GameData_NumericalValue NumericalValue;    
+    GameData_NumericalValue NumericalValue;
+    PlayerControl playerControl;
 
     MeshRenderer arrowMeshRenderer;//弓箭物件皮膚    
     string[] normalAttackArrowsPath;//普通攻擊弓箭物件
@@ -19,6 +20,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     {
         animator = GetComponent<Animator>();
         NumericalValue = GameDataManagement.Instance.numericalValue;
+        playerControl = GetComponent<PlayerControl>();
 
         //弓箭物件皮膚
         arrowMeshRenderer = ExtensionMethods.FindAnyChild<MeshRenderer>(transform, "Arrow");
@@ -154,6 +156,8 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.isAttackBehind = NumericalValue.archerJumpAttack_IsAttackBehind;//是否攻擊背後敵人
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+
+        playerControl.isLockJumpHight = false;//是否鎖住跳躍高度
     }
 
     /// <summary>

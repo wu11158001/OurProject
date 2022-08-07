@@ -36,13 +36,13 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        //場景物件掛上小地圖點點
+        /*//場景物件掛上小地圖點點
         GameObject stageObject = GameObject.Find("StageObjects");        
         Transform[] allStageObject = stageObject.GetComponentsInChildren<Transform>();
         foreach (var item in allStageObject)
         {
             if (item.GetComponent<BoxCollider>()) OnSetMiniMapPoint(item, loadPath.miniMapMatirial_Object);
-        }
+        }*/
 
         int number = 0;
 

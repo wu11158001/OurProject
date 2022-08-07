@@ -8,6 +8,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
 {
     Animator animator;
     GameData_NumericalValue NumericalValue;
+    PlayerControl playerControl;
 
     //碰撞框
     Vector3 boxCenter;
@@ -17,6 +18,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
     {
         animator = GetComponent<Animator>();
         NumericalValue = GameDataManagement.Instance.numericalValue;
+        playerControl = GetComponent<PlayerControl>();
 
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
@@ -160,7 +162,9 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.magicianJumpAttack_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.magicianJumpAttack_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)
+
+        playerControl.isLockJumpHight = false;//是否鎖住跳躍高度
     }
 
     /// <summary>
