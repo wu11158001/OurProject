@@ -157,7 +157,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
 
-        playerControl.isLockJumpHight = false;//是否鎖住跳躍高度
+        playerControl.isJumpAttackDown = true;//跳躍攻擊下降
     }
 
     /// <summary>

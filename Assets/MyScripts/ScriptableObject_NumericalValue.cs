@@ -262,8 +262,8 @@ public class GameData_NumericalValue
         warriorJumpAttac_kRepelDistance = 50;//戰士跳躍攻擊_擊退距離
         warriorJumpAttack_Effect = "Pain";//戰士跳躍攻擊效果(受擊者播放的動畫名稱)
         warriorJumpAttack_ForwardDistance = 0.77f;//戰士普通攻擊3_攻擊範圍中心點距離物件前方
-        warriorJumpAttack_attackRadius = 1.0f;//戰士普通攻擊3_攻擊半徑
-        warriorJumpAttack_IsAttackBehind = false;//戰士普通攻擊3_是否攻擊背後敵人
+        warriorJumpAttack_attackRadius = 1.3f;//戰士普通攻擊3_攻擊半徑
+        warriorJumpAttack_IsAttackBehind = true;//戰士普通攻擊3_是否攻擊背後敵人
 
         //戰士 技能攻擊1
         warriorSkillAttack_1_Damge = 9;//戰士技能1_傷害
@@ -299,7 +299,7 @@ public class GameData_NumericalValue
         archerNormalAttack_RepelDistance = new float[] { 25, 25, 25 };//弓箭手普通攻擊_擊退/擊飛距離        
         archerNormalAttack_Effect = new string[] { "Pain", "Pain", "Pain" };//弓箭手普通攻擊_效果(受擊者播放的動畫名稱)     
         archerNormalAttack_FloatSpeed = new float[] { 30, 30, 30};//弓箭手普通攻擊飛行速度
-        archerNormalAttack_LifeTime = new float[] { 0.4f, 0.4f, 0.4f};//弓箭手普通攻擊生存時間
+        archerNormalAttack_LifeTime = new float[] { 0.6f, 0.6f, 0.6f};//弓箭手普通攻擊生存時間
 
         //弓箭手 跳躍攻擊
         archerJumpAttack_Damage = 11;//弓箭手跳躍攻擊傷害
@@ -307,8 +307,8 @@ public class GameData_NumericalValue
         archerJumpAttack_RepelDistance = 50;//弓箭手跳躍攻擊 擊退距離
         archerJumpAttack_Effect = "Pain";//弓箭手跳躍攻擊效果(受擊者播放的動畫名稱)
         archerJumpAttack_ForwardDistance = 0;//弓箭手跳躍攻擊_攻擊範圍中心點距離物件前方
-        archerJumpAttack_attackRadius = 1.2f;//弓箭手跳躍攻擊_攻擊半徑
-        archerJumpAttack_IsAttackBehind = false;//弓箭手跳躍攻擊_是否攻擊背後敵人
+        archerJumpAttack_attackRadius = 1.3f;//弓箭手跳躍攻擊_攻擊半徑
+        archerJumpAttack_IsAttackBehind = true;//弓箭手跳躍攻擊_是否攻擊背後敵人
 
         //弓箭手 技能攻擊1
         archerSkillAttack_1_Damage = 11;//弓箭手技能攻擊1_傷害
@@ -370,8 +370,8 @@ public class GameData_NumericalValue
         magicianJumpAttack_RepelDistance = 50;//法師跳躍攻擊_擊退距離
         magicianJumpAttack_Effect = "Pain";//法師跳躍攻擊_效果(受擊者播放的動畫名稱)
         magicianJumpAttack_ForwardDistance = 0;//法師跳躍攻擊_攻擊範圍中心點距離物件前方
-        magicianJumpAttack_attackRadius = 1.2f;//法師跳躍攻擊_攻擊半徑
-        magicianJumpAttack_IsAttackBehind = false;//法師跳躍攻擊_是否攻擊背後敵人
+        magicianJumpAttack_attackRadius = 1.3f;//法師跳躍攻擊_攻擊半徑
+        magicianJumpAttack_IsAttackBehind = true;//法師跳躍攻擊_是否攻擊背後敵人
 
         //法師技能攻擊1
         magicianSkillAttack_1_HealValue = 4;//法師普通攻擊1_治療量(%)    
@@ -380,13 +380,13 @@ public class GameData_NumericalValue
         magicianSkillAttack_1_IsAttackBehind = true;//法師普通攻擊1_是否治療背後盟友
 
         //法師技能攻擊2
-        magicianSkillAttack_2_Damge = new float[] { 1, 2, 3, 4, 5, 6};//法師技能攻擊2_傷害
-        magicianSkillAttack_2_RepelDirection = new int[] { 0, 0, 0, 0 ,0, 0};//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        magicianSkillAttack_2_RepelDistance = new float[] { 0, 0, 0, 0, 0, 25};//法師技能攻擊2_擊退/擊飛距離    
-        magicianSkillAttack_2_Effect = new string[] { "Pain", "Pain", "Pain", "Pain", "Pain", "Pain" };//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
-        magicianSkillAttack_2_ForwardDistance = new float[] { 0, 0, 0, 0, 0, 0};//法師技能攻擊2_攻擊範圍中心點距離物件前方
-        magicianSkillAttack_2_attackRadius = new float[] { 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f};//法師技能攻擊2_攻擊半徑
-        magicianSkillAttack_2_IsAttackBehind = new bool[] { false, false, false, false, false, false};//法師技能攻擊2_是否攻擊背後敵人
+        magicianSkillAttack_2_Damge = new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};//法師技能攻擊2_傷害
+        magicianSkillAttack_2_RepelDirection = new int[] { 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0};//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
+        magicianSkillAttack_2_RepelDistance = new float[] { 2, 2, 2, 2, 2, 2, 2, 2, 2, 65};//法師技能攻擊2_擊退/擊飛距離    
+        magicianSkillAttack_2_Effect = new string[] { "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain" };//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
+        magicianSkillAttack_2_ForwardDistance = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};//法師技能攻擊2_攻擊範圍中心點距離物件前方
+        magicianSkillAttack_2_attackRadius = new float[] { 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f};//法師技能攻擊2_攻擊半徑
+        magicianSkillAttack_2_IsAttackBehind = new bool[] { false, false, false, false, false, false, false, false, false, false };//法師技能攻擊2_是否攻擊背後敵人
 
         //法師技能攻擊3
         magicianSkillAttack_3_Damge = 14;//法師技能攻擊3_傷害
