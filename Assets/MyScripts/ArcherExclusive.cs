@@ -198,7 +198,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (info.IsName("Attack.NormalAttack_1") && info.normalizedTime < 0.35f)
+        if (info.IsName("Attack.NormalAttack_1") && info.normalizedTime < 0.2f)
         {
             if (!arrowMeshRenderer.enabled)
             {
@@ -209,7 +209,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
                 arrowMeshRenderer.enabled = true;
             }
         }
-        else if (info.IsName("Attack.NormalAttack_2") && info.normalizedTime < 0.35f)
+        else if (info.IsName("Attack.NormalAttack_2") && info.normalizedTime < 0.2f)
         {
             //¦ì¸m
             arrowMeshRenderer.transform.localPosition = new Vector3(-0.000209999998f, 0.00526000001f, 0.000190000006f);
@@ -217,7 +217,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
 
             if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
         }
-        else if (info.IsName("Attack.NormalAttack_3") && info.normalizedTime > 0.2f && info.normalizedTime < 0.68f)
+        else if (info.IsName("Attack.NormalAttack_3") && info.normalizedTime > 0.2f && info.normalizedTime < 0.63f)
         {
             //¦ì¸m
             arrowMeshRenderer.transform.localPosition = new Vector3(1.99999995e-05f, 0.00486999983f, 0.00153999997f);
@@ -225,8 +225,12 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
 
             if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
         }
-        else if (info.IsName("Attack.SkillAttack_1") && info.normalizedTime > 0.2f && info.normalizedTime < 0.68f)
+        else if (info.IsName("Attack.SkillAttack_1") && info.normalizedTime > 0.2f && info.normalizedTime < 0.63f)
         {
+            //¦ì¸m
+            arrowMeshRenderer.transform.localPosition = new Vector3(1.99999995e-05f, 0.00486999983f, 0.00153999997f);
+            arrowMeshRenderer.transform.localRotation = Quaternion.Euler(286.910248f, 1.72138309f, 257.902863f);
+
             if (!arrowMeshRenderer.enabled) arrowMeshRenderer.enabled = true;
         }
         else
