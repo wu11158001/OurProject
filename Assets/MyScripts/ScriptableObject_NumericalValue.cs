@@ -218,7 +218,7 @@ public class GameData_NumericalValue
         //攝影機
         distance = 2.6f;//與玩家距離        
         limitUpAngle = 35;//限制向上角度
-        limitDownAngle = 20;//限制向下角度
+        limitDownAngle = 13;//限制向下角度
         //cameraAngle = 20;//攝影機角度
 
         //玩家

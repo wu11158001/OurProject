@@ -2714,8 +2714,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5666046, y: 1.7636461, z: 0.85569954}
-  m_Center: {x: 0.03882599, y: 0.8431039, z: 0.028395653}
+  m_Size: {x: 0.5666046, y: 1.7636461, z: 0.92804456}
+  m_Center: {x: 0.03882599, y: 0.8431039, z: 0.06456816}
 --- !u!114 &868762185294543960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2774,7 +2774,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 5049481276270827681}
-  sceneViewId: 0
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &5049481276270827681

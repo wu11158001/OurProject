@@ -364,9 +364,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
             transform.position = transform.position + jumpForward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
             return;
-        }        
+        }
 
-        //移動        
+        //移動
         transform.position = transform.position + transform.forward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
 
         animator.SetFloat("Run", inputValue);
@@ -396,7 +396,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         inputZ = Input.GetAxis("Vertical");//輸入Z值
 
         forwardVector = Quaternion.AngleAxis(Input.GetAxis("Mouse X"), Vector3.up) * forwardVector;//前方向量
-        horizontalCross = Vector3.Cross(Vector3.up, forwardVector);//水平軸       
+        horizontalCross = Vector3.Cross(Vector3.up, forwardVector);//水平軸      
 
         //滑鼠
         if (Input.GetKeyDown(KeyCode.F1))
