@@ -272,7 +272,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //°{¸ú²¾°Ê
         if (info.IsName("Dodge") && info.normalizedTime < 1)
         {
-            //transform.position = transform.position + transform.forward * GameDataManagement.Instance.numericalValue.playerDodgeSeppd * Time.deltaTime;
+            transform.position = transform.position + transform.forward * GameDataManagement.Instance.numericalValue.playerDodgeSeppd * Time.deltaTime;
         }
 
             //°{¸úµ²§ô

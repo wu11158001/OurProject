@@ -194,7 +194,7 @@ MonoBehaviour:
     - 8
     - 9
     - 10
-    magicianSkillAttack_2_RepelDirection: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    magicianSkillAttack_2_RepelDirection: 00000000000000000000000000000000000000000000000000000000000000000100000000000000
     magicianSkillAttack_2_RepelDistance:
     - 2
     - 2
@@ -203,8 +203,8 @@ MonoBehaviour:
     - 2
     - 2
     - 2
-    - 2
-    - 2
+    - 15
+    - 10
     - 65
     magicianSkillAttack_2_Effect:
     - Pain

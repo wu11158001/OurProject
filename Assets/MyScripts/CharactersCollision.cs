@@ -233,7 +233,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 case 0://À»°h
                     LayerMask mask = LayerMask.GetMask("StageObject");                    
-                    if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1.5f, mask))
+                    if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1f, mask))
                     {
                         transform.position = transform.position + attacker.transform.forward * repel * Time.deltaTime;//À»°h(¸IÀð¤£¦AÀ»°h)
                     }                    
