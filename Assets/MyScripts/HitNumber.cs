@@ -14,6 +14,7 @@ public class HitNumber : MonoBehaviour
     [SerializeField]Transform target;//受傷目標   
     Vector3 startPosition;//初始位置
     float lifeTime;//生存時間
+    float speed;//速度
 
     void Start()
     {
@@ -45,11 +46,10 @@ public class HitNumber : MonoBehaviour
         else thisText.fontSize = 70;
 
         this.target = target;//受傷目標
-        thisText.text = Mathf.Round(damage).ToString();//受到傷害(四捨五入)
-        startPosition = target.position + Vector3.up * 1;//初始位置
+        thisText.text = Mathf.Round(damage).ToString();//受到傷害(四捨五入)        
         thisText.color = color;//文字顏色       
     }
-
+    
     /// <summary>
     /// 擊中文字行為
     /// </summary>
@@ -57,9 +57,11 @@ public class HitNumber : MonoBehaviour
     {
         if (target == null) return;
 
-        //文字移動
-        startPosition += Vector3.up * 2 * Time.deltaTime;
+        speed += 2 * Time.deltaTime; 
 
+        //文字移動
+        startPosition = target.position + target.transform.up * (1 + speed);
+        
         Camera camera = canvas_Overlay.worldCamera;
         Vector3 position = Camera.main.WorldToScreenPoint(startPosition);
 
@@ -79,6 +81,6 @@ public class HitNumber : MonoBehaviour
         if (lifeTime <= 0 || position.z < 0)
         {
             Destroy(gameObject);
-        }
+        }        
     }
 }

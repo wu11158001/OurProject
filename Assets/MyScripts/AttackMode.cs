@@ -8,9 +8,10 @@ using UnityEngine;
 /// </summary>
 public class AttackMode
 {
-    public Action function;    
+    public Action function;
 
     //通用
+    public GameObject performCharacters;//執行攻擊腳色
     public GameObject performObject;//執行攻擊的物件(自身/射出物件)    
     public string layer;//攻擊者layer
     public float damage;//造成傷害(治療量(%))
@@ -217,8 +218,9 @@ public class AttackMode
     /// </summary>
     /// <param name="charactersCollision">受攻擊物件的碰撞腳本</param>
     void OnSetAttackNumbericalValue(CharactersCollision charactersCollision)
-    {   
-        charactersCollision.OnGetHit(attacker: performObject,//攻擊者物件
+    {
+        charactersCollision.OnGetHit(attacker: performCharacters,//執行攻擊腳色
+                                     attackerObject: performObject,//攻擊者物件
                                      layer: layer,//攻擊者layer
                                      damage: damage,//造成傷害
                                      animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)

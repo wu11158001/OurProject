@@ -13,11 +13,21 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
     GameData_NumericalValue NumericalValue;
     PlayerControl playerControl;
 
+    //Buff
+    [SerializeField]float addDamage;//增加傷害值      
+
     void Start()
     {
         animator = GetComponent<Animator>();
         NumericalValue = GameDataManagement.Instance.numericalValue;
         playerControl = GetComponent<PlayerControl>();
+
+        //Buff
+        for (int i = 0; i < GameDataManagement.Instance.equipBuff.Length; i++)
+        {
+            //增加傷害值
+            if (GameDataManagement.Instance.equipBuff[i] == 1 && GetComponent<PlayerControl>()) addDamage = GameDataManagement.Instance.numericalValue.buffAbleValue[1] / 100;                      
+        }        
     }
 
     void Update()
@@ -35,14 +45,17 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
-
+        float getDamage = (NumericalValue.warriorSkillAttack_1_Damge + (NumericalValue.warriorSkillAttack_1_Damge * addDamage)) * rate;//造成傷害
+        
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("warriorSkillAttack_1"), GameSceneManagement.Instance.loadPath.warriorSkillAttack_1);//執行攻擊的物件(自身/射出物件)
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
-        attack.damage = NumericalValue.warriorSkillAttack_1_Damge * rate;//造成傷害 
+        
+        attack.damage = getDamage;//造成傷害 
         attack.direction = NumericalValue.warriorSkillAttack_1_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorSkillAttack_1_RepelDistance;//擊退/擊飛距離
         attack.animationName = NumericalValue.warriorSkillAttack_1_Effect;//攻擊效果(播放動畫名稱)        
@@ -50,7 +63,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.flightSpeed = NumericalValue.warriorSkillAttack_1_FlightSpeed;//飛行速度
         attack.lifeTime = NumericalValue.warriorSkillAttack_1_LifeTime;//生存時間
         attack.flightDiration = transform.forward;//飛行方向        
-        attack.performObject.transform.position = transform.position + GetComponent<BoxCollider>().center + transform.forward * 1;//射出位置
+        attack.performObject.transform.position = transform.position + GetComponent<BoxCollider>().center + transform.forward * 1;//射出位置               
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
     }
@@ -65,14 +78,16 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+        float getDamage = (NumericalValue.warriorSkillAttack_2_Damge + (NumericalValue.warriorSkillAttack_2_Damge * addDamage)) * rate;//造成傷害
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.warriorSkillAttack_2_Damge * rate;//造成傷害 
+        attack.damage = getDamage;//造成傷害 
         attack.direction = NumericalValue.warriorSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorSkillAttack_2_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.warriorSkillAttack_2_Effect;//攻擊效果(播放動畫名稱)
@@ -94,14 +109,16 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+        float getDamage = (NumericalValue.warriorSkillAttack_3_Damge[count] + (NumericalValue.warriorSkillAttack_3_Damge[count] * addDamage)) * rate;//造成傷害
 
-        AttackMode attack = AttackMode.Instance;
+        AttackMode attack = AttackMode.Instance;        
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.warriorSkillAttack_3_Damge[count] * rate;//造成傷害 
+        attack.damage = getDamage;//造成傷害 
         attack.direction = NumericalValue.warriorSkillAttack_3_RepelDirection[count];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorSkillAttack_3_RepelDistance[count];//擊退距離
         attack.animationName = NumericalValue.warriorSkillAttack_3_Effect[count];//攻擊效果(播放動畫名稱)
@@ -122,14 +139,16 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+        float getDamage = (NumericalValue.warriorJumpAttack_Damage + (NumericalValue.warriorJumpAttack_Damage * addDamage)) * rate;//造成傷害
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.warriorJumpAttack_Damage * rate;//造成傷害 
+        attack.damage = getDamage;//造成傷害 
         attack.direction = NumericalValue.warriorJumpAttack_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorJumpAttac_kRepelDistance;//擊退距離
         attack.animationName = NumericalValue.warriorJumpAttack_Effect;//攻擊效果(播放動畫名稱)
@@ -152,14 +171,16 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+        float getDamage = (NumericalValue.warriorNormalAttack_1_Damge + (NumericalValue.warriorNormalAttack_1_Damge * addDamage)) * rate;//造成傷害
 
-        AttackMode attack = AttackMode.Instance;        
+        AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.warriorNormalAttack_1_Damge * rate;//造成傷害 
+        attack.damage = getDamage;//造成傷害 
         attack.direction = NumericalValue.warriorNormalAttack_1_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorNormalAttack_1_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.warriorNormalAttack_1_Effect;//攻擊效果(播放動畫名稱)
@@ -180,14 +201,16 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+        float getDamage = (NumericalValue.warriorNormalAttack_2_Damge + (NumericalValue.warriorNormalAttack_2_Damge * addDamage)) * rate;//造成傷害
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.warriorNormalAttack_2_Damge * rate;//造成傷害 
+        attack.damage = getDamage;//造成傷害 
         attack.direction = NumericalValue.warriorNormalAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorNormalAttack_2_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.warriorNormalAttack_2_Effect;//攻擊效果(播放動畫名稱)
@@ -208,14 +231,16 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+        float getDamage = (NumericalValue.warriorNormalAttack_3_Damge + (NumericalValue.warriorNormalAttack_3_Damge * addDamage)) * rate;//造成傷害
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.warriorNormalAttack_3_Damge * rate;//造成傷害 
+        attack.damage = getDamage;//造成傷害 
         attack.direction = NumericalValue.warriorNormalAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.warriorNormalAttack_3_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.warriorNormalAttack_3_Effect;//攻擊效果(播放動畫名稱)

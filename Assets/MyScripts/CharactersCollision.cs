@@ -15,14 +15,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
-    float boxCollisionDistance;//碰撞具距離
+    public float boxCollisionDistance;//碰撞具距離
 
     //生命條
     LifeBar_Characters lifeBar;//生命條
 
     //數值
-    [SerializeField] float Hp;//生命值
-    float MaxHp;//最大生命值
+    public float Hp;//生命值
+    public float MaxHp;//最大生命值
+    public float addDefence;//增加防禦值
+    public bool isSuckBlood;//是否有吸血效果
+    public bool isSelfHeal;//是否有回復效果
+    float selfTime;//自我回復時間
 
     public bool isDie;//是否死亡
 
@@ -56,6 +60,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 break;
         }
 
+        //Buff
+        for (int i = 0; i < GameDataManagement.Instance.equipBuff.Length; i++)
+        {
+            //增加最大生命值
+            if (GameDataManagement.Instance.equipBuff[i] == 0 && GetComponent<PlayerControl>()) MaxHp += MaxHp * (GameDataManagement.Instance.numericalValue.buffAbleValue[0] / 100);
+        }
+
         //OnSetLifeBar_Character(transform);//設定生命條
         OnInitial();//初始化
     }
@@ -68,9 +79,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         OnAnimationOver();
         OnFloation();
         OnCollisionControl();
+        OnSelfHeal();
 
         //測試用
-        if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, "Enemy", 100, "Pain", 0, 1, false);
+        if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
     }
 
     /// <summary>
@@ -104,11 +116,97 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <param name="active">是否顯示(1:顯示 0:不顯示)</param>
     public void OnBodySetActive(int active)
     {
-        Transform body = ExtensionMethods.FindAnyChild<Transform>(transform, "Mesh");//法師身體
+        Transform body = ExtensionMethods.FindAnyChild<Transform>(transform, "Mesh");//身體物件
         if (body != null)
         {
             bool act = active == 1 ? act = true : act = false;
             body.gameObject.SetActive(act);
+        }
+    }
+
+    /// <summary>
+    /// 自身回復
+    /// </summary>
+    void OnSelfHeal()
+    {
+        if (Hp <= 0) return;//死了
+
+        if(isSelfHeal)
+        {
+            selfTime -= Time.deltaTime;
+            if(selfTime <= 0 && Hp < MaxHp)
+            {
+                selfTime = NumericalValue.playerSelfHealTime;//重製時間
+
+                float heal = MaxHp * (NumericalValue.buffAbleValue[5] / 100);//回復生命值
+                Hp += heal;//回復生命值
+                if (Hp >= MaxHp) Hp = MaxHp;
+
+                //產生文字            
+                HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
+                hitNumber.OnSetValue(target: transform,//治療目標
+                                     damage: heal,//受到治療
+                                     color: Color.green,//文字顏色
+                                     isCritical: false);//是否爆擊
+
+                //連線
+                if (GameDataManagement.Instance.isConnect)
+                {
+                    PhotonConnect.Instance.OnSendGetHeal(photonView.ViewID, heal, false);
+
+                    //自己
+                    if (photonView.IsMine)
+                    {
+                        if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+                        if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+                    }
+                }
+                else
+                {
+                    if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+                    if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 吸血效果
+    /// </summary>
+    /// <param name="heal">回復量</param>
+    /// <param name="isCritical">是否爆擊</param>
+    public void OnSuckBlood(float heal, bool isCritical)
+    {
+        if (Hp <= 0) return;//死了
+
+        float suckBlood = heal * (NumericalValue.buffAbleValue[4] / 100);//吸血值
+
+        Hp += suckBlood;//回復生命值
+        if (Hp >= MaxHp) Hp = MaxHp;
+
+        //產生文字            
+        HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
+        hitNumber.OnSetValue(target: transform,//治療目標
+                             damage: suckBlood,//受到治療
+                             color: isCritical ? Color.blue : Color.green,//文字顏色
+                             isCritical: isCritical);//是否爆擊
+
+        //連線
+        if (GameDataManagement.Instance.isConnect)
+        {
+            PhotonConnect.Instance.OnSendGetHeal(photonView.ViewID, heal, isCritical);
+
+            //自己
+            if (photonView.IsMine)
+            {
+                if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+                if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+            }
+        }
+        else
+        {
+            if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+            if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
         }
     }
 
@@ -132,7 +230,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//治療目標
                                  damage: MaxHp * (heal / 100),//受到治療
-                                 color: isCritical ? Color.yellow : Color.green,//文字顏色
+                                 color: isCritical ? Color.blue : Color.green,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
             //連線
@@ -181,14 +279,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <summary>
     /// 受到攻擊
     /// </summary>
-    /// <param name="attacker">攻擊者物件</param>
+    /// <param name="attacker">攻擊者</param>
+    /// <param name="attackerObject">攻擊者物件</param>
     /// <param name="layer">攻擊者layer</param>
     /// <param name="damage">造成傷害</param>
     /// <param name="animationName">播放動畫名稱</param>
     /// <param name="knockDirection">擊中效果(0:擊退, 1:擊飛)</param>
     /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
-    public void OnGetHit(GameObject attacker, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
+    public void OnGetHit(GameObject attacker, GameObject attackerObject, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
@@ -199,14 +298,22 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == "Enemy" ||
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Player")
         {
-            Hp -= damage;//生命值減少
+            float getDamge = (damage - (damage * (addDefence / 100))) < 0 ? 0: damage - addDefence;//受到的方害
+
+            //判斷攻擊者是否有吸血效果
+            if (attacker.TryGetComponent(out CharactersCollision attackerCollision))
+            {
+                if (attackerCollision.isSuckBlood) attackerCollision.OnSuckBlood(getDamge, isCritical);               
+            }
+
+            Hp -= getDamge;//生命值減少
             if (Hp <= 0) Hp = 0;
 
             if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
             if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //面向攻擊者          
-            Vector3 attackerPosition = attacker.transform.position;//攻擊者向量
+            Vector3 attackerPosition = attackerObject.transform.position;//攻擊者向量
             attackerPosition.y = 0;
             Vector3 targetPosition = transform.position;//受擊者向量
             targetPosition.y = 0;
@@ -215,16 +322,16 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             //產生文字            
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//受傷目標
-                                 damage: damage,//受到傷害
+                                 damage: getDamge,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
             //命中特效
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                if (attacker.GetComponent<Effects>()!=null &&attacker.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
+                if (attackerObject.GetComponent<Effects>()!=null &&attackerObject.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1"))
                 {
-                     attacker.GetComponent<Effects>().HitEffect(attacker, gameObject.GetComponent<Collider>());
+                     attackerObject.GetComponent<Effects>().HitEffect(attackerObject, gameObject.GetComponent<Collider>());
                 }
             }
 
@@ -235,7 +342,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     LayerMask mask = LayerMask.GetMask("StageObject");                    
                     if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1f, mask))
                     {
-                        transform.position = transform.position + attacker.transform.forward * repel * Time.deltaTime;//擊退(碰牆不再擊退)
+                        transform.position = transform.position + attackerObject.transform.forward * repel * Time.deltaTime;//擊退(碰牆不再擊退)
                     }                    
                     break;
                 case 1://擊飛
@@ -243,7 +350,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     break;
             }            
 
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendGetHit(photonView.ViewID, transform.position, transform.rotation, damage, isCritical);
+            //連線
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendGetHit(photonView.ViewID, transform.position, transform.rotation, getDamge, isCritical);
 
             //死亡
             if (Hp <= 0)

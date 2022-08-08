@@ -14,6 +14,11 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Image playerLifeBarFront_Image;//生命條(前)
     Image playerLifeBarMid_Image;//生命條(中)
 
+    [Header("玩家Buff")]
+    Sprite[] buffSprites;//Buff圖片
+    Image playerBuff_1;//玩家裝備Buff1
+    Image playerBuff_2;//玩家裝備Buff2
+
     [Header("選項")]
     Transform options;//Options UI控制
     public bool isOptions;//是否開起選項介面
@@ -40,6 +45,28 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         playerLifeBarFront_Image.fillAmount = playerHpProportion;
         playerLifeBarMid_Image = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerLifeBarMid_Image");//生命條(中)
         playerLifeBarMid_Image.fillAmount = playerHpProportion;
+
+        //玩家Buff
+        buffSprites = Resources.LoadAll<Sprite>("Sprites/Buff");
+        playerBuff_1 = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerBuff_1");//玩家裝備Buff1        
+        playerBuff_2 = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerBuff_2");//玩家裝備Buff2
+        Image[] buffs = new Image[] { playerBuff_1, playerBuff_2 };
+        for (int i = 0; i < GameDataManagement.Instance.equipBuff.Length; i++)
+        {
+            if (GameDataManagement.Instance.equipBuff[i] >= 0) buffs[i].sprite = buffSprites[GameDataManagement.Instance.equipBuff[i]];
+            else
+            {
+                buffs[i].enabled = false;//關閉沒有裝備的buff圖片
+
+                //交換位置
+                if (GameDataManagement.Instance.equipBuff[0] < 0)
+                {
+                    Vector3 pos = buffs[0].rectTransform.localPosition;
+                    buffs[1].rectTransform.localPosition = pos;
+                }
+            }
+        }
+
 
         //選項
         options = ExtensionMethods.FindAnyChild<Transform>(transform, "Options");//Options UI控制

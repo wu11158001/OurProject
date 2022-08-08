@@ -135,6 +135,10 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     {
         GameDataManagement.Instance.stage = GameDataManagement.Stage.開始場景;
         GameDataManagement.Instance.selectRoleNumber = 0;//選擇的腳色編號
+        for (int i = 0; i < GameDataManagement.Instance.equipBuff.Length; i++)
+        {
+            GameDataManagement.Instance.equipBuff[i] = -1;//裝備的Buff
+        }        
 
         //第一次進入遊戲
         if (!GameDataManagement.Instance.isNotFirstIntoGame)
@@ -546,9 +550,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
 
         //設定文字
         string text = "";
-        if (equipBuff[0] >= 0) text = numericalValue.buffAbleString[equipBuff[0]] + "+" + numericalValue.buffAbleValue[equipBuff[0]] + "\n";
+        if (equipBuff[0] >= 0) text = numericalValue.buffAbleString[equipBuff[0]] + "+" + numericalValue.buffAbleValue[equipBuff[0]] + "%\n";
         else text = "";        
-        if (equipBuff[1] >= 0) text = text + numericalValue.buffAbleString[equipBuff[1]] + "+" + numericalValue.buffAbleValue[equipBuff[1]];
+        if (equipBuff[1] >= 0) text = text + numericalValue.buffAbleString[equipBuff[1]] + "+" + numericalValue.buffAbleValue[equipBuff[1]] + "%";
         else text = text + "";
 
         EquipBuff_Text.text = text;

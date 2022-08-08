@@ -14,6 +14,11 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
     Vector3 boxCenter;
     Vector3 boxSize;
 
+    //Buff
+    [SerializeField]float addDamage;//增加傷害值
+
+    Transform body;//身體物件
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -23,11 +28,27 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
         boxSize = GetComponent<BoxCollider>().size;
+
+        //Buff
+        for (int i = 0; i < GameDataManagement.Instance.equipBuff.Length; i++)
+        {
+            if (GameDataManagement.Instance.equipBuff[i] == 1)
+            {
+                addDamage = GameDataManagement.Instance.numericalValue.buffAbleValue[1] / 100;//增加傷害值
+            }
+        }
+
+        body = ExtensionMethods.FindAnyChild<Transform>(transform, "Mesh");
     }
 
     void Update()
     {
         OnSkillAttack2_Magician();
+
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+
+        //避免身體隱藏bug
+        if (!info.IsTag("SkillAttack") && !body.gameObject.activeSelf) GetComponent<CharactersCollision>().OnBodySetActive(active: 1);//(1:顯示 0:不顯示)
     }    
 
     /// <summary>
@@ -42,12 +63,13 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHealFunction);//設定執行函式
-        attack.damage = NumericalValue.magicianSkillAttack_1_HealValue * rate;//治療量(%)
+        attack.damage = NumericalValue.magicianSkillAttack_1_HealValue * rate + addDamage;//治療量(%)
         attack.forwardDistance = NumericalValue.magicianSkillAttack_1_ForwardDistance;//治療範圍中心點距離物件前方
         attack.attackRadius = NumericalValue.magicianSkillAttack_1_attackRange;//治療半徑
         attack.isAttackBehind = NumericalValue.magicianSkillAttack_1_IsAttackBehind;//法師普通攻擊1_是否治療背後盟友
@@ -93,12 +115,13 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.magicianSkillAttack_2_Damge[number] * rate;//造成傷害 
+        attack.damage = (NumericalValue.magicianSkillAttack_2_Damge[number] + (NumericalValue.magicianSkillAttack_2_Damge[number] * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.magicianSkillAttack_2_RepelDirection[number];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.magicianSkillAttack_2_RepelDistance[number];//擊退距離
         attack.animationName = NumericalValue.magicianSkillAttack_2_Effect[number];//攻擊效果(播放動畫名稱)
@@ -121,12 +144,13 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.magicianSkillAttack_3_Damge * rate;//造成傷害 
+        attack.damage = (NumericalValue.magicianSkillAttack_3_Damge + (NumericalValue.magicianSkillAttack_3_Damge * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.magicianSkillAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.magicianSkillAttack_3_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.magicianSkillAttack_32_Effect;//攻擊效果(播放動畫名稱)
@@ -149,12 +173,13 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.magicianJumpAttack_Damage * rate;//造成傷害 
+        attack.damage = (NumericalValue.magicianJumpAttack_Damage + (NumericalValue.magicianJumpAttack_Damage * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.magicianJumpAttack_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.magicianJumpAttack_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.magicianJumpAttack_Effect;//攻擊效果(播放動畫名稱)
@@ -179,12 +204,13 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("magicianNormalAttack_1"), GameSceneManagement.Instance.loadPath.magicianNormalAttack_1);//執行攻擊的物件(自身/射出物件)
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
-        attack.damage = NumericalValue.magicianNormalAttack_1_Damage * rate;//造成傷害 
+        attack.damage = (NumericalValue.magicianNormalAttack_1_Damage + (NumericalValue.magicianNormalAttack_1_Damage * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.magicianNormalAttack_1_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.magicianNormalAttack_1_Repel;//擊退/擊飛距離
         attack.animationName = NumericalValue.magicianNormalAttack_1_Effect;//攻擊效果(播放動畫名稱)        
@@ -209,12 +235,13 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitBoxFunction);//設定執行函式
-        attack.damage = NumericalValue.magicianNormalAttack_2_Damge * rate;//造成傷害 
+        attack.damage = (NumericalValue.magicianNormalAttack_2_Damge + (NumericalValue.magicianNormalAttack_2_Damge * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.magicianNormalAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.magicianNormalAttack_2_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.magicianNormalAttack_2_Effect;//攻擊效果(播放動畫名稱)
@@ -237,12 +264,13 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.magicianNormalAttack_3_Damge * rate;//造成傷害 
+        attack.damage = (NumericalValue.magicianNormalAttack_3_Damge + (NumericalValue.magicianNormalAttack_3_Damge  * addDamage))* rate;//造成傷害 
         attack.direction = NumericalValue.magicianNormalAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.magicianNormalAttack_3_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.magicianNormalAttack_3_Effect;//攻擊效果(播放動畫名稱)

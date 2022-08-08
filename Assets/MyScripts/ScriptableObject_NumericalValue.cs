@@ -27,6 +27,7 @@ public class GameData_NumericalValue
     public float playerJumpForce;//玩家跳躍力
     public float playerCriticalRate;//玩家暴擊率
     public float playerDodgeSeppd;//玩家閃躲速度
+    public float playerSelfHealTime;//玩家自身回復時間
 
     #region 戰士
     [Header("戰士 普通攻擊1")]
@@ -213,7 +214,7 @@ public class GameData_NumericalValue
 
         //Buff增加數值
         buffAbleString = new string[] { "生命值", "傷害", "防禦", "移動", "吸血", "回血" };//Buff增益文字
-        buffAbleValue = new float[] { 100, 10, 5, 5, 3, 1};//Buff增益數值
+        buffAbleValue = new float[] { 5, 10, 5, 20, 10, 1};//Buff增益數值(%)
 
         //攝影機
         distance = 2.6f;//與玩家距離        
@@ -226,13 +227,14 @@ public class GameData_NumericalValue
         playerMoveSpeed = 6.3f;//玩家移動速度        
         playerJumpForce = 14.8f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
-        playerDodgeSeppd = 7.5f;//玩家閃躲速度
+        playerDodgeSeppd = 1.5f;//玩家閃躲速度
+        playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         #region 戰士
         //戰士 普通攻擊1
         warriorNormalAttack_1_Damge = 10;//戰士普通攻擊1_傷害
         warriorNormalAttack_1_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
-        warriorNormalAttack_1_RepelDistance = 30;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_1_RepelDistance = 25;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_1_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_1_ForwardDistance = 1.3f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
         warriorNormalAttack_1_attackRadius = 1.2f;//戰士普通攻擊1_攻擊半徑    
@@ -241,7 +243,7 @@ public class GameData_NumericalValue
         //戰士 普通攻擊2
         warriorNormalAttack_2_Damge = 11;//戰士普通攻擊1_傷害
         warriorNormalAttack_2_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
-        warriorNormalAttack_2_RepelDistance = 30;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_2_RepelDistance = 25;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_2_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_2_ForwardDistance = 1.3f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
         warriorNormalAttack_2_attackRadius = 1.2f;//戰士普通攻擊1_攻擊半徑    
@@ -250,7 +252,7 @@ public class GameData_NumericalValue
         //戰士 普通攻擊3
         warriorNormalAttack_3_Damge = 12;//戰士普通攻擊1_傷害
         warriorNormalAttack_3_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
-        warriorNormalAttack_3_RepelDistance = 30;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_3_RepelDistance = 10;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_3_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_3_ForwardDistance = 0.5f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
         warriorNormalAttack_3_attackRadius = 1.55f;//戰士普通攻擊1_攻擊半徑    

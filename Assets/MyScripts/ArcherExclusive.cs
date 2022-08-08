@@ -13,6 +13,9 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
     GameData_NumericalValue NumericalValue;
     PlayerControl playerControl;
 
+    //Buff
+    [SerializeField]float addDamage;//增加傷害值
+
     MeshRenderer arrowMeshRenderer;//弓箭物件皮膚    
     string[] normalAttackArrowsPath;//普通攻擊弓箭物件
 
@@ -21,6 +24,15 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         animator = GetComponent<Animator>();
         NumericalValue = GameDataManagement.Instance.numericalValue;
         playerControl = GetComponent<PlayerControl>();
+
+        //Buff
+        for (int i = 0; i < GameDataManagement.Instance.equipBuff.Length; i++)
+        {
+            if (GameDataManagement.Instance.equipBuff[i] == 1)
+            {
+                addDamage = GameDataManagement.Instance.numericalValue.buffAbleValue[1] / 100;//增加傷害值
+            }
+        }
 
         //弓箭物件皮膚
         arrowMeshRenderer = ExtensionMethods.FindAnyChild<MeshRenderer>(transform, "Arrow");
@@ -55,12 +67,13 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
             float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
             AttackMode attack = AttackMode.Instance;
+            attack.performCharacters = gameObject;//執行攻擊腳色
             attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("archerSkilllAttack_1"), GameSceneManagement.Instance.loadPath.archerSkilllAttack_1);//執行攻擊的物件(自身/射出物件)
             attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
             attack.isCritical = isCritical;//是否爆擊
 
             attack.function = new Action(attack.OnSetShootFunction_Single);//設定執行函式       
-            attack.damage = NumericalValue.archerSkillAttack_1_Damage * rate;//造成傷害 
+            attack.damage = (NumericalValue.archerSkillAttack_1_Damage + (NumericalValue.archerSkillAttack_1_Damage * addDamage)) * rate;//造成傷害 
             attack.direction = NumericalValue.archerSkillAttack_1_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
             attack.repel = NumericalValue.archerSkillAttack_1_Repel;//擊退/擊飛距離
             attack.animationName = NumericalValue.archerSkillAttack_1_Effect;//攻擊效果(播放動畫名稱)        
@@ -86,12 +99,13 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.archerSkillAttack_2_Damge * rate;//造成傷害 
+        attack.damage = (NumericalValue.archerSkillAttack_2_Damge + (NumericalValue.archerSkillAttack_2_Damge * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.archerSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerSkillAttack_2_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.archerSkillAttack_2_Effect;//攻擊效果(播放動畫名稱)
@@ -114,12 +128,13 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.archerSkillAttack_3_Damge * rate;//造成傷害 
+        attack.damage = (NumericalValue.archerSkillAttack_3_Damge + (NumericalValue.archerSkillAttack_3_Damge * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.archerSkillAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerSkillAttack_3_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.archerSkillAttack_3_Effect;//攻擊效果(播放動畫名稱)
@@ -142,12 +157,13 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
-        attack.damage = NumericalValue.archerJumpAttack_Damage * rate;//造成傷害 
+        attack.damage = (NumericalValue.archerJumpAttack_Damage + (NumericalValue.archerJumpAttack_Damage * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.archerJumpAttack_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerJumpAttack_RepelDistance;//擊退距離
         attack.animationName = NumericalValue.archerJumpAttack_Effect;//攻擊效果(播放動畫名稱)
@@ -173,12 +189,13 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
         AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber(normalAttackArrowsPath[number]), GameSceneManagement.Instance.loadPath.archerAllNormalAttack[number]);//執行攻擊的物件(自身/射出物件)
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
-        attack.damage = NumericalValue.archerNormalAttack_Damge[number] * rate;//造成傷害 
+        attack.damage = (NumericalValue.archerNormalAttack_Damge[number] + (NumericalValue.archerNormalAttack_Damge[number] * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.archerNormalAttack_RepelDirection[number];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerNormalAttack_RepelDistance[number];//擊退/擊飛距離
         attack.animationName = NumericalValue.archerNormalAttack_Effect[number];//攻擊效果(播放動畫名稱)        

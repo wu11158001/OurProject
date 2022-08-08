@@ -27,11 +27,11 @@ MonoBehaviour:
     - "\u5438\u8840"
     - "\u56DE\u8840"
     buffAbleValue:
-    - 100
+    - 5
     - 10
     - 5
-    - 5
-    - 3
+    - 20
+    - 10
     - 1
     distance: 2.6
     limitUpAngle: 35
@@ -40,24 +40,25 @@ MonoBehaviour:
     playerMoveSpeed: 6.3
     playerJumpForce: 14.8
     playerCriticalRate: 15
-    playerDodgeSeppd: 7.5
+    playerDodgeSeppd: 1.5
+    playerSelfHealTime: 5
     warriorNormalAttack_1_Damge: 10
     warriorNormalAttack_1_RepelDirection: 0
-    warriorNormalAttack_1_RepelDistance: 30
+    warriorNormalAttack_1_RepelDistance: 25
     warriorNormalAttack_1_Effect: Pain
     warriorNormalAttack_1_ForwardDistance: 1.3
     warriorNormalAttack_1_attackRadius: 1.2
     warriorNormalAttack_1_IsAttackBehind: 0
     warriorNormalAttack_2_Damge: 11
     warriorNormalAttack_2_RepelDirection: 0
-    warriorNormalAttack_2_RepelDistance: 30
+    warriorNormalAttack_2_RepelDistance: 25
     warriorNormalAttack_2_Effect: Pain
     warriorNormalAttack_2_ForwardDistance: 1.3
     warriorNormalAttack_2_attackRadius: 1.2
     warriorNormalAttack_2_IsAttackBehind: 0
     warriorNormalAttack_3_Damge: 12
     warriorNormalAttack_3_RepelDirection: 0
-    warriorNormalAttack_3_RepelDistance: 30
+    warriorNormalAttack_3_RepelDistance: 10
     warriorNormalAttack_3_Effect: Pain
     warriorNormalAttack_3_ForwardDistance: 0.5
     warriorNormalAttack_3_attackRadius: 1.55
