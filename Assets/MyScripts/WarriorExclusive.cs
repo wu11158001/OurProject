@@ -137,9 +137,9 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorJumpAttack_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorJumpAttack_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)
 
-        playerControl.isLockJumpHight = false;//是否鎖住跳躍高度
+        playerControl.isJumpAttackDown = true;//跳躍攻擊下降
     }
 
     /// <summary>

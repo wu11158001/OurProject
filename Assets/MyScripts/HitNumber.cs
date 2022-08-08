@@ -45,7 +45,7 @@ public class HitNumber : MonoBehaviour
         else thisText.fontSize = 70;
 
         this.target = target;//受傷目標
-        thisText.text = damage.ToString();//受到傷害
+        thisText.text = Mathf.Round(damage).ToString();//受到傷害(四捨五入)
         startPosition = target.position + Vector3.up * 1;//初始位置
         thisText.color = color;//文字顏色       
     }

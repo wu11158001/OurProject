@@ -232,12 +232,16 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             switch (knockDirection)
             {
                 case 0://À»°h
-                    transform.position = transform.position + attacker.transform.forward * repel * Time.deltaTime;//À»°h
+                    LayerMask mask = LayerMask.GetMask("StageObject");                    
+                    if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1.5f, mask))
+                    {
+                        transform.position = transform.position + attacker.transform.forward * repel * Time.deltaTime;//À»°h(¸IÀð¤£¦AÀ»°h)
+                    }                    
                     break;
                 case 1://À»­¸
                     floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//¯BªÅList
                     break;
-            }
+            }            
 
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendGetHit(photonView.ViewID, transform.position, transform.rotation, damage, isCritical);
 
@@ -337,7 +341,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         for (int i = 0; i < rayDiration.Length; i++)
         {
             if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
-            {                
+            {
                 transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);                
             }
         }
@@ -350,7 +354,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         else
         {
             transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//­«¤O
-        }
+        }        
     }
 
     /// <summary>

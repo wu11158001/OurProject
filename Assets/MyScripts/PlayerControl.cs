@@ -37,8 +37,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     int normalAttackNumber;//普通攻擊編號
     public int GetNormalAttackNumber => normalAttackNumber;
     bool isJumpAttack;//是否跳躍攻擊
-    float jumpAttackHight;//跳躍攻擊時的高度
-    public bool isLockJumpHight;//是否鎖住跳躍高度
+    public bool isJumpAttackDown;//跳躍攻擊下降
 
 
     private void Awake()
@@ -92,15 +91,33 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             OnJumpControl();
             OnAttackControl();
 
-            if (!isNormalAttack && !isSkillAttack && !info.IsName("Pain"))
+            if (!isJumpAttack && !isNormalAttack && !isSkillAttack && !info.IsName("Pain"))
             {
-                OnMovementControl();
+                if(!info.IsName("Dodge")) OnMovementControl();
+                else
+                {
+                    if (inputValue > 0)
+                    {
+                        inputValue = 0;
+                        animator.SetFloat("Run", inputValue);
+                    }
+                }
+                
                 OnDodgeControl();
             } 
+            
         }
 
         OnJumpHehavior();
         OnInput();
+
+        if (isJumpAttackDown) OnJumpAttackMove();
+    }
+
+    
+    public void OnJumpAttackMove()
+    {
+        transform.position = transform.position + Vector3.down * 20 * Time.deltaTime;//急速下降
     }
 
     /// <summary>
@@ -116,8 +133,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (isJump && !isJumpAttack)
             {
                 isJumpAttack = true;
-                jumpAttackHight = transform.position.y;//跳躍攻擊時的高度
-                isLockJumpHight = true;//是否鎖住跳躍高度
 
                 animator.SetBool("JumpAttack", isJumpAttack);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
@@ -181,8 +196,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 {                    
                     normalAttackNumber = 0;//普通攻擊編號                    
                     isNormalAttack = false;
-                    isSkillAttack = false;
-                    isJumpAttack = false;
+                    isSkillAttack = false;                    
 
                     animator.SetInteger("NormalAttackNumber", normalAttackNumber);
                     if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
@@ -207,27 +221,30 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack-2", false);
                     }
 
-                    if (info.IsTag("JumpAttack"))
-                    {
-                        isJump = false;
-                        isNormalAttack = false;
-                        
-                        animator.SetBool("JumpAttack", isJumpAttack);
-                        animator.SetBool("Jump", isJump);
-                        animator.SetBool("NormalAttack", isJump);
-                        if (GameDataManagement.Instance.isConnect)
-                        {
-                            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
-                            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
-                            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
-                        }                        
-                    }  
+                    
                 }              
             }
-        }     
+        }
+
+        if (info.IsTag("JumpAttack") && info.normalizedTime >= 1)
+        {
+            isJump = false;
+            isNormalAttack = false;
+            isJumpAttack = false;
+
+            animator.SetBool("JumpAttack", isJumpAttack);
+            animator.SetBool("Jump", isJump);
+            animator.SetBool("NormalAttack", isJump);
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+            }
+        }
 
         //技能攻擊中關閉普通攻擊
-        if(isNormalAttack && info.normalizedTime > 0.35f && info.IsTag("SkillAttack") || info.IsTag("SkillAttack-2"))
+        if (isNormalAttack && info.normalizedTime > 0.35f && info.IsTag("SkillAttack") || info.IsTag("SkillAttack-2"))
         {
             isNormalAttack = false;
             isNormalAttack = false;
@@ -255,7 +272,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //閃躲移動
         if (info.IsName("Dodge") && info.normalizedTime < 1)
         {
-            transform.position = transform.position + transform.forward * GameDataManagement.Instance.numericalValue.playerDodgeSeppd * Time.deltaTime;
+            //transform.position = transform.position + transform.forward * GameDataManagement.Instance.numericalValue.playerDodgeSeppd * Time.deltaTime;
         }
 
             //閃躲結束
@@ -300,12 +317,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpHehavior()
     {      
-        if(isLockJumpHight)
-        {
-            //跳躍攻擊時鎖住高度
-            transform.position = new Vector3(transform.position.x, jumpAttackHight, transform.position.z);
-        }         
-
         if (info.IsTag("Jump") && info.normalizedTime > 0.5f || info.IsTag("JumpAttack"))
         {
             float boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;
@@ -316,8 +327,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 if (isJump || isJumpAttack)
                 {
                     
-                    isRunJump = false;
-                    isLockJumpHight = false;                   
+                    isRunJump = false;                
                     charactersCollision.floating_List.Clear();
 
                     if (isJump)
@@ -326,17 +336,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                         animator.SetBool("Jump", isJump);
                         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
                     }
-                    if (isJumpAttack)
-                    {
-                        isJumpAttack = false;
-                        animator.SetBool("JumpAttack", isJumpAttack);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
-                    }                    
+                    if (isJumpAttack) isJumpAttackDown = false;                   
                 }
             }
-        }
-    }      
-    
+        }   
+    }       
+     
     /// <summary>
     /// 移動控制
     /// </summary>
@@ -349,14 +354,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (inputX != 0 && inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, (horizontalCross * inputX) + (forwardVector * inputZ), maxRadiansDelta, maxRadiansDelta);//斜邊
             else if (inputX != 0) transform.forward = Vector3.RotateTowards(transform.forward, horizontalCross * inputX, maxRadiansDelta, maxRadiansDelta);//左右
             else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      
-        }
-
-        if (info.IsName("Dodge")) return;
+        }               
 
         inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值
         if (inputValue > 1) inputValue = 1;
 
-        if (isJump || isJumpAttack)
+        if (isJump)
         {
             if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值            
             if (inputValue > 1) inputValue = 1;
@@ -364,9 +367,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
             transform.position = transform.position + jumpForward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
             return;
-        }        
+        }
 
-        //移動        
+        //移動
         transform.position = transform.position + transform.forward * inputValue * NumericalValue.playerMoveSpeed * Time.deltaTime;
 
         animator.SetFloat("Run", inputValue);
@@ -396,7 +399,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         inputZ = Input.GetAxis("Vertical");//輸入Z值
 
         forwardVector = Quaternion.AngleAxis(Input.GetAxis("Mouse X"), Vector3.up) * forwardVector;//前方向量
-        horizontalCross = Vector3.Cross(Vector3.up, forwardVector);//水平軸       
+        horizontalCross = Vector3.Cross(Vector3.up, forwardVector);//水平軸      
 
         //滑鼠
         if (Input.GetKeyDown(KeyCode.F1))

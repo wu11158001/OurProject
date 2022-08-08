@@ -15,7 +15,9 @@ public class CameraControl : MonoBehaviour
 
     static Transform lookPoint;//攝影機觀看點
     static Vector3 forwardVector;//前方向量
-    float totalVertical;//記錄垂直移動量    
+    float totalVertical;//記錄垂直移動量
+    float distance;//與玩家距離
+    bool isCollsion;//是否碰撞
 
     void Awake()
     {
@@ -53,6 +55,7 @@ public class CameraControl : MonoBehaviour
     {
         float mouseX = Input.GetAxis("Mouse X");//滑鼠X軸
         float mouseY = Input.GetAxis("Mouse Y");//滑鼠Y軸
+        distance = (lookPoint.position - transform.position).magnitude;//與玩家距離
 
         forwardVector = Quaternion.AngleAxis(mouseX, Vector3.up) * forwardVector;//前方向量
 
@@ -68,21 +71,26 @@ public class CameraControl : MonoBehaviour
         Vector3 moveTarget = lookPoint.position - RotateVector * NumericalValue.distance;//移動目標
 
         //攝影機障礙物偵測
-        LayerMask mask = LayerMask.GetMask("StageObject");        
+        float lerpSpeed = 0.35f;//lerp速度
+        LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.SphereCast(lookPoint.position, 0.1f, -RotateVector, out RaycastHit hit, NumericalValue.distance, mask))
         {
-            //碰到"StageObject"攝影機移動位置改為(觀看物件位置 - 與碰撞物件距離)
-            moveTarget = lookPoint.position - RotateVector * hit.distance;            
+            if (!isCollsion) isCollsion = true;
+            
+            //碰到"StageObject"攝影機移動位置改為(觀看物件位置 - 與碰撞物件距離)                                    
+            if (distance < 0.55f && (lookPoint.transform.position - hit.transform.position).magnitude < 2.6f) moveTarget = lookPoint.position + Vector3.up * 0.54f;//距離玩家太近          
+            else moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * hit.distance, lerpSpeed);//攝影機靠近減速     
         }
-             
-        transform.position = moveTarget;
-        transform.forward = lookPoint.position - transform.position;
-        
-        /*//距離玩家太近
-        if (lookPoint.position.y - transform.position.y >= 0.2f)
+        else
         {
-            Debug.LogError("camera too close");
-            transform.position = lookPoint.position + lookPoint.forward * 1;
-        }*/
+            if (isCollsion && distance < NumericalValue.distance)//攝影機後拉遠減速
+            {                
+                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);                
+                if (distance > NumericalValue.distance - 0.03f) isCollsion = false;
+            }
+        }
+        
+        transform.position = moveTarget;
+        transform.forward = lookPoint.position - transform.position;                
     }
 }

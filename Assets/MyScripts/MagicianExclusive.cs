@@ -66,7 +66,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         if (info.IsName("SkillAttack_2") && info.normalizedTime < 1)
         {
             //移動
-            transform.position = transform.position + transform.forward * 10 * Time.deltaTime;
+            transform.position = transform.position + transform.forward * 20 * Time.deltaTime;
 
             //碰撞敵人
             if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 1.3f, boxSize.y, boxSize.z / 1.3f), transform.rotation, mask))
@@ -164,7 +164,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)
 
-        playerControl.isLockJumpHight = false;//是否鎖住跳躍高度
+        playerControl.isJumpAttackDown = true;//跳躍攻擊下降
     }
 
     /// <summary>
