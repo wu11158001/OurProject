@@ -13,8 +13,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     GameData_NumericalValue NumericalValue;
 
     //¸I¼²®Ø
-    Vector3 boxCenter;
-    Vector3 boxSize;
+    public Vector3 boxCenter;
+    public Vector3 boxSize;
     public float boxCollisionDistance;//¸I¼²¨ã¶ZÂ÷
 
     //¥Í©R±ø
@@ -449,14 +449,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         for (int i = 0; i < rayDiration.Length; i++)
         {
             if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
-            {
+            {                
                 transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);                
             }
         }
 
         //¦aªO¸I¼²        
         if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.2f, mask))
-        {
+        {            
             transform.position = transform.position + Vector3.up * ((boxSize.y / 2) - hit.distance);
         }
         else

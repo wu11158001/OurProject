@@ -146,9 +146,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     {
         isOptions = false;
         options.gameObject.SetActive(isOptions);
-      
-        if(PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTip("房主: " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束》");
-        else PhotonConnect.Instance.OnSendGameTip("玩家: " + PhotonNetwork.NickName + " 離開遊戲");
+
+        //連線
+        if (GameDataManagement.Instance.isConnect)
+        {
+            if (PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTip("房主: " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束》");
+            else PhotonConnect.Instance.OnSendGameTip("玩家: " + PhotonNetwork.NickName + " 離開遊戲");
+        }
 
         StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));        
     }

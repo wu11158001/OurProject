@@ -34,6 +34,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
     //°{¸ú
     bool isDodgeCollision;//¬O§_°{¸ú¸I¼²
+    Vector3 dodgeBoxSize;//°{¦h¸I¼²®ØSize
+    Vector3 dodgeBoxCenter;//°{¦h¸I¼²®Ø¦ì¸m
 
     //§ðÀ»
     bool isNormalAttack;//¬O§_´¶³q§ðÀ»        
@@ -104,6 +106,23 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     charactersCollision.isSelfHeal = true;
                     break;
             }         
+        }
+
+        //°{¸ú¸I¼²®Ø
+        switch (GameDataManagement.Instance.selectRoleNumber)
+        {
+            case 0://¾Ô¤h
+                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 2, boxCenter.z);     
+                break;
+            case 1://ªk®v
+                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 2, boxCenter.z);
+                break;
+            case 2://¤}½b¤â
+                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y / 2, boxCenter.z);
+                break;
         }
     }
 
@@ -271,7 +290,25 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
         }           
     }
-        
+
+    /// <summary>
+    /// ³]©w°{¸ú¸I¼²®Ø
+    /// </summary>
+    /// <param name="open">¶}Ãö(0:¦^´_ 1:³]©w)</param>
+    void OnSetDodgeBoxCollider(int open)
+    {
+        if (open == 1)
+        {
+            charactersCollision.boxSize = dodgeBoxSize;
+            charactersCollision.boxCenter = dodgeBoxCenter;
+        }
+        else
+        {
+            charactersCollision.boxSize = boxSize;
+            charactersCollision.boxCenter = boxCenter;
+        }
+    }
+
     /// <summary>
     /// °{¸ú±±¨î
     /// </summary>
@@ -280,12 +317,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //°{¸ú±±¨î
         if (info.IsName("Idle") || info.IsName("Run"))
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 isDodgeCollision = false;
 
                 animator.SetBool("Dodge", true);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", true);                                
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", true);                 
             }
         }
 
@@ -305,9 +342,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
             LayerMask mask = LayerMask.GetMask("StageObject");
             for (int i = 0; i < rayDiration.Length; i++)
-            {                
+            {
                 //§PÂ_¬O§_¦³¸IÀð
-                if (Physics.Raycast(transform.position + boxCenter, rayDiration[i], boxSize.z * 1.0f, mask)) isDodgeCollision = true;//°{¸ú¸I¼²
+                if (Physics.Raycast(transform.position + dodgeBoxCenter, rayDiration[i], boxSize.z * 1.0f, mask)) isDodgeCollision = true;//°{¸ú¸I¼²                
             }
 
             if(isDodgeCollision) transform.position = transform.position - transform.forward * 5 * Time.deltaTime;
@@ -316,7 +353,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         //°{¸úµ²§ô
         if (info.IsName("Dodge") && info.normalizedTime > 1)
-        {
+        {    
             animator.SetBool("Dodge", false);
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
         }
