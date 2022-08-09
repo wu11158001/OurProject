@@ -78,7 +78,7 @@ public class CameraControl : MonoBehaviour
             if (!isCollsion) isCollsion = true;
             
             //碰到"StageObject"攝影機移動位置改為(觀看物件位置 - 與碰撞物件距離)                                    
-            if (distance < 0.55f && (lookPoint.transform.position - hit.transform.position).magnitude < 2.6f) moveTarget = lookPoint.position + Vector3.up * 0.54f;//距離玩家太近          
+            if (distance < 0.5f && (lookPoint.transform.position - hit.transform.position).magnitude < 2.6f) moveTarget = lookPoint.position + Vector3.up * 0.49f;//距離玩家太近          
             else moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * hit.distance, lerpSpeed);//攝影機靠近減速     
         }
         else
