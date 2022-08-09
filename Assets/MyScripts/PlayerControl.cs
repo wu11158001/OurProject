@@ -320,7 +320,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (Input.GetKeyDown(KeyCode.R))
             {
                 isDodgeCollision = false;
-
+                isDodgeCollision = charactersCollision.GetCollisionObject;//§PÂ_¬O§_¤w¸g¸IÀð
+                Debug.LogError(isDodgeCollision);
                 animator.SetBool("Dodge", true);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", true);                 
             }

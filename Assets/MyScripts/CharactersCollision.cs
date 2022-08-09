@@ -16,6 +16,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public Vector3 boxCenter;
     public Vector3 boxSize;
     public float boxCollisionDistance;//碰撞具距離
+    [SerializeField]Transform collisionObject;//碰撞物件(判定是否有碰撞)
+    public Transform GetCollisionObject => collisionObject;
 
     //生命條
     LifeBar_Characters lifeBar;//生命條
@@ -449,8 +451,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         for (int i = 0; i < rayDiration.Length; i++)
         {
             if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
-            {                
-                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);                
+            {
+                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);
+
+                collisionObject = hit.transform;
+            }
+            else
+            {
+               // if(i == rayDiration.Length - 1 && collisionObject != null) collisionObject = null;
             }
         }
 
