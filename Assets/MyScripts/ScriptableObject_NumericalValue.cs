@@ -384,7 +384,7 @@ public class GameData_NumericalValue
         //法師技能攻擊2
         magicianSkillAttack_2_Damge = new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};//法師技能攻擊2_傷害
         magicianSkillAttack_2_RepelDirection = new int[] { 0, 0, 0, 0 ,0, 0, 0, 0, 1, 0};//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        magicianSkillAttack_2_RepelDistance = new float[] { 2, 2, 2, 2, 2, 2, 2, 15, 10, 65};//法師技能攻擊2_擊退/擊飛距離    
+        magicianSkillAttack_2_RepelDistance = new float[] { 25, 2, 2, 2, 2, 2, 2, 15, 10, 65};//法師技能攻擊2_擊退/擊飛距離    
         magicianSkillAttack_2_Effect = new string[] { "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain" };//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
         magicianSkillAttack_2_ForwardDistance = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};//法師技能攻擊2_攻擊範圍中心點距離物件前方
         magicianSkillAttack_2_attackRadius = new float[] { 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f};//法師技能攻擊2_攻擊半徑

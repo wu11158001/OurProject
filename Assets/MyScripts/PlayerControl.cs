@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Linq;
 
 /// <summary>
 /// 玩家控制
@@ -24,7 +25,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     float inputValue;//總輸入值
     Vector3 forwardVector;//前方向量
     Vector3 horizontalCross;//水平軸
-    [SerializeField]float addMoveSpeed;//增加移動速度值
+    float addMoveSpeed;//增加移動速度值
     bool isSendRun;//是否已發送移動動畫       
 
     //跳躍
@@ -64,7 +65,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             return;
         }
     }
-
     void Start()
     {
         NumericalValue = GameDataManagement.Instance.numericalValue;
@@ -113,11 +113,11 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {
             case 0://戰士
                 dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
-                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 2, boxCenter.z);     
+                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 1.7f, boxCenter.z);     
                 break;
             case 1://法師
                 dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
-                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 2, boxCenter.z);
+                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 1.7f, boxCenter.z);
                 break;
             case 2://弓箭手
                 dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
@@ -128,27 +128,32 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        //不是死亡狀態 & 沒有開啟選項介面
-        if (!charactersCollision.isDie && !GameSceneUI.Instance.isOptions && !info.IsName("Pain"))
-        {            
-            OnJumpControl();
-            OnAttackControl();
-
-            if (!isJumpAttack && !isNormalAttack && !isSkillAttack && !info.IsName("Pain"))
+        //不是死亡狀態 & 不是受擊動畫
+        if (!charactersCollision.isDie && !info.IsName("Pain"))
+        {
+            //沒有開啟選項介面
+            if (!GameSceneUI.Instance.isOptions)
             {
-                if(!info.IsName("Dodge")) OnMovementControl();
-                else
+                OnJumpControl();
+                OnAttackControl();
+
+                if (!isJumpAttack && !isNormalAttack && !isSkillAttack && !info.IsName("Pain"))
                 {
-                    if (inputValue > 0)
+                    if (!info.IsName("Dodge")) OnMovementControl();
+                    else
                     {
-                        inputValue = 0;
-                        animator.SetFloat("Run", inputValue);
+                        if (inputValue > 0)
+                        {
+                            inputValue = 0;
+                            animator.SetFloat("Run", inputValue);
+                        }
                     }
+
+                    OnDodgeControl();
                 }
-                
-                OnDodgeControl();
-            } 
-            
+            }
+
+            OnFallBehavior();
         }                
 
         OnJumpHehavior();
@@ -158,13 +163,37 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 落下行為
+    /// </summary>
+    void OnFallBehavior()
+    {
+        if(info.IsName("Fall"))
+        {
+            if(isJump)//關閉跳落
+            {
+                isJump = false;
+                animator.SetBool("Jump", isJump);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isJump);
+            }
+            
+            if(isJumpAttack)
+            {
+                isJumpAttack = false;
+                animator.SetBool("JumpAttack", isJumpAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
+            }
+        }
+    }
+
+    /// <summary>
     /// 攻擊控制
     /// </summary>
     void OnAttackControl()
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+
         //普通攻擊
-        if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack") && !info.IsTag("SkillAttack-2") && !info.IsName("Dodge"))
+        if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack") && !info.IsTag("SkillAttack-2") && !info.IsName("Dodge") && !info.IsName("Fall"))
         {
             //跳躍攻擊
             if (isJump && !isJumpAttack)
@@ -317,11 +346,15 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //閃躲控制
         if (info.IsName("Idle") || info.IsName("Run"))
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 isDodgeCollision = false;
-                isDodgeCollision = charactersCollision.GetCollisionObject;//判斷是否已經碰牆
-                Debug.LogError(isDodgeCollision);
+                for (int i = 0; i < charactersCollision.GetCollisionObject.Length; i++)
+                {
+                    //判斷是否已經碰牆
+                    if (isDodgeCollision = charactersCollision.GetCollisionObject[i]) break;                    
+                }                
+       
                 animator.SetBool("Dodge", true);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", true);                 
             }
@@ -345,7 +378,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             for (int i = 0; i < rayDiration.Length; i++)
             {
                 //判斷是否有碰牆
-                if (Physics.Raycast(transform.position + dodgeBoxCenter, rayDiration[i], boxSize.z * 1.0f, mask)) isDodgeCollision = true;//閃躲碰撞                
+                if (Physics.Raycast(transform.position + dodgeBoxCenter, rayDiration[i], boxSize.z * 1.1f, mask)) isDodgeCollision = true;//閃躲碰撞                
             }
 
             if(isDodgeCollision) transform.position = transform.position - transform.forward * 5 * Time.deltaTime;
@@ -365,7 +398,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpControl()
     {        
-        if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge"))
+        if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
         {
             //先向上一點
             transform.position = transform.position + Vector3.up * NumericalValue.playerJumpForce * Time.deltaTime;
@@ -435,7 +468,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if (!info.IsName("JumpAttack"))
         {
             //轉向
-            float maxRadiansDelta = 0.15f;//轉向角度
+            float maxRadiansDelta = 0.1505f;//轉向角度
             if (inputX != 0 && inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, (horizontalCross * inputX) + (forwardVector * inputZ), maxRadiansDelta, maxRadiansDelta);//斜邊
             else if (inputX != 0) transform.forward = Vector3.RotateTowards(transform.forward, horizontalCross * inputX, maxRadiansDelta, maxRadiansDelta);//左右
             else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      

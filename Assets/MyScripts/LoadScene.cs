@@ -110,7 +110,7 @@ public class LoadScene : MonoBehaviour
                 yield return new WaitForSeconds(0.3f);
 
                 loadValue = 1.0f;
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.3f);                                
 
                 //進入場景
                 ao.allowSceneActivation = true;
@@ -127,7 +127,7 @@ public class LoadScene : MonoBehaviour
     /// <returns></returns>
     IEnumerator OnWaitInto()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(1.0f);
 
         //關閉UI
         background.enabled = false;

@@ -81,7 +81,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             for (int i = 0; i < 1; i++)
             {                
                 GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
-                enemy.transform.position = new Vector3(188, -24, -37);//設定位置
+                enemy.transform.position = new Vector3(182, -24, -33);//設定位置
                 enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
