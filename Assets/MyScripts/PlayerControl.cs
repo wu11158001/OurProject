@@ -305,13 +305,13 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
             LayerMask mask = LayerMask.GetMask("StageObject");
             for (int i = 0; i < rayDiration.Length; i++)
-            {
-                Debug.DrawRay(transform.position + boxCenter, rayDiration[i] * boxSize.z * 1.5f);
+            {                
                 //§PÂ_¬O§_¦³¸IÀð
-                if (Physics.Raycast(transform.position + boxCenter, rayDiration[i], boxSize.z * 1.5f, mask))
+                if (Physics.Raycast(transform.position + boxCenter, rayDiration[i], boxSize.z * 1.0f, mask))
                 {
                     isDodgeCollision = true;//°{¸ú¸I¼²                                        
-                }               
+                }
+                Debug.DrawRay(transform.position + boxCenter, rayDiration[i] * boxSize.z * 1.0f);
             }
 
             if(isDodgeCollision) transform.position = transform.position - transform.forward * 5 * Time.deltaTime;

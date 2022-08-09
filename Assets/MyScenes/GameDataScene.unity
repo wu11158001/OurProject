@@ -182,6 +182,7 @@ MonoBehaviour:
     playerJumpForce: 16
     playerCriticalRate: 30
     playerDodgeSeppd: 3
+    playerSelfHealTime: 5
     warriorNormalAttack_1_Damge: 10
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 50
