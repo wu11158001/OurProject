@@ -302,6 +302,27 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     #endregion
 
     #region 遊戲中
+
+    /// <summary>
+    /// 發送遊戲提示文字
+    /// </summary>
+    /// <param name="nickName">發送者暱稱</param>
+    public void OnSendGameTip(string nickName)
+    {
+        photonView.RPC("OnGameTip", RpcTarget.Others, nickName);
+    }
+
+    /// <summary>
+    /// 遊戲提示文字
+    /// </summary>
+    /// <param name="nickName">發送者暱稱</param>
+    /// <param name="info">傳送者訊息</param>
+    [PunRPC]
+    void OnGameTip(string nickName, PhotonMessageInfo info)
+    {
+        GameSceneUI.Instance.OnSetTip(nickName, 3);
+    }
+
     /// <summary>
     /// 創建物件
     /// </summary>

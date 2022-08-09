@@ -27,6 +27,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     AudioSource audioSource;//音樂撥放器
     Scrollbar volume_Scrollbar;//音量ScrollBar
 
+    [Header("提示文字")]
+    Text tip_Text;//提示文字
+    float tipTime;//文字顯示時間
+
     void Awake()
     {
         if(gameSceneUI != null)
@@ -80,12 +84,17 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         audioSource.Play();
         volume_Scrollbar = ExtensionMethods.FindAnyChild<Scrollbar>(transform, "Volume_Scrollbar");//音量ScrollBar
         volume_Scrollbar.value = GameDataManagement.Instance.musicVolume;
+
+        //其他
+        tip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Tip_Text");//提示文字
+        tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
     }
         
     void Update()
     {        
         OnPlayerLifeBarBehavior();
-        OnOptions();       
+        OnOptions();
+        OnTipText();
     }
 
     /// <summary>
@@ -138,6 +147,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         isOptions = false;
         options.gameObject.SetActive(isOptions);
       
+        if(PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTip("房主: " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束》");
+        else PhotonConnect.Instance.OnSendGameTip("玩家: " + PhotonNetwork.NickName + " 離開遊戲");
+
         StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));        
     }
 
@@ -149,4 +161,27 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         isOptions = false;
         options.gameObject.SetActive(isOptions);
     }   
+
+    /// <summary>
+    /// 設定提示文字
+    /// </summary>
+    /// <param name="tip">提示文字</param>
+    /// <param name="showTime">提示時間</param>
+    public void OnSetTip(string tip, float showTime)
+    {
+        tip_Text.text = tip;
+        tipTime = showTime;
+    }
+
+    /// <summary>
+    /// 提示文字
+    /// </summary>
+    void OnTipText()
+    {
+        if (tipTime > 0)
+        {
+            tipTime -= Time.deltaTime;
+            tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
+        }
+    }
 }
