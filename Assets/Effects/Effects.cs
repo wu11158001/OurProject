@@ -9,14 +9,18 @@ public class Effects : MonoBehaviour
     AnimatorStateInfo animInfo;    //獲得動作狀態(節省腳本用)   
     ParticleSystem NormalAttack_1;
     ParticleSystem NormalAttack_3;
+    ParticleSystem SkillAttack_1;
     ParticleSystem SkillAttack_3;
+    ParticleSystem hit;
 
     void Start()
     {
-        anim = gameObject.transform.GetComponent<Animator>();                             //獲得角色動作組件       
+        anim = gameObject.transform.GetComponent<Animator>();                             //獲得角色動作組件        
         NormalAttack_1 = effects.transform.GetChild(0).GetComponent<ParticleSystem>();    //獲得特效組件;
         NormalAttack_3 = effects.transform.GetChild(1).GetComponent<ParticleSystem>();    //獲得特效組件;
-        SkillAttack_3 = effects.transform.GetChild(2).GetComponent<ParticleSystem>();    //獲得特效組件;
+        SkillAttack_1 = effects.transform.GetChild(2).GetComponent<ParticleSystem>();    //獲得特效組件;
+        SkillAttack_3 = effects.transform.GetChild(3).GetComponent<ParticleSystem>();    //獲得特效組件;
+        hit = effects.transform.GetChild(4).GetComponent<ParticleSystem>();              //命中效果
         StarShakeSet();                                                                 //畫面震盪
     }
 
@@ -26,7 +30,8 @@ public class Effects : MonoBehaviour
         animInfo = anim.GetCurrentAnimatorStateInfo(0);                                      //節省廢話
         WarNormalAttack1();
         WarNormalAttack3();
-        //   WarSkillAttack3();
+        WarSkillAttack1();
+        WarSkillAttack3();
         UpdaSnake();                                                                       //畫面震盪 
     }
 
@@ -46,21 +51,36 @@ public class Effects : MonoBehaviour
         DoEffects(idelName, delay, effect);
     }
 
+    void WarSkillAttack1()
+    {
+        var idelName = "Attack.SkillAttack_1";         //動作名稱
+        float delay = 0.5f;                            //控制播放時間點，面板務必保持為0   
+        var effect = SkillAttack_1;                    //特效名稱
+
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
+        {
+            effect.Play();
+            isshakeCamera = true;          //畫面震盪
+            if (animInfo.normalizedTime > delay + 0.1f) effect.Stop();
+        }
+        else effect.Stop();
+    }
+
     void WarSkillAttack3()
     {
         var idelName = "Attack.SkillAttack_3";         //動作名稱
         var skill = SkillAttack_3;                     //三個不同時間播放特效
 
         var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
-        float delay = 0.16f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
-        DoEffects(idelName, delay, SkillAttack_30);
+        float delay = 0.001f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
 
         var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
-        float delay1 = delay + 0.01f;                            //SkillAttack_31特效播放時間點
+        float delay1 = 0.2f;                            //SkillAttack_31特效播放時間點
         DoEffects(idelName, delay1, SkillAttack_31);
 
         var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
-        float delay2 = 0.16f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        float delay2 = 0.4f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
         DoEffects(idelName, delay2, SkillAttack_32);
 
         var SkillAttack_33 = skill.transform.GetChild(3).GetComponent<ParticleSystem>();
@@ -70,10 +90,10 @@ public class Effects : MonoBehaviour
 
     void DoEffects(string idelName, float delay, ParticleSystem effect)
     {
-
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay)
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
         {
-            if (!effect.isPlaying) effect.Play();
+            effect.Play();
+            if (animInfo.normalizedTime > delay + 0.1f) effect.Stop();
         }
         else effect.Stop();
     }
@@ -118,12 +138,10 @@ public class Effects : MonoBehaviour
         GetHitPs().transform.position = pos.point;
         GetHitPs().Play();
         isshakeCamera = true;          //畫面震盪
-
     }
     List<ParticleSystem> hitList = new List<ParticleSystem>();
     ParticleSystem HitPool()
-    {
-        ParticleSystem hit = effects.transform.GetChild(3).GetComponent<ParticleSystem>();
+    {       
         ParticleSystem hitPs = Instantiate(hit);
         hitList.Add(hitPs);
         return hitPs;
