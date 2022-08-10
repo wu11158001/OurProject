@@ -420,7 +420,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {        
         switch (animationType.GetType().Name)
         {
-            case "Boolean":
+            case "Boolean":                
                 photonView.RPC("OnSetAniamtion_Boolean", RpcTarget.Others, targetID, anmationName, Convert.ToBoolean(animationType));
                 break;
             case "Single":
@@ -443,7 +443,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="animationType">°ÊµeType</param>
     [PunRPC]
     void OnSetAniamtion_Boolean(int targetID, string anmationName, bool animationType)
-    {
+    {        
         GameSceneManagement.Instance.OnConnectAnimationSetting(targetID, anmationName, animationType);
     }
 

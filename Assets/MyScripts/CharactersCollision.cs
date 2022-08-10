@@ -80,12 +80,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     void Update()
     {
         if (lifeBar != null) lifeBar.gameObject.SetActive(gameObject.activeSelf);
-        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;//連線模式      
 
-        OnAnimationOver();
-        OnFloation();
-        OnCollisionControl();
-        OnSelfHeal();
+        if (!GameDataManagement.Instance.isConnect || photonView.IsMine)
+        {
+            OnAnimationOver();
+            OnFloation();
+            OnCollisionControl();
+            OnSelfHeal();
+        }
+        
 
         //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
@@ -374,17 +377,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             }
 
             //狀態改變(關閉前一個動畫)
-            if (info.IsTag("KnockBack") && animationName == "Pain")
+            if (info.IsTag("KnockBack") && animationName == "Pain"||
+                info.IsTag("Pain") && animationName == "KnockBack")
             {
-                animator.SetBool("KnockBack", false);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "KnockBack", false);
+                animator.SetBool(animationName, false);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, false);
             }
-            if (info.IsTag("Pain") && animationName == "KnockBack")
-            {
-                animator.SetBool("Pain", false);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Pain", false);
-            }
-
+           
             //待機 & 奔跑 才執行受擊動畫
             if (info.IsName("Idle") || info.IsName("Run"))
             {
@@ -479,7 +478,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (isFall)
             {               
                 isFall = false;
-                animator.SetBool("Fall", isFall);
+                animator.SetBool("Fall", isFall);                
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
             }
         }
@@ -496,7 +495,16 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     {
                         isFall = true;
                         animator.SetBool("Fall", isFall);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
+                       
+                        //連線
+                        if(GameDataManagement.Instance.isConnect)
+                        {
+                            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
+
+                            if(info.IsName("Jump")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", false);
+                            if (info.IsName("JumpAttack")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", false);
+                            if (info.IsName("Dodge")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
+                        }
                     }
                 }
                 else//避免太敏感

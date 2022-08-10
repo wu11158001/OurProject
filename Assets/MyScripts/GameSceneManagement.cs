@@ -215,7 +215,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         {
             switch (animationType.GetType().Name)
             {
-                case "Boolean":
+                case "Boolean":                    
                     animator.SetBool(anmationName, Convert.ToBoolean(animationType));
                     break;
                 case "Single":

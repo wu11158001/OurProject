@@ -60,11 +60,11 @@ public class LoadScene : MonoBehaviour
     /// </summary>
     void OnLoading()
     {       
-        if (loadFront_Image.enabled && loadFront_Image.rectTransform.localScale.x < loadValue)
+        if (loadFront_Image.enabled && loadFront_Image.fillAmount < loadValue)
         {
             if (loadValue >= 1) loadValue = 1;            
-            loadFront_Image.rectTransform.localScale = new Vector3(loadFront_Image.rectTransform.localScale.x + Time.deltaTime, 1, 1);//進度條            
-            if (loadFront_Image.rectTransform.localScale.x >= 1) loadFront_Image.rectTransform.localScale = new Vector3(1, 1, 1);            
+            loadFront_Image.fillAmount = loadFront_Image.fillAmount + Time.deltaTime;//進度條            
+            if (loadFront_Image.fillAmount >= 1) loadFront_Image.fillAmount = 1;         
         }        
     }
 
@@ -75,7 +75,7 @@ public class LoadScene : MonoBehaviour
     /// <returns></returns>
     public IEnumerator OnLoadScene(string scene)
     {
-        loadFront_Image.rectTransform.localScale = new Vector3(0, 1, 1);//初始數值
+        loadFront_Image.fillAmount = 0;//初始數值
 
         //判斷場景(設定背景圖)
         switch (scene)
