@@ -10,12 +10,15 @@ using UnityEngine;
 public class CharactersCollision : MonoBehaviourPunCallbacks
 {
     Animator animator;
+    AnimatorStateInfo info;
     GameData_NumericalValue NumericalValue;
 
     //碰撞框
-    Vector3 boxCenter;
-    Vector3 boxSize;
+    public Vector3 boxCenter;
+    public Vector3 boxSize;
     public float boxCollisionDistance;//碰撞具距離
+    Transform[] collisionObject = new Transform[9];//碰撞物件(判定是否有碰撞)    
+    public Transform[] GetCollisionObject => collisionObject;
 
     //生命條
     LifeBar_Characters lifeBar;//生命條
@@ -27,8 +30,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public bool isSuckBlood;//是否有吸血效果
     public bool isSelfHeal;//是否有回復效果
     float selfTime;//自我回復時間
+    float fallStarTime;//多久沒碰地板開始落下時間
 
+    //判斷
     public bool isDie;//是否死亡
+    bool isFall;//是否落下
 
     public List<CharactersFloating> floating_List = new List<CharactersFloating>();//浮空/跳躍List
 
@@ -47,7 +53,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             boxCenter = GetComponent<BoxCollider>().center;
             boxSize = GetComponent<BoxCollider>().size;
         }
-        boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//碰撞具距離
+        boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//碰撞距離
 
         //數值
         switch (gameObject.tag)
@@ -74,12 +80,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     void Update()
     {
         if (lifeBar != null) lifeBar.gameObject.SetActive(gameObject.activeSelf);
-        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;//連線模式      
 
-        OnAnimationOver();
-        OnFloation();
-        OnCollisionControl();
-        OnSelfHeal();
+        if (!GameDataManagement.Instance.isConnect || photonView.IsMine)
+        {
+            OnAnimationOver();
+            OnFloation();
+            OnCollisionControl();
+            OnSelfHeal();
+        }
+        
 
         //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
@@ -288,9 +297,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
     public void OnGetHit(GameObject attacker, GameObject attackerObject, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-
+    {      
         //閃躲
         if (info.IsName("Dodge") || info.IsName("Die")) return;
 
@@ -370,17 +377,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             }
 
             //狀態改變(關閉前一個動畫)
-            if (info.IsTag("KnockBack") && animationName == "Pain")
+            if (info.IsTag("KnockBack") && animationName == "Pain"||
+                info.IsTag("Pain") && animationName == "KnockBack")
             {
-                animator.SetBool("KnockBack", false);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "KnockBack", false);
+                animator.SetBool(animationName, false);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, false);
             }
-            if (info.IsTag("Pain") && animationName == "KnockBack")
-            {
-                animator.SetBool("Pain", false);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Pain", false);
-            }
-
+           
             //待機 & 奔跑 才執行受擊動畫
             if (info.IsName("Idle") || info.IsName("Run"))
             {
@@ -439,8 +442,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                -transform.forward,
                                                -transform.forward + transform.right,
                                                -transform.right,
-                                               -transform.right -transform.forward,
-                                                transform.up,};
+                                               -transform.right -transform.forward, 
+                                                transform.up};
 
         float wallHight = boxSize.y * 0.25f;//牆壁高度多少碰撞        
         //牆壁碰撞
@@ -450,19 +453,73 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         {
             if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
             {
-                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);                
+                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);
+
+                collisionObject[i] = hit.transform;//紀錄碰撞物件
+            }
+            else
+            {
+                collisionObject[i] = null;//紀錄碰撞物件
+
+                //避免失誤塞進物件
+                if (Physics.CheckBox(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance - 0.06f, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance - 0.06f), Quaternion.Euler(transform.localEulerAngles), mask))
+                {                    
+                    transform.position = transform.position - rayDiration[i] * 5 * Time.deltaTime;                    
+                }
             }
         }
 
         //地板碰撞        
-        if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.2f, mask))
-        {
+        if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
+        {          
             transform.position = transform.position + Vector3.up * ((boxSize.y / 2) - hit.distance);
+            
+            if(fallStarTime > 0) fallStarTime = 0;//重製落下時間
+            if (isFall)
+            {               
+                isFall = false;
+                animator.SetBool("Fall", isFall);                
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
+            }
         }
-        else
+        else//沒碰到地板
         {
             transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//重力
-        }        
+
+            //落下
+            if (!isFall && !info.IsName("Pain"))
+            {
+                if ((info.IsName("Jump") || info.IsName("JumpAttack") || info.IsName("Dodge")))
+                {
+                    if (info.normalizedTime >= 1f)
+                    {
+                        isFall = true;
+                        animator.SetBool("Fall", isFall);
+                       
+                        //連線
+                        if(GameDataManagement.Instance.isConnect)
+                        {
+                            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
+
+                            if(info.IsName("Jump")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", false);
+                            if (info.IsName("JumpAttack")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", false);
+                            if (info.IsName("Dodge")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
+                        }
+                    }
+                }
+                else//避免太敏感
+                {
+                    fallStarTime += Time.deltaTime;
+                    if (fallStarTime > 0.2f)
+                    {
+                        isFall = true;
+                        animator.SetBool("Fall", isFall);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
+
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -470,7 +527,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// </summary>
     void OnAnimationOver()
     {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        info = animator.GetCurrentAnimatorStateInfo(0);
 
         if (info.IsTag("Pain") && info.normalizedTime >= 1)
         {

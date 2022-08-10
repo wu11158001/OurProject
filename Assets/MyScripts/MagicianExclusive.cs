@@ -44,11 +44,6 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
     void Update()
     {
         OnSkillAttack2_Magician();
-
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-
-        //避免身體隱藏bug
-        if (!info.IsTag("SkillAttack") && !body.gameObject.activeSelf) GetComponent<CharactersCollision>().OnBodySetActive(active: 1);//(1:顯示 0:不顯示)
     }    
 
     /// <summary>
@@ -85,20 +80,28 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
         LayerMask mask = LayerMask.GetMask("Enemy");
 
-        if (info.IsName("SkillAttack_2") && info.normalizedTime < 1)
+        if (info.IsName("SkillAttack_2"))
         {
-            //移動
-            transform.position = transform.position + transform.forward * 20 * Time.deltaTime;
-
-            //碰撞敵人
-            if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 1.3f, boxSize.y, boxSize.z / 1.3f), transform.rotation, mask))
+            if (info.normalizedTime < 1)
             {
-                //觸發技能之2
-                animator.SetBool("SkillAttack-2", true);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack-2", true);
+                //移動
+                transform.position = transform.position + transform.forward * 20 * Time.deltaTime;
 
-                GetComponent<CharactersCollision>().OnBodySetActive(active: 1);//(1:顯示 0:不顯示)
+                //碰撞敵人
+                if (Physics.CheckBox(transform.position + boxCenter, new Vector3(boxSize.x / 1.3f, boxSize.y, boxSize.z / 1.3f), transform.rotation, mask))
+                {
+                    //觸發技能之2
+                    animator.SetBool("SkillAttack-2", true);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack-2", true);
+
+                    GetComponent<CharactersCollision>().OnBodySetActive(active: 1);//(1:顯示 0:不顯示)
+                }
             }
+        }
+        else
+        {
+            //避免身體隱藏bug
+            if (!body.gameObject.activeSelf) GetComponent<CharactersCollision>().OnBodySetActive(active: 1);//(1:顯示 0:不顯示)     
         }
     }
 
@@ -189,7 +192,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)
 
-        playerControl.isJumpAttackDown = true;//跳躍攻擊下降
+        playerControl.isJumpAttackMove = true;//跳躍攻擊下降
     }
 
     /// <summary>

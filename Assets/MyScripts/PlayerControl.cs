@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Linq;
 
 /// <summary>
 /// 玩家控制
@@ -24,7 +25,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     float inputValue;//總輸入值
     Vector3 forwardVector;//前方向量
     Vector3 horizontalCross;//水平軸
-    [SerializeField]float addMoveSpeed;//增加移動速度值
+    float addMoveSpeed;//增加移動速度值
     bool isSendRun;//是否已發送移動動畫       
 
     //跳躍
@@ -34,6 +35,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
     //閃躲
     bool isDodgeCollision;//是否閃躲碰撞
+    Vector3 dodgeBoxSize;//閃多碰撞框Size
+    Vector3 dodgeBoxCenter;//閃多碰撞框位置
 
     //攻擊
     bool isNormalAttack;//是否普通攻擊        
@@ -41,7 +44,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     int normalAttackNumber;//普通攻擊編號
     public int GetNormalAttackNumber => normalAttackNumber;
     bool isJumpAttack;//是否跳躍攻擊
-    public bool isJumpAttackDown;//跳躍攻擊下降
+    public bool isJumpAttackMove;//跳躍攻擊下降
 
 
     private void Awake()
@@ -62,7 +65,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             return;
         }
     }
-
     void Start()
     {
         NumericalValue = GameDataManagement.Instance.numericalValue;
@@ -105,37 +107,82 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     break;
             }         
         }
+
+        //閃躲碰撞框
+        switch (GameDataManagement.Instance.selectRoleNumber)
+        {
+            case 0://戰士
+                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 1.7f, boxCenter.z);     
+                break;
+            case 1://法師
+                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 1.7f, boxCenter.z);
+                break;
+            case 2://弓箭手
+                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y / 2, boxCenter.z);
+                break;
+        }
     }
 
     void Update()
     {
-        //不是死亡狀態 & 沒有開啟選項介面
-        if (!charactersCollision.isDie && !GameSceneUI.Instance.isOptions && !info.IsName("Pain"))
-        {            
-            OnJumpControl();
-            OnAttackControl();
-
-            if (!isJumpAttack && !isNormalAttack && !isSkillAttack && !info.IsName("Pain"))
+        //不是死亡狀態 & 不是受擊動畫
+        if (!charactersCollision.isDie && !info.IsName("Pain"))
+        {
+            //沒有開啟選項介面
+            if (!GameSceneUI.Instance.isOptions)
             {
-                if(!info.IsName("Dodge")) OnMovementControl();
-                else
+                OnJumpControl();
+                OnAttackControl();
+
+                if (!isJumpAttack && !isNormalAttack && !isSkillAttack && !info.IsName("Pain"))
                 {
-                    if (inputValue > 0)
+                    if (!info.IsName("Dodge")) OnMovementControl();
+                    else
                     {
-                        inputValue = 0;
-                        animator.SetFloat("Run", inputValue);
+                        if (inputValue > 0)
+                        {
+                            inputValue = 0;
+                            animator.SetFloat("Run", inputValue);
+                        }
                     }
+
+                    OnDodgeControl();
                 }
-                
-                OnDodgeControl();
-            } 
-            
+            }
+
+            OnFallBehavior();
         }                
 
         OnJumpHehavior();
         OnInput();
 
-        if (isJumpAttackDown) OnJumpAttackMove();
+        if (isJumpAttackMove) OnJumpAttackMove();
+    }
+
+    /// <summary>
+    /// 落下行為
+    /// </summary>
+    void OnFallBehavior()
+    {
+        if(info.IsName("Fall"))
+        {
+            if(isJump)//關閉跳落
+            {
+                isJump = false;
+                animator.SetBool("Jump", isJump);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isJump);
+            }
+            
+            if(isJumpAttack)
+            {
+                isJumpAttack = false;
+                animator.SetBool("JumpAttack", isJumpAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
+            }
+        }
     }
 
     /// <summary>
@@ -144,8 +191,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     void OnAttackControl()
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+
         //普通攻擊
-        if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack") && !info.IsTag("SkillAttack-2") && !info.IsName("Dodge"))
+        if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack") && !info.IsTag("SkillAttack-2") && !info.IsName("Dodge") && !info.IsName("Fall"))
         {
             //跳躍攻擊
             if (isJump && !isJumpAttack)
@@ -271,7 +319,25 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
         }           
     }
-        
+
+    /// <summary>
+    /// 設定閃躲碰撞框
+    /// </summary>
+    /// <param name="open">開關(0:回復 1:設定)</param>
+    void OnSetDodgeBoxCollider(int open)
+    {
+        if (open == 1)
+        {
+            charactersCollision.boxSize = dodgeBoxSize;
+            charactersCollision.boxCenter = dodgeBoxCenter;
+        }
+        else
+        {
+            charactersCollision.boxSize = boxSize;
+            charactersCollision.boxCenter = boxCenter;
+        }
+    }
+
     /// <summary>
     /// 閃躲控制
     /// </summary>
@@ -283,9 +349,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (Input.GetKeyDown(KeyCode.F))
             {
                 isDodgeCollision = false;
-
+                for (int i = 0; i < charactersCollision.GetCollisionObject.Length; i++)
+                {
+                    //判斷是否已經碰牆
+                    if (isDodgeCollision = charactersCollision.GetCollisionObject[i]) break;                    
+                }                
+       
                 animator.SetBool("Dodge", true);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", true);                                
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", true);                 
             }
         }
 
@@ -294,24 +365,18 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {
             //射線方向
             Vector3[] rayDiration = new Vector3[] { transform.forward,
-                                                transform.forward - transform.right,
-                                                transform.right,
-                                                transform.right + transform.forward,
-                                               -transform.forward,
-                                               -transform.forward + transform.right,
-                                               -transform.right,
-                                               -transform.right -transform.forward,
-                                                transform.up,};
+                                                    transform.forward - transform.right,
+                                                    transform.right,
+                                                    transform.right + transform.forward,                                               
+                                                    -transform.right,
+                                                    -transform.right -transform.forward,
+                                                    transform.up,};
 
             LayerMask mask = LayerMask.GetMask("StageObject");
             for (int i = 0; i < rayDiration.Length; i++)
             {
-                Debug.DrawRay(transform.position + boxCenter, rayDiration[i] * boxSize.z * 1.5f);
                 //判斷是否有碰牆
-                if (Physics.Raycast(transform.position + boxCenter, rayDiration[i], boxSize.z * 1.5f, mask))
-                {
-                    isDodgeCollision = true;//閃躲碰撞                                        
-                }               
+                if (Physics.Raycast(transform.position + dodgeBoxCenter, rayDiration[i], boxSize.z * 1.1f, mask)) isDodgeCollision = true;//閃躲碰撞                
             }
 
             if(isDodgeCollision) transform.position = transform.position - transform.forward * 5 * Time.deltaTime;
@@ -320,7 +385,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         //閃躲結束
         if (info.IsName("Dodge") && info.normalizedTime > 1)
-        {
+        {    
             animator.SetBool("Dodge", false);
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
         }
@@ -331,7 +396,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpControl()
     {        
-        if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge"))
+        if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
         {
             //先向上一點
             transform.position = transform.position + Vector3.up * NumericalValue.playerJumpForce * Time.deltaTime;
@@ -379,7 +444,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                         animator.SetBool("Jump", isJump);
                         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
                     }
-                    if (isJumpAttack) isJumpAttackDown = false;                   
+                    if (isJumpAttack) isJumpAttackMove = false;                   
                 }
             }
         }   
@@ -401,7 +466,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if (!info.IsName("JumpAttack"))
         {
             //轉向
-            float maxRadiansDelta = 0.15f;//轉向角度
+            float maxRadiansDelta = 0.1505f;//轉向角度
             if (inputX != 0 && inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, (horizontalCross * inputX) + (forwardVector * inputZ), maxRadiansDelta, maxRadiansDelta);//斜邊
             else if (inputX != 0) transform.forward = Vector3.RotateTowards(transform.forward, horizontalCross * inputX, maxRadiansDelta, maxRadiansDelta);//左右
             else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      

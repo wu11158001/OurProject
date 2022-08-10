@@ -517,8 +517,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d22ed4df04eb514087ae02c41a12b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  addMoveSpeed: 0
   isJumpAttackDown: 0
-  isLockJumpHight: 0
 --- !u!114 &6386194047831437189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,6 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a010fb8a569754a90405920df0af58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  addDamage: 0
 --- !u!114 &3939430561554710748
 MonoBehaviour:
   m_ObjectHideFlags: 0

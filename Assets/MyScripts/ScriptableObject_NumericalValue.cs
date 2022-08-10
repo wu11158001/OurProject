@@ -67,12 +67,13 @@ public class GameData_NumericalValue
     public bool warriorJumpAttack_IsAttackBehind;//戰士普通攻擊3_是否攻擊背後敵人
 
     [Header("戰士 技能攻擊1")]
-    public float warriorSkillAttack_1_Damge;//戰士技能1_傷害
-    public int warriorSkillAttack_1_RepelDirection;//戰士技能1_擊退方向(0:擊退 1:擊飛)
-    public float warriorSkillAttack_1_RepelDistance;//戰士技能1_擊退/擊飛距離    
-    public string warriorSkillAttack_1_Effect;//戰士技能1_效果(受擊者播放的動畫名稱)
-    public float warriorSkillAttack_1_FlightSpeed;//戰士技能1_飛行速度
-    public float warriorSkillAttack_1_LifeTime;//戰士技能1_生存時間
+    public float warriorSkillAttack_1_Damge;//戰士技能攻擊1_傷害
+    public int warriorSkillAttack_1_RepelDirection;//戰士技能攻擊1_擊退方向(0:擊退 1:擊飛)
+    public float warriorSkillAttack_1_RepelDistance;//戰士技能攻擊1_擊退/擊飛距離    
+    public string warriorSkillAttack_1_Effect;//戰士普技能攻擊1_效果(受擊者播放的動畫名稱)        
+    public float warriorSkillAttack_1_ForwardDistance;//戰士技能攻擊1_攻擊範圍中心點距離物件前方
+    public float warriorSkillAttack_1_attackRadius;//戰士技能攻擊1_攻擊半徑
+    public bool warriorSkillAttack_1_IsAttackBehind;//戰士技能攻擊1_是否攻擊背後敵人
 
     [Header("戰士 技能攻擊2")]
     public float warriorSkillAttack_2_Damge;//戰士技能攻擊2_傷害
@@ -268,12 +269,13 @@ public class GameData_NumericalValue
         warriorJumpAttack_IsAttackBehind = true;//戰士普通攻擊3_是否攻擊背後敵人
 
         //戰士 技能攻擊1
-        warriorSkillAttack_1_Damge = 9;//戰士技能1_傷害
-        warriorSkillAttack_1_RepelDirection = 0;//戰士技能1_擊退方向(0:擊退 1:擊飛)
-        warriorSkillAttack_1_RepelDistance = 30;//戰士技能1_擊退/擊飛距離    
-        warriorSkillAttack_1_Effect = "Pain";//戰士技能1_效果(受擊者播放的動畫名稱)
-        warriorSkillAttack_1_FlightSpeed = 20;//戰士技能1_飛行速度
-        warriorSkillAttack_1_LifeTime = 0.2f;//戰士技能1_生存時間
+        warriorSkillAttack_1_Damge = 23;//戰士技能攻擊2_傷害
+        warriorSkillAttack_1_RepelDirection = 0;//戰士技能攻擊2_擊退方向(0:擊退 1:擊飛)
+        warriorSkillAttack_1_RepelDistance = 30;//戰士技能攻擊2_擊退/擊飛距離    
+        warriorSkillAttack_1_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
+        warriorSkillAttack_1_ForwardDistance = 1.3f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
+        warriorSkillAttack_1_attackRadius = 1.2f;//戰士技能攻擊2_攻擊半徑
+        warriorSkillAttack_1_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
 
         //戰士 技能攻擊2
         warriorSkillAttack_2_Damge = 13;//戰士技能攻擊2_傷害
@@ -306,7 +308,7 @@ public class GameData_NumericalValue
         //弓箭手 跳躍攻擊
         archerJumpAttack_Damage = 11;//弓箭手跳躍攻擊傷害
         archerJumpAttack_RepelDirection = 0;//弓箭手跳躍攻擊擊退方向(0:擊退 1:擊飛)
-        archerJumpAttack_RepelDistance = 50;//弓箭手跳躍攻擊 擊退距離
+        archerJumpAttack_RepelDistance = 25;//弓箭手跳躍攻擊 擊退距離
         archerJumpAttack_Effect = "Pain";//弓箭手跳躍攻擊效果(受擊者播放的動畫名稱)
         archerJumpAttack_ForwardDistance = 0;//弓箭手跳躍攻擊_攻擊範圍中心點距離物件前方
         archerJumpAttack_attackRadius = 1.3f;//弓箭手跳躍攻擊_攻擊半徑
@@ -323,10 +325,10 @@ public class GameData_NumericalValue
         //弓箭手 技能攻擊2
         archerSkillAttack_2_Damge = 11;//弓箭手技能攻擊2_傷害
         archerSkillAttack_2_RepelDirection = 0;//弓箭手技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        archerSkillAttack_2_RepelDistance = 50;//弓箭手技能攻擊2_擊退/擊飛距離    
+        archerSkillAttack_2_RepelDistance = 30;//弓箭手技能攻擊2_擊退/擊飛距離    
         archerSkillAttack_2_Effect = "Pain";//弓箭手技能攻擊2_效果(受擊者播放的動畫名稱)        
-        archerSkillAttack_2_ForwardDistance = 0;//弓箭手技能攻擊2_攻擊範圍中心點距離物件前方
-        archerSkillAttack_2_attackRadius = 1.3f;//弓箭手技能攻擊2_攻擊半徑
+        archerSkillAttack_2_ForwardDistance = 1.3f;//弓箭手技能攻擊2_攻擊範圍中心點距離物件前方
+        archerSkillAttack_2_attackRadius = 1.2f;//弓箭手技能攻擊2_攻擊半徑
         archerSkillAttack_2_IsAttackBehind = false;//弓箭手技能攻擊2_是否攻擊背後敵人
 
         //弓箭手 技能攻擊3
@@ -384,7 +386,7 @@ public class GameData_NumericalValue
         //法師技能攻擊2
         magicianSkillAttack_2_Damge = new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};//法師技能攻擊2_傷害
         magicianSkillAttack_2_RepelDirection = new int[] { 0, 0, 0, 0 ,0, 0, 0, 0, 1, 0};//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        magicianSkillAttack_2_RepelDistance = new float[] { 2, 2, 2, 2, 2, 2, 2, 15, 10, 65};//法師技能攻擊2_擊退/擊飛距離    
+        magicianSkillAttack_2_RepelDistance = new float[] { 25, 2, 2, 2, 2, 2, 2, 15, 10, 65};//法師技能攻擊2_擊退/擊飛距離    
         magicianSkillAttack_2_Effect = new string[] { "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain" };//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
         magicianSkillAttack_2_ForwardDistance = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};//法師技能攻擊2_攻擊範圍中心點距離物件前方
         magicianSkillAttack_2_attackRadius = new float[] { 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f};//法師技能攻擊2_攻擊半徑
