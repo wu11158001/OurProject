@@ -10,6 +10,7 @@ public class Effects : MonoBehaviour
     ParticleSystem NormalAttack_1;
     ParticleSystem NormalAttack_3;
     ParticleSystem SkillAttack_1;
+    ParticleSystem SkillAttack_2;
     ParticleSystem SkillAttack_3;
     ParticleSystem hit;
 
@@ -19,8 +20,9 @@ public class Effects : MonoBehaviour
         NormalAttack_1 = effects.transform.GetChild(0).GetComponent<ParticleSystem>();    //獲得特效組件;
         NormalAttack_3 = effects.transform.GetChild(1).GetComponent<ParticleSystem>();    //獲得特效組件;
         SkillAttack_1 = effects.transform.GetChild(2).GetComponent<ParticleSystem>();    //獲得特效組件;
-        SkillAttack_3 = effects.transform.GetChild(3).GetComponent<ParticleSystem>();    //獲得特效組件;
-        hit = effects.transform.GetChild(4).GetComponent<ParticleSystem>();              //命中效果
+        SkillAttack_2 = effects.transform.GetChild(3).GetComponent<ParticleSystem>();    //獲得特效組件;
+        SkillAttack_3 = effects.transform.GetChild(4).GetComponent<ParticleSystem>();    //獲得特效組件;
+        hit = effects.transform.GetChild(5).GetComponent<ParticleSystem>();              //命中效果
         StarShakeSet();                                                                 //畫面震盪
     }
 
@@ -31,6 +33,7 @@ public class Effects : MonoBehaviour
         WarNormalAttack1();
         WarNormalAttack3();
         WarSkillAttack1();
+        WarSkillAttack2();
         WarSkillAttack3();
         UpdaSnake();                                                                       //畫面震盪 
     }
@@ -49,6 +52,24 @@ public class Effects : MonoBehaviour
         float delay = 0.35f;                            //控制播放時間點，面板務必保持為0   
         var effect = NormalAttack_3;                    //特效名稱
         DoEffects(idelName, delay, effect);
+    }
+
+    void WarSkillAttack2()
+    {
+        var idelName = "Attack.SkillAttack_2";         //動作名稱
+        var skill = SkillAttack_2;                     //三個不同時間播放特效
+
+        var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
+        float delay = 0.01f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
+
+        var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
+        float delay1 = 0.3f;                            //SkillAttack_31特效播放時間點
+        DoEffects(idelName, delay1, SkillAttack_31);
+
+        var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
+        float delay2 = 0.5f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        DoEffects(idelName, delay2, SkillAttack_32);
     }
 
     void WarSkillAttack1()
@@ -141,7 +162,7 @@ public class Effects : MonoBehaviour
     }
     List<ParticleSystem> hitList = new List<ParticleSystem>();
     ParticleSystem HitPool()
-    {       
+    {
         ParticleSystem hitPs = Instantiate(hit);
         hitList.Add(hitPs);
         return hitPs;
