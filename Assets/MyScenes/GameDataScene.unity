@@ -806,10 +806,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6772406787420365404, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6772406787420365404, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_FillMethod
       value: 0
       objectReference: {fileID: 0}
