@@ -487,7 +487,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             transform.position = transform.position - Vector3.up * NumericalValue.gravity * Time.deltaTime;//­«¤O
 
             //¸¨¤U
-            if (!isFall && !info.IsName("Pain"))
+            if (!isFall)
             {
                 if ((info.IsName("Jump") || info.IsName("JumpAttack") || info.IsName("Dodge")))
                 {
