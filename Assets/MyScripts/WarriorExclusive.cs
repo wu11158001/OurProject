@@ -46,26 +46,23 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
         float getDamage = (NumericalValue.warriorSkillAttack_1_Damge + (NumericalValue.warriorSkillAttack_1_Damge * addDamage)) * rate;//造成傷害
-        
+
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//執行攻擊腳色
-        attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("warriorSkillAttack_1"), GameSceneManagement.Instance.loadPath.warriorSkillAttack_1);//執行攻擊的物件(自身/射出物件)
+        attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
-        
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
         attack.damage = getDamage;//造成傷害 
         attack.direction = NumericalValue.warriorSkillAttack_1_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
-        attack.repel = NumericalValue.warriorSkillAttack_1_RepelDistance;//擊退/擊飛距離
-        attack.animationName = NumericalValue.warriorSkillAttack_1_Effect;//攻擊效果(播放動畫名稱)        
-        
-        attack.flightSpeed = NumericalValue.warriorSkillAttack_1_FlightSpeed;//飛行速度
-        attack.lifeTime = NumericalValue.warriorSkillAttack_1_LifeTime;//生存時間
-        attack.flightDiration = transform.forward;//飛行方向        
-        attack.performObject.transform.position = transform.position + GetComponent<BoxCollider>().center + transform.forward * 1;//射出位置               
+        attack.repel = NumericalValue.warriorSkillAttack_1_RepelDistance;//擊退距離
+        attack.animationName = NumericalValue.warriorSkillAttack_1_Effect;//攻擊效果(播放動畫名稱)
+        attack.forwardDistance = NumericalValue.warriorSkillAttack_1_ForwardDistance;//攻擊範圍中心點距離物件前方
+        attack.attackRadius = NumericalValue.warriorSkillAttack_1_attackRadius;//攻擊半徑
+        attack.isAttackBehind = NumericalValue.warriorSkillAttack_1_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                  
     }
 
     /// <summary>
@@ -158,7 +155,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)
 
-        playerControl.isJumpAttackDown = true;//跳躍攻擊下降
+        playerControl.isJumpAttackMove = true;//跳躍攻擊下降
     }
 
     /// <summary>

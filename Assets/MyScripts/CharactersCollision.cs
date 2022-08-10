@@ -53,7 +53,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             boxCenter = GetComponent<BoxCollider>().center;
             boxSize = GetComponent<BoxCollider>().size;
         }
-        boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//¸I¼²¨ã¶ZÂ÷
+        boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//¸I¼²¶ZÂ÷
 
         //¼Æ­È
         switch (gameObject.tag)
@@ -443,8 +443,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                -transform.forward,
                                                -transform.forward + transform.right,
                                                -transform.right,
-                                               -transform.right -transform.forward,
-                                                transform.up,};
+                                               -transform.right -transform.forward, 
+                                                transform.up};
 
         float wallHight = boxSize.y * 0.25f;//Àð¾À°ª«×¦h¤Ö¸I¼²        
         //Àð¾À¸I¼²
@@ -464,12 +464,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
                 //Á×§K¥¢»~¶ë¶iª«¥ó
                 if (Physics.CheckBox(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance - 0.06f, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance - 0.06f), Quaternion.Euler(transform.localEulerAngles), mask))
-                {
-                    transform.position = transform.position - transform.forward * 5 * Time.deltaTime;                    
+                {                    
+                    transform.position = transform.position - rayDiration[i] * 5 * Time.deltaTime;                    
                 }
             }
-        }    
-        
+        }
 
         //¦aªO¸I¼²        
         if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
@@ -493,7 +492,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 if ((info.IsName("Jump") || info.IsName("JumpAttack") || info.IsName("Dodge")))
                 {
-                    if (info.normalizedTime >= 1)
+                    if (info.normalizedTime >= 1f)
                     {
                         isFall = true;
                         animator.SetBool("Fall", isFall);
@@ -512,7 +511,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     }
                 }
             }
-        }        
+        }
     }
 
     /// <summary>

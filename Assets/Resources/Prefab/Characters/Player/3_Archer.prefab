@@ -494,7 +494,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3012238297281403433}
-  sceneViewId: 2
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &3012238297281403433
@@ -525,8 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d22ed4df04eb514087ae02c41a12b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addMoveSpeed: 0
-  isJumpAttackDown: 0
+  isJumpAttackMove: 0
 --- !u!114 &7789995731541248032
 MonoBehaviour:
   m_ObjectHideFlags: 0

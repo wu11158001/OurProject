@@ -52,11 +52,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         GameObject player = OnRequestOpenObject(OnGetObjectNumber("playerNumbering"), loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//開啟物件
         player.transform.position = new Vector3(222, -22, -60);        
         player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
-        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點   
-
-        //戰士物件
-        number = objectHandle.OnCreateObject(loadPath.warriorSkillAttack_1);//戰士技能攻擊_1物件
-        objectNumber_Dictionary.Add("warriorSkillAttack_1", number);//添加至紀錄中
+        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點           
 
         //弓箭手物件
         number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_1);//普通攻擊_1物件

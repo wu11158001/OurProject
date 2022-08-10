@@ -70,12 +70,13 @@ MonoBehaviour:
     warriorJumpAttack_ForwardDistance: 0.77
     warriorJumpAttack_attackRadius: 1.3
     warriorJumpAttack_IsAttackBehind: 1
-    warriorSkillAttack_1_Damge: 9
+    warriorSkillAttack_1_Damge: 23
     warriorSkillAttack_1_RepelDirection: 0
     warriorSkillAttack_1_RepelDistance: 30
     warriorSkillAttack_1_Effect: Pain
-    warriorSkillAttack_1_FlightSpeed: 20
-    warriorSkillAttack_1_LifeTime: 0.2
+    warriorSkillAttack_1_ForwardDistance: 1.3
+    warriorSkillAttack_1_attackRadius: 1.2
+    warriorSkillAttack_1_IsAttackBehind: 0
     warriorSkillAttack_2_Damge: 13
     warriorSkillAttack_2_RepelDirection: 0
     warriorSkillAttack_2_RepelDistance: 30
@@ -128,7 +129,7 @@ MonoBehaviour:
     - 0.6
     archerJumpAttack_Damage: 11
     archerJumpAttack_RepelDirection: 0
-    archerJumpAttack_RepelDistance: 50
+    archerJumpAttack_RepelDistance: 25
     archerJumpAttack_Effect: Pain
     archerJumpAttack_ForwardDistance: 0
     archerJumpAttack_attackRadius: 1.3
@@ -141,10 +142,10 @@ MonoBehaviour:
     archerSkillAttack_1_LifeTime: 0.4
     archerSkillAttack_2_Damge: 11
     archerSkillAttack_2_RepelDirection: 0
-    archerSkillAttack_2_RepelDistance: 50
+    archerSkillAttack_2_RepelDistance: 30
     archerSkillAttack_2_Effect: Pain
-    archerSkillAttack_2_ForwardDistance: 0
-    archerSkillAttack_2_attackRadius: 1.3
+    archerSkillAttack_2_ForwardDistance: 1.3
+    archerSkillAttack_2_attackRadius: 1.2
     archerSkillAttack_2_IsAttackBehind: 0
     archerSkillAttack_3_Damge: 5
     archerSkillAttack_3_RepelDirection: 1

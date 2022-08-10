@@ -192,7 +192,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
 
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)
 
-        playerControl.isJumpAttackDown = true;//跳躍攻擊下降
+        playerControl.isJumpAttackMove = true;//跳躍攻擊下降
     }
 
     /// <summary>

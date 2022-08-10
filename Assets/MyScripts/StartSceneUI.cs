@@ -176,6 +176,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         audioSource.Stop();
         startScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "StartScreen");//startScreen UI控制        
         startTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "StartTip_Text");//提示文字
+        startTip_Text.enabled = true;
         background_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Background_Image");//背景
         background_Image.gameObject.SetActive(false);
         
@@ -349,9 +350,10 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     {
         //沒有影片
         if (videoPlayer.clip == null)
-        {
+        {            
             startScreen.gameObject.SetActive(true);
         }
+
         //StartScene未開啟
         if (!background_Image.gameObject.activeSelf)
         {           
@@ -365,7 +367,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
                     startScreen.gameObject.SetActive(true);
                 }
                 else
-                {
+                {                    
                     OnOpenSelectModeScreen();
                 }
             }
@@ -378,6 +380,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
 
                 if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
                 {
+                    startTip_Text.enabled = false;
                     OnOpenSelectModeScreen();
                 }
             }            

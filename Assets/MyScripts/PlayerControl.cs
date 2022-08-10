@@ -44,7 +44,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     int normalAttackNumber;//´¶³q§ðÀ»½s¸¹
     public int GetNormalAttackNumber => normalAttackNumber;
     bool isJumpAttack;//¬O§_¸õÅD§ðÀ»
-    public bool isJumpAttackDown;//¸õÅD§ðÀ»¤U­°
+    public bool isJumpAttackMove;//¸õÅD§ðÀ»¤U­°
 
 
     private void Awake()
@@ -159,7 +159,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         OnJumpHehavior();
         OnInput();
 
-        if (isJumpAttackDown) OnJumpAttackMove();
+        if (isJumpAttackMove) OnJumpAttackMove();
     }
 
     /// <summary>
@@ -365,14 +365,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {
             //®g½u¤è¦V
             Vector3[] rayDiration = new Vector3[] { transform.forward,
-                                                transform.forward - transform.right,
-                                                transform.right,
-                                                transform.right + transform.forward,
-                                               -transform.forward,
-                                               -transform.forward + transform.right,
-                                               -transform.right,
-                                               -transform.right -transform.forward,
-                                                transform.up,};
+                                                    transform.forward - transform.right,
+                                                    transform.right,
+                                                    transform.right + transform.forward,                                               
+                                                    -transform.right,
+                                                    -transform.right -transform.forward,
+                                                    transform.up,};
 
             LayerMask mask = LayerMask.GetMask("StageObject");
             for (int i = 0; i < rayDiration.Length; i++)
@@ -446,7 +444,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                         animator.SetBool("Jump", isJump);
                         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
                     }
-                    if (isJumpAttack) isJumpAttackDown = false;                   
+                    if (isJumpAttack) isJumpAttackMove = false;                   
                 }
             }
         }   
