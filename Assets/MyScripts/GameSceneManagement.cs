@@ -239,12 +239,16 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    /// <param name="knockDirection">擊退方向</param>
+    /// <param name="repel">擊退距離</param>
+    /// <param name="attackerObjectID">攻擊者物件ID</param>
+    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID)
     {       
         CharactersCollision collision = connectObject_Dictionary[targetID].GetComponent<CharactersCollision>();
         if (collision != null)
         {
-            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical);
+            GameObject attackObj = connectObject_Dictionary[attackerObjectID].gameObject;
+            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical, knockDirection, repel, attackObj);
         }
     }
 

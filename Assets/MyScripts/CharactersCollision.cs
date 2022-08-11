@@ -82,11 +82,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (lifeBar != null) lifeBar.gameObject.SetActive(gameObject.activeSelf);
 
         if (!GameDataManagement.Instance.isConnect || photonView.IsMine)
-        {
-            OnAnimationOver();
-            OnFloation();
-            OnCollisionControl();
+        {                        
             OnSelfHeal();
+            OnCollisionControl();
+            OnFloation();
+            OnAnimationOver();
         }        
 
         //測試用
@@ -296,7 +296,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
     public void OnGetHit(GameObject attacker, GameObject attackerObject, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {
+    {        
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         //閃躲
@@ -343,23 +343,34 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 }
             }
 
-            //判斷擊中效果
-            switch (knockDirection)
+            //不是連線 || 房主
+            if (!GameDataManagement.Instance.isConnect || photonView.IsMine)
             {
-                case 0://擊退
-                    LayerMask mask = LayerMask.GetMask("StageObject");                    
-                    if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1f, mask))
-                    {
-                        transform.position = transform.position + attackerObject.transform.forward * repel * Time.deltaTime;//擊退(碰牆不再擊退)
-                    }                    
-                    break;
-                case 1://擊飛
-                    floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List
-                    break;
-            }            
+                //判斷擊中效果
+                switch (knockDirection)
+                {
+                    case 0://擊退
+                        LayerMask mask = LayerMask.GetMask("StageObject");
+                        if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1f, mask))//碰牆不再擊退
+                        {
+                            transform.position = transform.position + attackerObject.transform.forward * repel * Time.deltaTime;//擊退
+                        }                        
+                        break;
+                    case 1://擊飛                    
+                        floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List                    
+                        break;
+                }
+            }
 
             //連線
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendGetHit(photonView.ViewID, transform.position, transform.rotation, getDamge, isCritical);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendGetHit(targetID: photonView.ViewID,
+                                                                                           position: transform.position,
+                                                                                           rotation: transform.rotation,
+                                                                                           damage: getDamge,
+                                                                                           isCritical: isCritical,
+                                                                                           knockDirection: knockDirection,
+                                                                                           repel: repel,
+                                                                                           attackerObjectID: attackerObject.GetPhotonView().ViewID);
 
             //死亡
             if (Hp <= 0)
@@ -401,7 +412,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    public void OnConnectOtherGetHit(Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    /// <param name="knockDirection">擊退方向</param>
+    /// <param name="attackObj">攻擊者物件</param>
+    public void OnConnectOtherGetHit(Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, GameObject attackObj)
     {
         transform.position = position;
         transform.rotation = rotation;
@@ -416,6 +429,20 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                              color: isCritical ? Color.yellow : Color.red,//文字顏色
                              isCritical: isCritical);//是否爆擊
 
+        //判斷擊中效果
+        switch (knockDirection)
+        {
+            case 0://擊退
+                LayerMask mask = LayerMask.GetMask("StageObject");
+                if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1f, mask))//碰牆不再擊退
+                {
+                    transform.position = transform.position + attackObj.transform.forward * repel * Time.deltaTime;//擊退
+                }
+                break;
+            case 1://擊飛                    
+                floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List                    
+                break;
+        }
     }
 
     /// <summary>
@@ -426,7 +453,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //浮空/跳躍
         for (int i = 0; i < floating_List.Count; i++)
         {
-            floating_List[i].OnFloating();            
+            floating_List[i].OnFloating();
+
+            LayerMask mask = LayerMask.GetMask("StageObject");
+            RaycastHit hit;
+            //地板碰撞        
+            if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
+            {
+                if (floating_List.Count > 0) floating_List.Clear();//清除浮空效果               
+            }
         }
     }
 
@@ -474,8 +509,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
         {          
             transform.position = transform.position + Vector3.up * ((boxSize.y / 2) - hit.distance);
-            
-            if(fallStarTime > 0) fallStarTime = 0;//重製落下時間
+
+            if (fallStarTime > 0) fallStarTime = 0;//重製落下時間
+
             if (isFall)
             {               
                 isFall = false;
@@ -492,7 +528,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 info = animator.GetCurrentAnimatorStateInfo(0);
 
-                if ((info.IsName("Jump") || info.IsName("JumpAttack") || info.IsName("Dodge")))
+                if (info.IsName("Jump") || info.IsName("JumpAttack") || info.IsName("Dodge") || info.IsName("Pain"))
                 {
                     if (info.normalizedTime >= 1f)
                     {
@@ -546,11 +582,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (info.IsTag("Die") && info.normalizedTime >= 1)
         {
             //連線模式
-            if (GameDataManagement.Instance.isConnect && photonView.IsMine)
-            {
-                PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
-            }
-
+            if (GameDataManagement.Instance.isConnect && photonView.IsMine) PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
+          
             //關閉物件
             gameObject.SetActive(false);
         }

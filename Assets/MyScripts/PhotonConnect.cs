@@ -367,9 +367,12 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage,bool isCritical)
+    /// <param name="knockDirection">擊退方向</param>
+    /// <param name="repel">擊退距離</param>
+    /// <param name="attackerObjectID">攻擊者物件ID</param>
+    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage,bool isCritical, int knockDirection, float repel, int attackerObjectID)
     {
-        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical);
+        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID);
     }
 
     /// <summary>
@@ -380,10 +383,13 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
+    /// <param name="knockDirection">擊退方向</param>
+    /// <param name="repel">擊退距離</param>
+    /// <param name="attackerObjectID">攻擊者物件ID</param>
     [PunRPC]
-    void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID)
     {
-        GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical);
+        GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID);
     }
 
     /// <summary>
