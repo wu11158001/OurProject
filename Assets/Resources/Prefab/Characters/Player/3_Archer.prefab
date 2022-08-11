@@ -1369,6 +1369,7 @@ GameObject:
   - component: {fileID: 6575604136727960315}
   - component: {fileID: 6956824232803869389}
   - component: {fileID: 4278933344365298465}
+  - component: {fileID: 782215911735633002}
   m_Layer: 0
   m_Name: 3_Archer
   m_TagString: Untagged
@@ -1453,7 +1454,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3269423706014112964}
-  sceneViewId: 2
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &3269423706014112964
@@ -1511,6 +1512,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addDamage: 0
+--- !u!114 &782215911735633002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3826201887993512684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541a76f9c03874323b5154b14ac00427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spline: {fileID: 0}
+  Speed: 0
+  lookForward: 0
+  reverse: 0
+  currentDistance: 0
+  currentClampedDistance: 0
 --- !u!1 &3912250926662023324
 GameObject:
   m_ObjectHideFlags: 0
