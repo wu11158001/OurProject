@@ -483,19 +483,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//¿é¤J­È
         if (inputValue > 1) inputValue = 1;
 
-        if (isJump)
-        {
-            if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//¿é¤J­È            
-            if (inputValue > 1) inputValue = 1;
-            if (inputValue < 0) inputValue = 0;
-
-            transform.position = transform.position + jumpForward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;
-            return;
-        }
-
-        //²¾°Ê
-        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;
-
         animator.SetFloat("Run", inputValue);
         if (GameDataManagement.Instance.isConnect)
         {
@@ -513,6 +500,20 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+        //¸õÅDª¬ºA
+        if (isJump)
+        {
+            if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//¿é¤J­È            
+            if (inputValue > 1) inputValue = 1;
+            if (inputValue < 0) inputValue = 0;
+
+            transform.position = transform.position + jumpForward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;
+            return;
+        }
+
+        //²¾°Ê
+        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;        
     }           
 
     /// <summary>
