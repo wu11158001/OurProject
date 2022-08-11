@@ -128,6 +128,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
         //不是死亡狀態 & 不是受擊動畫
         if (!charactersCollision.isDie && !info.IsName("Pain"))
         {
@@ -167,7 +169,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnFallBehavior()
     {
-        if(info.IsName("Fall"))
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (info.IsName("Fall"))
         {
             if(isJump)//關閉跳落
             {
@@ -190,7 +194,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnAttackControl()
     {
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        info = animator.GetCurrentAnimatorStateInfo(0);
 
         //普通攻擊
         if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack") && !info.IsTag("SkillAttack-2") && !info.IsName("Dodge") && !info.IsName("Fall"))
@@ -342,7 +346,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// 閃躲控制
     /// </summary>
     void OnDodgeControl()
-    {        
+    {
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
         //閃躲控制
         if (info.IsName("Idle") || info.IsName("Run"))
         {
@@ -424,7 +430,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// 跳躍行為
     /// </summary>
     void OnJumpHehavior()
-    {      
+    {
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
         if (info.IsTag("Jump") && info.normalizedTime > 0.5f || info.IsTag("JumpAttack"))
         {
             float boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;
@@ -462,7 +470,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// 移動控制
     /// </summary>
     void OnMovementControl()
-    {        
+    {
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
         if (!info.IsName("JumpAttack"))
         {
             //轉向

@@ -87,8 +87,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             OnFloation();
             OnCollisionControl();
             OnSelfHeal();
-        }
-        
+        }        
 
         //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
@@ -297,10 +296,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
     public void OnGetHit(GameObject attacker, GameObject attackerObject, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {      
+    {
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
         //閃躲
         if (info.IsName("Dodge") || info.IsName("Die")) return;
-
+        
         //判斷受擊對象
         if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == "Enemy" ||
             gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Player")
@@ -368,14 +369,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Die", "Die");
                 return;
             }
-
+         
             //重複觸發動畫
             if (info.IsTag(animationName))
             {
                 StartCoroutine(OnAniamtionRepeatTrigger(animationName));
                 return;
             }
-
+        
             //狀態改變(關閉前一個動畫)
             if (info.IsTag("KnockBack") && animationName == "Pain"||
                 info.IsTag("Pain") && animationName == "KnockBack")
@@ -386,7 +387,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
            
             //待機 & 奔跑 才執行受擊動畫
             if (info.IsName("Idle") || info.IsName("Run"))
-            {
+            {                
                 animator.SetBool(animationName, true);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, true);
             }
@@ -489,6 +490,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             //落下
             if (!isFall)
             {
+                info = animator.GetCurrentAnimatorStateInfo(0);
+
                 if ((info.IsName("Jump") || info.IsName("JumpAttack") || info.IsName("Dodge")))
                 {
                     if (info.normalizedTime >= 1f)
