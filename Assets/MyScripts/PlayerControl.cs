@@ -533,7 +533,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if(GameSceneUI.Instance.isOptions && info.IsName("Run"))
         {
             animator.SetFloat("Run", 0);
-            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
         }
 
         //·Æ¹«
