@@ -50,7 +50,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
         objectNumber_Dictionary.Add("playerNumbering", number);//添加至紀錄中
         GameObject player = OnRequestOpenObject(OnGetObjectNumber("playerNumbering"), loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//開啟物件
-        player.transform.position = new Vector3(222, -22, -60);        
+        player.transform.position = new Vector3(222, -24, -60);        
         player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
         OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點           
 
@@ -95,7 +95,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
                 CharactersCollision collision = enemy.GetComponent<CharactersCollision>();
                 if (collision != null) collision.OnInitial();//初始化
-                enemy.transform.position = new Vector3(24 + 2 * 1, 2f, 40);//設定位置                
+                enemy.transform.position = new Vector3(182, -24, -33);//設定位置        
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
         }
@@ -239,12 +239,16 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical)
+    /// <param name="knockDirection">擊退方向</param>
+    /// <param name="repel">擊退距離</param>
+    /// <param name="attackerObjectID">攻擊者物件ID</param>
+    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID)
     {       
         CharactersCollision collision = connectObject_Dictionary[targetID].GetComponent<CharactersCollision>();
         if (collision != null)
         {
-            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical);
+            GameObject attackObj = connectObject_Dictionary[attackerObjectID].gameObject;
+            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical, knockDirection, repel, attackObj);
         }
     }
 

@@ -127,7 +127,7 @@ public class LoadScene : MonoBehaviour
     /// <returns></returns>
     IEnumerator OnWaitInto()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.5f);
 
         //Ãö³¬UI
         background.enabled = false;

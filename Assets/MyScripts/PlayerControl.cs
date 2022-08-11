@@ -112,15 +112,15 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         switch (GameDataManagement.Instance.selectRoleNumber)
         {
             case 0://¾Ô¤h
-                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxSize = new Vector3(boxSize.x / 2, boxSize.y / 2, boxSize.z / 2);
                 dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 1.7f, boxCenter.z);     
                 break;
             case 1://ªk®v
-                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxSize = new Vector3(boxSize.x / 2, boxSize.y / 2, boxSize.z / 2);
                 dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 1.7f, boxCenter.z);
                 break;
             case 2://¤}½b¤â
-                dodgeBoxSize = new Vector3(boxSize.x, boxSize.y / 2, boxSize.z);
+                dodgeBoxSize = new Vector3(boxSize.x / 2, boxSize.y / 2, boxSize.z / 2);
                 dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y / 2, boxCenter.z);
                 break;
         }
@@ -382,7 +382,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             for (int i = 0; i < rayDiration.Length; i++)
             {
                 //§PÂ_¬O§_¦³¸IÀð
-                if (Physics.Raycast(transform.position + dodgeBoxCenter, rayDiration[i], boxSize.z * 1.1f, mask)) isDodgeCollision = true;//°{¸ú¸I¼²                
+                if (Physics.Raycast(transform.position + dodgeBoxCenter, rayDiration[i], boxSize.z * boxSize.z, mask)) isDodgeCollision = true;//°{¸ú¸I¼²                
             }
 
             if(isDodgeCollision) transform.position = transform.position - transform.forward * 5 * Time.deltaTime;
@@ -441,10 +441,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y + 0.3f, mask))
             {
                 if (isJump || isJumpAttack)
-                {
-                    
-                    isRunJump = false;                
-                    charactersCollision.floating_List.Clear();
+                {                    
+                    isRunJump = false;                                   
 
                     if (isJump)
                     {
@@ -485,6 +483,25 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//¿é¤J­È
         if (inputValue > 1) inputValue = 1;
 
+        animator.SetFloat("Run", inputValue);
+        if (GameDataManagement.Instance.isConnect)
+        {
+            if (!info.IsName("Fall"))
+            {
+                if (inputValue > 0.1f && !isSendRun)
+                {
+                    isSendRun = true;
+                    PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", inputValue);
+                }
+                if (inputValue < 0.1f && isSendRun)
+                {
+                    isSendRun = false;
+                    PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
+                }
+            }
+        }
+
+        //¸õÅDª¬ºA
         if (isJump)
         {
             if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//¿é¤J­È            
@@ -496,22 +513,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
 
         //²¾°Ê
-        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;
-
-        animator.SetFloat("Run", inputValue);
-        if (GameDataManagement.Instance.isConnect)
-        {
-            if (inputValue > 0.1f && !isSendRun)
-            {
-                isSendRun = true;
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", inputValue);
-            }
-            if (inputValue < 0.1f && isSendRun)
-            {
-                isSendRun = false;
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
-            }
-        }
+        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;        
     }           
 
     /// <summary>
@@ -531,6 +533,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if(GameSceneUI.Instance.isOptions && info.IsName("Run"))
         {
             animator.SetFloat("Run", 0);
+            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
         }
 
         //·Æ¹«
