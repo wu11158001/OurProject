@@ -32,6 +32,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     bool isJump;//是否跳躍
     Vector3 jumpForward;//跳躍前方向量
     bool isRunJump;//跳躍前是否向前
+    [SerializeField] bool isJumpTimeCountdown;//可執行跳躍倒數(倒數時不能跳躍)
+    [SerializeField] float doJumpTime;//執行跳躍時間間隔
+    [SerializeField] float JumpTime;//跳躍計時器
 
     //閃躲
     bool isDodgeCollision;//是否閃躲碰撞
@@ -80,6 +83,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
         boxSize = GetComponent<BoxCollider>().size;
+
+        //跳躍
+        doJumpTime = 1.3f;//執行跳躍時間間隔
 
         //移動
         forwardVector = transform.forward;
@@ -401,8 +407,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// 跳躍控制
     /// </summary>
     void OnJumpControl()
-    {        
-        if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
+    {
+        /*if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
         {
             //先向上一點
             transform.position = transform.position + Vector3.up * NumericalValue.playerJumpForce * Time.deltaTime;
@@ -423,6 +429,26 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
                 PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
             }
+        }*/
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumpTimeCountdown && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
+        {
+            jumpForward = transform.forward;//跳躍前方向量
+            if (inputValue != 0) isRunJump = true;
+
+            isJump = true;
+            isNormalAttack = false;
+            isJumpTimeCountdown = true;//可執行跳躍倒數                        
+
+            charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity});//浮空List
+
+            animator.SetBool("NormalAttack", isNormalAttack);
+            animator.SetBool("Jump", isJump);
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+            }
         }
     }
 
@@ -431,7 +457,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpHehavior()
     {
-        info = animator.GetCurrentAnimatorStateInfo(0);
+        /*info = animator.GetCurrentAnimatorStateInfo(0);
 
         if (info.IsTag("Jump") && info.normalizedTime > 0.5f || info.IsTag("JumpAttack"))
         {
@@ -453,7 +479,44 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     if (isJumpAttack) isJumpAttackMove = false;                   
                 }
             }
-        }   
+        }   */
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
+        //跳躍計時器倒數
+        if (isJumpTimeCountdown)
+        {
+            JumpTime -= Time.deltaTime;//跳躍計時器
+
+            if (JumpTime <= 0)
+            {
+                JumpTime = doJumpTime;//獲取執行跳躍時間間隔 
+                isJumpTimeCountdown = false;
+            }
+        }
+
+        //獲取執行跳躍時間間隔
+        if (info.IsName("Jump")) if (doJumpTime != animator.GetCurrentAnimatorClipInfo(0).FirstOrDefault(x => x.clip.name == "Jump").clip.length + 0.4f) doJumpTime = animator.GetCurrentAnimatorClipInfo(0).FirstOrDefault(x => x.clip.name == "Jump").clip.length + 0.4f;
+
+        if (info.IsTag("Jump") || info.IsTag("JumpAttack"))
+        {
+            LayerMask mask = LayerMask.GetMask("StageObject");
+            RaycastHit hit;
+            if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(charactersCollision.boxCollisionDistance - 0.06f, 0.01f, charactersCollision.boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
+            {
+                if ((isJump && info.normalizedTime > 0.5f) || isJumpAttack)
+                {
+                    isRunJump = false;
+
+                    if (isJump)
+                    {
+                        isJump = false;
+                        animator.SetBool("Jump", isJump);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                    }
+                    if (isJumpAttack) isJumpAttackMove = false;
+                }
+            }
+        }
     }
 
     /// <summary>

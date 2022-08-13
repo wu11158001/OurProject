@@ -38,7 +38,7 @@ MonoBehaviour:
     limitDownAngle: 13
     playerHp: 300
     playerMoveSpeed: 6.3
-    playerJumpForce: 14.8
+    playerJumpForce: 14.3
     playerCriticalRate: 15
     playerDodgeSeppd: 1.5
     playerSelfHealTime: 5
