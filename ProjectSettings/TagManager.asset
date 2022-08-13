@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - EnemySoldier_1
+  - Stairs
   layers:
   - Default
   - TransparentFX

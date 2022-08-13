@@ -29,12 +29,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     bool isSendRun;//是否已發送移動動畫       
 
     //跳躍
-    bool isJump;//是否跳躍
+    [SerializeField] public bool isJump;//是否跳躍
     Vector3 jumpForward;//跳躍前方向量
     bool isRunJump;//跳躍前是否向前
     [SerializeField] bool isJumpTimeCountdown;//可執行跳躍倒數(倒數時不能跳躍)
     [SerializeField] float doJumpTime;//執行跳躍時間間隔
     [SerializeField] float JumpTime;//跳躍計時器
+    [SerializeField] float jumpForce;//跳躍力
+    float playerJumpForce;//玩家跳躍力
 
     //閃躲
     bool isDodgeCollision;//是否閃躲碰撞
@@ -86,6 +88,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         //跳躍
         doJumpTime = 1.3f;//執行跳躍時間間隔
+        playerJumpForce = NumericalValue.playerJumpForce;//跳躍力
 
         //移動
         forwardVector = transform.forward;
@@ -180,10 +183,10 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if (info.IsName("Fall"))
         {
             if(isJump)//關閉跳落
-            {
+            {                
                 isJump = false;
                 animator.SetBool("Jump", isJump);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isJump);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
             }
             
             if(isJumpAttack)
@@ -433,6 +436,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyDown(KeyCode.Space) && !isJumpTimeCountdown && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
         {
+            jumpForce = playerJumpForce;
             jumpForward = transform.forward;//跳躍前方向量
             if (inputValue != 0) isRunJump = true;
 
@@ -495,15 +499,18 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
 
         //獲取執行跳躍時間間隔
-        if (info.IsName("Jump")) if (doJumpTime != animator.GetCurrentAnimatorClipInfo(0).FirstOrDefault(x => x.clip.name == "Jump").clip.length + 0.4f) doJumpTime = animator.GetCurrentAnimatorClipInfo(0).FirstOrDefault(x => x.clip.name == "Jump").clip.length + 0.4f;
+        if (info.IsName("Jump"))
+        {         
+            if (doJumpTime != animator.GetCurrentAnimatorClipInfo(0).FirstOrDefault(x => x.clip.name == "Jump").clip.length + 0.4f) doJumpTime = animator.GetCurrentAnimatorClipInfo(0).FirstOrDefault(x => x.clip.name == "Jump").clip.length + 0.4f;            
+        }
 
         if (info.IsTag("Jump") || info.IsTag("JumpAttack"))
         {
             LayerMask mask = LayerMask.GetMask("StageObject");
             RaycastHit hit;
-            if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(charactersCollision.boxCollisionDistance - 0.06f, 0.01f, charactersCollision.boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
+            if (charactersCollision.OnCollision_Floor(mask, out hit))
             {
-                if ((isJump && info.normalizedTime > 0.5f) || isJumpAttack)
+                if ((isJump || isJumpAttack) && info.normalizedTime > 0.9f)
                 {
                     isRunJump = false;
 
@@ -516,7 +523,30 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     if (isJumpAttack) isJumpAttackMove = false;
                 }
             }
+            /*if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(charactersCollision.boxCollisionDistance - 0.06f, 0.01f, charactersCollision.boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
+            {
+                if ((isJump || isJumpAttack) && info.normalizedTime > 0.9f)
+                {
+                    isRunJump = false;
+
+                    if (isJump)
+                    {                        
+                        isJump = false;
+                        animator.SetBool("Jump", isJump);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                    }
+                    if (isJumpAttack) isJumpAttackMove = false;
+                }
+            }*/
         }
+
+        /*if (isJump)
+        {
+            jumpForce -= NumericalValue.gravity * Time.deltaTime;//向上力量
+            if (jumpForce <= 0) jumpForce = 0;
+            
+            transform.position = transform.position + jumpForce * Time.deltaTime * Vector3.up;//物件向上                      
+        } */       
     }
 
     /// <summary>
@@ -524,7 +554,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnJumpAttackMove()
     {
-        transform.position = transform.position + Vector3.down * 20 * Time.deltaTime;//急速下降
+        transform.position = transform.position + 20 * Time.deltaTime * Vector3.down;//急速下降
     }
 
     /// <summary>
@@ -537,7 +567,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if (!info.IsName("JumpAttack"))
         {
             //轉向
-            float maxRadiansDelta = 0.1505f;//轉向角度
+            float maxRadiansDelta = 0.1405f;//轉向角度
             if (inputX != 0 && inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, (horizontalCross * inputX) + (forwardVector * inputZ), maxRadiansDelta, maxRadiansDelta);//斜邊
             else if (inputX != 0) transform.forward = Vector3.RotateTowards(transform.forward, horizontalCross * inputX, maxRadiansDelta, maxRadiansDelta);//左右
             else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後      
@@ -564,8 +594,22 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             }
         }
 
+        LayerMask mask = LayerMask.GetMask("StageObject");
+        RaycastHit hit;
+        if (info.IsName("Jump"))
+        {
+            if(charactersCollision.OnCollision_Floor(mask, out hit))
+            {
+                if (hit.transform.tag == "Stairs") inputValue = (Mathf.Abs(inputX) + Mathf.Abs(inputZ)) * 0.8f;//輸入值
+            }
+            /*if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(charactersCollision.boxCollisionDistance - 0.1f, 0.01f, charactersCollision.boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
+            {
+                if (hit.transform.tag == "Stairs") inputValue = (Mathf.Abs(inputX) + Mathf.Abs(inputZ)) * 0.8f;//輸入值
+            }*/
+        }
+
         //跳躍狀態
-        if (isJump)
+        /*if (isJump)
         {
             if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值            
             if (inputValue > 1) inputValue = 1;
@@ -573,10 +617,10 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
             transform.position = transform.position + jumpForward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;
             return;
-        }
+        }*/
 
         //移動
-        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;        
+        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;           
     }           
 
     /// <summary>
