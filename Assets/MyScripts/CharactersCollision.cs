@@ -70,6 +70,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case "EnemySoldier_1":
                 MaxHp = NumericalValue.enemySoldier1_Hp;
                 break;
+            case "EnemySoldier_2":
+                MaxHp = NumericalValue.enemySoldier1_Hp;
+                break;
         }
 
         //Buff

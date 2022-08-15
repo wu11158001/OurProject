@@ -202,6 +202,8 @@ public class GameData_NumericalValue
 
     [Header("敵人士兵1")]
     public float enemySoldier1_Hp;//敵人士兵1_生命值
+    [Header("敵人士兵2")]
+    public float enemySoldier2_Hp;//敵人士兵2_生命值
 
     /// <summary>
     /// 建構子
@@ -211,7 +213,7 @@ public class GameData_NumericalValue
         //共通
         gravity = 6.8f;//重力
         criticalBonus = 1.3f;//報擊傷害加成
-        levelNames = new string[] { "Level[1]:我是第一關", "Level[2]:第二關還沒做", "Level[3]:第三關在哪"};//關卡名稱
+        levelNames = new string[] { "Level[1]:橫掃千軍", "Level[2]:決戰飛龍"};//關卡名稱
 
         //Buff增加數值
         buffAbleString = new string[] { "生命值", "傷害", "防禦", "移動", "吸血", "回血" };//Buff增益文字
@@ -403,7 +405,8 @@ public class GameData_NumericalValue
         #endregion
 
     //敵人
-    enemySoldier1_Hp = 10000;//敵人士兵1_生命值
+    enemySoldier1_Hp = 1000;//敵人士兵1_生命值
+    enemySoldier2_Hp = 1000;//敵人士兵1_生命值
     }
 }
 

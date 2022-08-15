@@ -82,6 +82,21 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
         }
+
+        //敵人士兵2
+        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
+        {
+            number = objectHandle.OnCreateObject(loadPath.enemySoldier_2);//產生至物件池
+            objectNumber_Dictionary.Add("enemySoldier_2", number);////添加至紀錄中
+
+            for (int i = 0; i < 1; i++)
+            {
+                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
+                enemy.transform.position = new Vector3(180, -24, -33);//設定位置
+                enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
+                OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            }
+        }
     }
 
     void Update()
@@ -96,6 +111,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 CharactersCollision collision = enemy.GetComponent<CharactersCollision>();
                 if (collision != null) collision.OnInitial();//初始化
                 enemy.transform.position = new Vector3(182, -24, -33);//設定位置        
+                OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            }
+
+            if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
+            {
+                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
+                CharactersCollision collision = enemy.GetComponent<CharactersCollision>();
+                if (collision != null) collision.OnInitial();//初始化
+                enemy.transform.position = new Vector3(180, -24, -33);//設定位置        
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
         }

@@ -43,6 +43,7 @@ public class GameData_LoadPath
 
     [Header("敵人")]
     public string enemySoldier_1;//敵人士兵1
+    public string enemySoldier_2;//敵人士兵2
 
     [Header("其他")]
     public string hitNumber;//擊中文字
@@ -86,6 +87,8 @@ public class GameData_LoadPath
 
         //敵人
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1
+        enemySoldier_2 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵2
+
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字

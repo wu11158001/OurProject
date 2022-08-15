@@ -150,7 +150,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //連線
         if (GameDataManagement.Instance.isConnect)
         {
-            if (PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTip("房主: " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束》");
+            if (PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTip("室長: " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束》");
             else PhotonConnect.Instance.OnSendGameTip("玩家: " + PhotonNetwork.NickName + " 離開遊戲");
         }
 
