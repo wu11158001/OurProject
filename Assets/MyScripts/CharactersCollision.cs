@@ -16,9 +16,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     //碰撞框
     public Vector3 boxCenter;
     public Vector3 boxSize;
-    public float boxCollisionDistance;//碰撞具距離
+    [Header("距離地面高度")] public float heightFromGround;
+    [Header("牆面碰撞距離")] public float wallCollisionDistance;
+    [Header("牆面碰撞高度")] public float wallCollisionHight;
+    float boxCollisionDistance;//碰撞距離
     Transform[] collisionObject = new Transform[9];//碰撞物件(判定是否有碰撞)    
     public Transform[] GetCollisionObject => collisionObject;
+    float jumpRayDistance;//跳躍射線距離
 
     //生命條
     LifeBar_Characters lifeBar;//生命條
@@ -29,8 +33,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public float addDefence;//增加防禦值
     public bool isSuckBlood;//是否有吸血效果
     public bool isSelfHeal;//是否有回復效果
-    float selfTime;//自我回復時間
-    //float fallStarTime;//多久沒碰地板開始落下時間
+    float selfTime;//自我回復時間    
 
     //判斷
     public bool isDie;//是否死亡
@@ -54,6 +57,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             boxSize = GetComponent<BoxCollider>().size;
         }
         boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//碰撞距離
+        heightFromGround = -0.063f;//距離地面高度        
+        wallCollisionDistance = 0.25f;//牆面碰撞距離
+        wallCollisionHight = 0.5f;//牆面碰撞高度
 
         //數值
         switch (gameObject.tag)
@@ -458,21 +464,22 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             LayerMask mask = LayerMask.GetMask("StageObject");
             RaycastHit hit;
             //地板碰撞
-            if(OnCollision_Floor(mask, out hit))
+            if(OnJumpCollision_Floor(mask, out hit, jumpRayDistance))
             {
                 if (floating_List[i].force < NumericalValue.playerJumpForce / 1.35f)
                 {
-                    floating_List.RemoveAt(i);//清除浮空效果                  
+                    floating_List.Clear();//清除浮空效果                  
                 }
-            }
-            /*if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
-            {                
-                if (floating_List[i].force < NumericalValue.playerJumpForce / 1.35f)
-                {                    
-                    floating_List.RemoveAt(i);//清除浮空效果                  
-                }
-            }*/
+            }   
         }    
+    }
+
+    /// <summary>
+    /// 重力
+    /// </summary>
+    void OnGravity()
+    {        
+        transform.position = transform.position + NumericalValue.gravity * Time.deltaTime * -Vector3.up;//重力    
     }
 
     /// <summary>
@@ -480,128 +487,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// </summary>
     void OnCollisionControl()
     {
-        info = animator.GetCurrentAnimatorStateInfo(0);
-
+        info = animator.GetCurrentAnimatorStateInfo(0);        
         LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
-        //地板碰撞        
-        /*if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
-        {          
-            transform.position = transform.position + Vector3.up * ((boxSize.y / 2) - hit.distance);
-
-            //if (fallStarTime > 0) fallStarTime = 0;//重製落下時間
-
-            if (isFall)
-            {               
-                isFall = false;
-                animator.SetBool("Fall", isFall);                
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
-            }
-        }*/
-        /*if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
-        {
-            if (info.IsName("Jump"))
-            {
-                if(info.normalizedTime > 0.65f) transform.position = transform.position + ((boxSize.y / 2) + 0.01f - hit.distance) * Vector3.up;
-            }
-            else transform.position = transform.position + ((boxSize.y / 2) + 0.01f - hit.distance) * Vector3.up;
-
-            //if (fallStarTime > 0) fallStarTime = 0;//重製落下時間
-
-            if (isFall)
-            {
-                isFall = false;
-                animator.SetBool("Fall", isFall);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
-            }
-        }*/
-        if(OnCollision_Floor(mask, out hit))
-        {
-            if (info.IsName("Jump"))
-            {
-                if (info.normalizedTime > 0.35f) transform.position = transform.position + ((boxSize.y / 2) + 0.01f - hit.distance) * Vector3.up;
-            }
-            else transform.position = transform.position + ((boxSize.y / 2) + 0.01f - hit.distance) * Vector3.up;
-
-            //if (fallStarTime > 0) fallStarTime = 0;//重製落下時間
-
-            if (isFall)
-            {
-                isFall = false;
-                animator.SetBool("Fall", isFall);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
-            }
-        }
-        else//沒碰到地板
-        {                    
-            transform.position = transform.position + NumericalValue.gravity * Time.deltaTime * -Vector3.up;//重力    
-
-            //落下
-            if (!isFall)
-            {                
-                if (info.IsName("Jump") || info.IsName("JumpAttack") || info.IsName("Dodge") || info.IsName("Pain"))
-                {
-                    if (info.normalizedTime >= 0.9f)
-                    {
-                        //距離地面距離
-                        if (!OnFallDistance())
-                        {
-                            if (!isFall)
-                            {
-                                isFall = true;
-                                animator.SetBool("Fall", isFall);
-                       
-                                if(info.IsName("Jump")) animator.SetBool("Jump", false);
-                                if(info.IsName("JumpAttack")) animator.SetBool("JumpAttack", false);
-                                if(info.IsName("Dodge")) animator.SetBool("Dodge", false);
-
-                                //連線
-                                if (GameDataManagement.Instance.isConnect)
-                                {
-                                    PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
-                                    if(info.IsName("Jump")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", false);
-                                    if(info.IsName("JumpAttack")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", false);
-                                    if(info.IsName("Dodge")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
-                                }
-                            }
-                        }
-                        /*isFall = true;
-                        animator.SetBool("Fall", isFall);
-                       
-                        //連線
-                        if(GameDataManagement.Instance.isConnect)
-                        {
-                            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
-
-                            if(info.IsName("Jump")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", false);
-                            if(info.IsName("JumpAttack")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", false);
-                            if(info.IsName("Dodge")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
-                        }*/
-                    }
-                }
-                else
-                {                    
-                    //距離地面距離
-                    if(!OnFallDistance())
-                    {
-                        if (!isFall)
-                        {
-                            isFall = true;
-                            animator.SetBool("Fall", isFall);
-                            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
-                        }
-                    }
-                    
-
-                    /*fallStarTime += Time.deltaTime;
-                    if (fallStarTime > 0.2f)
-                    {
-                        
-
-                    }*/
-                }
-            }
-        }
 
         //射線方向
         Vector3[] rayDiration = new Vector3[] { transform.forward,
@@ -613,13 +501,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                -transform.right,
                                                -transform.right -transform.forward };
 
-        float wallHight = boxSize.y * 0.25f;//牆壁高度多少碰撞
+        float wallHight = boxCenter.y + wallCollisionHight;//牆壁高度多少碰撞
         //牆壁碰撞    
         for (int i = 0; i < rayDiration.Length; i++)
         {
-            if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
-            {                
-                transform.position = transform.position - rayDiration[i] * (boxCollisionDistance - hit.distance);
+            if (Physics.BoxCast(transform.position + Vector3.up * wallHight, new Vector3(boxCollisionDistance, (boxSize.y / 2) - wallCollisionHight, boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance + (wallCollisionDistance / 2), mask))
+            {
+                transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance + (wallCollisionDistance / 2) - hit.distance));
 
                 collisionObject[i] = hit.transform;//紀錄碰撞物件
             }
@@ -628,10 +516,49 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 collisionObject[i] = null;//紀錄碰撞物件
 
                 //避免失誤塞進物件
-                if (Physics.CheckBox(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance - 0.06f, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance - 0.06f), Quaternion.Euler(transform.localEulerAngles), mask))
+                /* if (Physics.CheckBox(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance - 0.06f, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance - 0.06f), Quaternion.Euler(transform.localEulerAngles), mask))
+                 {
+                     //transform.position = transform.position - rayDiration[i] * 5 * Time.deltaTime;
+                 }*/
+            }
+        }
+        
+        //跳躍||擊飛||落下 地面碰撞
+        if (info.IsName("Jump") || info.IsName("Pain") || info.IsName("Fall"))
+        {          
+            jumpRayDistance = info.normalizedTime < 0.3f ? jumpRayDistance = -0.1f : jumpRayDistance = 0;//射線長度            
+
+            if (OnJumpCollision_Floor(mask, out hit, jumpRayDistance))
+            {
+                floating_List.Clear();//清除浮空效果
+                transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
+            }
+            else
+            {
+                OnGravity();//重力
+                OnFallJudge();//落下判斷
+            }
+        }
+
+        //一般地面碰撞
+        if (floating_List.Count == 0)
+        {
+            if (OnCollision_Floor(mask, out hit))
+            {
+                transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
+                
+                if (isFall)
                 {
-                    //transform.position = transform.position - rayDiration[i] * 5 * Time.deltaTime;
+                    isFall = false;
+                    animator.SetBool("Fall", isFall);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
                 }
+            }
+            else//沒碰到地板
+            {
+                OnGravity();//重力
+                OnFallJudge();//落下判斷
+                
             }
         }
     }
@@ -644,20 +571,85 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <returns></returns>
     public bool OnCollision_Floor(LayerMask mask, out RaycastHit hit)
     {
-        if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
-        {
+        if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
+        {            
             return true;
         }
 
         return false;
-    }  
+    }
+
+    /// <summary>
+    /// 跳躍碰撞框_地面
+    /// </summary>
+    /// <param name="mask">LayerMask</param>
+    /// <param name="hit">RaycastHit</param>
+    /// /// <param name="distance">射線長度</param>
+    /// <returns></returns>
+    public bool OnJumpCollision_Floor(LayerMask mask, out RaycastHit hit, float distance)
+    {
+        if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
+        {            
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 落下判斷
+    /// </summary>
+    void OnFallJudge()
+    {        
+        if (!isFall)
+        {
+            if (info.IsName("Jump") || info.IsName("JumpAttack") || info.IsName("Dodge") || info.IsName("Pain"))
+            {
+                if (info.normalizedTime >= 0.9f)
+                {
+                    //距離地面距離
+                    if (!OnFallDistance())
+                    {
+                        if (!isFall)
+                        {
+                            isFall = true;
+                            animator.SetBool("Fall", isFall);
+
+                            if (info.IsName("Jump")) animator.SetBool("Jump", false);
+                            if (info.IsName("JumpAttack")) animator.SetBool("JumpAttack", false);
+                            if (info.IsName("Dodge")) animator.SetBool("Dodge", false);
+
+                            //連線
+                            if (GameDataManagement.Instance.isConnect)
+                            {
+                                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
+                                if (info.IsName("Jump")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", false);
+                                if (info.IsName("JumpAttack")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", false);
+                                if (info.IsName("Dodge")) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //距離地面距離
+                if (!OnFallDistance())
+                {
+                    isFall = true;
+                    animator.SetBool("Fall", isFall);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// 落下距離
     /// </summary>
     bool OnFallDistance()
     {
-        float distance = boxSize.y * 0.65f;//落下距離
+        float distance = boxSize.y * 1f;//落下距離
         LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.Raycast(transform.position, -transform.up, distance, mask))
         {

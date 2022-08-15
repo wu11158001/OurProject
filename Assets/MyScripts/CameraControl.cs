@@ -18,6 +18,9 @@ public class CameraControl : MonoBehaviour
     float totalVertical;//記錄垂直移動量
     float distance;//與玩家距離
     bool isCollsion;//是否碰撞
+    [Header("速度")]
+    public float lerpSpeed;//lerp速度
+    public float rotateSpeed;//選轉速度
 
     void Awake()
     {
@@ -29,6 +32,12 @@ public class CameraControl : MonoBehaviour
         cameraControl = this;
 
         NumericalValue = GameDataManagement.Instance.numericalValue;
+    }
+
+    private void Start()
+    {
+        lerpSpeed = 0.35f;//選轉速度
+        rotateSpeed = 0.6f;//選轉速度
     }
 
     private void LateUpdate()
@@ -57,10 +66,10 @@ public class CameraControl : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y");//滑鼠Y軸
         distance = (lookPoint.position - transform.position).magnitude;//與玩家距離
 
-        forwardVector = Quaternion.AngleAxis(mouseX, Vector3.up) * forwardVector;//前方向量
+        forwardVector = Quaternion.AngleAxis(mouseX * rotateSpeed, Vector3.up) * forwardVector;//前方向量
 
         //限制上下角度
-        totalVertical += mouseY;//記錄垂直移動量
+        totalVertical += mouseY * rotateSpeed;//記錄垂直移動量
         if (totalVertical > NumericalValue.limitDownAngle) totalVertical = NumericalValue.limitDownAngle;
         if (totalVertical < -NumericalValue.limitUpAngle) totalVertical = -NumericalValue.limitUpAngle;
 
@@ -69,27 +78,28 @@ public class CameraControl : MonoBehaviour
         RotateVector.Normalize();
 
         Vector3 moveTarget = lookPoint.position - RotateVector * NumericalValue.distance;//移動目標
-
-        //攝影機障礙物偵測
-        float lerpSpeed = 0.35f;//lerp速度
+        //Vector3 moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);//攝影機靠近減速
+        //攝影機障礙物偵測        
         LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.SphereCast(lookPoint.position, 0.1f, -RotateVector, out RaycastHit hit, NumericalValue.distance, mask))
         {
+            //lerpSpeed = 0.25f;//lerp速度
             if (!isCollsion) isCollsion = true;
-            
+            moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * hit.distance, lerpSpeed);//攝影機靠近減速
+            //moveTarget = lookPoint.position - RotateVector * hit.distance;//攝影機靠近
+
             //碰到"StageObject"攝影機移動位置改為(觀看物件位置 - 與碰撞物件距離)                                    
-            if (distance < 0.5f && (lookPoint.transform.position - hit.transform.position).magnitude < 2.6f) moveTarget = lookPoint.position + Vector3.up * 0.49f;//距離玩家太近          
-            else moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * hit.distance, lerpSpeed);//攝影機靠近減速     
-        }
+            /*if (distance < 0.5f && (lookPoint.transform.position - hit.transform.position).magnitude < 2.6f) moveTarget = lookPoint.position + Vector3.up * 0.49f;//距離玩家太近          
+            else moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * hit.distance, lerpSpeed);//攝影機靠近減速*/
+        }     
         else
         {
-            if (isCollsion && distance < NumericalValue.distance)//攝影機後拉遠減速
-            {                
-                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);                
-                if (distance > NumericalValue.distance - 0.03f) isCollsion = false;
+            if (isCollsion && distance < NumericalValue.distance)
+            {
+                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);//攝影機離開障礙物減速
             }
         }
-        
+
         transform.position = moveTarget;
         transform.forward = lookPoint.position - transform.position;                
     }

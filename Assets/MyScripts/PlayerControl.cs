@@ -13,7 +13,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     Animator animator;
     AnimatorStateInfo info;
     CharactersCollision charactersCollision;
-    GameData_NumericalValue NumericalValue;    
+    GameData_NumericalValue NumericalValue;
 
     //碰撞框
     Vector3 boxCenter;
@@ -30,18 +30,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
     //跳躍
     [SerializeField] public bool isJump;//是否跳躍
-    Vector3 jumpForward;//跳躍前方向量
-    bool isRunJump;//跳躍前是否向前
     [SerializeField] bool isJumpTimeCountdown;//可執行跳躍倒數(倒數時不能跳躍)
     [SerializeField] float doJumpTime;//執行跳躍時間間隔
-    [SerializeField] float JumpTime;//跳躍計時器
-    [SerializeField] float jumpForce;//跳躍力
-    float playerJumpForce;//玩家跳躍力
+    [SerializeField] float JumpTime;//跳躍計時器   
 
     //閃躲
     bool isDodgeCollision;//是否閃躲碰撞
-    Vector3 dodgeBoxSize;//閃多碰撞框Size
-    Vector3 dodgeBoxCenter;//閃多碰撞框位置
 
     //攻擊
     bool isNormalAttack;//是否普通攻擊        
@@ -88,7 +82,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         //跳躍
         doJumpTime = 1.3f;//執行跳躍時間間隔
-        playerJumpForce = NumericalValue.playerJumpForce;//跳躍力
 
         //移動
         forwardVector = transform.forward;
@@ -115,24 +108,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     charactersCollision.isSelfHeal = true;
                     break;
             }         
-        }
-
-        //閃躲碰撞框
-        switch (GameDataManagement.Instance.selectRoleNumber)
-        {
-            case 0://戰士
-                dodgeBoxSize = new Vector3(boxSize.x / 2, boxSize.y / 2, boxSize.z / 2);
-                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 1.7f, boxCenter.z);     
-                break;
-            case 1://法師
-                dodgeBoxSize = new Vector3(boxSize.x / 2, boxSize.y / 2, boxSize.z / 2);
-                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y * 1.7f, boxCenter.z);
-                break;
-            case 2://弓箭手
-                dodgeBoxSize = new Vector3(boxSize.x / 2, boxSize.y / 2, boxSize.z / 2);
-                dodgeBoxCenter = new Vector3(boxCenter.x, boxCenter.y / 2, boxCenter.z);
-                break;
-        }
+        }      
     }
 
     void Update()
@@ -331,25 +307,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             animator.SetBool("NormalAttack", isNormalAttack);
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
         }           
-    }
-
-    /// <summary>
-    /// 設定閃躲碰撞框
-    /// </summary>
-    /// <param name="open">開關(0:回復 1:設定)</param>
-    void OnSetDodgeBoxCollider(int open)
-    {
-        if (open == 1)
-        {
-            charactersCollision.boxSize = dodgeBoxSize;
-            charactersCollision.boxCenter = dodgeBoxCenter;
-        }
-        else
-        {
-            charactersCollision.boxSize = boxSize;
-            charactersCollision.boxCenter = boxCenter;
-        }
-    }
+    }  
 
     /// <summary>
     /// 閃躲控制
@@ -378,23 +336,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //閃躲移動
         if (info.IsName("Dodge") && info.normalizedTime < 1)
         {
-            //射線方向
-            Vector3[] rayDiration = new Vector3[] { transform.forward,
-                                                    transform.forward - transform.right,
-                                                    transform.right,
-                                                    transform.right + transform.forward,                                               
-                                                    -transform.right,
-                                                    -transform.right -transform.forward,
-                                                    transform.up,};
-
             LayerMask mask = LayerMask.GetMask("StageObject");
-            for (int i = 0; i < rayDiration.Length; i++)
-            {
-                //判斷是否有碰牆
-                if (Physics.Raycast(transform.position + dodgeBoxCenter, rayDiration[i], boxSize.z * boxSize.z, mask)) isDodgeCollision = true;//閃躲碰撞                
-            }
 
-            if(isDodgeCollision) transform.position = transform.position - transform.forward * 5 * Time.deltaTime;
+            //判斷是否有碰牆
+            if (Physics.Raycast(transform.position + boxCenter, transform.forward, boxSize.z * boxSize.z, mask)) isDodgeCollision = true;//閃躲碰撞
+
+            if (isDodgeCollision) transform.position = transform.position - transform.forward * 5 * Time.deltaTime;
             else transform.position = transform.position + transform.forward * GameDataManagement.Instance.numericalValue.playerDodgeSeppd * Time.deltaTime;
         }
 
@@ -411,35 +358,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpControl()
     {
-        /*if (Input.GetKeyDown(KeyCode.Space) && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
-        {
-            //先向上一點
-            transform.position = transform.position + Vector3.up * NumericalValue.playerJumpForce * Time.deltaTime;
-
-            jumpForward = transform.forward;//跳躍前方向量
-            if (inputValue != 0) isRunJump = true;
-            
-            isJump = true;
-            isNormalAttack = false;
-
-            if (charactersCollision.floating_List.Count > 0) charactersCollision.floating_List.Clear();
-            charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity });//浮空List
-            
-            animator.SetBool("NormalAttack", isNormalAttack);
-            animator.SetBool("Jump", isJump);
-            if (GameDataManagement.Instance.isConnect)
-            {
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
-            }
-        }*/
-
         if (Input.GetKeyDown(KeyCode.Space) && !isJumpTimeCountdown && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
-        {
-            jumpForce = playerJumpForce;
-            jumpForward = transform.forward;//跳躍前方向量
-            if (inputValue != 0) isRunJump = true;
-
+        {            
             isJump = true;
             isNormalAttack = false;
             isJumpTimeCountdown = true;//可執行跳躍倒數                        
@@ -461,29 +381,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpHehavior()
     {
-        /*info = animator.GetCurrentAnimatorStateInfo(0);
-
-        if (info.IsTag("Jump") && info.normalizedTime > 0.5f || info.IsTag("JumpAttack"))
-        {
-            float boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;
-            LayerMask mask = LayerMask.GetMask("StageObject");
-            RaycastHit hit;
-            if (Physics.BoxCast(transform.position + Vector3.up * boxSize.y, new Vector3(boxCollisionDistance - 0.06f, 0.01f, boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y + 0.3f, mask))
-            {
-                if (isJump || isJumpAttack)
-                {                    
-                    isRunJump = false;                                   
-
-                    if (isJump)
-                    {
-                        isJump = false;
-                        animator.SetBool("Jump", isJump);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
-                    }
-                    if (isJumpAttack) isJumpAttackMove = false;                   
-                }
-            }
-        }   */
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         //跳躍計時器倒數
@@ -505,15 +402,13 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
 
         if (info.IsTag("Jump") || info.IsTag("JumpAttack"))
-        {
+        {           
             LayerMask mask = LayerMask.GetMask("StageObject");
             RaycastHit hit;
             if (charactersCollision.OnCollision_Floor(mask, out hit))
             {
                 if ((isJump || isJumpAttack) && info.normalizedTime > 0.9f)
                 {
-                    isRunJump = false;
-
                     if (isJump)
                     {
                         isJump = false;
@@ -522,31 +417,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     }
                     if (isJumpAttack) isJumpAttackMove = false;
                 }
-            }
-            /*if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(charactersCollision.boxCollisionDistance - 0.06f, 0.01f, charactersCollision.boxCollisionDistance - 0.06f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
-            {
-                if ((isJump || isJumpAttack) && info.normalizedTime > 0.9f)
-                {
-                    isRunJump = false;
-
-                    if (isJump)
-                    {                        
-                        isJump = false;
-                        animator.SetBool("Jump", isJump);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
-                    }
-                    if (isJumpAttack) isJumpAttackMove = false;
-                }
-            }*/
+            }        
         }
-
-        /*if (isJump)
-        {
-            jumpForce -= NumericalValue.gravity * Time.deltaTime;//向上力量
-            if (jumpForce <= 0) jumpForce = 0;
-            
-            transform.position = transform.position + jumpForce * Time.deltaTime * Vector3.up;//物件向上                      
-        } */       
     }
 
     /// <summary>
@@ -554,7 +426,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnJumpAttackMove()
     {
-        transform.position = transform.position + 20 * Time.deltaTime * Vector3.down;//急速下降
+        transform.position = transform.position + 10 * Time.deltaTime * Vector3.down;//急速下降
     }
 
     /// <summary>
@@ -601,24 +473,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if(charactersCollision.OnCollision_Floor(mask, out hit))
             {
                 if (hit.transform.tag == "Stairs") inputValue = (Mathf.Abs(inputX) + Mathf.Abs(inputZ)) * 0.8f;//輸入值
-            }
-            /*if (Physics.BoxCast(transform.position + Vector3.up * (boxSize.y / 2), new Vector3(charactersCollision.boxCollisionDistance - 0.1f, 0.01f, charactersCollision.boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), (boxSize.y / 2) + 0.15f, mask))
-            {
-                if (hit.transform.tag == "Stairs") inputValue = (Mathf.Abs(inputX) + Mathf.Abs(inputZ)) * 0.8f;//輸入值
-            }*/
+            }      
         }
-
-        //跳躍狀態
-        /*if (isJump)
-        {
-            if (isRunJump) inputValue = Mathf.Abs(inputX) + Mathf.Abs(inputZ);//輸入值            
-            if (inputValue > 1) inputValue = 1;
-            if (inputValue < 0) inputValue = 0;
-
-            transform.position = transform.position + jumpForward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;
-            return;
-        }*/
-
+  
         //移動
         transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;           
     }           
@@ -633,7 +490,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         inputX = Input.GetAxis("Horizontal");//輸入X值
         inputZ = Input.GetAxis("Vertical");//輸入Z值
 
-        forwardVector = Quaternion.AngleAxis(Input.GetAxis("Mouse X"), Vector3.up) * forwardVector;//前方向量
+        forwardVector = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * CameraControl.Instance.rotateSpeed, Vector3.up) * forwardVector;//前方向量
         horizontalCross = Vector3.Cross(Vector3.up, forwardVector);//水平軸      
 
         //開啟介面

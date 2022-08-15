@@ -38,9 +38,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     Button modeVolume_Button;//音量按鈕
     Scrollbar modeVolume_Scrollbar;//音量ScrollBar
     bool isShowModeVolumeScrollBar;//是否顯示音量ScrollBar
-    float ModeVolumeScrollBarSizeX;//音量ScrollBar SizeX
-    Text modeTip_Text;//提示文字
-    InputField nickName_InputField;//暱稱輸入框    
+    float ModeVolumeScrollBarSizeX;//音量ScrollBar SizeX            
 
     [Header("選擇腳色畫面")]
     Transform selectRoleScreen;//SelectRoleScreen UI控制
@@ -61,6 +59,13 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     Transform levelScreen;//LevelScreen UI控制
     Button levelBack_Button;//返回按鈕 
 
+    [Header("設定暱稱畫面")]
+    Transform setNickNameScreen;//SetNickNameScreen UI控制
+    InputField nickName_InputField;//暱稱輸入框
+    Button nickNameConfirm_Button;//暱稱確定按鈕
+    Text nickNameTip_Text;//提示文字
+    Button nickNameBack_Button;//返回按鈕
+
     [Header("連線模式畫面")]
     Transform conncetModeScreen;//ConncetModScreen UI控制
     Button connectModeBack_Button;//返回按鈕
@@ -70,7 +75,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     InputField specifyRoom_InputField;//加入房間名稱輸入框
     InputField createRoom_InputField;//創建房間名稱輸入框    
     float connectModeTipTime;//提示文字時間
-    Text connectModeTip_Text;//提示文字    
+    Text connectModeTip_Text;//提示文字        
 
     [Header("連線房間畫面")]
     Transform connectRoomScreen;//connectRoomScreen UI控制
@@ -111,6 +116,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         OnChooseRoleScreenPrepare();
         OnLevelScreenPrepare();
         OnSelectModeScreenPrepare();
+        OnSetNickNamePrepare();
         OnConnectModeScreenPrepare();
         OnConnectRoomScreenPrepare();
 
@@ -195,7 +201,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         modeSingle_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ModeSingle_Button");//單人模式按鈕
         modeSingle_Button.onClick.AddListener(OnIntoSelectRoleScreen);
         modeConnect_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ModeConnect_Button");//連線模式按鈕
-        modeConnect_Button.onClick.AddListener(OnOpenConnectModeScreen);
+        modeConnect_Button.onClick.AddListener(OnOpenSetNickNameScreen);
         modeLeaveGame_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ModeLeaveGame_Button");//離開遊戲按鈕
         modeLeaveGame_Button.onClick.AddListener(OnLeaveGame);
         modeVolume_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ModeVolume_Button");//音量按鈕
@@ -203,10 +209,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         modeVolume_Scrollbar = ExtensionMethods.FindAnyChild<Scrollbar>(transform, "ModeVolume_Scrollbar");//音量ScrollBar
         modeVolume_Scrollbar.value = GameDataManagement.Instance.musicVolume;
         modeVolume_Scrollbar.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        modeVolume_Scrollbar.handleRect.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        modeTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ModeTip_Text");//提示文字
-        modeTip_Text.enabled = false;
-        nickName_InputField = ExtensionMethods.FindAnyChild<InputField>(transform, "NickName_InputField");//暱稱輸入框 
+        modeVolume_Scrollbar.handleRect.GetComponent<Image>().color = new Color(1, 1, 1, 0);        
 
         selectModeScreen.gameObject.SetActive(false);
     }
@@ -276,7 +279,22 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         levelBack_Button.onClick.AddListener(OnLevelScreenBackButton);
 
         levelScreen.gameObject.SetActive(false);
-    }   
+    }
+
+    #region 設定暱稱畫面籌備
+    void OnSetNickNamePrepare()
+    {
+        setNickNameScreen = ExtensionMethods.FindAnyChild<Transform>(transform, "SetNickNameScreen");//SetNickNameScreen UI控制
+        nickNameConfirm_Button = ExtensionMethods.FindAnyChild<Button>(transform, "NickNameConfirm_Button");//暱稱確定按鈕
+        nickNameConfirm_Button.onClick.AddListener(OnIntoConncetModeScreen);
+        nickNameTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "NickNameTip_Text");//提示文字
+        nickNameTip_Text.enabled = false;
+        nickNameBack_Button = ExtensionMethods.FindAnyChild<Button>(transform, "NickNameBack_Button");//返回按鈕
+        nickNameBack_Button.onClick.AddListener(OnNickNameBackButton);
+
+        setNickNameScreen.gameObject.SetActive(false);
+    }
+    #endregion
 
     /// <summary>
     /// 連線模式籌備
@@ -298,6 +316,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         connectModeTip_Text.color = color;
         connectModeBack_Button = ExtensionMethods.FindAnyChild<Button>(transform, "ConnectModeBack_Button");//返回按鈕
         connectModeBack_Button.onClick.AddListener(OnConnectModeBackButton);
+        nickName_InputField = ExtensionMethods.FindAnyChild<InputField>(transform, "NickName_InputField");//暱稱輸入框 
+
 
         conncetModeScreen.gameObject.SetActive(false);
     }
@@ -436,16 +456,20 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 開啟連線模式畫面
+    /// 開啟設定暱稱畫面
     /// </summary>
-    void OnOpenConnectModeScreen()
-    {              
-        PhotonConnect.Instance.OnConnectSetting(nickName:nickName_InputField.text);
-
-        modeTip_Text.enabled = true;
-        modeSelectBackground_Image.gameObject.SetActive(false);
+    void OnOpenSetNickNameScreen()
+    {        
+        setNickNameScreen.gameObject.SetActive(true);                
+        nickName_InputField.gameObject.SetActive(true);//暱稱輸入框
+        nickNameConfirm_Button.gameObject.SetActive(true);//暱稱確定按鈕
+        nickNameBack_Button.gameObject.SetActive(true);//返回按鈕
+        selectModeScreen.gameObject.SetActive(false);
+        nickName_InputField.text = "訪客" + UnityEngine.Random.Range(0, 1000);//預設暱稱 
+               
+       /* modeSelectBackground_Image.gameObject.SetActive(false);
         modeLeaveGame_Button.gameObject.SetActive(false);
-        modeVolume.gameObject.SetActive(false);
+        modeVolume.gameObject.SetActive(false);*/
     }
 
     /// <summary>
@@ -453,16 +477,15 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnIsConnected()
     {
+        setNickNameScreen.gameObject.SetActive(false);
         conncetModeScreen.gameObject.SetActive(true);
         modeSelectBackground_Image.gameObject.SetActive(true);
-        modeTip_Text.enabled = false;
-        selectModeScreen.gameObject.SetActive(false);
-        nickName_InputField.text = "";
+        nickNameTip_Text.enabled = false;
 
         //連線模式按鈕
         createRoom_Button.enabled = true;
         randomRoom_Button.enabled = true;
-        specifyRoom_Button.enabled = true;
+        specifyRoom_Button.enabled = true;                       
     }
 
     /// <summary>
@@ -613,6 +636,31 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     }
     #endregion
 
+    #region 設定暱稱畫面
+    /// <summary>
+    /// 進入連線模式畫面
+    /// </summary>
+    void OnIntoConncetModeScreen()
+    {
+        nickNameTip_Text.enabled = true;//提示文字
+        nickName_InputField.gameObject.SetActive(false);//暱稱輸入框
+        nickNameConfirm_Button.gameObject.SetActive(false);//暱稱確定按鈕
+        nickNameBack_Button.gameObject.SetActive(false);//返回按鈕
+
+        PhotonConnect.Instance.OnConnectSetting();        
+        PhotonConnect.Instance.OnSetNickName(nickName_InputField.text);//設定暱稱        
+    }
+
+    /// <summary>
+    /// 返回按鈕
+    /// </summary>
+    void OnNickNameBackButton()
+    {
+        setNickNameScreen.gameObject.SetActive(false);
+        selectModeScreen.gameObject.SetActive(true);
+    }
+    #endregion
+
     #region 連線模式畫面   
     /// <summary>
     /// 返回按鈕
@@ -624,7 +672,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         selectModeScreen.gameObject.SetActive(true);
         conncetModeScreen.gameObject.SetActive(false);
         modeLeaveGame_Button.gameObject.SetActive(true);
-        modeVolume.gameObject.SetActive(true);
+        modeVolume.gameObject.SetActive(true);        
     }
     
     /// <summary>

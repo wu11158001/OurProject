@@ -28,17 +28,12 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <summary>
     /// 連線設定
     /// </summary>
-    /// <param name="nickName">暱稱</param>
-    public void OnConnectSetting(string nickName)
+    public void OnConnectSetting()
     {
         Debug.Log("準備連線");
 
         PhotonNetwork.ConnectUsingSettings();//設定連線
-        PhotonNetwork.AutomaticallySyncScene = true;
-
-        //設定暱稱
-        if (nickName == "") PhotonNetwork.NickName = "訪客" + UnityEngine.Random.Range(0, 1000);
-        else PhotonNetwork.NickName = nickName;
+        PhotonNetwork.AutomaticallySyncScene = true;        
     }
 
     /// <summary>
@@ -68,6 +63,17 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         Debug.Log("已離線");       
         GameDataManagement.Instance.isConnect = false;
+    }
+
+    /// <summary>
+    /// 設定暱稱
+    /// </summary>
+    /// <param name="nickName">暱稱</param>
+    public void OnSetNickName(string nickName)
+    {
+        //設定暱稱
+        if (nickName == "") PhotonNetwork.NickName = "訪客" + UnityEngine.Random.Range(0, 1000);
+        else PhotonNetwork.NickName = nickName;
     }
     #endregion
 

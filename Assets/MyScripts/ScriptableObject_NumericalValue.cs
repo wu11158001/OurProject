@@ -209,7 +209,7 @@ public class GameData_NumericalValue
     private GameData_NumericalValue()
     {
         //共通
-        gravity = 10.1f;//重力
+        gravity = 6.8f;//重力
         criticalBonus = 1.3f;//報擊傷害加成
         levelNames = new string[] { "Level[1]:我是第一關", "Level[2]:第二關還沒做", "Level[3]:第三關在哪"};//關卡名稱
 
@@ -226,9 +226,9 @@ public class GameData_NumericalValue
         //玩家
         playerHp = 300;//玩家生命值
         playerMoveSpeed = 6.3f;//玩家移動速度        
-        playerJumpForce = 14.5f;//玩家跳躍力
+        playerJumpForce = 7.7f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
-        playerDodgeSeppd = 1.5f;//玩家閃躲速度
+        playerDodgeSeppd = 4.8f;//玩家閃躲速度
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         #region 戰士

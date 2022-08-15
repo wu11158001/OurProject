@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NumericalValue
   m_EditorClassIdentifier: 
   numericalValue:
-    gravity: 10.1
+    gravity: 6.8
     criticalBonus: 1.3
     levelNames:
     - "Level[1]:\u6211\u662F\u7B2C\u4E00\u95DC"
@@ -38,9 +38,9 @@ MonoBehaviour:
     limitDownAngle: 13
     playerHp: 300
     playerMoveSpeed: 6.3
-    playerJumpForce: 14.5
+    playerJumpForce: 7.7
     playerCriticalRate: 15
-    playerDodgeSeppd: 1.5
+    playerDodgeSeppd: 4.8
     playerSelfHealTime: 5
     warriorNormalAttack_1_Damge: 10
     warriorNormalAttack_1_RepelDirection: 0
