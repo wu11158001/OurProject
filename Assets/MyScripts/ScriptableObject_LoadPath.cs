@@ -87,7 +87,7 @@ public class GameData_LoadPath
 
         //敵人
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1
-        enemySoldier_2 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵2
+        enemySoldier_2 = "Prefab/Characters/Enemy/EnemySoldier_2";//敵人士兵2
 
 
         //其他
