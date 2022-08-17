@@ -82,8 +82,10 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     [Header("連線房間畫面")]
     Transform connectRoomScreen;//connectRoomScreen UI控制
     Button connectRoomBack_Button;//返回按鈕
+    List<Transform> roomPlayerTransformList = new List<Transform>();//房間玩家腳色圖片物件
     List<RectTransform> roomPlayerList = new List<RectTransform>();//紀錄房間玩家
-    Sprite connectRoomRoleBackground;//腳色圖片背景
+    public Texture connectRoomRoleBackground_Texture;//腳色圖片背景(原圖)
+    Texture connectRoomRoleBackground;//腳色圖片背景
     Button connectRoomLeftRole_Button;//更換腳色(左)
     Button connectRoomRightRole_Button;//更換腳色(右)
     float connectRoomChangeRoleTime;//更換腳色時間
@@ -339,11 +341,13 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         //房間玩家UI
         for (int i = 0; i < 4; i++)
         {
+            roomPlayerTransformList.Add(ExtensionMethods.FindAnyChild<Transform>(transform, "Player" + (i + 1)));
             roomPlayerList.Add(ExtensionMethods.FindAnyChild<RectTransform>(transform, "Player" + (i + 1) + "_Image"));
-            ExtensionMethods.FindAnyChild<Transform>(roomPlayerList[i], "Left_Button").gameObject.SetActive(false);
-            ExtensionMethods.FindAnyChild<Transform>(roomPlayerList[i], "Right_Button").gameObject.SetActive(false);
+            ExtensionMethods.FindAnyChild<Transform>(roomPlayerTransformList[i], "Left_Button").gameObject.SetActive(false);
+            ExtensionMethods.FindAnyChild<Transform>(roomPlayerTransformList[i], "Right_Button").gameObject.SetActive(false);
         }
-        connectRoomRoleBackground = roomPlayerList[0].GetComponent<Image>().sprite;//腳色圖片背景
+        connectRoomRoleBackground = roomPlayerList[0].GetComponent<RawImage>().texture;//腳色圖片背景
+        
 
         roomSendMessage_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoomSendMessage_Button");//發送訊息按鈕
         roomSendMessage_Button.onClick.AddListener(OnRoomSendMessage);
@@ -798,24 +802,24 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         //重製
         for (int j = 0; j < roomPlayerList.Count; j++)
         {
-            ExtensionMethods.FindAnyChild<Text>(roomPlayerList[j], "ID_Text").text = "等待玩家";
-            ExtensionMethods.FindAnyChild<Button>(roomPlayerList[j], "Left_Button").gameObject.SetActive(false);//更換腳色(左)
-            ExtensionMethods.FindAnyChild<Button>(roomPlayerList[j], "Right_Button").gameObject.SetActive(false);//更換腳色(右)
-            roomPlayerList[j].GetComponent<Image>().sprite = connectRoomRoleBackground;
+            ExtensionMethods.FindAnyChild<Text>(roomPlayerTransformList[j], "ID_Text").text = "等待玩家";
+            ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[j], "Left_Button").gameObject.SetActive(false);//更換腳色(左)
+            ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[j], "Right_Button").gameObject.SetActive(false);//更換腳色(右)
+            roomPlayerList[j].GetComponent<RawImage>().texture = connectRoomRoleBackground;
         }
 
         //更新
         for (int i = 0; i < playerList.Count; i++)
         {
-            ExtensionMethods.FindAnyChild<Text>(roomPlayerList[i], "ID_Text").text = playerList[i];
+            ExtensionMethods.FindAnyChild<Text>(roomPlayerTransformList[i], "ID_Text").text = playerList[i];
             
             //顯示更換腳色按鈕
             if(selfNickName == playerList[i])
             {
-                connectRoomLeftRole_Button = ExtensionMethods.FindAnyChild<Button>(roomPlayerList[i], "Left_Button");//更換腳色(左)
+                connectRoomLeftRole_Button = ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[i], "Left_Button");//更換腳色(左)
                 connectRoomLeftRole_Button.gameObject.SetActive(true);
                 connectRoomLeftRole_Button.onClick.AddListener(delegate { OnConnectRoomChangeRole(-1); });
-                connectRoomRightRole_Button = ExtensionMethods.FindAnyChild<Button>(roomPlayerList[i], "Right_Button");//更換腳色(右)
+                connectRoomRightRole_Button = ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[i], "Right_Button");//更換腳色(右)
                 connectRoomRightRole_Button.gameObject.SetActive(true);
                 connectRoomRightRole_Button.onClick.AddListener(delegate { OnConnectRoomChangeRole(1); });
             }           
@@ -829,7 +833,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <param name="characters">腳色編號</param>
     public void OnRefreshPlayerCharacters(int number, int characters)
     {
-        for (int i = 0; i < roomPlayerList.Count; i++)
+        for (int i = 0; i < roomPlayerTransformList.Count; i++)
         {
             if(i == number)
             {
