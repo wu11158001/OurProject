@@ -230,7 +230,7 @@ public class GameData_NumericalValue
         playerMoveSpeed = 6.3f;//玩家移動速度        
         playerJumpForce = 7.7f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
-        playerDodgeSeppd = 4.8f;//玩家閃躲速度
+        playerDodgeSeppd = 6.3f;//玩家閃躲速度
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         #region 戰士
