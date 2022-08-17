@@ -2651,6 +2651,7 @@ GameObject:
   - component: {fileID: 5049481276270827681}
   - component: {fileID: 4798156459014300625}
   - component: {fileID: 873758347070952034}
+  - component: {fileID: 8311669789977910666}
   m_Layer: 0
   m_Name: 1_Warrior
   m_TagString: Untagged
@@ -2779,7 +2780,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 5049481276270827681}
-  sceneViewId: 2
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &5049481276270827681
@@ -2830,6 +2831,29 @@ MonoBehaviour:
   reverse: 0
   currentDistance: 0
   currentClampedDistance: 0
+--- !u!114 &8311669789977910666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5540696642782688847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a156e852ad56bd440bf6e1d5ed8fc091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCenter: {x: 0, y: 0, z: 0}
+  boxSize: {x: 0, y: 0, z: 0}
+  heightFromGround: -0.063
+  wallCollisionDistance: 0
+  wallCollisionHight: 0
+  Hp: 0
+  MaxHp: 0
+  addDefence: 0
+  isSuckBlood: 0
+  isSelfHeal: 0
+  isDie: 0
 --- !u!1 &5583808441237025581
 GameObject:
   m_ObjectHideFlags: 0

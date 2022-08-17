@@ -283,7 +283,7 @@ public class EnemyControl : MonoBehaviourPunCallbacks
         gameObject.tag = "EnemySoldier_1";//設定Tag
         animator = GetComponent<Animator>();
 
-        if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
+        //if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
 
         //連線 && 不是自己的
         if (PhotonNetwork.IsConnected && !photonView.IsMine)

@@ -53,7 +53,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         animator = GetComponent<Animator>();
         
-        if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
+        //if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
         charactersCollision = GetComponent<CharactersCollision>();
 
         //連線 && 不是自己的

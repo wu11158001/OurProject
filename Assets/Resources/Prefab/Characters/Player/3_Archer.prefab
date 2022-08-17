@@ -1370,6 +1370,7 @@ GameObject:
   - component: {fileID: 6956824232803869389}
   - component: {fileID: 4278933344365298465}
   - component: {fileID: 782215911735633002}
+  - component: {fileID: -6544687253818083873}
   m_Layer: 0
   m_Name: 3_Archer
   m_TagString: Untagged
@@ -1489,7 +1490,6 @@ MonoBehaviour:
   isJumpTimeCountdown: 0
   doJumpTime: 0
   JumpTime: 0
-  jumpForce: 0
   isJumpAttackMove: 0
 --- !u!114 &6956824232803869389
 MonoBehaviour:
@@ -1535,6 +1535,29 @@ MonoBehaviour:
   reverse: 0
   currentDistance: 0
   currentClampedDistance: 0
+--- !u!114 &-6544687253818083873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3826201887993512684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a156e852ad56bd440bf6e1d5ed8fc091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCenter: {x: 0, y: 0, z: 0}
+  boxSize: {x: 0, y: 0, z: 0}
+  heightFromGround: -0.063
+  wallCollisionDistance: 0
+  wallCollisionHight: 0
+  Hp: 0
+  MaxHp: 0
+  addDefence: 0
+  isSuckBlood: 0
+  isSelfHeal: 0
+  isDie: 0
 --- !u!1 &3912250926662023324
 GameObject:
   m_ObjectHideFlags: 0
