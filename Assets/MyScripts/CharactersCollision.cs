@@ -57,7 +57,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             boxSize = GetComponent<BoxCollider>().size;
         }
         boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//碰撞距離
-        //heightFromGround = -0.063f;//距離地面高度        
+//        heightFromGround = -0.063f;//距離地面高度        
         wallCollisionDistance = 0.25f;//牆面碰撞距離
         wallCollisionHight = 0.5f;//牆面碰撞高度
 
@@ -100,7 +100,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
-    }
+    }   
 
     /// <summary>
     /// 初始化

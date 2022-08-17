@@ -2979,7 +2979,7 @@ GameObject:
   - component: {fileID: 5969705993885329309}
   - component: {fileID: 622764843942148758}
   - component: {fileID: -6188694848449895838}
-  - component: {fileID: 9196105972441100914}
+  - component: {fileID: 4317988514419848170}
   m_Layer: 0
   m_Name: EnemySoldier_1
   m_TagString: Untagged
@@ -3085,7 +3085,7 @@ MonoBehaviour:
   - 3000
   - 3000
   - 4000
-  actRestTme: 5
+  actRestTme: 2
 --- !u!114 &622764843942148758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3112,29 +3112,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9196105972441100914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8155911046909593204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a156e852ad56bd440bf6e1d5ed8fc091, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCenter: {x: 0, y: 0, z: 0}
-  boxSize: {x: 0, y: 0, z: 0}
-  heightFromGround: 5
-  wallCollisionDistance: 0
-  wallCollisionHight: 0
-  Hp: 0
-  MaxHp: 0
-  addDefence: 0
-  isSuckBlood: 0
-  isSelfHeal: 0
-  isDie: 0
 --- !u!1 &8280981376583001391
 GameObject:
   m_ObjectHideFlags: 0
