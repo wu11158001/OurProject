@@ -44,11 +44,13 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     Transform selectRoleScreen;//SelectRoleScreen UI控制
     Button roleBack_Button;//返回按鈕
     Button roleConfirm_Button;//腳色確定按鈕    
-    [Header("選擇腳色畫面/腳色選擇按鈕")]       
-    Sprite[] roleSelect_Sprite;//腳色選擇圖片
+    [Header("選擇腳色畫面/腳色選擇按鈕")]
+    // Sprite[] roleSelect_Sprite;//腳色選擇圖片
+    Texture[] roleSelect_Sprite;
     Button roleSelectRight_Button;//腳色按鈕移動(右)
     Button roleSelectLeft_Button;//腳色按鈕移動(左)
-    Image rolePicture_Image;//選擇的腳色(大圖)
+    // Image rolePicture_Image;//選擇的腳色(大圖)
+    RawImage rolePicture_Image;
     [Header("選擇腳色畫面/Buff")]
     int[] equipBuff;//裝備的Buff
     Text EquipBuff_Text;//裝備的Buff文字
@@ -230,11 +232,14 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         roleSelectRight_Button.onClick.AddListener(delegate { OnRoleButtonMove(number:1); });
         roleSelectLeft_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoleSelectLeft_Button");//腳色按鈕移動(左)
         roleSelectLeft_Button.onClick.AddListener(delegate { OnRoleButtonMove(number: -1); });
-        roleSelect_Sprite = Resources.LoadAll<Sprite>(loadPath.roleSelect_Sprite);//腳色選擇圖片             
-        
+        // roleSelect_Sprite = Resources.LoadAll<Sprite>(loadPath.roleSelect_Sprite);//腳色選擇圖片             
+        roleSelect_Sprite = Resources.LoadAll<Texture>(loadPath.roleSelect_Sprite);
+
         //選擇的腳色(大圖)
-        rolePicture_Image = ExtensionMethods.FindAnyChild<Image>(transform, "RolePicture_Image");
-        rolePicture_Image.sprite = roleSelect_Sprite[0];
+        // rolePicture_Image = ExtensionMethods.FindAnyChild<Image>(transform, "RolePicture_Image");
+        rolePicture_Image = ExtensionMethods.FindAnyChild<RawImage>(transform, "RolePicture_Image");
+        // rolePicture_Image.sprite = roleSelect_Sprite[0];
+        rolePicture_Image.texture = roleSelect_Sprite[0];
 
         equipBuff = new int[2];//裝備的Buff
 
@@ -598,7 +603,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         if (role < 0) role = roleSelect_Sprite.Length - 1;
         if (role > roleSelect_Sprite.Length - 1) role = 0;
 
-        rolePicture_Image.sprite = roleSelect_Sprite[role];//設定選擇的腳色(大圖)
+        // rolePicture_Image.sprite = roleSelect_Sprite[role];//設定選擇的腳色(大圖)
+        rolePicture_Image.texture = roleSelect_Sprite[role];
         GameDataManagement.Instance.selectRoleNumber = role;       
     }   
     #endregion
@@ -827,7 +833,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         {
             if(i == number)
             {
-                roomPlayerList[i].GetComponent<Image>().sprite = roleSelect_Sprite[characters];
+                // roomPlayerList[i].GetComponent<Image>().sprite = roleSelect_Sprite[characters];
+                roomPlayerList[i].GetComponent<RawImage>().texture = roleSelect_Sprite[characters];
                 continue;
             }            
         }
