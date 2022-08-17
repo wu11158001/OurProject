@@ -806,6 +806,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
             ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[j], "Left_Button").gameObject.SetActive(false);//更換腳色(左)
             ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[j], "Right_Button").gameObject.SetActive(false);//更換腳色(右)
             roomPlayerList[j].GetComponent<RawImage>().texture = connectRoomRoleBackground;
+            roomPlayerList[j].sizeDelta = new Vector2(400, 700);
         }
 
         //更新
@@ -839,6 +840,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
             {
                 // roomPlayerList[i].GetComponent<Image>().sprite = roleSelect_Sprite[characters];
                 roomPlayerList[i].GetComponent<RawImage>().texture = roleSelect_Sprite[characters];
+                roomPlayerList[i].sizeDelta = new Vector2(1950, 1950);
                 continue;
             }            
         }
