@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Effects : MonoBehaviour
 {
+    public GameObject weapon;
     public GameObject effects;     //定位特效位置(因為不想用GameObject.Find)     
     Animator anim;                 //對應角色動作組件
     AnimatorStateInfo animInfo;    //獲得動作狀態(節省腳本用)   
@@ -13,6 +14,10 @@ public class Effects : MonoBehaviour
     ParticleSystem SkillAttack_2;
     ParticleSystem SkillAttack_3;
     ParticleSystem hit;
+
+    Color baseColor;
+    float rColor, gColor, bColor;
+    float intensity;
 
     void Start()
     {
@@ -24,6 +29,13 @@ public class Effects : MonoBehaviour
         SkillAttack_3 = effects.transform.GetChild(4).GetComponent<ParticleSystem>();    //獲得特效組件;
         hit = effects.transform.GetChild(5).GetComponent<ParticleSystem>();              //命中效果
         StarShakeSet();                                                                 //畫面震盪
+
+        baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");       
+        intensity = 1f;
+        rColor = 0.933f;
+        gColor = 0.933f;
+        bColor = 0.933f;
+        // Debug.Log(baseColor.r +" "+ baseColor.g+" "+ baseColor.b);
     }
 
     void Update()
@@ -40,10 +52,24 @@ public class Effects : MonoBehaviour
 
     void WarNormalAttack1()
     {
-        var idelName = "Attack.NormalAttack_1";         //動作名稱
-        float delay = 0.35f;                            //控制播放時間點，面板務必保持為0   
-        var effect = NormalAttack_1;                    //特效名稱
-        DoEffects(idelName, delay, effect);
+        var idelName = "Attack.NormalAttack_1";
+        if (animInfo.IsName(idelName))
+        {
+            intensity += intensity * 20f * Time.deltaTime;   //變換速度
+            if (intensity >= 15f) intensity = 15f;  //亮度
+            if (animInfo.normalizedTime > 0.5)
+            {
+                intensity -= intensity * 50f * Time.deltaTime;
+                if (intensity <= 1f) intensity = 1f;
+            }
+        }
+        weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
+
+
+        //var idelName = "Attack.NormalAttack_1";         //動作名稱
+        //float delay = 0.35f;                            //控制播放時間點，面板務必保持為0   
+        //var effect = NormalAttack_1;                    //特效名稱
+        //DoEffects(idelName, delay, effect);
     }
 
     void WarNormalAttack3()
@@ -52,12 +78,105 @@ public class Effects : MonoBehaviour
         float delay = 0.35f;                            //控制播放時間點，面板務必保持為0   
         var effect = NormalAttack_3;                    //特效名稱
         DoEffects(idelName, delay, effect);
+
+        if (animInfo.IsName(idelName))
+        {
+            baseColor = new Color(baseColor.r, gColor, bColor); ;
+            gColor += gColor * 20f * Time.deltaTime;   //變換速度
+            bColor += bColor * 20f * Time.deltaTime;   //變換速度
+            if (gColor >= 1f) gColor = 1f;
+            if (bColor >= 1.5f) bColor = 1.5f;
+
+            intensity += intensity * 20f * Time.deltaTime;   //變換速度
+            if (intensity >= 15f) intensity = 15f;  //亮度
+            if (animInfo.normalizedTime > 0.5)
+            {
+                intensity -= intensity * 50f * Time.deltaTime;
+                if (intensity <= 1f) intensity = 1f;
+
+                gColor -= gColor * 50f * Time.deltaTime;
+                if (gColor <= 0.933f) gColor = 0.933f;
+                bColor -= bColor * 50f * Time.deltaTime;
+                if (bColor <= 0.933f) bColor = 0.933f;
+            }
+        }
+        weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
+
+    }    
+
+    void WarSkillAttack1()
+    {
+        var idelName = "Attack.SkillAttack_1";         //動作名稱
+        float delay = 0.7f;                            //控制播放時間點，面板務必保持為0   
+        var effect = SkillAttack_1;                    //特效名稱
+
+        if (animInfo.IsName(idelName))
+        {
+            baseColor = new Color(rColor, gColor, bColor); ;
+            rColor += rColor * 20f * Time.deltaTime;   //變換速度
+            gColor += gColor * 20f * Time.deltaTime;   //變換速度
+            if (rColor >= 2f) rColor = 2f;
+            if (gColor >= 1.5f) gColor = 1.5f;
+
+            intensity += intensity * 20f * Time.deltaTime;   //變換速度
+            if (intensity >= 5f) intensity = 5f;  //亮度
+            if (animInfo.normalizedTime > 0.5)
+            {
+                intensity -= intensity * 50f * Time.deltaTime;
+                if (intensity <= 1f) intensity = 1f;
+
+                rColor -= rColor * 20f * Time.deltaTime;
+                if (rColor <= 0.933f) rColor = 0.933f;
+                gColor -= gColor * 20f * Time.deltaTime;
+                if (gColor <= 0.933f) gColor = 0.933f;
+            }
+        }
+        weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
+
+
+
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
+        {
+            effect.Play();
+            isshakeCamera = true;          //畫面震盪
+            if (animInfo.normalizedTime > delay + 0.1f) effect.Stop();
+        }
+        else effect.Stop();
     }
 
     void WarSkillAttack2()
     {
         var idelName = "Attack.SkillAttack_2";         //動作名稱
-        var skill = SkillAttack_2;                     //三個不同時間播放特效
+        var skill = SkillAttack_2;
+
+        if (animInfo.IsName(idelName))
+        {
+            baseColor = new Color(rColor, gColor, bColor); ;
+            rColor += rColor * 20f * Time.deltaTime;   //變換速度
+            gColor -= gColor * 20f * Time.deltaTime;   //變換速度
+            bColor -= bColor * 20f * Time.deltaTime;   //變換速度
+            if (rColor >= 10) rColor = 10;
+            if (gColor <= 0) gColor = 0;
+            if (bColor <= 0) bColor = 0;
+
+            intensity += intensity * 20f * Time.deltaTime;   //變換速度
+            if (intensity >= 2f) intensity = 2f;  //亮度
+          
+            if (animInfo.normalizedTime > 0.5)
+            {
+                intensity -= intensity * 30f * Time.deltaTime;
+                if (intensity <= 2f) intensity = 2f;
+
+                rColor -= rColor * 30f * Time.deltaTime;               
+                if (rColor <= 0.933f) rColor = 0.933f;
+                gColor = 0.933f;
+                bColor = 0.933f;
+            }
+        }
+        weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
+
+
+
 
         var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
         float delay = 0.01f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
@@ -72,41 +191,55 @@ public class Effects : MonoBehaviour
         DoEffects(idelName, delay2, SkillAttack_32);
     }
 
-    void WarSkillAttack1()
-    {
-        var idelName = "Attack.SkillAttack_1";         //動作名稱
-        float delay = 0.5f;                            //控制播放時間點，面板務必保持為0   
-        var effect = SkillAttack_1;                    //特效名稱
-
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
-        {
-            effect.Play();
-            isshakeCamera = true;          //畫面震盪
-            if (animInfo.normalizedTime > delay + 0.1f) effect.Stop();
-        }
-        else effect.Stop();
-    }
-
     void WarSkillAttack3()
     {
         var idelName = "Attack.SkillAttack_3";         //動作名稱
-        var skill = SkillAttack_3;                     //三個不同時間播放特效
+        var skill = SkillAttack_3;
+
+
+        if (animInfo.IsName(idelName))
+        {
+            baseColor = new Color(baseColor.r, gColor, bColor); ;
+            gColor += gColor * 20f * Time.deltaTime;   //變換速度
+            bColor += bColor * 20f * Time.deltaTime;   //變換速度
+            if (gColor >= 1f) gColor = 1f;
+            if (bColor >= 2f) bColor = 2f;
+
+            intensity += intensity * 20f * Time.deltaTime;   //變換速度
+            if (intensity >= 15f) intensity = 15f;  //亮度
+            if (animInfo.normalizedTime > 0.5)
+            {
+                intensity -= intensity * 50f * Time.deltaTime;
+                if (intensity <= 1f) intensity = 1f;
+
+                gColor -= gColor * 50f * Time.deltaTime;
+                if (gColor <= 0.933f) gColor = 0.933f;
+                bColor -= bColor * 50f * Time.deltaTime;
+                if (bColor <= 0.933f) bColor = 0.933f;
+            }
+        }
+        weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
 
         var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
         float delay = 0.001f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
 
-        var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
-        float delay1 = 0.2f;                            //SkillAttack_31特效播放時間點
-        DoEffects(idelName, delay1, SkillAttack_31);
+        //var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
+        //float delay1 = 0.2f;                            //SkillAttack_31特效播放時間點
+        //DoEffects(idelName, delay1, SkillAttack_31);
 
-        var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
-        float delay2 = 0.4f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
-        DoEffects(idelName, delay2, SkillAttack_32);
+        //var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
+        //float delay2 = 0.4f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        //DoEffects(idelName, delay2, SkillAttack_32);
 
         var SkillAttack_33 = skill.transform.GetChild(3).GetComponent<ParticleSystem>();
-        float delay3 = 0.7f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
-        DoEffects(idelName, delay3, SkillAttack_33);
+        float delay3 = 0.7f;
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay3 && !SkillAttack_33.isPlaying)
+        {
+            SkillAttack_33.Play();
+            isshakeCamera = true;          //畫面震盪
+        }
+        else SkillAttack_33.Stop();
     }
 
     void DoEffects(string idelName, float delay, ParticleSystem effect)
@@ -158,7 +291,7 @@ public class Effects : MonoBehaviour
         Physics.Raycast(star, dir, out RaycastHit pos, Mathf.Infinity, LayerMask.GetMask("Enemy"));
         GetHitPs().transform.position = pos.point;
         GetHitPs().Play();
-        isshakeCamera = true;          //畫面震盪
+        //  isshakeCamera = true;          //畫面震盪
     }
     List<ParticleSystem> hitList = new List<ParticleSystem>();
     ParticleSystem HitPool()
@@ -183,7 +316,7 @@ public class Effects : MonoBehaviour
     private float frameTime = 0.0f;
     private float shakeDelta = 0.005f;
     // public Camera cam;  不掛鏡頭，減少依賴
-    public bool isshakeCamera = false;
+    bool isshakeCamera = false;
 
     void StarShakeSet()
     {
