@@ -1551,19 +1551,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afeab1949886554e86d42f2f1d475c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderRadius: 3
-  alertRadius: 5
-  defendRadius: 3
-  chaseRadius: 10
-  attackRange: 0.5
-  walkSpeed: 1
-  runSpeed: 2
-  turnSpeed: 0.1
-  actionWeight:
-  - 3000
-  - 3000
-  - 4000
-  actRestTme: 2
 --- !u!114 &857033477215979371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1588,8 +1575,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 2.0542984, z: 0.66783524}
+  m_Center: {x: 0, y: 0.9833412, z: 0.022497177}
 --- !u!114 &5182801619071051705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1604,7 +1591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
-  heightFromGround: 0.4
+  heightFromGround: -0.03
   wallCollisionDistance: 0
   wallCollisionHight: 0
   Hp: 0
@@ -1613,6 +1600,7 @@ MonoBehaviour:
   isSuckBlood: 0
   isSelfHeal: 0
   isDie: 0
+  acceleration: 0
 --- !u!1 &5581074014973966235
 GameObject:
   m_ObjectHideFlags: 0

@@ -122,7 +122,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.forwardDistance = NumericalValue.warriorSkillAttack_3_ForwardDistance[count];//攻擊範圍中心點距離物件前方
         attack.attackRadius = NumericalValue.warriorSkillAttack_3_attackRadius[count];//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorSkillAttack_3_IsAttackBehind[count];//是否攻擊背後敵人
-
+        
         GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                                 
     }
 

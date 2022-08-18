@@ -37,27 +37,27 @@ MonoBehaviour:
     limitDownAngle: 13
     playerHp: 300
     playerMoveSpeed: 6.3
-    playerJumpForce: 7.7
+    playerJumpForce: 12.05
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
     warriorNormalAttack_1_Damge: 10
     warriorNormalAttack_1_RepelDirection: 0
-    warriorNormalAttack_1_RepelDistance: 25
+    warriorNormalAttack_1_RepelDistance: 20
     warriorNormalAttack_1_Effect: Pain
     warriorNormalAttack_1_ForwardDistance: 1.3
     warriorNormalAttack_1_attackRadius: 1.2
     warriorNormalAttack_1_IsAttackBehind: 0
     warriorNormalAttack_2_Damge: 11
     warriorNormalAttack_2_RepelDirection: 0
-    warriorNormalAttack_2_RepelDistance: 25
+    warriorNormalAttack_2_RepelDistance: 20
     warriorNormalAttack_2_Effect: Pain
     warriorNormalAttack_2_ForwardDistance: 1.3
     warriorNormalAttack_2_attackRadius: 1.2
     warriorNormalAttack_2_IsAttackBehind: 0
     warriorNormalAttack_3_Damge: 12
     warriorNormalAttack_3_RepelDirection: 0
-    warriorNormalAttack_3_RepelDistance: 10
+    warriorNormalAttack_3_RepelDistance: 20
     warriorNormalAttack_3_Effect: Pain
     warriorNormalAttack_3_ForwardDistance: 0.5
     warriorNormalAttack_3_attackRadius: 1.55
@@ -91,7 +91,7 @@ MonoBehaviour:
     warriorSkillAttack_3_RepelDistance:
     - 30
     - 30
-    - 15.3
+    - 13.1
     warriorSkillAttack_3_Effect:
     - Pain
     - Pain
@@ -243,10 +243,10 @@ MonoBehaviour:
     magicianSkillAttack_2_IsAttackBehind: 00000000000000000000
     magicianSkillAttack_3_Damge: 14
     magicianSkillAttack_3_RepelDirection: 1
-    magicianSkillAttack_3_RepelDistance: 15.3
+    magicianSkillAttack_3_RepelDistance: 13.1
     magicianSkillAttack_32_Effect: Pain
     magicianSkillAttack_3_ForwardDistance: 3
     magicianSkillAttack_3_attackRadius: 1.8
     magicianSkillAttack_3_IsAttackBehind: 0
-    enemySoldier1_Hp: 1000
-    enemySoldier2_Hp: 1000
+    enemySoldier1_Hp: 500
+    enemySoldier2_Hp: 500
