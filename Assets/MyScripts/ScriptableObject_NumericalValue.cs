@@ -213,7 +213,7 @@ public class GameData_NumericalValue
         //共通
         gravity = 6.8f;//重力
         criticalBonus = 1.3f;//報擊傷害加成
-        levelNames = new string[] { "Level[1]:橫掃千軍", "Level[2]:決戰飛龍"};//關卡名稱
+        levelNames = new string[] { "橫掃千軍", "決戰飛龍"};//關卡名稱
 
         //Buff增加數值
         buffAbleString = new string[] { "生命值", "傷害", "防禦", "移動", "吸血", "回血" };//Buff增益文字

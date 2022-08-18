@@ -840,7 +840,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
             {
                 // roomPlayerList[i].GetComponent<Image>().sprite = roleSelect_Sprite[characters];
                 roomPlayerList[i].GetComponent<RawImage>().texture = roleSelect_Sprite[characters];
-                roomPlayerList[i].sizeDelta = new Vector2(1950, 1950);
+                roomPlayerList[i].sizeDelta = new Vector2(2000, 2000);
                 continue;
             }            
         }
