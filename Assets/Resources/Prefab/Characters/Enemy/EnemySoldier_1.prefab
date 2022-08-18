@@ -3073,13 +3073,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afeab1949886554e86d42f2f1d475c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderRadius: 3
-  alertRadius: 5
+  wanderRadius: 50
+  alertRadius: 8
   defendRadius: 3
   chaseRadius: 10
   attackRange: 0.5
   walkSpeed: 1
-  runSpeed: 2
+  runSpeed: 3
   turnSpeed: 0.1
   actionWeight:
   - 3000
