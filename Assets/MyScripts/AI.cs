@@ -8,6 +8,8 @@ public class AI : MonoBehaviourPunCallbacks
 {
     Animator animator;
     AnimatorStateInfo info;
+    CharactersCollision charactersCollision;
+    AStart aStart = new AStart();
     //NavMeshAgent navMeshAgent;
 
     LayerMask mask;//攻擊對象Layer
@@ -29,12 +31,13 @@ public class AI : MonoBehaviourPunCallbacks
     float normalRandomAngle;//一般狀態亂數選轉角度
 
     [Header("警戒狀態")]
-    float alertCheckDistanceTime;//警戒狀態偵測範圍時間
-    float alertCheckTime;//警戒狀態偵測偵測時間(計時器)
-    int alertObject;//警戒對象編號
+    float CheckPlayerDistanceTime;//偵測玩家距離時間
+    float CheckPlayerTime;//偵測玩家時間(計時器)
+    
 
     [Header("追擊狀態")]
     [SerializeField] float chaseSpeed;//追擊速度
+    int chaseObject;//追擊對象編號
     bool isStartChase;//是否開始追擊
 
     [Header("攻擊狀態")]
@@ -44,6 +47,12 @@ public class AI : MonoBehaviourPunCallbacks
     [SerializeField]bool isAttacking;//是否攻擊中
 
     [SerializeField] GameObject[] players;//所有玩家
+
+    [Header("尋路")]
+    [SerializeField] List<Vector3> pathsList = new List<Vector3>();//移動路徑節點  
+    int point = 0;//尋路節點編號
+    [SerializeField]int numberOfSeach;//搜索節點數量
+    bool isExecuteAStart;//是否執行AStart
 
     private void Awake()
     {
@@ -58,20 +67,21 @@ public class AI : MonoBehaviourPunCallbacks
             this.enabled = false;
             return;
         }
-
-
     }
     void Start()
     {
         mask = LayerMask.GetMask("Player");//攻擊對象Layer
 
+        aStart.initial();
+        charactersCollision = GetComponent<CharactersCollision>();
+        
         //navMeshAgent = GetComponent<NavMeshAgent>();
 
         //偵測範圍
         normalStateMoveRadius = 3;//一般狀態移動範圍
         alertRadius = 30;//警戒範圍
         chaseRadius = 18;//追擊範圍
-        attackRadius = 7.5f;//攻擊範圍
+        attackRadius = 3.0f;//攻擊範圍
 
         //一般狀態
         originalPosition = transform.position;//初始位置
@@ -82,13 +92,16 @@ public class AI : MonoBehaviourPunCallbacks
         //警戒狀態        
         if (GameDataManagement.Instance.isConnect) players = new GameObject[PhotonNetwork.CurrentRoom.PlayerCount];//所有玩家
         else players = new GameObject[1];
-        alertCheckDistanceTime = 3;//警戒狀態偵測範圍時間
+        CheckPlayerDistanceTime = 3;//偵測玩家距離時間
 
         //追擊狀態
         chaseSpeed = 5;//追擊速度
 
         //攻擊狀態
-        attackFrequency = new float[2] { 0.5f, 3.0f};//攻擊頻率(亂數最小值, 最大值)
+        attackFrequency = new float[2] { 0.5f, 3.0f};//攻擊頻率(亂數最小值, 最大值)  
+
+        //尋路
+        numberOfSeach = 3;//搜索節點數量
     }
 
     void Update()
@@ -244,12 +257,13 @@ public class AI : MonoBehaviourPunCallbacks
         {
             OnCheckClosestPlayer();//檢查最近玩家
             OnAttackRangeCheck();//攻擊範圍偵測        
+            OnCheckCollision();//偵測碰撞
 
             //朝玩家移動
             transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
             //navMeshAgent.SetDestination(players[alertObject].transform.position);
         }
-    }
+    }    
 
     /// <summary>
     /// 攻擊範圍偵測
@@ -348,6 +362,93 @@ public class AI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 偵測碰撞
+    /// </summary>
+    void OnCheckCollision()
+    {        
+        if (players[chaseObject] != null)
+        {            
+            CharactersCollision playerCharactersCollision = players[chaseObject].GetComponent<CharactersCollision>();
+
+            //偵測障礙物
+            LayerMask mask = LayerMask.GetMask("StageObject");
+            if (Physics.Linecast(transform.position + charactersCollision.boxCenter, players[chaseObject].transform.position + playerCharactersCollision.boxCenter, mask))
+            {
+                //尋找節點
+                if (!isExecuteAStart)
+                {
+                    isExecuteAStart = true;
+                    Debug.LogError("s");
+                    pathsList = aStart.OnGetBestPoint(transform.position, players[chaseObject].transform.position);
+                    point = 0;//尋路節點編號
+                }
+            }         
+        }
+
+        if(isExecuteAStart && pathsList.Count > 0) OnWayPoint();//尋路方向
+    }
+
+    /// <summary>
+    /// 尋路方向
+    /// </summary>
+    void OnWayPoint()
+    {
+        //與節點距離
+        float distance = (transform.position - pathsList[point]).magnitude;       
+
+        if (distance < 0.1f)
+        {
+            point++;//目前尋路節點編號
+
+            //到達目標 || 到達搜索節點數量
+            if (point > pathsList.Count - 1 || point == numberOfSeach)
+            {
+                point = pathsList.Count - 1;
+
+                isExecuteAStart = false;//非執行AStart
+                pathsList.Clear();
+            }          
+        }
+    }
+    Vector3 horizontalCross;
+    /// <summary>
+    /// 檢查最近玩家
+    /// </summary>
+    void OnCheckClosestPlayer()
+    {
+        CheckPlayerTime -= Time.deltaTime;//偵測玩家時間
+
+        if (CheckPlayerTime < 0)
+        {
+            chaseObject = 0;//追擊對象編號
+            float closestPlayerDistance = 100000;//最近距離
+            float distance;//其他玩家距離
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                distance = (players[i].transform.position - transform.position).magnitude;
+                if (distance < closestPlayerDistance)
+                {
+                    closestPlayerDistance = distance;
+                    chaseObject = i;
+                }
+            }
+
+            CheckPlayerTime = CheckPlayerDistanceTime;
+        }
+
+        //觀看最近玩家        
+        float maxRadiansDelta = 0.07f;//轉向角度
+        Vector3 targetDiration;//目標向量
+        if (pathsList.Count > 0) targetDiration = pathsList[point] - transform.position;//執行AStart
+        else targetDiration = players[chaseObject].transform.position - transform.position;//一般情況        
+
+        Vector3 v = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);//轉向
+
+        transform.rotation = Quaternion.LookRotation(v);
+    }
+
+    /// <summary>
     /// 更換狀態
     /// </summary>
     /// <param name="state">更換狀態</param>
@@ -379,38 +480,6 @@ public class AI : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, isAnimationActive);
     }
 
-    /// <summary>
-    /// 檢查最近玩家
-    /// </summary>
-    void OnCheckClosestPlayer()
-    {
-        alertCheckTime -= Time.deltaTime;//警戒狀態偵測偵測時間
-
-        if(alertCheckTime < 0)
-        {
-            alertObject = 0;//警戒對象編號
-            float closestPlayerDistance = 100000;//最近距離
-            float distance;//其他玩家距離
-
-            for (int i = 0; i < players.Length; i++)
-            {
-                distance = (players[i].transform.position - transform.position).magnitude;
-                if (distance < closestPlayerDistance)
-                {
-                    closestPlayerDistance = distance;
-                    alertObject = i;
-                }
-            }
-
-            alertCheckTime = alertCheckDistanceTime;
-        }
-
-        //觀看最近玩家
-        float maxRadiansDelta = 0.085f;//轉向角度
-        Vector3 forward = players[alertObject].transform.position - transform.position;//面相玩家向量
-        transform.forward = Vector3.RotateTowards(transform.forward, forward, maxRadiansDelta, maxRadiansDelta);
-    }
-
     private void OnDrawGizmos()
     {
         //一般狀態移動範圍
@@ -428,5 +497,16 @@ public class AI : MonoBehaviourPunCallbacks
         //攻擊範圍
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
+
+        //尋路
+        for (int i = 0; i < pathsList.Count - 1; i++)
+        {
+            Vector3 s = pathsList[i];
+            s.y = 1;
+            Vector3 n = pathsList[i + 1];
+            n.y = 1;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(s, n);
+        }
     }
 }
