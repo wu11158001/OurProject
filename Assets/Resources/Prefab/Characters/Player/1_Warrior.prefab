@@ -7504,7 +7504,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'RightHandMiddle2'\n\tTransform 'LeftHandRing2'\n\tTransform
+    'Spine1'\n\tTransform 'RightHandPinky2'\n\tTransform 'Neck'\n\tTransform 'LeftHandThumb1'\n\tTransform
+    'RightHandThumb3'\n\tTransform 'RightForeArm'\n\tTransform 'LeftLeg'\n\tTransform
+    'RightHandThumb1'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -9147,6 +9152,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6892567909349196940}
     m_Modifications:
+    - target: {fileID: 1703275449600090441, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: randomSeed
+      value: 9508
+      objectReference: {fileID: 0}
+    - target: {fileID: 1703275449600090441, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1703275449600090441, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.7372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 1703275449600090441, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.30142847
+      objectReference: {fileID: 0}
+    - target: {fileID: 1703275449600090441, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.121568635
+      objectReference: {fileID: 0}
+    - target: {fileID: 1703275449618441225, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 1703275449618441225, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1703275449618441225, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.78
+      objectReference: {fileID: 0}
     - target: {fileID: 1725017571086494160, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 40
@@ -9238,6 +9275,14 @@ PrefabInstance:
     - target: {fileID: 4425990257299283073, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
       propertyPath: m_Name
       value: 1_Warrior-NA_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425990257299283074, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: randomSeed
+      value: 9508
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425990257299283074, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6ccc6063d76d424ca7f94df6e6af6a0, type: 3}
