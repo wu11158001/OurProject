@@ -2,11 +2,13 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AI : MonoBehaviourPunCallbacks
 {
     Animator animator;
     AnimatorStateInfo info;
+    //NavMeshAgent navMeshAgent;
 
     LayerMask mask;//攻擊對象Layer
 
@@ -33,9 +35,13 @@ public class AI : MonoBehaviourPunCallbacks
 
     [Header("追擊狀態")]
     [SerializeField] float chaseSpeed;//追擊速度
+    bool isStartChase;//是否開始追擊
 
     [Header("攻擊狀態")]
     [SerializeField] float[] attackFrequency;//攻擊頻率(亂數最小值, 最大值)
+    float attackTime;//攻擊時間(計時器)
+    [SerializeField]bool isAttackIdle;//是否攻擊待機
+    [SerializeField]bool isAttacking;//是否攻擊中
 
     [SerializeField] GameObject[] players;//所有玩家
 
@@ -52,10 +58,14 @@ public class AI : MonoBehaviourPunCallbacks
             this.enabled = false;
             return;
         }
+
+
     }
     void Start()
     {
         mask = LayerMask.GetMask("Player");//攻擊對象Layer
+
+        //navMeshAgent = GetComponent<NavMeshAgent>();
 
         //偵測範圍
         normalStateMoveRadius = 3;//一般狀態移動範圍
@@ -209,7 +219,7 @@ public class AI : MonoBehaviourPunCallbacks
         //更換狀態偵測
         if (OnDetectionRange(radius: chaseRadius))
         {            
-            OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "Alert");
+            OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
         }
     }
 
@@ -218,11 +228,27 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnChaseBehavior()
     {
-        OnCheckClosestPlayer();//檢查最近玩家
-        OnAttackRangeCheck();//攻擊範圍偵測        
+        info = animator.GetCurrentAnimatorStateInfo(0);
 
-        //朝玩家移動
-        transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
+        //咆嘯完開始追擊
+        if (info.IsName("Howling") && info.normalizedTime >= 1)
+        {
+            isStartChase = true;//開始追擊
+
+            OnChangeAnimation(animationName: "Howling", isAnimationActive: false);
+            OnChangeAnimation(animationName: "Run", isAnimationActive: true);
+        }
+
+        //開始追擊
+        if (isStartChase)
+        {
+            OnCheckClosestPlayer();//檢查最近玩家
+            OnAttackRangeCheck();//攻擊範圍偵測        
+
+            //朝玩家移動
+            transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
+            //navMeshAgent.SetDestination(players[alertObject].transform.position);
+        }
     }
 
     /// <summary>
@@ -230,20 +256,28 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnAttackRangeCheck()
     {
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
         //更換狀態偵測
         if (OnDetectionRange(radius: attackRadius))
-        {            
-            OnChangeState(state: AIState.攻擊狀態, openAnimationName: "NormalAttack", closeAnimationName: "Run");
+        {
+            isAttacking = true;//在攻擊中
+            OnChangeState(state: AIState.攻擊狀態, openAnimationName: "NormalAttack", closeAnimationName: "Run");            
         } 
         else
         {
-            if (!info.IsName("NormalAttack"))
-            {                
-                OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle");
+            //"待機中動畫"中沒關閉"攻擊中"狀態
+            if (info.IsName("AttackIdle") && isAttacking) isAttacking = false;
+
+            //在攻擊待機中 && 不再攻擊中
+            if (isAttackIdle && !isAttacking)
+            {
+                if (aiState != AIState.追擊狀態) OnChangeAnimation("NormalAttack", false);
+                OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle");                
             }
         }
     }
-    bool isAttackIdle;//是否攻擊待機
+    
     /// <summary>
     /// 攻擊狀態行為
     /// </summary>
@@ -252,39 +286,50 @@ public class AI : MonoBehaviourPunCallbacks
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         OnAttackRangeCheck();
-        if (!info.IsName("NormalAttack")) OnCheckClosestPlayer();//檢查最近玩家
-
+        if (!isAttacking) OnCheckClosestPlayer();//檢查最近玩家
 
         if (info.IsName("NormalAttack") && info.normalizedTime >= 1)
         {
             if (!isAttackIdle)//是否攻擊待機
-            {
+            {                
                 isAttackIdle = true;
-
-                OnChangeAnimation("AttackIdle", true);
+                isAttacking = false;
+               
                 OnChangeAnimation("NormalAttack", false);
-                
-                StartCoroutine(OnWaitAttack());
+
+                if (OnDetectionRange(radius: attackRadius))//攻擊範圍內
+                {
+                    OnChangeAnimation("AttackIdle", true);
+                }                
+
+                //亂數攻擊待機時間
+                attackTime = Random.Range(attackFrequency[0], attackFrequency[1]);
             }
-        }
+        }  
+        
+        OnWaitAttack();//等待攻擊
     }
 
     /// <summary>
     /// 等待攻擊
     /// </summary>
-    /// <returns></returns>
-    IEnumerator OnWaitAttack()
+    void OnWaitAttack()
     {
-        //攻擊時間
-        float attackTime = Random.Range(attackFrequency[0], attackFrequency[1]);
-        yield return new WaitForSeconds(attackTime);
+        if (attackTime > 0)
+        {
+            attackTime -= Time.deltaTime;
 
-        isAttackIdle = false;
-
-        OnChangeAnimation(animationName: "AttackIdle", isAnimationActive: false);
-        OnChangeAnimation(animationName: "NormalAttack", isAnimationActive: true);
+            if(attackTime <= 0)
+            {
+                isAttackIdle = false;
+                isAttacking = true;
+                
+                OnChangeAnimation(animationName: "AttackIdle", isAnimationActive: false);
+                OnChangeAnimation(animationName: "NormalAttack", isAnimationActive: true);                
+            }
+        }
     }
-
+  
     /// <summary>
     /// 偵測範圍
     /// </summary>
@@ -329,7 +374,7 @@ public class AI : MonoBehaviourPunCallbacks
     void OnChangeAnimation(string animationName, bool isAnimationActive)
     {
         info = animator.GetCurrentAnimatorStateInfo(0);
-
+        
         animator.SetBool(animationName, isAnimationActive);
         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, isAnimationActive);
     }
@@ -361,7 +406,7 @@ public class AI : MonoBehaviourPunCallbacks
         }
 
         //觀看最近玩家
-        float maxRadiansDelta = 0.03f;//轉向角度
+        float maxRadiansDelta = 0.085f;//轉向角度
         Vector3 forward = players[alertObject].transform.position - transform.position;//面相玩家向量
         transform.forward = Vector3.RotateTowards(transform.forward, forward, maxRadiansDelta, maxRadiansDelta);
     }
