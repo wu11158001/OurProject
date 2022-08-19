@@ -30,7 +30,7 @@ public class Effects : MonoBehaviour
         hit = effects.transform.GetChild(5).GetComponent<ParticleSystem>();              //命中效果
         StarShakeSet();                                                                 //畫面震盪
 
-        baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");       
+        baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
         intensity = 1f;
         rColor = 0.933f;
         gColor = 0.933f;
@@ -74,10 +74,20 @@ public class Effects : MonoBehaviour
 
     void WarNormalAttack3()
     {
-        var idelName = "Attack.NormalAttack_3";         //動作名稱
-        float delay = 0.35f;                            //控制播放時間點，面板務必保持為0   
+        var idelName = "Attack.NormalAttack_3";         //動作名稱      
         var effect = NormalAttack_3;                    //特效名稱
-        DoEffects(idelName, delay, effect);
+        float delay0 = 0.01f;
+        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();      
+        DoEffects(idelName, delay0, NormalAttack_30);
+
+        var NormalAttack_35 = effect.transform.GetChild(5).GetComponent<ParticleSystem>();
+        float delay5 = 0.35f;                            //控制播放時間點，面板務必保持為0   
+        DoEffects(idelName, delay5, NormalAttack_35);
+
+        var NormalAttack_36 = effect.transform.GetChild(6).GetComponent<ParticleSystem>();
+        float delay6 = 0.35f;                            //控制播放時間點，面板務必保持為0   
+        DoEffects(idelName, delay6, NormalAttack_36);
+
 
         if (animInfo.IsName(idelName))
         {
@@ -102,7 +112,7 @@ public class Effects : MonoBehaviour
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
 
-    }    
+    }
 
     void WarSkillAttack1()
     {
@@ -161,13 +171,13 @@ public class Effects : MonoBehaviour
 
             intensity += intensity * 20f * Time.deltaTime;   //變換速度
             if (intensity >= 2f) intensity = 2f;  //亮度
-          
+
             if (animInfo.normalizedTime > 0.5)
             {
                 intensity -= intensity * 30f * Time.deltaTime;
                 if (intensity <= 2f) intensity = 2f;
 
-                rColor -= rColor * 30f * Time.deltaTime;               
+                rColor -= rColor * 30f * Time.deltaTime;
                 if (rColor <= 0.933f) rColor = 0.933f;
                 gColor = 0.933f;
                 bColor = 0.933f;
