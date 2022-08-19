@@ -9,8 +9,8 @@ public class PostProcessControl : MonoBehaviour
 
     void Start()
     {
-        postProcessProfile.GetSetting<DepthOfField>().focusDistance.value = 2f;
-        postProcessProfile.GetSetting<DepthOfField>().aperture.value = 3f;        
+        postProcessProfile.GetSetting<DepthOfField>().focusDistance.value = 2.5f;
+        postProcessProfile.GetSetting<DepthOfField>().aperture.value = 0.1f;        
     }
 
 
@@ -21,7 +21,7 @@ public class PostProcessControl : MonoBehaviour
         if (mx >= 9 || my >= 8)
         {
             FLV += FLV * 1000f* Time.deltaTime;
-            if (FLV >= 36) FLV = 36;           
+            if (FLV >= 15) FLV = 15;           
         }
 
         if (mx < 0.01f && my < 0.01f)
