@@ -10,7 +10,6 @@ public class AI : MonoBehaviourPunCallbacks
     AnimatorStateInfo info;
     CharactersCollision charactersCollision;
     AStart aStart = new AStart();
-    //NavMeshAgent navMeshAgent;
 
     LayerMask mask;//攻擊對象Layer
 
@@ -32,8 +31,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     [Header("警戒狀態")]
     float CheckPlayerDistanceTime;//偵測玩家距離時間
-    float CheckPlayerTime;//偵測玩家時間(計時器)
-    
+    float CheckPlayerTime;//偵測玩家時間(計時器)    
 
     [Header("追擊狀態")]
     [SerializeField] float chaseSpeed;//追擊速度
@@ -50,8 +48,9 @@ public class AI : MonoBehaviourPunCallbacks
 
     [Header("尋路")]
     [SerializeField] List<Vector3> pathsList = new List<Vector3>();//移動路徑節點  
-    int point = 0;//尋路節點編號
-    [SerializeField]int numberOfSeach;//搜索節點數量
+    [SerializeField] int numberOfSeach;//搜索節點數量
+    [SerializeField] float rotateAngle;//選轉角度
+    int point = 0;//尋路節點編號    
     bool isExecuteAStart;//是否執行AStart
 
     private void Awake()
@@ -74,8 +73,6 @@ public class AI : MonoBehaviourPunCallbacks
 
         aStart.initial();
         charactersCollision = GetComponent<CharactersCollision>();
-        
-        //navMeshAgent = GetComponent<NavMeshAgent>();
 
         //偵測範圍
         normalStateMoveRadius = 3;//一般狀態移動範圍
@@ -102,6 +99,7 @@ public class AI : MonoBehaviourPunCallbacks
 
         //尋路
         numberOfSeach = 3;//搜索節點數量
+        rotateAngle = 360;//選轉角度
     }
 
     void Update()
@@ -260,8 +258,7 @@ public class AI : MonoBehaviourPunCallbacks
             OnCheckCollision();//偵測碰撞
 
             //朝玩家移動
-            transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
-            //navMeshAgent.SetDestination(players[alertObject].transform.position);
+            transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime; 
         }
     }    
 
@@ -378,7 +375,7 @@ public class AI : MonoBehaviourPunCallbacks
                 if (!isExecuteAStart)
                 {
                     isExecuteAStart = true;
-                    Debug.LogError("s");
+                    
                     pathsList = aStart.OnGetBestPoint(transform.position, players[chaseObject].transform.position);
                     point = 0;//尋路節點編號
                 }
@@ -437,15 +434,16 @@ public class AI : MonoBehaviourPunCallbacks
             CheckPlayerTime = CheckPlayerDistanceTime;
         }
 
-        //觀看最近玩家        
-        float maxRadiansDelta = 0.07f;//轉向角度
-        Vector3 targetDiration;//目標向量
+        //觀看最近玩家 
+        Vector3 targetDiration;//目標向量        
         if (pathsList.Count > 0) targetDiration = pathsList[point] - transform.position;//執行AStart
-        else targetDiration = players[chaseObject].transform.position - transform.position;//一般情況        
+        else targetDiration = players[chaseObject].transform.position - transform.position;//一般情況    
 
-        Vector3 v = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);//轉向
-
-        transform.rotation = Quaternion.LookRotation(v);
+        //判斷目標在左/右方
+        int diretion = 1;//方向
+        if (Vector3.Dot(targetDiration, Vector3.Cross(Vector3.up, transform.forward)) > 0) diretion = 1;
+        else diretion = -1;
+        transform.Rotate(Vector3.up * rotateAngle * diretion * Time.deltaTime, Space.World);       
     }
 
     /// <summary>
