@@ -9,6 +9,7 @@ public class Effects : MonoBehaviour
     Animator anim;                 //對應角色動作組件
     AnimatorStateInfo animInfo;    //獲得動作狀態(節省腳本用)   
     ParticleSystem NormalAttack_1;
+    ParticleSystem NormalAttack_2;
     ParticleSystem NormalAttack_3;
     ParticleSystem SkillAttack_1;
     ParticleSystem SkillAttack_2;
@@ -21,34 +22,58 @@ public class Effects : MonoBehaviour
 
     void Start()
     {
-        anim = gameObject.transform.GetComponent<Animator>();                             //獲得角色動作組件        
+        anim = gameObject.transform.GetComponent<Animator>();                             //獲得角色動作組件         
         NormalAttack_1 = effects.transform.GetChild(0).GetComponent<ParticleSystem>();    //獲得特效組件;
-        NormalAttack_3 = effects.transform.GetChild(1).GetComponent<ParticleSystem>();    //獲得特效組件;
-        SkillAttack_1 = effects.transform.GetChild(2).GetComponent<ParticleSystem>();    //獲得特效組件;
-        SkillAttack_2 = effects.transform.GetChild(3).GetComponent<ParticleSystem>();    //獲得特效組件;
-        SkillAttack_3 = effects.transform.GetChild(4).GetComponent<ParticleSystem>();    //獲得特效組件;
-        hit = effects.transform.GetChild(5).GetComponent<ParticleSystem>();              //命中效果
+        NormalAttack_2 = effects.transform.GetChild(1).GetComponent<ParticleSystem>();    //獲得特效組件
+        NormalAttack_3 = effects.transform.GetChild(2).GetComponent<ParticleSystem>();    //獲得特效組件;
+        SkillAttack_1 = effects.transform.GetChild(3).GetComponent<ParticleSystem>();    //獲得特效組件;
+        SkillAttack_2 = effects.transform.GetChild(4).GetComponent<ParticleSystem>();    //獲得特效組件;
+        SkillAttack_3 = effects.transform.GetChild(5).GetComponent<ParticleSystem>();    //獲得特效組件;
+        hit = effects.transform.GetChild(6).GetComponent<ParticleSystem>();              //命中效果
         StarShakeSet();                                                                 //畫面震盪
 
-        baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
-        intensity = 1f;
-        rColor = 0.933f;
-        gColor = 0.933f;
-        bColor = 0.933f;
-        // Debug.Log(baseColor.r +" "+ baseColor.g+" "+ baseColor.b);
+        if (anim.runtimeAnimatorController.name == "1_Warrior")
+        {
+            baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
+            intensity = 1f;
+            rColor = 0.933f;
+            gColor = 0.933f;
+            bColor = 0.933f;
+        }
     }
 
     void Update()
     {
         // effects.transform.localPosition = new Vector3(0.2075253f, 0.8239655f, 0.4717751f);   //防意外
         animInfo = anim.GetCurrentAnimatorStateInfo(0);                                      //節省廢話
-        WarNormalAttack1();
-        WarNormalAttack3();
-        WarSkillAttack1();
-        WarSkillAttack2();
-        WarSkillAttack3();
         UpdaSnake();                                                                       //畫面震盪 
+
+        if (anim.runtimeAnimatorController.name == "1_Warrior")
+        {
+            WarNormalAttack1();
+            WarNormalAttack3();
+            WarSkillAttack1();
+            WarSkillAttack2();
+            WarSkillAttack3();
+        }
+        if (anim.runtimeAnimatorController.name == "2_Magician")
+        {
+            MagSkillAttack1();
+        }
     }
+
+
+
+    void MagSkillAttack1()
+    {
+        var idelName = "Attack.SkillAttack_1";
+        float delay = 0.01f;
+        var effect = SkillAttack_1;
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying) effect.Play();
+    }
+
+
+    #region 戰士
 
     void WarNormalAttack1()
     {
@@ -77,7 +102,7 @@ public class Effects : MonoBehaviour
         var idelName = "Attack.NormalAttack_3";         //動作名稱      
         var effect = NormalAttack_3;                    //特效名稱
         float delay0 = 0.01f;
-        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();      
+        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();
         DoEffects(idelName, delay0, NormalAttack_30);
 
         var NormalAttack_35 = effect.transform.GetChild(5).GetComponent<ParticleSystem>();
@@ -142,8 +167,6 @@ public class Effects : MonoBehaviour
             }
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
-
-
 
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
         {
@@ -252,6 +275,8 @@ public class Effects : MonoBehaviour
         else SkillAttack_33.Stop();
     }
 
+    #endregion
+
     void DoEffects(string idelName, float delay, ParticleSystem effect)
     {
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
@@ -290,7 +315,7 @@ public class Effects : MonoBehaviour
 
     public void HitEffect(GameObject player, Collider hitPos)
     {
-        Vector3 star = player.transform.GetChild(3).position;
+        Vector3 star = player.transform.GetChild(1).position;
         Vector3 dir = hitPos.transform.GetChild(0).position - star;
         if (dir.magnitude < 2)
         {
