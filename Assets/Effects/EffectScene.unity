@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &358356420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3844230871875983877, guid: a6be758a621a52f49b3e3729e2f7a874, type: 3}
+  m_PrefabInstance: {fileID: 3844230872893439078}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1223511373
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,6 +194,7 @@ PlayableDirector:
     - c2192bed5d548854ba5dbba38bfaeedd: {fileID: 3844230872893439081}
     - 16e4249efd1f1cf4085fc4e83d25374f: {fileID: 0}
     - cfe657f12f922854b857523676e7d7c1: {fileID: 0}
+    - 64b0f84343a445c45812f618e9094d8e: {fileID: 358356420}
     - 219f710ef987ff545bb5a7b90eb644d5: {fileID: 3844230872893439080}
     - 3eab7e700a3973247806dc31da2df487: {fileID: 0}
     - 12b959c8214c360489fb47309b670f7f: {fileID: 3844230872893439086}
@@ -216,6 +222,7 @@ PlayableDirector:
     - cf6f9b54896e6814baa22c08c5d4ef34: {fileID: 3844230872893439088}
     - 06890d7eee79ac64b9ec4a94b9bab133: {fileID: 0}
     - 599688bc036734b4c937e31b25db574f: {fileID: 0}
+    - 32e8191afbd172943ad6dc4bb9647cbd: {fileID: 358356420}
     - 0f08d3f2b5396dd488bde1ff4ceef925: {fileID: 0}
     - 2d1e4d9e0815f7f408a71b8b7f5cf6eb: {fileID: 0}
     - 8dd209d26d229374f87659f06924cdc5: {fileID: 0}
@@ -470,8 +477,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778684076}
-  m_LocalRotation: {x: 0.011681643, y: -0.9871574, z: 0.08559868, w: 0.13437527}
-  m_LocalPosition: {x: 0.5511575, y: 1.2934859, z: 4.4726353}
+  m_LocalRotation: {x: -0.3031181, y: 0.6046393, z: -0.266982, w: -0.68647754}
+  m_LocalPosition: {x: 3.6590738, y: 3.8725147, z: 0.43938065}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
