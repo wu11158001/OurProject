@@ -8,7 +8,7 @@ using System.Collections;
 // (only deactivates the object if the OnlyDeactivate flag is set, automatically used with CFX Spawn System)
 
 [RequireComponent(typeof(ParticleSystem))]
-public class CFX_AutoDestructShuriken : MonoBehaviour
+public class myCFX_AutoDestructShuriken : MonoBehaviour
 {
     // If true, deactivate the object instead of destroying it
     public bool OnlyDeactivate;

@@ -19,6 +19,7 @@ public class Effects : MonoBehaviour
     Color baseColor;
     float rColor, gColor, bColor;
     float intensity;
+    float fov;
 
     void Start()
     {
@@ -31,8 +32,10 @@ public class Effects : MonoBehaviour
         SkillAttack_3 = effects.transform.GetChild(5).GetComponent<ParticleSystem>();    //莉眔疭舱ン;
         hit = effects.transform.GetChild(6).GetComponent<ParticleSystem>();              //㏑い狦
         StarShakeSet();                                                                 //礶綺历
+        fov =Camera.main.fieldOfView;
 
-        if (anim.runtimeAnimatorController.name == "1_Warrior")
+        //猌竟祇驹絙も
+        if (anim.runtimeAnimatorController.name == "1_Warrior"|| anim.runtimeAnimatorController.name == "3_Archer")
         {
             baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
             intensity = 1f;
@@ -47,7 +50,7 @@ public class Effects : MonoBehaviour
         // effects.transform.localPosition = new Vector3(0.2075253f, 0.8239655f, 0.4717751f);   //ň種
         animInfo = anim.GetCurrentAnimatorStateInfo(0);                                      //竊紀杠
         UpdaSnake();                                                                       //礶綺历 
-
+      //  PowerWindownView();
         if (anim.runtimeAnimatorController.name == "1_Warrior")
         {
             WarNormalAttack1();
@@ -59,6 +62,7 @@ public class Effects : MonoBehaviour
         if (anim.runtimeAnimatorController.name == "2_Magician")
         {
             MagSkillAttack1();
+         //   MagSkillAttack3();
         }
     }
 
@@ -70,6 +74,22 @@ public class Effects : MonoBehaviour
         float delay = 0.01f;
         var effect = SkillAttack_1;
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying) effect.Play();
+    }
+
+    void MagSkillAttack3()
+    {
+        var idelName = "Attack.SkillAttack_3";
+        float delay = 0.01f;
+        var effect = SkillAttack_3;
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
+        {
+            effect.Play();
+            pWindownView = true;
+            if (animInfo.IsName(idelName) && animInfo.normalizedTime >= 1)
+            {
+                //    pWindownView = false;
+            }
+        }
     }
 
 
@@ -102,11 +122,11 @@ public class Effects : MonoBehaviour
         var idelName = "Attack.NormalAttack_3";         //笆嘿      
         var effect = NormalAttack_3;                    //疭嘿
         float delay0 = 0.01f;
-        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();
+        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();  //
         DoEffects(idelName, delay0, NormalAttack_30);
 
         float delay1 = 0.2f;
-        var NormalAttack_31 = effect.transform.GetChild(1).GetComponent<ParticleSystem>();
+        var NormalAttack_31 = effect.transform.GetChild(1).GetComponent<ParticleSystem>();  //
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay1 && !NormalAttack_31.isPlaying)
         {
             NormalAttack_31.Play();
@@ -297,27 +317,50 @@ public class Effects : MonoBehaviour
 
 
 
-    //礶罽
-    float xTime = 0f;                                      //罽把计獶㏕﹚把计
+    #region 礶罽
+
+    bool pWindownView = false;
+    float xTime = 0.4f;                                      //┰硉禫禫篊    
+    float yTime = 12f;                                    //確硉禫禫е
     void PowerWindownView()
     {
-        float yTime = 0.7f;                                //罽硉瞯㏕﹚把计
-        if (Input.GetKey(KeyCode.P))
+        if (pWindownView)
         {
             isshakeCamera = true;          //礶綺历
-            var star = new Vector3(Screen.width / 2, Screen.height / 2);
-            star = Camera.main.ScreenToWorldPoint(star);
-            var n = gameObject.transform.GetChild(3).position - star;
-            xTime -= Time.deltaTime;
-            Camera.main.transform.forward = n;
-            Camera.main.transform.position = Camera.main.transform.position - n.normalized * xTime * yTime;
+            Camera.main.fieldOfView -= Camera.main.fieldOfView * xTime * Time.deltaTime;
+            if (Camera.main.fieldOfView <= 35f)
+            {
+                Camera.main.fieldOfView = 35f;
+                pWindownView = false;
+            }
         }
-        if (Input.GetKeyUp(KeyCode.P)) xTime = 0f;
+        else
+        {
+            Camera.main.fieldOfView += Camera.main.fieldOfView * yTime * Time.deltaTime;
+            if (Camera.main.fieldOfView >= fov)
+            {
+                isshakeCamera = false;
+                Camera.main.fieldOfView = fov;
+            }
+        }
+
+        //   isshakeCamera = true;          //礶綺历
+        //var star = new Vector3(Screen.width / 2, Screen.height / 2);
+        //star = Camera.main.ScreenToWorldPoint(star);
+        //var n = gameObject.transform.GetChild(0).position - star;
+        //xTime -= xTime * Time.deltaTime;
+        //Camera.main.transform.forward = n;
+        //Camera.main.transform.position -= Camera.main.transform.position * n.magnitude * yTime * Time.deltaTime;
+        //if (xTime <= 0f)
+        //{
+        //    xTime = 2.5f;
+        //    isshakeCamera = false;
+        //    pWindownView = false;
+        //    return;
+        //}
+        //}
     }
-
-
-
-
+    #endregion
 
     #region ㏑い狦
 
