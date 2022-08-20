@@ -58,7 +58,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             boxSize = GetComponent<BoxCollider>().size;
         }
         boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//碰撞距離
-        //heightFromGround = -0.063f;//距離地面高度        
+        heightFromGround = -0.063f;//距離地面高度        
         wallCollisionDistance = 0.25f;//牆面碰撞距離
         wallCollisionHight = 0.5f;//牆面碰撞高度
         acceleration = 1;//加速度
@@ -207,7 +207,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
         hitNumber.OnSetValue(target: transform,//治療目標
                              damage: suckBlood,//受到治療
-                             color: isCritical ? Color.blue : Color.green,//文字顏色
+                             color: isCritical ? Color.green : Color.green,//文字顏色
                              isCritical: isCritical);//是否爆擊
 
         //連線
@@ -249,7 +249,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//治療目標
                                  damage: MaxHp * (heal / 100),//受到治療
-                                 color: isCritical ? Color.blue : Color.green,//文字顏色
+                                 color: isCritical ? Color.green : Color.green,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
             //連線
@@ -288,7 +288,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
         hitNumber.OnSetValue(target: transform,//治療目標
                              damage: MaxHp * (heal / 100),//受到治療
-                             color: isCritical ? Color.yellow : Color.green,//文字顏色
+                             color: isCritical ? Color.green : Color.green,//文字顏色
                              isCritical: isCritical);//是否爆擊
         Debug.LogError(Hp + ":" + transform.name);
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)

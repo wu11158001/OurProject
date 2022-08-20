@@ -15,6 +15,7 @@ public class HitNumber : MonoBehaviour
     Vector3 startPosition;//初始位置
     float lifeTime;//生存時間
     float speed;//速度
+    float colorAlpha;//透明度
 
     void Start()
     {
@@ -47,7 +48,8 @@ public class HitNumber : MonoBehaviour
 
         this.target = target;//受傷目標
         thisText.text = Mathf.Round(damage).ToString();//受到傷害(四捨五入)        
-        thisText.color = color;//文字顏色       
+        thisText.color = color;//文字顏色
+        colorAlpha = color.a;
     }
     
     /// <summary>
@@ -61,9 +63,11 @@ public class HitNumber : MonoBehaviour
 
         //文字移動
         startPosition = target.position + target.transform.up * (1 + speed);
-        
+        //文字透明度
+        thisText.color = new Color(thisText.color.r, thisText.color.g, thisText.color.b, lifeTime);
+
         Camera camera = canvas_Overlay.worldCamera;
-        Vector3 position = Camera.main.WorldToScreenPoint(startPosition);
+        Vector3 position = Camera.main.WorldToScreenPoint(startPosition);        
 
         //判斷Canvas的RenderMode
         if (canvas_Overlay.renderMode == RenderMode.ScreenSpaceOverlay || camera == null)

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.029087018, g: 0.029898075, b: 0.029896133, a: 1}
+  m_IndirectSpecularColor: {r: 0.012661071, g: 0.013013962, b: 0.013012963, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -627,10 +627,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6772406786374824122, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772406786374824122, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1250
+      objectReference: {fileID: 0}
     - target: {fileID: 6772406786374824123, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: e32af5e0b9ce9d249af2470fa6ca5bf5, type: 3}
+      objectReference: {fileID: 21300000, guid: 72ba639014524614c854823429869608, type: 3}
     - target: {fileID: 6772406786903536452, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -738,7 +746,7 @@ PrefabInstance:
     - target: {fileID: 6772406787157549233, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f5e8883adc74f854faa258134e49441c, type: 3}
+      objectReference: {fileID: 21300000, guid: 2e44d858488c4334e8ac4557e05e2a5d, type: 3}
     - target: {fileID: 6772406787157549233, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -765,11 +773,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6772406787420365395, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1480
+      value: 1380
       objectReference: {fileID: 0}
     - target: {fileID: 6772406787420365395, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 26
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6772406787420365395, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_LocalScale.x
@@ -785,7 +793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6772406787420365395, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -745
+      value: -695
       objectReference: {fileID: 0}
     - target: {fileID: 6772406787420365395, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -802,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 6772406787420365404, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6de58d503dc88cd4699e36dd63cc5ef0, type: 3}
+      objectReference: {fileID: 21300000, guid: af0a289c6ee47774989f52a44683162b, type: 3}
     - target: {fileID: 6772406787420365404, guid: 9d1a6e81a681cee47bc302c4c5b831f5, type: 3}
       propertyPath: m_Color.b
       value: 1

@@ -194,7 +194,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
+        attack.function = new Action(attack.OnSetShootFunction_Single);//設定執行函式       
         attack.damage = (NumericalValue.archerNormalAttack_Damge[number] + (NumericalValue.archerNormalAttack_Damge[number] * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.archerNormalAttack_RepelDirection[number];//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.archerNormalAttack_RepelDistance[number];//擊退/擊飛距離
