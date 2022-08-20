@@ -348,10 +348,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             //命中特效
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                if (attackerObject.GetComponent<Effects>()!=null 
-                    &&attackerObject.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("1_Warrior-NA_1")
-                    || attackerObject.GetComponent<Effects>() != null
-                    && attackerObject.GetComponent<Effects>().effects.transform.GetChild(0).name.Equals("2_Mag-NA_1"))
+                if (attackerObject.GetComponent<Effects>()!=null )                   
                 {
                      attackerObject.GetComponent<Effects>().HitEffect(attackerObject, gameObject.GetComponent<Collider>());
                 }
