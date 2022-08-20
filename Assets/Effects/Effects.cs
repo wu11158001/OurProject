@@ -105,11 +105,19 @@ public class Effects : MonoBehaviour
         var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();
         DoEffects(idelName, delay0, NormalAttack_30);
 
-        var NormalAttack_35 = effect.transform.GetChild(5).GetComponent<ParticleSystem>();
+        float delay1 = 0.2f;
+        var NormalAttack_31 = effect.transform.GetChild(1).GetComponent<ParticleSystem>();
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay1 && !NormalAttack_31.isPlaying)
+        {
+            NormalAttack_31.Play();
+            if (animInfo.normalizedTime > delay1 + 0.1f) effect.Stop();
+        }
+
+        var NormalAttack_35 = effect.transform.GetChild(6).GetComponent<ParticleSystem>();
         float delay5 = 0.35f;                            //控制播放時間點，面板務必保持為0   
         DoEffects(idelName, delay5, NormalAttack_35);
 
-        var NormalAttack_36 = effect.transform.GetChild(6).GetComponent<ParticleSystem>();
+        var NormalAttack_36 = effect.transform.GetChild(7).GetComponent<ParticleSystem>();
         float delay6 = 0.35f;                            //控制播放時間點，面板務必保持為0   
         DoEffects(idelName, delay6, NormalAttack_36);
 
@@ -315,7 +323,7 @@ public class Effects : MonoBehaviour
 
     public void HitEffect(GameObject player, Collider hitPos)
     {
-        Vector3 star = player.transform.GetChild(1).position;
+        Vector3 star = player.transform.GetChild(0).position;
         Vector3 dir = hitPos.transform.GetChild(0).position - star;
         if (dir.magnitude < 2)
         {
