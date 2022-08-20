@@ -49,9 +49,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     [Header("尋路")]
     [SerializeField] List<Vector3> pathsList = new List<Vector3>();//移動路徑節點  
-    [SerializeField] int numberOfSeach;//搜索節點數量
-    [SerializeField] float rotateAngle;//選轉角度
-    [SerializeField]int point = 0;//尋路節點編號    
+    [SerializeField] int point = 0;//尋路節點編號    
     bool isExecuteAStart;//是否執行AStart
 
     private void Awake()
@@ -98,10 +96,6 @@ public class AI : MonoBehaviourPunCallbacks
 
         //攻擊狀態
         attackFrequency = new float[2] { 0.5f, 2.0f};//攻擊頻率(亂數最小值, 最大值)  
-
-        //尋路
-        numberOfSeach = 3;//搜索節點數量
-        rotateAngle = 360;//選轉角度
     }
 
     void Update()
@@ -270,7 +264,7 @@ public class AI : MonoBehaviourPunCallbacks
         {
             OnCheckClosestPlayer();//檢查最近玩家
             OnAttackRangeCheck();//攻擊範圍偵測        
-            OnCheckCollision();//偵測碰撞
+            OnCheckExecuteAStart();//偵測碰撞
 
             //朝玩家移動
             transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime; 
@@ -332,6 +326,7 @@ public class AI : MonoBehaviourPunCallbacks
         if (pathsList.Count > 0)
         {            
             isExecuteAStart = false;//非執行AStart
+            point = 0;//尋路節點編號
             pathsList.Clear();
         }
 
@@ -395,30 +390,44 @@ public class AI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 偵測碰撞
+    /// 偵測是否執行AStart
     /// </summary>
-    void OnCheckCollision()
-    {        
+    void OnCheckExecuteAStart()
+    {
+        //碰撞偵測
+        if (OnCollision())
+        {
+            //尋找節點
+            if (!isExecuteAStart)
+            {                
+                isExecuteAStart = true;
+                point = 0;//尋路節點編號
+                pathsList = aStart.OnGetBestPoint(transform.position, players[chaseObject].transform.position);                
+            }
+        }      
+
+        if(isExecuteAStart && pathsList.Count > 0) OnWayPoint();//尋路方向
+    }
+
+    /// <summary>
+    /// 碰撞偵測
+    /// </summary>
+    /// <returns></returns>
+    bool OnCollision()
+    {
         if (players[chaseObject] != null)
-        {            
+        {
             CharactersCollision playerCharactersCollision = players[chaseObject].GetComponent<CharactersCollision>();
 
             //偵測障礙物
             LayerMask mask = LayerMask.GetMask("StageObject");
             if (Physics.Linecast(transform.position + charactersCollision.boxCenter, players[chaseObject].transform.position + playerCharactersCollision.boxCenter, mask))
             {
-                //尋找節點
-                if (!isExecuteAStart)
-                {
-                    isExecuteAStart = true;
-                    
-                    pathsList = aStart.OnGetBestPoint(transform.position, players[chaseObject].transform.position);
-                    point = 0;//尋路節點編號
-                }
-            }         
+                return true;
+            }
         }
 
-        if(isExecuteAStart && pathsList.Count > 0) OnWayPoint();//尋路方向
+        return false;
     }
 
     /// <summary>
@@ -442,13 +451,12 @@ public class AI : MonoBehaviourPunCallbacks
             point++;//目前尋路節點編號
 
             //到達目標 || 到達搜索節點數量
-            if (point > pathsList.Count - 1 || point == numberOfSeach)
-            {
-                point = pathsList.Count - 1;
-
+            if (point > pathsList.Count - 1 || !OnCollision())
+            {                
+                point = pathsList.Count - 1;//尋路節點編號
                 isExecuteAStart = false;//非執行AStart
                 pathsList.Clear();
-            }          
+            }            
         }
     }
     
@@ -480,18 +488,19 @@ public class AI : MonoBehaviourPunCallbacks
 
         //觀看最近玩家 
         Vector3 targetDiration;//目標向量        
-        if (pathsList.Count > 0) targetDiration = pathsList[point] - transform.position;//執行AStart
-        else targetDiration = players[chaseObject].transform.position - transform.position;//一般情況    
+        if (pathsList.Count > 0)//執行AStart
+        {
+            targetDiration = pathsList[point] - transform.position;       
+        }
+
+        else//一般情況
+        {
+            targetDiration = players[chaseObject].transform.position - transform.position;
+        }
 
         //判斷目標在左/右方               
         transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);        
-        transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
-
-        /*int diretion = 1;//方向
-        Debug.LogError(Vector3.Dot(targetDiration, Vector3.Cross(Vector3.up, transform.forward)));
-        if (Vector3.Dot(targetDiration, Vector3.Cross(Vector3.up, transform.forward)) > 0.5f) diretion = 1;
-        else if (Vector3.Dot(targetDiration, Vector3.Cross(Vector3.up, transform.forward)) < -0.5f) diretion = -1;
-        transform.Rotate(Vector3.up * rotateAngle * diretion * Time.deltaTime, Space.World); */
+        transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);  
     }   
 
     /// <summary>
@@ -548,9 +557,9 @@ public class AI : MonoBehaviourPunCallbacks
         for (int i = 0; i < pathsList.Count - 1; i++)
         {
             Vector3 s = pathsList[i];
-            //s.y = 1;
+            //s.y = 3;
             Vector3 n = pathsList[i + 1];
-            //n.y = 1;
+            //n.y = 3;
             Gizmos.color = Color.red;
             Gizmos.DrawLine(s, n);
         }

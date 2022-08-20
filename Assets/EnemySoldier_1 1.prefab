@@ -3096,8 +3096,6 @@ MonoBehaviour:
   isAttacking: 0
   players: []
   pathsList: []
-  numberOfSeach: 2
-  rotateAngle: 0
   point: 0
   aiState: 0
 --- !u!114 &1755842513

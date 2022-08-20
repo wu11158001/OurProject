@@ -7,11 +7,11 @@ public class WayPoints : MonoBehaviour
     static WayPoints wayPoints;
     public static WayPoints Instace => wayPoints;
 
-    const float radius = 0.5f;
+    //const float radius = 0.5f;
 
-    //所有節點位置
-    Vector3[] nodesPosition;
-    public Vector3[] GetNodesPosition => nodesPosition;
+    //所有節點
+    NodePath[] nodePaths;
+    public NodePath[] GetNodePaths => nodePaths;
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class WayPoints : MonoBehaviour
 
     private void Start()
     {
-        nodesPosition = new Vector3[transform.childCount];
+        nodePaths = new NodePath[transform.childCount];
 
         OnSaveNode();
     }
@@ -50,13 +50,13 @@ public class WayPoints : MonoBehaviour
 
             streamWriter.WriteLine(s);*/
 
-            nodesPosition[i] = transform.GetChild(i).position;//紀錄節點位置
+            nodePaths[i] = transform.GetChild(i).GetComponent<NodePath>();//紀錄所有節點
         }
 
         //OnSetNeighbor();
         //streamWriter.Close();
     }
-
+/*
     /// <summary>
     /// 獲取節點position
     /// </summary>
@@ -99,5 +99,5 @@ public class WayPoints : MonoBehaviour
             Gizmos.DrawWireSphere(OnGetWayPoint(i), radius);
             Gizmos.DrawLine(OnGetWayPoint(i), transform.GetChild(OnGetNextIndex(i)).position);
         }
-    }
+    }*/
 }

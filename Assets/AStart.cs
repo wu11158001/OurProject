@@ -7,8 +7,9 @@ public class AStart
     public AStart Instance;
 
     WayPoints wayPoints;
-    Vector3[] nodes;//獲取所有的節點
-    List<Vector3> pathNodes = new List<Vector3>();//紀錄路徑點
+    NodePath[] allNodes;//獲取所有的節點
+    List<Vector3> pathNodesList = new List<Vector3>();//紀錄路徑點
+    List<NodePath> closeNodeList = new List<NodePath>();//紀錄已關閉的節點
 
     /// <summary>
     /// 初始
@@ -27,142 +28,167 @@ public class AStart
     /// <returns></returns>
     public List<Vector3> OnGetBestPoint(Vector3 startPoint, Vector3 targetPosition)
     {
-        pathNodes.Clear();
-        pathNodes.Add(startPoint);//初始路徑點
+        pathNodesList.Clear();//紀錄路徑點
+        closeNodeList.Clear();//紀錄已關閉的節點
+        pathNodesList.Add(startPoint);//初始路徑點
 
-        nodes = wayPoints.GetNodesPosition;//獲取所有的節點
+        allNodes = wayPoints.GetNodePaths;//獲取所有的節點
+
+        NodePath node = null;
+
+        //重製所有節點狀態
+        for (int i = 0; i < allNodes.Length; i++)
+        {
+            allNodes[i].nodeState = NodePath.NodeState.開啟;
+        }
 
         float distance = 10000;//距離
         int closeNumber = 0;//最近的節點編號
 
         #region 第一步:尋找距離起始點最近的節點
-        for (int i = 0; i < nodes.Length; i++)
+        for (int i = 0; i < allNodes.Length; i++)
         {
-            float p = (startPoint - nodes[i]).magnitude;//距離
+            float closestDistance = (startPoint - allNodes[i].transform.position).magnitude;//起點到節點距離
 
             //有障礙物跳過
-            if (Physics.Linecast(startPoint, nodes[i], 1 << LayerMask.NameToLayer("StageObject")))
-            {                
+            if (Physics.Linecast(startPoint, allNodes[i].transform.position, 1 << LayerMask.NameToLayer("StageObject")))
+            {
                 continue;
             }
 
             //尋找最近的距離
-            if (p < distance)
+            if (closestDistance < distance)
             {
-                distance = p;
+                distance = closestDistance;
                 closeNumber = i;
             }
         }
+
+        node = allNodes[closeNumber];//最近節點       
+        //比較鄰居節點
+        node = OnCompareStartNodeNeighborNode(node: node, targetPosition: targetPosition, startPoint: startPoint);
+
+        node.nodeState = NodePath.NodeState.關閉;//節點狀態
+        closeNodeList.Add(node);//紀錄已關閉的節點
+        pathNodesList.Add(node.transform.position);//初始路徑點
         #endregion
 
-        pathNodes.Add(nodes[closeNumber]);//紀錄最近的節點
 
-        #region 第二步:尋找最近節點的鄰居          
+        #region 第二步:比較最近節點鄰居
+        float bestDistance = 10000;//最佳距離                
+        int bestNeighbor = 0;//最近的鄰居編號
+        while (closeNodeList.Count < allNodes.Length)
+        {          
+            bool isHaveBestNode = false;//是否有更近的節點
+            bestNeighbor = 0;//最近的鄰居編號
+            for (int i = 0; i < node.neighborNode.Length; i++)
+            {                
+                if (node.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;                
 
-        float closestNode = (targetPosition - nodes[closeNumber]).magnitude;//最近點到終點距離
-        float nextNeighbor = (targetPosition - nodes[(wayPoints.OnGetNextIndex(closeNumber))]).magnitude;//最近點鄰居到終點距離(下個編號)
-        float previousNeighbor = (targetPosition - nodes[(wayPoints.OnGetPreviousIndex(closeNumber))]).magnitude;//最近點鄰居到終點距離(前個編號)        
+                Vector3 nextPosition = node.transform.position;//下個節點位置
+                Vector3 neighborPosition = node.neighborNode[i].transform.position;//鄰居節點位置
 
-        bool isNext = false;//判斷編號走向
-        int number;//節點編號
-        if (nextNeighbor < previousNeighbor)
-        {
-            isNext = true;//判斷編號走向
-            pathNodes.Add(nodes[wayPoints.OnGetNextIndex(closeNumber)]);//紀錄路徑點
+                float G = (nextPosition - neighborPosition).magnitude;//到下個節點位置
+                float H = (neighborPosition - targetPosition).magnitude;//下個節點到目標位置
+                float F = G + H;//距離
 
-            if (OnJudegNextClosePoint(closeNumber, nodes, targetPosition)) return pathNodes;
-        }
-        else
-        {
-            pathNodes.Add(nodes[wayPoints.OnGetPreviousIndex(closeNumber)]);//紀錄路徑點
+                if (F < bestDistance)
+                {                    
+                    isHaveBestNode = true;//有更近的節點
+                    bestDistance = F;//最佳距離
+                    bestNeighbor = i;//最近的鄰居編號                    
+                }
+            }            
 
-            if (OnJudegPreviousClosePoint(closeNumber, nodes, targetPosition)) return pathNodes;
-        }
-        #endregion
-
-        #region 第三步:判斷之後的節點
-        number = closeNumber;
-        for (int i = 0; i < nodes.Length; i++)
-        {
-            if (isNext)
+            if (!isHaveBestNode)//沒有更近的節點
             {
-                number = wayPoints.OnGetNextIndex(number);
-
-               //判斷是否撞牆
-                /*if (Physics.Linecast(startPoint, nodes[number], 1 << LayerMask.NameToLayer("StageObject")))
+                //判斷與目標路徑是否有障礙物
+                if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
                 {
-                    Debug.LogError("a");
-                    pathNodes.Add(nodes[number]);//紀錄路徑點;
-                    //number = wayPoints.OnGetNextIndex(number);
-                    continue;
-                }*/
+                    isHaveBestNode = true;//有更近的節點
 
-                pathNodes.Add(nodes[wayPoints.OnGetNextIndex(number)]);//紀錄路徑點
-                if (OnJudegNextClosePoint(number, nodes, targetPosition)) return pathNodes;
-            }
-            else
-            {
-                number = wayPoints.OnGetPreviousIndex(number);
-
-                //判斷是否撞牆
-                /*if (Physics.Linecast(startPoint, nodes[number], 1 << LayerMask.NameToLayer("StageObject")))
+                    //比較鄰居節點
+                    OnCompareNeighborNode(node: ref node, targetPosition: targetPosition);
+                }
+                else
                 {
-
-                    Debug.LogError("a");
-                    pathNodes.Add(nodes[wayPoints.OnGetNextIndex(number)]);//紀錄路徑點;
-                    continue;
-                }*/
-
-                pathNodes.Add(nodes[number]);//紀錄路徑點
-                if (OnJudegPreviousClosePoint(number, nodes, targetPosition)) return pathNodes;
+                    pathNodesList.Add(targetPosition);//紀錄目標點
+                    return pathNodesList;//回傳所有紀錄路徑點
+                }
             }
+
+            node = node.neighborNode[bestNeighbor];//更新最近節點
+            node.nodeState = NodePath.NodeState.關閉;//節點狀態
+            closeNodeList.Add(node);//紀錄已關閉的節點
+            pathNodesList.Add(node.transform.position);//初始路徑點
         }
         #endregion
 
-        return pathNodes;
-    }  
+        pathNodesList.Add(targetPosition);//紀錄目標點
+        return pathNodesList;//回傳所有紀錄路徑點
+    }   
 
     /// <summary>
-    /// 判斷最近距離(Next)
+    /// 比較鄰居節點
     /// </summary>
-    /// <param name="number">節點編號</param>
-    /// <param name="nodes">所有的節點</param>
+    /// <param name="node">要比較的節點</param>
     /// <param name="targetPosition">目標位置</param>
-    /// <returns></returns>
-    bool OnJudegNextClosePoint(int number, Vector3[] nodes, Vector3 targetPosition)
+    void OnCompareNeighborNode(ref NodePath node, Vector3 targetPosition)
     {
-        int next = wayPoints.OnGetNextIndex(number);
-        float n1 = (targetPosition - nodes[wayPoints.OnGetNextIndex(number)]).magnitude;
-        float n2 = (targetPosition - nodes[wayPoints.OnGetNextIndex(next)]).magnitude;
-
-        if (n1 < n2 && !Physics.Linecast(nodes[number], targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
+        float bestDistance = 10000;
+        for (int i = 0; i < node.neighborNode.Length; i++)
         {
-            pathNodes.Add(targetPosition);//紀錄路徑點
-            return true;
-        }
+            if (node.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
 
-        return false;
+            Vector3 nextPosition = node.transform.position;//下個節點位置
+            Vector3 neighborPosition = node.neighborNode[i].transform.position;//鄰居節點位置
+
+            float G = (nextPosition - neighborPosition).magnitude;//到下個節點位置
+            float H = (neighborPosition - targetPosition).magnitude;//下個節點到目標位置
+            float F = G + H;//距離
+
+            if (F < bestDistance)
+            {                
+                bestDistance = F;//最佳距離
+                node = node.neighborNode[i];//更新最近節點
+            }
+        }
     }
 
     /// <summary>
-    /// 判斷最近距離(Previous)
+    /// 比較起點鄰居節點
     /// </summary>
-    /// <param name="number">節點編號</param>
-    /// <param name="nodes">所有的節點</param>
+    /// <param name="node">要比較的節點</param>
     /// <param name="targetPosition">目標位置</param>
-    /// <returns></returns>
-    bool OnJudegPreviousClosePoint(int number, Vector3[] nodes, Vector3 targetPosition)
+    /// <param name="targetPosition">起點位置</param>
+    NodePath OnCompareStartNodeNeighborNode(NodePath node, Vector3 targetPosition, Vector3 startPoint)
     {
-        int next = wayPoints.OnGetPreviousIndex(number);
-        float n1 = (targetPosition - nodes[wayPoints.OnGetPreviousIndex(number)]).magnitude;
-        float n2 = (targetPosition - nodes[wayPoints.OnGetPreviousIndex(next)]).magnitude;
+        NodePath compareNode = node;
 
-        if (n1 < n2 && !Physics.Linecast(nodes[number], targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
+        float bestDistance = 10000;
+        for (int i = 0; i < compareNode.neighborNode.Length; i++)
         {
-            pathNodes.Add(targetPosition);//紀錄路徑點
-            return true;
+            if (compareNode.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
+            //有障礙物跳過
+            if (Physics.Linecast(startPoint, allNodes[i].transform.position, 1 << LayerMask.NameToLayer("StageObject")))
+            {
+                continue;
+            }
+
+            Vector3 nextPosition = compareNode.transform.position;//下個節點位置
+            Vector3 neighborPosition = compareNode.neighborNode[i].transform.position;//鄰居節點位置
+
+            float G = (nextPosition - neighborPosition).magnitude;//到下個節點位置
+            float H = (neighborPosition - targetPosition).magnitude;//下個節點到目標位置
+            float F = G + H;//距離
+
+            if (F < bestDistance)
+            {
+                bestDistance = F;//最佳距離
+                compareNode = compareNode.neighborNode[i];//更新最近節點
+            }
         }
 
-        return false;
+        return compareNode;
     }
 }
