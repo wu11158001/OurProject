@@ -35,6 +35,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     [Header("追擊狀態")]
     [SerializeField] float chaseSpeed;//追擊速度
+    [SerializeField] float maxRadiansDelta;//轉向角度
     int chaseObject;//追擊對象編號
     bool isStartChase;//是否開始追擊
 
@@ -50,7 +51,7 @@ public class AI : MonoBehaviourPunCallbacks
     [SerializeField] List<Vector3> pathsList = new List<Vector3>();//移動路徑節點  
     [SerializeField] int numberOfSeach;//搜索節點數量
     [SerializeField] float rotateAngle;//選轉角度
-    int point = 0;//尋路節點編號    
+    [SerializeField]int point = 0;//尋路節點編號    
     bool isExecuteAStart;//是否執行AStart
 
     private void Awake()
@@ -76,8 +77,8 @@ public class AI : MonoBehaviourPunCallbacks
 
         //偵測範圍
         normalStateMoveRadius = 3;//一般狀態移動範圍
-        alertRadius = 30;//警戒範圍
-        chaseRadius = 18;//追擊範圍
+        alertRadius = 12;//警戒範圍
+        chaseRadius = 8;//追擊範圍
         attackRadius = 3.0f;//攻擊範圍
 
         //一般狀態
@@ -92,10 +93,11 @@ public class AI : MonoBehaviourPunCallbacks
         CheckPlayerDistanceTime = 3;//偵測玩家距離時間
 
         //追擊狀態
-        chaseSpeed = 5;//追擊速度
+        chaseSpeed = 5.3f;//追擊速度
+        maxRadiansDelta = 0.085f;//轉向角度
 
         //攻擊狀態
-        attackFrequency = new float[2] { 0.5f, 3.0f};//攻擊頻率(亂數最小值, 最大值)  
+        attackFrequency = new float[2] { 0.5f, 2.0f};//攻擊頻率(亂數最小值, 最大值)  
 
         //尋路
         numberOfSeach = 3;//搜索節點數量
@@ -179,10 +181,11 @@ public class AI : MonoBehaviourPunCallbacks
 
                 float maxRadiansDelta = 0.03f;//轉向角度
                 transform.forward = Vector3.RotateTowards(transform.forward, forwardVector, maxRadiansDelta, maxRadiansDelta);
-                transform.position = transform.position + transform.forward * normalStateMoveSpeed * Time.deltaTime;                              
+                transform.position = transform.position + transform.forward * normalStateMoveSpeed * Time.deltaTime;
+                transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);                
             }
             else//待機
-            {
+            {                
                 isNormalMove = false;
                 normalStateTime = Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//一般狀態亂數移動時間                
 
@@ -202,11 +205,20 @@ public class AI : MonoBehaviourPunCallbacks
         //更換狀態偵測
         if (OnDetectionRange(radius: alertRadius))
         {
-            OnChangeState(state: AIState.警戒狀態, openAnimationName: "Alert", closeAnimationName: "Walk");
+            if (aiState != AIState.警戒狀態)
+            {
+                OnChangeState(state: AIState.警戒狀態, openAnimationName: "Alert", closeAnimationName: "Walk");
+            }
         }
         else
         {
-            OnChangeState(state: AIState.一般狀態, openAnimationName: "Walk", closeAnimationName: "Alert");
+            if (aiState != AIState.一般狀態)
+            {
+                normalRandomMoveTime = 0;//一般狀態亂數移動時間
+                normalStateTime = Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//一般狀態亂數移動時間
+                                                                                               //
+                OnChangeState(state: AIState.一般狀態, openAnimationName: "Idle", closeAnimationName: "Alert");
+            }
         }
     }
 
@@ -219,7 +231,7 @@ public class AI : MonoBehaviourPunCallbacks
 
         OnAlertRangeCheck();//警戒範圍偵測        
         OnChaseRangeCheck();//追擊範圍偵測
-        OnCheckClosestPlayer();//檢查最近玩家
+        OnCheckClosestPlayer();//檢查最近玩家        
     }
 
     /// <summary>
@@ -229,8 +241,11 @@ public class AI : MonoBehaviourPunCallbacks
     {
         //更換狀態偵測
         if (OnDetectionRange(radius: chaseRadius))
-        {            
-            OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
+        {
+            if (aiState != AIState.追擊狀態)
+            {
+                OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
+            }
         }
     }
 
@@ -260,6 +275,15 @@ public class AI : MonoBehaviourPunCallbacks
             //朝玩家移動
             transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime; 
         }
+
+        /*//碰牆重新計算尋路
+        if (pathsList.Count > 0)
+        {
+            for (int i = 0; i < charactersCollision.collisionObject.Length; i++)
+            {
+                aStart.OnGetBestPoint(transform.position, players[chaseObject].transform.position);
+            }
+        }*/
     }    
 
     /// <summary>
@@ -272,8 +296,10 @@ public class AI : MonoBehaviourPunCallbacks
         //更換狀態偵測
         if (OnDetectionRange(radius: attackRadius))
         {
-            isAttacking = true;//在攻擊中
-            OnChangeState(state: AIState.攻擊狀態, openAnimationName: "NormalAttack", closeAnimationName: "Run");            
+            if (aiState != AIState.攻擊狀態)
+            {
+                OnChangeState(state: AIState.攻擊狀態, openAnimationName: "NormalAttack", closeAnimationName: "Run");
+            }
         } 
         else
         {
@@ -283,8 +309,11 @@ public class AI : MonoBehaviourPunCallbacks
             //在攻擊待機中 && 不再攻擊中
             if (isAttackIdle && !isAttacking)
             {
-                if (aiState != AIState.追擊狀態) OnChangeAnimation("NormalAttack", false);
-                OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle");                
+                if (aiState != AIState.追擊狀態)
+                {
+                    OnChangeAnimation("NormalAttack", false);
+                    OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle");
+                }
             }
         }
     }
@@ -297,7 +326,14 @@ public class AI : MonoBehaviourPunCallbacks
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         OnAttackRangeCheck();
-        if (!isAttacking) OnCheckClosestPlayer();//檢查最近玩家
+        if (!isAttacking) OnCheckClosestPlayer();//檢查最近玩家       
+
+        //移除尋路
+        if (pathsList.Count > 0)
+        {            
+            isExecuteAStart = false;//非執行AStart
+            pathsList.Clear();
+        }
 
         if (info.IsName("NormalAttack") && info.normalizedTime >= 1)
         {
@@ -390,10 +426,18 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnWayPoint()
     {
-        //與節點距離
-        float distance = (transform.position - pathsList[point]).magnitude;       
+        //AI位置
+        Vector3 AIPosistion = transform.position;
+        AIPosistion.y = 0;
 
-        if (distance < 0.1f)
+        //玩家位置
+        Vector3 playerPosition = pathsList[point];
+        playerPosition.y = 0;
+
+        //與節點距離
+        float distance = (AIPosistion - playerPosition).magnitude;
+        
+        if (distance < 1f)
         {
             point++;//目前尋路節點編號
 
@@ -407,7 +451,7 @@ public class AI : MonoBehaviourPunCallbacks
             }          
         }
     }
-    Vector3 horizontalCross;
+    
     /// <summary>
     /// 檢查最近玩家
     /// </summary>
@@ -439,12 +483,16 @@ public class AI : MonoBehaviourPunCallbacks
         if (pathsList.Count > 0) targetDiration = pathsList[point] - transform.position;//執行AStart
         else targetDiration = players[chaseObject].transform.position - transform.position;//一般情況    
 
-        //判斷目標在左/右方
-        int diretion = 1;//方向
-        if (Vector3.Dot(targetDiration, Vector3.Cross(Vector3.up, transform.forward)) > 0) diretion = 1;
-        else diretion = -1;
-        transform.Rotate(Vector3.up * rotateAngle * diretion * Time.deltaTime, Space.World);       
-    }
+        //判斷目標在左/右方               
+        transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);        
+        transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+
+        /*int diretion = 1;//方向
+        Debug.LogError(Vector3.Dot(targetDiration, Vector3.Cross(Vector3.up, transform.forward)));
+        if (Vector3.Dot(targetDiration, Vector3.Cross(Vector3.up, transform.forward)) > 0.5f) diretion = 1;
+        else if (Vector3.Dot(targetDiration, Vector3.Cross(Vector3.up, transform.forward)) < -0.5f) diretion = -1;
+        transform.Rotate(Vector3.up * rotateAngle * diretion * Time.deltaTime, Space.World); */
+    }   
 
     /// <summary>
     /// 更換狀態
@@ -500,9 +548,9 @@ public class AI : MonoBehaviourPunCallbacks
         for (int i = 0; i < pathsList.Count - 1; i++)
         {
             Vector3 s = pathsList[i];
-            s.y = 1;
+            //s.y = 1;
             Vector3 n = pathsList[i + 1];
-            n.y = 1;
+            //n.y = 1;
             Gizmos.color = Color.red;
             Gizmos.DrawLine(s, n);
         }

@@ -509,8 +509,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 374878374}
-  m_LocalRotation: {x: -0.27581552, y: 0.62555, z: -0.25189134, w: -0.6849554}
-  m_LocalPosition: {x: 23.917091, y: 26.620749, z: 2.9787207}
+  m_LocalRotation: {x: 0.10718721, y: -0.88053167, z: 0.2388633, w: 0.39511937}
+  m_LocalPosition: {x: -3.993422, y: 3.6397576, z: -7.323706}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -533,8 +533,8 @@ MonoBehaviour:
     gravity: 6.8
     criticalBonus: 1.3
     levelNames:
-    - "Level[1]:\u6A6B\u6383\u5343\u8ECD"
-    - "Level[2]:\u6C7A\u6230\u98DB\u9F8D"
+    - "\u6A6B\u6383\u5343\u8ECD"
+    - "\u9F8D\u7684\u50B3\u4EBA"
     buffAbleString:
     - "\u751F\u547D\u503C"
     - "\u50B7\u5BB3"
@@ -554,7 +554,7 @@ MonoBehaviour:
     limitDownAngle: 13
     playerHp: 300
     playerMoveSpeed: 6.3
-    playerJumpForce: 12.05
+    playerJumpForce: 11.05
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
@@ -1043,6 +1043,16 @@ MonoBehaviour:
   heightFromGround: 0
   wallCollisionDistance: 0
   wallCollisionHight: 0
+  collisionObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Hp: 0
   MaxHp: 0
   addDefence: 0
@@ -1189,6 +1199,36 @@ Transform:
   m_Father: {fileID: 1470466533}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1324778960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1324778962}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1324778962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324778960}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -17.36724, y: -8.415281, z: -12.602003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1470466531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1266,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1470466531}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -13.52}
+  m_LocalPosition: {x: 0, y: 5.11, z: -13.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1290731214}
@@ -1343,21 +1383,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 741237608622177627, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
+    - target: {fileID: 1755842515, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3207796151826155188, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 2c71b8a74093fe245a10ce6818bad8d2, type: 2}
     - target: {fileID: 8155911046909593204, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
       propertyPath: m_Name
       value: EnemySoldier_1 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8245735089483448469, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
-      propertyPath: numberOfSeach
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8819258968641330382, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
       propertyPath: m_RootOrder
@@ -1403,8 +1435,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 622764843942148758, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
-    - {fileID: 801386538514370087, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
-    - {fileID: 741237608622177627, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7aa68c52d57911b41aaeb4f27a53b4bd, type: 3}

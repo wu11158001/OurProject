@@ -7,6 +7,7 @@ public class AStart
     public AStart Instance;
 
     WayPoints wayPoints;
+    Vector3[] nodes;//獲取所有的節點
     List<Vector3> pathNodes = new List<Vector3>();//紀錄路徑點
 
     /// <summary>
@@ -29,7 +30,7 @@ public class AStart
         pathNodes.Clear();
         pathNodes.Add(startPoint);//初始路徑點
 
-        Vector3[] nodes = wayPoints.GetNodesPosition;//獲取所有的節點
+        nodes = wayPoints.GetNodesPosition;//獲取所有的節點
 
         float distance = 10000;//距離
         int closeNumber = 0;//最近的節點編號
@@ -40,17 +41,14 @@ public class AStart
             float p = (startPoint - nodes[i]).magnitude;//距離
 
             //有障礙物跳過
-            if (Physics.Linecast(startPoint, nodes[i], 1 << LayerMask.NameToLayer("Wall")))
-            {
-
+            if (Physics.Linecast(startPoint, nodes[i], 1 << LayerMask.NameToLayer("StageObject")))
+            {                
                 continue;
             }
 
             //尋找最近的距離
             if (p < distance)
             {
-
-
                 distance = p;
                 closeNumber = i;
             }
@@ -59,7 +57,8 @@ public class AStart
 
         pathNodes.Add(nodes[closeNumber]);//紀錄最近的節點
 
-        #region 第二步:尋找最近節點的鄰居
+        #region 第二步:尋找最近節點的鄰居          
+
         float closestNode = (targetPosition - nodes[closeNumber]).magnitude;//最近點到終點距離
         float nextNeighbor = (targetPosition - nodes[(wayPoints.OnGetNextIndex(closeNumber))]).magnitude;//最近點鄰居到終點距離(下個編號)
         float previousNeighbor = (targetPosition - nodes[(wayPoints.OnGetPreviousIndex(closeNumber))]).magnitude;//最近點鄰居到終點距離(前個編號)        
@@ -68,13 +67,6 @@ public class AStart
         int number;//節點編號
         if (nextNeighbor < previousNeighbor)
         {
-            /*//最近節點即是最近距離
-            if (closestNode < nextNeighbor)
-            {
-                pathNodes.Add(targetPosition);//紀錄路徑點
-                return pathNodes;
-            }*/
-
             isNext = true;//判斷編號走向
             pathNodes.Add(nodes[wayPoints.OnGetNextIndex(closeNumber)]);//紀錄路徑點
 
@@ -82,13 +74,6 @@ public class AStart
         }
         else
         {
-            /*//最近節點即是最近距離
-            if (closestNode < previousNeighbor)
-            {
-                pathNodes.Add(targetPosition);//紀錄路徑點
-                return pathNodes;
-            } */
-
             pathNodes.Add(nodes[wayPoints.OnGetPreviousIndex(closeNumber)]);//紀錄路徑點
 
             if (OnJudegPreviousClosePoint(closeNumber, nodes, targetPosition)) return pathNodes;
@@ -102,21 +87,40 @@ public class AStart
             if (isNext)
             {
                 number = wayPoints.OnGetNextIndex(number);
+
+               //判斷是否撞牆
+                /*if (Physics.Linecast(startPoint, nodes[number], 1 << LayerMask.NameToLayer("StageObject")))
+                {
+                    Debug.LogError("a");
+                    pathNodes.Add(nodes[number]);//紀錄路徑點;
+                    //number = wayPoints.OnGetNextIndex(number);
+                    continue;
+                }*/
+
                 pathNodes.Add(nodes[wayPoints.OnGetNextIndex(number)]);//紀錄路徑點
                 if (OnJudegNextClosePoint(number, nodes, targetPosition)) return pathNodes;
             }
             else
             {
                 number = wayPoints.OnGetPreviousIndex(number);
-                pathNodes.Add(nodes[wayPoints.OnGetPreviousIndex(number)]);//紀錄路徑點
+
+                //判斷是否撞牆
+                /*if (Physics.Linecast(startPoint, nodes[number], 1 << LayerMask.NameToLayer("StageObject")))
+                {
+
+                    Debug.LogError("a");
+                    pathNodes.Add(nodes[wayPoints.OnGetNextIndex(number)]);//紀錄路徑點;
+                    continue;
+                }*/
+
+                pathNodes.Add(nodes[number]);//紀錄路徑點
                 if (OnJudegPreviousClosePoint(number, nodes, targetPosition)) return pathNodes;
             }
         }
         #endregion
 
-        pathNodes.Add(targetPosition);//目標路徑點
         return pathNodes;
-    }
+    }  
 
     /// <summary>
     /// 判斷最近距離(Next)
@@ -131,7 +135,7 @@ public class AStart
         float n1 = (targetPosition - nodes[wayPoints.OnGetNextIndex(number)]).magnitude;
         float n2 = (targetPosition - nodes[wayPoints.OnGetNextIndex(next)]).magnitude;
 
-        if (n1 < n2 && !Physics.Linecast(nodes[number], targetPosition, 1 << LayerMask.NameToLayer("Wall")))
+        if (n1 < n2 && !Physics.Linecast(nodes[number], targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
         {
             pathNodes.Add(targetPosition);//紀錄路徑點
             return true;
@@ -153,7 +157,7 @@ public class AStart
         float n1 = (targetPosition - nodes[wayPoints.OnGetPreviousIndex(number)]).magnitude;
         float n2 = (targetPosition - nodes[wayPoints.OnGetPreviousIndex(next)]).magnitude;
 
-        if (n1 < n2 && !Physics.Linecast(nodes[number], targetPosition, 1 << LayerMask.NameToLayer("Wall")))
+        if (n1 < n2 && !Physics.Linecast(nodes[number], targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
         {
             pathNodes.Add(targetPosition);//紀錄路徑點
             return true;

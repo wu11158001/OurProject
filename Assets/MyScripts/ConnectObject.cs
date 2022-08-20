@@ -7,7 +7,7 @@ public class ConnectObject : MonoBehaviourPunCallbacks
 {    
     public int id;
     void Awake()
-    {
+    {        
         //³s½u¼Ò¦¡
         if (GameDataManagement.Instance.isConnect)
         {

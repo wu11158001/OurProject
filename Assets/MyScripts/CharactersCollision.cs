@@ -20,7 +20,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     [Header("牆面碰撞距離")] public float wallCollisionDistance;
     [Header("牆面碰撞高度")] public float wallCollisionHight;
     float boxCollisionDistance;//碰撞距離
-    Transform[] collisionObject = new Transform[9];//碰撞物件(判定是否有碰撞)    
+    public Transform[] collisionObject = new Transform[9];//碰撞物件(判定是否有碰撞)    
     public Transform[] GetCollisionObject => collisionObject;
     float jumpRayDistance;//跳躍射線距離
 
@@ -499,7 +499,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         info = animator.GetCurrentAnimatorStateInfo(0);        
         LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
-
+               
         //射線方向
         Vector3[] rayDiration = new Vector3[] { transform.forward,
                                                 transform.forward - transform.right,
@@ -576,7 +576,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             OnFallJudge();//落下判斷
         }
     }
-
+  
     /// <summary>
     /// 碰撞框_地面
     /// </summary>
