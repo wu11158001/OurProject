@@ -405,8 +405,8 @@ public class GameData_NumericalValue
         #endregion
 
     //敵人
-    enemySoldier1_Hp = 500;//敵人士兵1_生命值
-    enemySoldier2_Hp = 500;//敵人士兵1_生命值
+    enemySoldier1_Hp = 1000;//敵人士兵1_生命值
+    enemySoldier2_Hp = 1000;//敵人士兵2_生命值
     }
 }
 

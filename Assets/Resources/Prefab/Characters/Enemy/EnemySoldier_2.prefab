@@ -1491,7 +1491,7 @@ Animator:
   m_GameObject: {fileID: 5509286058456116426}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 898cdf57c3bf1d94fac7f73f75f25a10, type: 3}
-  m_Controller: {fileID: 9100000, guid: b5d448e5af729c44895d675e01056cb0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2c71b8a74093fe245a10ce6818bad8d2, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -1604,16 +1604,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
-  heightFromGround: -0.03
+  heightFromGround: -0.063
   wallCollisionDistance: 0
   wallCollisionHight: 0
-  Hp: 0
-  MaxHp: 0
+  collisionObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Hp: 1000
+  MaxHp: 1000
   addDefence: 0
   isSuckBlood: 0
   isSelfHeal: 0
-  isDie: 0
   acceleration: 0
+  isDie: 0
 --- !u!1 &5581074014973966235
 GameObject:
   m_ObjectHideFlags: 0

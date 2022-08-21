@@ -248,5 +248,5 @@ MonoBehaviour:
     magicianSkillAttack_3_ForwardDistance: 3
     magicianSkillAttack_3_attackRadius: 1.8
     magicianSkillAttack_3_IsAttackBehind: 0
-    enemySoldier1_Hp: 500
-    enemySoldier2_Hp: 500
+    enemySoldier1_Hp: 1000
+    enemySoldier2_Hp: 1000
