@@ -509,12 +509,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
     }
 
+    public float gizmosSpherCenter;
+    public float  gizmosSpherRadius;
     private void OnDrawGizmos()
     {
-        /*BoxCollider box = GetComponent<BoxCollider>();
+        BoxCollider box = GetComponent<BoxCollider>();
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * 0, 1.3f);        
-        Gizmos.DrawWireCube(transform.position + box.center + transform.forward * 2.5f, new Vector3(1, 1, 4));*/
+        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * gizmosSpherCenter, gizmosSpherRadius);        
+        //Gizmos.DrawWireCube(transform.position + box.center + transform.forward * 2.5f, new Vector3(1, 1, 4));
         
     }
 }

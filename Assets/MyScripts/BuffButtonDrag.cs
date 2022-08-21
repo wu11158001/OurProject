@@ -39,7 +39,7 @@ public class BuffButtonDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     public void OnDrag(PointerEventData eventData)
     {
         GameObject buff = eventData.pointerDrag;
-        buff.transform.position = eventData.position - originalMousePosition;
+        buff.transform.position = eventData.position;// - originalMousePosition;
     }
 
     /// <summary>

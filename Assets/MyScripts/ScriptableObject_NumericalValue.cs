@@ -226,7 +226,7 @@ public class GameData_NumericalValue
         //cameraAngle = 20;//攝影機角度
 
         //玩家
-        playerHp = 300;//玩家生命值
+        playerHp = 500;//玩家生命值
         playerMoveSpeed = 6.3f;//玩家移動速度        
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
@@ -235,67 +235,67 @@ public class GameData_NumericalValue
 
         #region 戰士
         //戰士 普通攻擊1
-        warriorNormalAttack_1_Damge = 10;//戰士普通攻擊1_傷害
+        warriorNormalAttack_1_Damge = 30;//戰士普通攻擊1_傷害
         warriorNormalAttack_1_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
-        warriorNormalAttack_1_RepelDistance = 20;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_1_RepelDistance = 45;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_1_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_1_ForwardDistance = 1.3f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
         warriorNormalAttack_1_attackRadius = 1.2f;//戰士普通攻擊1_攻擊半徑    
         warriorNormalAttack_1_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 普通攻擊2
-        warriorNormalAttack_2_Damge = 11;//戰士普通攻擊1_傷害
+        warriorNormalAttack_2_Damge = 33;//戰士普通攻擊1_傷害
         warriorNormalAttack_2_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
-        warriorNormalAttack_2_RepelDistance = 20;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_2_RepelDistance = 45;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_2_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_2_ForwardDistance = 1.3f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
         warriorNormalAttack_2_attackRadius = 1.2f;//戰士普通攻擊1_攻擊半徑    
         warriorNormalAttack_2_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 普通攻擊3
-        warriorNormalAttack_3_Damge = 12;//戰士普通攻擊1_傷害
+        warriorNormalAttack_3_Damge = 36;//戰士普通攻擊1_傷害
         warriorNormalAttack_3_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
-        warriorNormalAttack_3_RepelDistance = 20;//戰士普通攻擊1_擊退/擊飛距離    
+        warriorNormalAttack_3_RepelDistance = 45;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_3_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_3_ForwardDistance = 0.5f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
         warriorNormalAttack_3_attackRadius = 1.55f;//戰士普通攻擊1_攻擊半徑    
-        warriorNormalAttack_3_IsAttackBehind = true;//戰士普通攻擊1_是否攻擊背後敵人
+        warriorNormalAttack_3_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 跳躍攻擊
-        warriorJumpAttack_Damage = 11;//戰士跳躍攻擊_傷害
+        warriorJumpAttack_Damage = 37;//戰士跳躍攻擊_傷害
         warriorJumpAttack_RepelDirection = 0;//戰士跳躍攻擊_擊退方向(0:擊退 1:擊飛)
         warriorJumpAttac_kRepelDistance = 50;//戰士跳躍攻擊_擊退距離
         warriorJumpAttack_Effect = "Pain";//戰士跳躍攻擊效果(受擊者播放的動畫名稱)
         warriorJumpAttack_ForwardDistance = 0.77f;//戰士普通攻擊3_攻擊範圍中心點距離物件前方
         warriorJumpAttack_attackRadius = 1.3f;//戰士普通攻擊3_攻擊半徑
-        warriorJumpAttack_IsAttackBehind = true;//戰士普通攻擊3_是否攻擊背後敵人
+        warriorJumpAttack_IsAttackBehind = false;//戰士普通攻擊3_是否攻擊背後敵人
 
         //戰士 技能攻擊1
-        warriorSkillAttack_1_Damge = 23;//戰士技能攻擊2_傷害
+        warriorSkillAttack_1_Damge = 50;//戰士技能攻擊2_傷害
         warriorSkillAttack_1_RepelDirection = 0;//戰士技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        warriorSkillAttack_1_RepelDistance = 30;//戰士技能攻擊2_擊退/擊飛距離    
+        warriorSkillAttack_1_RepelDistance = 80;//戰士技能攻擊2_擊退/擊飛距離    
         warriorSkillAttack_1_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
-        warriorSkillAttack_1_ForwardDistance = 1.3f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
-        warriorSkillAttack_1_attackRadius = 1.2f;//戰士技能攻擊2_攻擊半徑
+        warriorSkillAttack_1_ForwardDistance = 1.6f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
+        warriorSkillAttack_1_attackRadius = 1.65f;//戰士技能攻擊2_攻擊半徑
         warriorSkillAttack_1_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
 
         //戰士 技能攻擊2
-        warriorSkillAttack_2_Damge = 13;//戰士技能攻擊2_傷害
+        warriorSkillAttack_2_Damge = 28;//戰士技能攻擊2_傷害
         warriorSkillAttack_2_RepelDirection = 0;//戰士技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        warriorSkillAttack_2_RepelDistance = 30;//戰士技能攻擊2_擊退/擊飛距離    
+        warriorSkillAttack_2_RepelDistance = 45;//戰士技能攻擊2_擊退/擊飛距離    
         warriorSkillAttack_2_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
         warriorSkillAttack_2_ForwardDistance = 1.3f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
         warriorSkillAttack_2_attackRadius = 1.2f;//戰士技能攻擊2_攻擊半徑
         warriorSkillAttack_2_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
 
         //戰士 技能攻擊3
-        warriorSkillAttack_3_Damge = new float[] { 11, 12, 15};//戰士技能攻擊3_傷害
-        warriorSkillAttack_3_RepelDirection = new int[] { 0, 0, 1};//戰士技能攻擊3_擊退方向(0:擊退 1:擊飛)
-        warriorSkillAttack_3_RepelDistance = new float[] { 30, 30, 13.1f};//戰士技能攻擊3_擊退/擊飛距離    
+        warriorSkillAttack_3_Damge = new float[] { 16, 16, 35};//戰士技能攻擊3_傷害
+        warriorSkillAttack_3_RepelDirection = new int[] { 0, 0, 0};//戰士技能攻擊3_擊退方向(0:擊退 1:擊飛)
+        warriorSkillAttack_3_RepelDistance = new float[] { 50, 50, 90};//戰士技能攻擊3_擊退/擊飛距離    
         warriorSkillAttack_3_Effect = new string[] { "Pain", "Pain", "Pain" };//戰士普技能攻擊3_效果(受擊者播放的動畫名稱)        
-        warriorSkillAttack_3_ForwardDistance = new float[] { 0, 0, 0};//戰士技能攻擊3_攻擊範圍中心點距離物件前方
-        warriorSkillAttack_3_attackRadius = new float[] { 1.4f, 1.4f, 5};//戰士技能攻擊3_攻擊半徑
-        warriorSkillAttack_3_IsAttackBehind = new bool[] { true, true, true};//戰士技能攻擊3_是否攻擊背後敵人
+        warriorSkillAttack_3_ForwardDistance = new float[] { 0.7f, 0.7f, 0};//戰士技能攻擊3_攻擊範圍中心點距離物件前方
+        warriorSkillAttack_3_attackRadius = new float[] { 1.4f, 1.4f, 4.5f};//戰士技能攻擊3_攻擊半徑
+        warriorSkillAttack_3_IsAttackBehind = new bool[] { false, false, true};//戰士技能攻擊3_是否攻擊背後敵人
         #endregion
 
         #region 弓箭手
@@ -396,7 +396,7 @@ public class GameData_NumericalValue
 
         //法師技能攻擊3
         magicianSkillAttack_3_Damge = 14;//法師技能攻擊3_傷害
-        magicianSkillAttack_3_RepelDirection = 1;//法師技能攻擊3_擊退方向(0:擊退 1:擊飛)
+        magicianSkillAttack_3_RepelDirection = 0;//法師技能攻擊3_擊退方向(0:擊退 1:擊飛)
         magicianSkillAttack_3_RepelDistance = 13.1f;//法師技能攻擊3_擊退/擊飛距離    
         magicianSkillAttack_32_Effect = "Pain";//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
         magicianSkillAttack_3_ForwardDistance = 3;//法師技能攻擊3_攻擊範圍中心點距離物件前方

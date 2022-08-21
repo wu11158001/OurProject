@@ -36,6 +36,8 @@ public class AI : MonoBehaviourPunCallbacks
     [Header("追擊狀態")]
     [SerializeField] float chaseSpeed;//追擊速度
     [SerializeField] float maxRadiansDelta;//轉向角度
+    [SerializeField] float[] startChaseRandomTime;//離開戰鬥後亂數開始追擊時間(亂數最小值, 最大值)
+    float startChaseTime;//離開戰鬥後亂數開始追擊時間(計時器)
     int chaseObject;//追擊對象編號
     bool isStartChase;//是否開始追擊
 
@@ -74,7 +76,7 @@ public class AI : MonoBehaviourPunCallbacks
         charactersCollision = GetComponent<CharactersCollision>();
 
         //偵測範圍
-        normalStateMoveRadius = 3;//一般狀態移動範圍
+        normalStateMoveRadius = 2.5f;//一般狀態移動範圍
         alertRadius = 12;//警戒範圍
         chaseRadius = 8;//追擊範圍
         attackRadius = 3.0f;//攻擊範圍
@@ -92,10 +94,11 @@ public class AI : MonoBehaviourPunCallbacks
 
         //追擊狀態
         chaseSpeed = 5.3f;//追擊速度
-        maxRadiansDelta = 0.085f;//轉向角度
+        maxRadiansDelta = 0.1405f;//轉向角度
+        startChaseRandomTime = new float[] { 1.5f, 3.5f};//離開戰鬥後亂數開始追擊時間(亂數最小值, 最大值)
 
         //攻擊狀態
-        attackFrequency = new float[2] { 0.5f, 2.0f};//攻擊頻率(亂數最小值, 最大值)  
+        attackFrequency = new float[2] { 0.5f, 1.75f};//攻擊頻率(亂數最小值, 最大值)  
     }
 
     void Update()
@@ -293,20 +296,35 @@ public class AI : MonoBehaviourPunCallbacks
             if (aiState != AIState.攻擊狀態)
             {
                 OnChangeState(state: AIState.攻擊狀態, openAnimationName: "NormalAttack", closeAnimationName: "Run");
+                startChaseTime = Random.Range(startChaseRandomTime[0], startChaseRandomTime[1]);//離開戰鬥後亂數開始追擊時間(計時器)
             }
         } 
         else
         {
-            //"待機中動畫"中沒關閉"攻擊中"狀態
-            if (info.IsName("AttackIdle") && isAttacking) isAttacking = false;
+            startChaseTime -= Time.deltaTime;//離開戰鬥後亂數開始追擊時間(計時器)
 
-            //在攻擊待機中 && 不再攻擊中
-            if (isAttackIdle && !isAttacking)
+            if (startChaseTime <= 0)
             {
-                if (aiState != AIState.追擊狀態)
+                //"待機中動畫"中沒關閉"攻擊中"狀態
+                if (info.IsName("AttackIdle") && isAttacking) isAttacking = false;
+
+                //在攻擊待機中 && 不再攻擊中
+                if (isAttackIdle && !isAttacking)
                 {
+                    if (aiState != AIState.追擊狀態)
+                    {
+                        OnChangeAnimation("NormalAttack", false);
+                        OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle");
+                    }
+                }
+            }
+            else
+            {
+                if (info.IsName("NormalAttack") && info.normalizedTime >= 1 && isAttackIdle == false)
+                {                    
+                    isAttackIdle = true;                    
+                    OnChangeAnimation("AttackIdle", true);
                     OnChangeAnimation("NormalAttack", false);
-                    OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle");
                 }
             }
         }
@@ -394,12 +412,26 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnCheckExecuteAStart()
     {
-        //碰撞偵測
-        if (OnCollision())
+        LayerMask mask = LayerMask.GetMask("StageObject");
+        RaycastHit hit;
+
+        //碰撞偵測_牆面
+        if (charactersCollision.OnCollision_Wall(mask, out hit))
+        {
+            if(isExecuteAStart)//正在執行AStar
+            {
+                isExecuteAStart = false;
+            }
+        }
+
+        //碰撞偵測_玩家
+        if (OnCollision_Player())
         {
             //尋找節點
             if (!isExecuteAStart)
-            {                
+            {
+                if (pathsList.Count > 0) pathsList.Clear();
+
                 isExecuteAStart = true;
                 Vector3 startPosition = transform.position;//起始位置(AI位置)
                 Vector3 targetPosition = players[chaseObject].transform.position;
@@ -412,11 +444,12 @@ public class AI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 碰撞偵測
+    /// 碰撞偵測_玩家
     /// </summary>
     /// <returns></returns>
-    bool OnCollision()
+    bool OnCollision_Player()
     {
+        //玩家物件存在 && 非執行AStar
         if (players[chaseObject] != null)
         {
             CharactersCollision playerCharactersCollision = players[chaseObject].GetComponent<CharactersCollision>();
@@ -424,7 +457,7 @@ public class AI : MonoBehaviourPunCallbacks
             //偵測障礙物
             LayerMask mask = LayerMask.GetMask("StageObject");
             if (Physics.Linecast(transform.position + charactersCollision.boxCenter, players[chaseObject].transform.position + playerCharactersCollision.boxCenter, mask))
-            {
+            {                
                 return true;
             }
         }
@@ -453,7 +486,7 @@ public class AI : MonoBehaviourPunCallbacks
             point++;//目前尋路節點編號
 
             //到達目標 || 到達搜索節點數量
-            if (point >= pathsList.Count || !OnCollision())
+            if (point >= pathsList.Count || !OnCollision_Player())
             {                
                 point = pathsList.Count;//尋路節點編號
                 isExecuteAStart = false;//非執行AStart
@@ -499,7 +532,7 @@ public class AI : MonoBehaviourPunCallbacks
         {
             targetDiration = players[chaseObject].transform.position - transform.position;
         }
-
+        
         //判斷目標在左/右方               
         transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);        
         transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);  

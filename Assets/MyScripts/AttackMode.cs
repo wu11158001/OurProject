@@ -93,7 +93,7 @@ public class AttackMode
             if (collision != null)
             {
                 //是否攻擊背後敵人
-                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0) continue;
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.5f) continue;
                 OnSetHealNumbericalValue(collision);
             }
         }
@@ -113,9 +113,9 @@ public class AttackMode
         {
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
             if (collision != null)
-            {
+            {                
                 //是否攻擊背後敵人
-                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0) continue;
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.5f) continue;
                 OnSetAttackNumbericalValue(collision);
             }
         }   
@@ -137,7 +137,7 @@ public class AttackMode
             if (collision != null)
             {
                 //是否攻擊背後敵人
-                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0) continue;
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.5f) continue;
                 OnSetAttackNumbericalValue(collision);
             }
         }

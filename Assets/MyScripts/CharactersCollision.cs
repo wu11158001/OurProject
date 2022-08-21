@@ -63,7 +63,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         wallCollisionHight = 0.5f;//牆面碰撞高度
         acceleration = 1;//加速度
 
-        //數值
+        //腳色Tag設定HP
         switch (gameObject.tag)
         {
             case "Player":
@@ -496,39 +496,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         info = animator.GetCurrentAnimatorStateInfo(0);        
         LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
-               
-        //射線方向
-        Vector3[] rayDiration = new Vector3[] { transform.forward,
-                                                transform.forward - transform.right,
-                                                transform.right,
-                                                transform.right + transform.forward,
-                                               -transform.forward,
-                                               -transform.forward + transform.right,
-                                               -transform.right,
-                                               -transform.right -transform.forward };
 
-        float wallHight = boxCenter.y + wallCollisionHight;//牆壁高度多少碰撞
-        //牆壁碰撞    
-        for (int i = 0; i < rayDiration.Length; i++)
-        {
-            if (Physics.BoxCast(transform.position + Vector3.up * wallHight, new Vector3(boxCollisionDistance, (boxSize.y / 2) - wallCollisionHight, boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance + (wallCollisionDistance / 2), mask))
-            {
-                transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance + (wallCollisionDistance / 2) - hit.distance));
+        //牆面碰撞
+        OnCollision_Wall(mask, out hit);
 
-                collisionObject[i] = hit.transform;//紀錄碰撞物件
-            }
-            else
-            {
-                collisionObject[i] = null;//紀錄碰撞物件
-
-                //避免失誤塞進物件
-                /* if (Physics.CheckBox(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance - 0.06f, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance - 0.06f), Quaternion.Euler(transform.localEulerAngles), mask))
-                 {
-                     //transform.position = transform.position - rayDiration[i] * 5 * Time.deltaTime;
-                 }*/
-            }
-        }
-        
         //跳躍||落下 地面碰撞
         if (info.IsName("Jump") || info.IsName("Fall"))
         {          
@@ -573,7 +544,54 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             OnFallJudge();//落下判斷
         }
     }
-  
+
+    /// <summary>
+    /// 碰撞框_牆面
+    /// </summary>
+    /// <param name="mask">LayerMask</param>
+    /// <param name="hit">RaycastHit</param>
+    /// <returns></returns>
+    public bool OnCollision_Wall(LayerMask mask, out RaycastHit hit)
+    {
+        hit = default;
+        //射線方向
+        Vector3[] rayDiration = new Vector3[] { transform.forward,
+                                                transform.forward - transform.right,
+                                                transform.right,
+                                                transform.right + transform.forward,
+                                               -transform.forward,
+                                               -transform.forward + transform.right,
+                                               -transform.right,
+                                               -transform.right -transform.forward };
+
+        float wallHight = boxCenter.y + wallCollisionHight;//牆壁高度多少碰撞
+        //牆壁碰撞    
+        for (int i = 0; i < rayDiration.Length; i++)
+        {
+            if (Physics.BoxCast(transform.position + Vector3.up * wallHight, new Vector3(boxCollisionDistance, (boxSize.y / 2) - wallCollisionHight, boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance + (wallCollisionDistance / 2), mask))
+            {
+                transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance + (wallCollisionDistance / 2) - hit.distance));
+
+                collisionObject[i] = hit.transform;//紀錄碰撞物件
+
+                return true;
+            }
+            else
+            {
+                collisionObject[i] = null;//紀錄碰撞物件
+
+                //避免失誤塞進物件
+                /* if (Physics.CheckBox(transform.position + boxCenter + Vector3.up * wallHight, new Vector3(boxCollisionDistance - 0.06f, boxSize.y - (boxCenter.y + wallHight), boxCollisionDistance - 0.06f), Quaternion.Euler(transform.localEulerAngles), mask))
+                 {
+                     //transform.position = transform.position - rayDiration[i] * 5 * Time.deltaTime;
+                 }*/
+            }
+        }
+
+        return false;
+    }
+
+
     /// <summary>
     /// 碰撞框_地面
     /// </summary>
