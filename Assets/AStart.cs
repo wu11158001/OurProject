@@ -105,14 +105,39 @@ public class AStart
                 if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
                 {
                     isHaveBestNode = true;//有更近的節點
+
+
+                    /*if(OnCompareNeighborNode(node: ref node, targetPosition: targetPosition))
+                    {
+                        pathNodesList.Add(targetPosition);//紀錄目標點
+                        return pathNodesList;//回傳所有紀錄路徑點
+                    }*/
                     //比較鄰居節點
-                    
-                    if(OnCompareNeighborNode(node: ref node, targetPosition: targetPosition))
+                    NodePath compareNode = node;
+                    bestDistance = 10000;
+                    for (int i = 0; i < compareNode.neighborNode.Length; i++)
+                    {
+                        if (compareNode.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
+
+                        Vector3 nextPosition = compareNode.transform.position;//下個節點位置
+                        Vector3 neighborPosition = compareNode.neighborNode[i].transform.position;//鄰居節點位置
+
+                        float G = (nextPosition - neighborPosition).magnitude;//到下個節點位置
+                        float H = (neighborPosition - targetPosition).magnitude;//下個節點到目標位置
+                        float F = G + H;//距離
+
+                        if (F < bestDistance)
+                        {
+                            bestDistance = F;//最佳距離
+                            compareNode = compareNode.neighborNode[i];//更新最近節點
+                        }
+                    }
+                    if (compareNode == node)
                     {
                         pathNodesList.Add(targetPosition);//紀錄目標點
                         return pathNodesList;//回傳所有紀錄路徑點
                     }
-
+                    else node = compareNode;
                 }
                 else
                 {                   
@@ -132,13 +157,14 @@ public class AStart
         return pathNodesList;//回傳所有紀錄路徑點
     }
 
-    /// <summary>
+   /* /// <summary>
     /// 比較鄰居節點
     /// </summary>
     /// <param name="node">要比較的節點</param>
     /// <param name="targetPosition">目標位置</param>
     bool OnCompareNeighborNode(ref NodePath node, Vector3 targetPosition)
     {
+
         NodePath compareNode = node;
         float bestDistance = 10000;
 
@@ -163,7 +189,7 @@ public class AStart
        
         node = compareNode;
         return false;
-    }
+    }*/
 
     /// <summary>
     /// 比較起點鄰居節點
