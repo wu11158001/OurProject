@@ -401,8 +401,10 @@ public class AI : MonoBehaviourPunCallbacks
             if (!isExecuteAStart)
             {                
                 isExecuteAStart = true;
+                Vector3 startPosition = transform.position;//起始位置(AI位置)
+                Vector3 targetPosition = players[chaseObject].transform.position;
+                pathsList = aStart.OnGetBestPoint(startPosition, targetPosition);//尋找路徑
                 point = 0;//尋路節點編號
-                pathsList = aStart.OnGetBestPoint(transform.position, players[chaseObject].transform.position);                
             }
         }      
 
@@ -451,9 +453,9 @@ public class AI : MonoBehaviourPunCallbacks
             point++;//目前尋路節點編號
 
             //到達目標 || 到達搜索節點數量
-            if (point > pathsList.Count - 1 || !OnCollision())
+            if (point >= pathsList.Count || !OnCollision())
             {                
-                point = pathsList.Count - 1;//尋路節點編號
+                point = pathsList.Count;//尋路節點編號
                 isExecuteAStart = false;//非執行AStart
                 pathsList.Clear();
             }            

@@ -66,7 +66,7 @@ public class AStart
 
         node = allNodes[closeNumber];//最近節點       
         //比較鄰居節點
-        node = OnCompareStartNodeNeighborNode(node: node, targetPosition: targetPosition, startPoint: startPoint);
+        node = OnCompareStartNeighborNode(node: node, targetPosition: targetPosition, startPoint: startPoint);
 
         node.nodeState = NodePath.NodeState.關閉;//節點狀態
         closeNodeList.Add(node);//紀錄已關閉的節點
@@ -78,13 +78,12 @@ public class AStart
         float bestDistance = 10000;//最佳距離                
         int bestNeighbor = 0;//最近的鄰居編號
         while (closeNodeList.Count < allNodes.Length)
-        {          
+        {
             bool isHaveBestNode = false;//是否有更近的節點
             bestNeighbor = 0;//最近的鄰居編號
             for (int i = 0; i < node.neighborNode.Length; i++)
-            {                
-                if (node.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;                
-
+            {
+                if (node.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;               
                 Vector3 nextPosition = node.transform.position;//下個節點位置
                 Vector3 neighborPosition = node.neighborNode[i].transform.position;//鄰居節點位置
 
@@ -93,7 +92,7 @@ public class AStart
                 float F = G + H;//距離
 
                 if (F < bestDistance)
-                {                    
+                {
                     isHaveBestNode = true;//有更近的節點
                     bestDistance = F;//最佳距離
                     bestNeighbor = i;//最近的鄰居編號                    
@@ -106,18 +105,23 @@ public class AStart
                 if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
                 {
                     isHaveBestNode = true;//有更近的節點
-
                     //比較鄰居節點
-                    OnCompareNeighborNode(node: ref node, targetPosition: targetPosition);
+                    
+                    if(OnCompareNeighborNode(node: ref node, targetPosition: targetPosition))
+                    {
+                        pathNodesList.Add(targetPosition);//紀錄目標點
+                        return pathNodesList;//回傳所有紀錄路徑點
+                    }
+
                 }
                 else
-                {
+                {                   
                     pathNodesList.Add(targetPosition);//紀錄目標點
                     return pathNodesList;//回傳所有紀錄路徑點
-                }
+                }             
             }
 
-            node = node.neighborNode[bestNeighbor];//更新最近節點
+            node = node.neighborNode[bestNeighbor];
             node.nodeState = NodePath.NodeState.關閉;//節點狀態
             closeNodeList.Add(node);//紀錄已關閉的節點
             pathNodesList.Add(node.transform.position);//初始路徑點
@@ -126,54 +130,21 @@ public class AStart
 
         pathNodesList.Add(targetPosition);//紀錄目標點
         return pathNodesList;//回傳所有紀錄路徑點
-    }   
+    }
 
     /// <summary>
     /// 比較鄰居節點
     /// </summary>
     /// <param name="node">要比較的節點</param>
     /// <param name="targetPosition">目標位置</param>
-    void OnCompareNeighborNode(ref NodePath node, Vector3 targetPosition)
-    {
-        float bestDistance = 10000;
-        for (int i = 0; i < node.neighborNode.Length; i++)
-        {
-            if (node.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
-
-            Vector3 nextPosition = node.transform.position;//下個節點位置
-            Vector3 neighborPosition = node.neighborNode[i].transform.position;//鄰居節點位置
-
-            float G = (nextPosition - neighborPosition).magnitude;//到下個節點位置
-            float H = (neighborPosition - targetPosition).magnitude;//下個節點到目標位置
-            float F = G + H;//距離
-
-            if (F < bestDistance)
-            {                
-                bestDistance = F;//最佳距離
-                node = node.neighborNode[i];//更新最近節點
-            }
-        }
-    }
-
-    /// <summary>
-    /// 比較起點鄰居節點
-    /// </summary>
-    /// <param name="node">要比較的節點</param>
-    /// <param name="targetPosition">目標位置</param>
-    /// <param name="targetPosition">起點位置</param>
-    NodePath OnCompareStartNodeNeighborNode(NodePath node, Vector3 targetPosition, Vector3 startPoint)
+    bool OnCompareNeighborNode(ref NodePath node, Vector3 targetPosition)
     {
         NodePath compareNode = node;
-
         float bestDistance = 10000;
+
         for (int i = 0; i < compareNode.neighborNode.Length; i++)
         {
-            if (compareNode.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
-            //有障礙物跳過
-            if (Physics.Linecast(startPoint, allNodes[i].transform.position, 1 << LayerMask.NameToLayer("StageObject")))
-            {
-                continue;
-            }
+            if (compareNode.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;           
 
             Vector3 nextPosition = compareNode.transform.position;//下個節點位置
             Vector3 neighborPosition = compareNode.neighborNode[i].transform.position;//鄰居節點位置
@@ -188,7 +159,46 @@ public class AStart
                 compareNode = compareNode.neighborNode[i];//更新最近節點
             }
         }
+        if(compareNode == node) return true;
+       
+        node = compareNode;
+        return false;
+    }
 
+    /// <summary>
+    /// 比較起點鄰居節點
+    /// </summary>
+    /// <param name="node">要比較的節點</param>
+    /// <param name="targetPosition">目標位置</param>
+    /// <param name="targetPosition">起點位置</param>
+    NodePath OnCompareStartNeighborNode(NodePath node, Vector3 targetPosition, Vector3 startPoint)
+    {
+        NodePath compareNode = node;
+
+        float bestDistance = 10000;
+        for (int i = 0; i < compareNode.neighborNode.Length; i++)
+        {
+            if (compareNode.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
+            //有障礙物跳過
+            if (Physics.Linecast(startPoint, compareNode.neighborNode[i].transform.position, 1 << LayerMask.NameToLayer("StageObject")))
+            {
+                continue;
+            }            
+
+            Vector3 nextPosition = compareNode.transform.position;//下個節點位置
+            Vector3 neighborPosition = compareNode.neighborNode[i].transform.position;//鄰居節點位置
+
+            float G = (nextPosition - neighborPosition).magnitude;//到下個節點位置
+            float H = (neighborPosition - targetPosition).magnitude;//下個節點到目標位置
+            float F = G + H;//距離
+
+            if (F < bestDistance)
+            {
+                bestDistance = F;//最佳距離
+                compareNode = compareNode.neighborNode[i];//更新最近節點
+            }
+        }
+        
         return compareNode;
     }
 }
