@@ -30,16 +30,20 @@ public class AI : MonoBehaviourPunCallbacks
     float normalRandomAngle;//一般狀態亂數選轉角度
 
     [Header("警戒狀態")]
+    [Tooltip("警戒到追擊時間")] public float alertToChaseTime;//警戒到追擊時間
+    float alertTime;//警戒到追擊時間(計時器)
     float CheckPlayerDistanceTime;//偵測玩家距離時間
     float CheckPlayerTime;//偵測玩家時間(計時器)    
 
     [Header("追擊狀態")]
     [SerializeField] float chaseSpeed;//追擊速度
     [SerializeField] float maxRadiansDelta;//轉向角度
-    [SerializeField] float[] startChaseRandomTime;//離開戰鬥後亂數開始追擊時間(亂數最小值, 最大值)
+    [SerializeField] float[] readyChaseRandomTime;//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
     float startChaseTime;//離開戰鬥後亂數開始追擊時間(計時器)
     int chaseObject;//追擊對象編號
     bool isStartChase;//是否開始追擊
+    bool isReadChase;//是否準備追擊
+    [SerializeField] public float chaseTurnTime;//追擊轉向時間
 
     [Header("攻擊狀態")]
     [SerializeField] float[] attackFrequency;//攻擊頻率(亂數最小值, 最大值)
@@ -79,7 +83,7 @@ public class AI : MonoBehaviourPunCallbacks
         normalStateMoveRadius = 2.5f;//一般狀態移動範圍
         alertRadius = 12;//警戒範圍
         chaseRadius = 8;//追擊範圍
-        attackRadius = 3.0f;//攻擊範圍
+        attackRadius = 2.0f;//攻擊範圍
 
         //一般狀態
         originalPosition = transform.position;//初始位置
@@ -91,11 +95,12 @@ public class AI : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect) players = new GameObject[PhotonNetwork.CurrentRoom.PlayerCount];//所有玩家
         else players = new GameObject[1];
         CheckPlayerDistanceTime = 3;//偵測玩家距離時間
+        alertToChaseTime = 2;//警戒到追擊時間
 
         //追擊狀態
         chaseSpeed = 5.3f;//追擊速度
         maxRadiansDelta = 0.1405f;//轉向角度
-        startChaseRandomTime = new float[] { 1.5f, 3.5f};//離開戰鬥後亂數開始追擊時間(亂數最小值, 最大值)
+        readyChaseRandomTime = new float[] { 1.5f, 3.5f};//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
         //攻擊狀態
         attackFrequency = new float[2] { 0.5f, 1.75f};//攻擊頻率(亂數最小值, 最大值)  
@@ -176,10 +181,17 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 normalRandomMoveTime -= Time.deltaTime;
 
+                //偵測腳色碰撞
+                RaycastHit hit;
+                if (charactersCollision.OnCollision_Characters(out hit)) forwardVector = transform.position - hit.transform.position;//轉向
+        
+                //移動 && 轉向
                 float maxRadiansDelta = 0.03f;//轉向角度
                 transform.forward = Vector3.RotateTowards(transform.forward, forwardVector, maxRadiansDelta, maxRadiansDelta);
                 transform.position = transform.position + transform.forward * normalStateMoveSpeed * Time.deltaTime;
-                transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);                
+                transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+
+                //charactersCollision.OnCollision_Character();//碰撞框_腳色
             }
             else//待機
             {                
@@ -206,17 +218,56 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 OnChangeState(state: AIState.警戒狀態, openAnimationName: "Alert", closeAnimationName: "Walk");
             }
+            else//警戒狀態中
+            {
+                alertTime += Time.deltaTime;//警戒到追擊時間
+
+                if (alertTime >= alertToChaseTime)
+                {
+                    OnHowlingBehavior();//咆嘯行為
+                    OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
+                }
+            }
         }
         else
         {
             if (aiState != AIState.一般狀態)
             {
                 normalRandomMoveTime = 0;//一般狀態亂數移動時間
+                alertTime = 0;
                 normalStateTime = Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//一般狀態亂數移動時間
                                                                                                //
                 OnChangeState(state: AIState.一般狀態, openAnimationName: "Idle", closeAnimationName: "Alert");
             }
         }
+    }
+
+    /// <summary>
+    /// 咆嘯行為
+    /// </summary>
+    void OnHowlingBehavior()
+    {
+        AI[] companions = GameObject.FindObjectsOfType<AI>();
+
+        foreach (var companion in companions)
+        {
+            float distance = (transform.position - companion.transform.position).magnitude;
+            if(distance <= alertRadius)
+            {
+                //通知同伴
+                companion.OnChangeStateToChase(players);
+            }
+
+        }
+
+       /* RaycastHit hit;
+        if(Physics.SphereCast(transform.position, alertRadius, transform.up, out hit, alertRadius, 1 << LayerMask.NameToLayer("Enemy")))
+        {
+            AI ai =  hit.transform.GetComponent<AI>();
+
+            //通知同伴
+            if (ai != null) ai.OnChangeStateToChase();
+        }*/
     }
 
     /// <summary>
@@ -228,7 +279,7 @@ public class AI : MonoBehaviourPunCallbacks
 
         OnAlertRangeCheck();//警戒範圍偵測        
         OnChaseRangeCheck();//追擊範圍偵測
-        OnCheckClosestPlayer();//檢查最近玩家        
+        OnCheckClosestPlayer();//檢查最近玩家             
     }
 
     /// <summary>
@@ -244,6 +295,19 @@ public class AI : MonoBehaviourPunCallbacks
                 OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
             }
         }
+    }
+
+    /// <summary>
+    /// 更換狀態到追擊狀態
+    /// </summary>
+    /// <param name="chasePlaters">追擊的玩家</param>
+    public void OnChangeStateToChase(GameObject[] chasePlaters)
+    {
+        if(aiState != AIState.追擊狀態 || aiState != AIState.攻擊狀態)
+        {
+            players = chasePlaters;//追擊的玩家
+            OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
+        }        
     }
 
     /// <summary>
@@ -265,12 +329,27 @@ public class AI : MonoBehaviourPunCallbacks
         //開始追擊
         if (isStartChase)
         {
-            OnCheckClosestPlayer();//檢查最近玩家
             OnAttackRangeCheck();//攻擊範圍偵測        
             OnCheckExecuteAStart();//偵測碰撞
 
             //朝玩家移動
-            transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime; 
+            if(info.IsName("Run")) transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
+
+            chaseTurnTime -= Time.deltaTime;
+
+            //前方有自己人
+            if (charactersCollision.OnCollision_Enemy())
+            {
+                chaseTurnTime = 1;
+
+                //轉向                
+                transform.forward = Vector3.RotateTowards(transform.forward, transform.right, maxRadiansDelta, maxRadiansDelta);
+                
+            }
+            else
+            {
+                if (chaseTurnTime <= 0) OnCheckClosestPlayer();//檢查最近玩家
+            }
         }
 
         /*//碰牆重新計算尋路
@@ -281,8 +360,8 @@ public class AI : MonoBehaviourPunCallbacks
                 aStart.OnGetBestPoint(transform.position, players[chaseObject].transform.position);
             }
         }*/
-    }    
-
+    }
+    
     /// <summary>
     /// 攻擊範圍偵測
     /// </summary>
@@ -293,14 +372,20 @@ public class AI : MonoBehaviourPunCallbacks
         //更換狀態偵測
         if (OnDetectionRange(radius: attackRadius))
         {
+            if (isReadChase) isReadChase = false;//是否準備追擊
+
             if (aiState != AIState.攻擊狀態)
             {
+                isAttacking = true;//攻擊中
+                isAttackIdle = false;//非攻擊待機
+
                 OnChangeState(state: AIState.攻擊狀態, openAnimationName: "NormalAttack", closeAnimationName: "Run");
-                startChaseTime = Random.Range(startChaseRandomTime[0], startChaseRandomTime[1]);//離開戰鬥後亂數開始追擊時間(計時器)
+                startChaseTime = Random.Range(readyChaseRandomTime[0], readyChaseRandomTime[1]);//離開戰鬥後亂數開始追擊時間(計時器)
             }
         } 
         else
         {
+            isReadChase = true;//準備追擊
             startChaseTime -= Time.deltaTime;//離開戰鬥後亂數開始追擊時間(計時器)
 
             if (startChaseTime <= 0)
@@ -320,11 +405,17 @@ public class AI : MonoBehaviourPunCallbacks
             }
             else
             {
-                if (info.IsName("NormalAttack") && info.normalizedTime >= 1 && isAttackIdle == false)
-                {                    
-                    isAttackIdle = true;                    
-                    OnChangeAnimation("AttackIdle", true);
-                    OnChangeAnimation("NormalAttack", false);
+                if (isReadChase)//準備追擊
+                {
+                    if (info.IsName("NormalAttack") && info.normalizedTime >= 1)
+                    {
+                        if (isAttacking)//攻擊中
+                        {                            
+                            OnChangeAnimation("NormalAttack", false);
+                            OnChangeAnimation("AttackIdle", true);
+                        }
+                        
+                    }
                 }
             }
         }
@@ -367,7 +458,7 @@ public class AI : MonoBehaviourPunCallbacks
             }
         }  
         
-        OnWaitAttack();//等待攻擊
+        if(!isReadChase) OnWaitAttack();//等待攻擊
     }
 
     /// <summary>
@@ -416,7 +507,7 @@ public class AI : MonoBehaviourPunCallbacks
         RaycastHit hit;
 
         //碰撞偵測_牆面
-        if (charactersCollision.OnCollision_Wall(mask, out hit))
+        if (charactersCollision.OnCollision_Wall())
         {
             if(isExecuteAStart)//正在執行AStar
             {
@@ -456,7 +547,7 @@ public class AI : MonoBehaviourPunCallbacks
 
             //偵測障礙物
             LayerMask mask = LayerMask.GetMask("StageObject");
-            if (Physics.Linecast(transform.position + charactersCollision.boxCenter, players[chaseObject].transform.position + playerCharactersCollision.boxCenter, mask))
+            if (Physics.Linecast(transform.position + (charactersCollision.boxCenter / 2), players[chaseObject].transform.position + (playerCharactersCollision.boxCenter / 2), mask))
             {                
                 return true;
             }

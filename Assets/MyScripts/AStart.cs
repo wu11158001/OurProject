@@ -99,6 +99,13 @@ public class AStart
                 }
             }
 
+            //判斷是否為目標點
+            if(node.neighborNode[bestNeighbor].transform.position == targetPosition)
+            {
+                pathNodesList.Add(targetPosition);//紀錄目標點
+                return pathNodesList;//回傳所有紀錄路徑點
+            }
+
             #region 第三步:最近節點是否有碰撞
             if (!isHaveBestNode)//沒有更近的節點
             {
@@ -132,6 +139,14 @@ public class AStart
                                 compareNode = compareNode.neighborNode[i];//更新最近節點
                             }
                         }
+
+                        //判斷是否為目標點
+                        if (compareNode.transform.position == targetPosition)
+                        {
+                            pathNodesList.Add(targetPosition);//紀錄目標點
+                            return pathNodesList;//回傳所有紀錄路徑點
+                        }
+
                         node = compareNode;
                         node.nodeState = NodePath.NodeState.關閉;//節點狀態
                         closeNodeList.Add(node);//紀錄已關閉的節點

@@ -35,7 +35,7 @@ MonoBehaviour:
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 13
-    playerHp: 300
+    playerHp: 500
     playerMoveSpeed: 6.3
     playerJumpForce: 11.05
     playerCriticalRate: 15
@@ -248,5 +248,5 @@ MonoBehaviour:
     magicianSkillAttack_3_ForwardDistance: 3
     magicianSkillAttack_3_attackRadius: 1.8
     magicianSkillAttack_3_IsAttackBehind: 0
-    enemySoldier1_Hp: 1000
-    enemySoldier2_Hp: 1000
+    enemySoldier1_Hp: 300
+    enemySoldier2_Hp: 300

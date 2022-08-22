@@ -405,7 +405,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {           
             LayerMask mask = LayerMask.GetMask("StageObject");
             RaycastHit hit;
-            if (charactersCollision.OnCollision_Floor(mask, out hit))
+            if (charactersCollision.OnCollision_Floor(out hit))
             {
                 if ((isJump || isJumpAttack) && info.normalizedTime > 0.9f)
                 {
@@ -466,18 +466,19 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             }
         }
 
-        LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
         if (info.IsName("Jump"))
         {
-            if(charactersCollision.OnCollision_Floor(mask, out hit))
+            if(charactersCollision.OnCollision_Floor(out hit))
             {
                 if (hit.transform.tag == "Stairs") inputValue = (Mathf.Abs(inputX) + Mathf.Abs(inputZ)) * 0.8f;//¿é¤J­È
             }      
         }
   
         //²¾°Ê
-        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;           
+        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;
+
+        if (inputValue > 0) charactersCollision.OnCollision_Characters(out hit);//¸I¼²®Ø_¸}¦â
     }           
 
     /// <summary>

@@ -19,10 +19,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     [Header("距離地面高度")] public float heightFromGround;
     [Header("牆面碰撞距離")] public float wallCollisionDistance;
     [Header("牆面碰撞高度")] public float wallCollisionHight;
+    [Tooltip("碰撞框大小_腳色")] public float collisionSize_Character;//碰撞框大小_腳色
+    //[Tooltip("碰撞框推力_腳色")] public float collisionPushForce_Character;//碰撞框推力_腳色
     float boxCollisionDistance;//碰撞距離
     public Transform[] collisionObject = new Transform[9];//碰撞物件(判定是否有碰撞)    
     public Transform[] GetCollisionObject => collisionObject;
-    float jumpRayDistance;//跳躍射線距離
+    float jumpRayDistance;//跳躍射線距離    
 
     //生命條
     LifeBar_Characters lifeBar;//生命條
@@ -62,6 +64,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         wallCollisionDistance = 0.25f;//牆面碰撞距離
         wallCollisionHight = 0.5f;//牆面碰撞高度
         acceleration = 1;//加速度
+        collisionSize_Character = 0.7f;//碰撞框大小_腳色
+        //collisionPushForce_Character = 0.77f;//碰撞框推力_腳色
 
         //腳色Tag設定HP
         switch (gameObject.tag)
@@ -466,10 +470,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         {
             floating_List[i].OnFloating();
             
-            LayerMask mask = LayerMask.GetMask("StageObject");
             RaycastHit hit;
             //地板碰撞
-            if(OnJumpCollision_Floor(mask, out hit, jumpRayDistance))
+            if(OnJumpCollision_Floor(out hit, jumpRayDistance))
             {
                 if (floating_List[i].force < NumericalValue.playerJumpForce / 1.35f)
                 {
@@ -494,32 +497,26 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     void OnCollisionControl()
     {
         info = animator.GetCurrentAnimatorStateInfo(0);        
-        LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
-
-        //牆面碰撞
-        OnCollision_Wall(mask, out hit);
+                
+        OnCollision_Wall();//碰撞框_牆面
+        OnCollision_Characters(out hit);//碰撞框_腳色
 
         //跳躍||落下 地面碰撞
         if (info.IsName("Jump") || info.IsName("Fall"))
         {          
             jumpRayDistance = info.normalizedTime < 0.3f ? jumpRayDistance = -0.1f : jumpRayDistance = 0;//射線長度            
 
-            if (OnJumpCollision_Floor(mask, out hit, jumpRayDistance))
+            if (OnJumpCollision_Floor(out hit, jumpRayDistance))
             {
                 transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
-            }
-            else
-            {
-               /* OnGravity();//重力
-                OnFallJudge();//落下判斷*/
-            }
+            }          
         }
 
         //一般地面碰撞
         if (floating_List.Count == 0)
         {
-            if (OnCollision_Floor(mask, out hit))
+            if (OnCollision_Floor(out hit))
             {
                 transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
                 acceleration = 1;//加速度
@@ -546,14 +543,63 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 碰撞框_牆面
-    /// </summary>
-    /// <param name="mask">LayerMask</param>
-    /// <param name="hit">RaycastHit</param>
+    /// 碰撞框_敵人腳色
+    /// </summary>    
     /// <returns></returns>
-    public bool OnCollision_Wall(LayerMask mask, out RaycastHit hit)
+    public bool OnCollision_Enemy()
     {
+        LayerMask mask = LayerMask.GetMask("Enemy");
+
+        if (Physics.Raycast(transform.position, transform.forward, 1.5f, mask))
+        {         
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 碰撞框_腳色
+    /// </summary>    
+    /// <returns></returns>
+    public bool OnCollision_Characters(out RaycastHit hit)
+    {
+        LayerMask mask = LayerMask.GetMask("Player", "Enemy");
         hit = default;
+
+        //射線方向
+        Vector3[] rayDiration = new Vector3[] { transform.forward,
+                                                transform.forward - transform.right,
+                                                transform.right,
+                                                transform.forward + transform.right,
+                                                -transform.right };
+
+        //腳色碰撞    
+        for (int i = 0; i < rayDiration.Length; i++)
+        {
+            if (Physics.BoxCast(transform.position + boxCenter, new Vector3(boxCollisionDistance * collisionSize_Character, boxSize.y / 2, boxCollisionDistance * collisionSize_Character), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance * collisionSize_Character, mask))
+            {
+                //判斷碰撞對象左右
+                //float direction = Vector3.Dot(transform.forward, Vector3.Cross(transform.position - hit.transform.position, Vector3.up)) >= 0 ? direction = 1 : direction = -1;
+
+                //碰撞
+                transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
+                return true;
+            }         
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 碰撞框_牆面
+    /// </summary>    
+    /// <returns></returns>
+    public bool OnCollision_Wall()
+    {
+        LayerMask mask = LayerMask.GetMask("StageObject");
+        RaycastHit hit;
+
         //射線方向
         Vector3[] rayDiration = new Vector3[] { transform.forward,
                                                 transform.forward - transform.right,
@@ -591,15 +637,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         return false;
     }
 
-
     /// <summary>
     /// 碰撞框_地面
     /// </summary>
-    /// <param name="mask">LayerMask</param>
     /// <param name="hit">RaycastHit</param>
     /// <returns></returns>
-    public bool OnCollision_Floor(LayerMask mask, out RaycastHit hit)
+    public bool OnCollision_Floor(out RaycastHit hit)
     {
+        LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
         {            
             return true;
@@ -611,12 +656,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <summary>
     /// 跳躍碰撞框_地面
     /// </summary>
-    /// <param name="mask">LayerMask</param>
     /// <param name="hit">RaycastHit</param>
     /// /// <param name="distance">射線長度</param>
     /// <returns></returns>
-    public bool OnJumpCollision_Floor(LayerMask mask, out RaycastHit hit, float distance)
+    public bool OnJumpCollision_Floor(out RaycastHit hit, float distance)
     {
+        LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
         {            
             return true;
@@ -739,5 +784,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         animator.SetBool(aniamtionName, true);
         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, aniamtionName, true);
+    }
+
+    public float X;
+    public float Y;
+    public float Z;
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position + boxCenter, new Vector3(boxSize.x * X, boxSize.y * Y, boxSize.z * Z));
     }
 }

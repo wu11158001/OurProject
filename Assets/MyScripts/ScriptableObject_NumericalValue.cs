@@ -200,6 +200,17 @@ public class GameData_NumericalValue
     public bool magicianSkillAttack_3_IsAttackBehind;//法師技能攻擊3_是否攻擊背後敵人
     #endregion
 
+    #region 敵人士兵
+    [Header("敵人士兵 普通攻擊1")]
+    public float enemySoldierNormalAttack_1_Damge;//敵人士兵普通攻擊1_傷害
+    public int enemySoldierNormalAttack_1_RepelDirection;//敵人士兵普通攻擊1_擊退方向(0:擊退 1:擊飛)
+    public float enemySoldierNormalAttack_1_RepelDistance;//敵人士兵普通攻擊1_擊退/擊飛距離    
+    public string enemySoldierNormalAttack_1_Effect;//敵人士兵普通攻擊1_效果(受擊者播放的動畫名稱)        
+    public float enemySoldierNormalAttack_1_ForwardDistance;//敵人士兵普通攻擊1_攻擊範圍中心點距離物件前方
+    public float enemySoldierNormalAttack_1_attackRadius;//敵人士兵普通攻擊1_攻擊半徑
+    public bool enemySoldierNormalAttack_1_IsAttackBehind;//敵人士兵普通攻擊1_是否攻擊背後敵人
+    #endregion
+
     [Header("敵人士兵1")]
     public float enemySoldier1_Hp;//敵人士兵1_生命值
     [Header("敵人士兵2")]
@@ -404,9 +415,20 @@ public class GameData_NumericalValue
         magicianSkillAttack_3_IsAttackBehind = false;//法師技能攻擊3_是否攻擊背後敵人
         #endregion
 
+        #region 敵人士兵
+        //敵人士兵 普通攻擊1
+        enemySoldierNormalAttack_1_Damge = 5;//敵人士兵普通攻擊1_傷害
+        enemySoldierNormalAttack_1_RepelDirection = 0;//敵人士兵普通攻擊1_擊退方向(0:擊退 1:擊飛)
+        enemySoldierNormalAttack_1_RepelDistance = 30;//敵人士兵普通攻擊1_擊退/擊飛距離    
+        enemySoldierNormalAttack_1_Effect = "Pain";//敵人士兵普通攻擊1_效果(受擊者播放的動畫名稱)        
+        enemySoldierNormalAttack_1_ForwardDistance = 1.3f;//敵人士兵普通攻擊1_攻擊範圍中心點距離物件前方
+        enemySoldierNormalAttack_1_attackRadius = 1.2f;//敵人士兵普通攻擊1_攻擊半徑
+        enemySoldierNormalAttack_1_IsAttackBehind = false;//敵人士兵普通攻擊1_是否攻擊背後敵人
+    #endregion
+
     //敵人
-    enemySoldier1_Hp = 1000;//敵人士兵1_生命值
-    enemySoldier2_Hp = 1000;//敵人士兵2_生命值
+    enemySoldier1_Hp = 300;//敵人士兵1_生命值
+    enemySoldier2_Hp = 300;//敵人士兵2_生命值
     }
 }
 
