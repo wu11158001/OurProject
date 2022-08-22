@@ -32,10 +32,10 @@ public class Effects : MonoBehaviour
         SkillAttack_3 = effects.transform.GetChild(5).GetComponent<ParticleSystem>();    //獲得特效組件;
         hit = effects.transform.GetChild(6).GetComponent<ParticleSystem>();              //命中效果
         StarShakeSet();                                                                 //畫面震盪
-        fov =Camera.main.fieldOfView;
+                                                                                        //  fov = Camera.main.fieldOfView;
 
         //武器發光，戰士弓箭手
-        if (anim.runtimeAnimatorController.name == "1_Warrior"|| anim.runtimeAnimatorController.name == "3_Archer")
+        if (anim.runtimeAnimatorController.name == "1_Warrior" || anim.runtimeAnimatorController.name == "3_Archer")
         {
             baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
             intensity = 1f;
@@ -50,7 +50,8 @@ public class Effects : MonoBehaviour
         // effects.transform.localPosition = new Vector3(0.2075253f, 0.8239655f, 0.4717751f);   //防意外
         animInfo = anim.GetCurrentAnimatorStateInfo(0);                                      //節省廢話
         UpdaSnake();                                                                       //畫面震盪 
-      //  PowerWindownView();
+                                                                                           //  PowerWindownView();
+
         if (anim.runtimeAnimatorController.name == "1_Warrior")
         {
             WarNormalAttack1();
@@ -62,11 +63,28 @@ public class Effects : MonoBehaviour
         if (anim.runtimeAnimatorController.name == "2_Magician")
         {
             MagSkillAttack1();
-         //   MagSkillAttack3();
+            //   MagSkillAttack3();3
+            MagEffectsControl();
         }
     }
 
 
+    float oSize = 0.2f;
+    void MagEffectsControl()
+    {
+        var effect = SkillAttack_1;
+        if (!animInfo.IsName("Attack.SkillAttack_1"))
+        {
+            oSize -= oSize * 10 * Time.deltaTime;
+            if (oSize <= 0.2f)
+            {
+                effect.transform.GetChild(3).gameObject.SetActive(false);
+                oSize = 0.2f;
+            }
+            effect.transform.GetChild(3).GetComponent<Projector>().orthographicSize = oSize;
+            effect.transform.GetChild(3).gameObject.transform.Rotate(0, 0, 0.5f);
+        }
+    }
 
     void MagSkillAttack1()
     {
@@ -74,6 +92,16 @@ public class Effects : MonoBehaviour
         float delay = 0.01f;
         var effect = SkillAttack_1;
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying) effect.Play();
+
+        //投影法陣
+        if (animInfo.IsName(idelName))
+        {
+            effect.transform.GetChild(3).gameObject.SetActive(true);  //法陣     
+            oSize += oSize * 10 * Time.deltaTime;
+            if (oSize >= 1.27f) oSize = 1.27f;
+            effect.transform.GetChild(3).GetComponent<Projector>().orthographicSize = oSize;
+            effect.transform.GetChild(3).gameObject.transform.Rotate(0, 0, 0.5f);
+        }
     }
 
     void MagSkillAttack3()
@@ -314,6 +342,8 @@ public class Effects : MonoBehaviour
         }
         else effect.Stop();
     }
+
+
 
 
 
