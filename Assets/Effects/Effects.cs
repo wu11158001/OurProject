@@ -1,11 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Effects : MonoBehaviour
 {
-    public GameObject weapon;
-    public GameObject effects;     //定位特效位置(因為不想用GameObject.Find)     
+    public GameObject weapon;      //掛載武器
+    public GameObject effects;     //掛載角色身上的effects，以定位特效位置(因為不想用GameObject.Find)     
+    public PostProcessProfile postProcessProfile;   //掛載PostProcessProfile
+
     Animator anim;                 //對應角色動作組件
     AnimatorStateInfo animInfo;    //獲得動作狀態(節省腳本用)   
     ParticleSystem NormalAttack_1;
@@ -19,7 +22,8 @@ public class Effects : MonoBehaviour
     Color baseColor;
     float rColor, gColor, bColor;
     float intensity;
-    float fov;
+    bool lensDistortion = false;
+
 
     void Start()
     {
@@ -32,7 +36,9 @@ public class Effects : MonoBehaviour
         SkillAttack_3 = effects.transform.GetChild(5).GetComponent<ParticleSystem>();    //獲得特效組件;
         hit = effects.transform.GetChild(6).GetComponent<ParticleSystem>();              //命中效果
         StarShakeSet();                                                                 //畫面震盪
-                                                                                        //  fov = Camera.main.fieldOfView;
+
+        postProcessProfile.GetSetting<LensDistortion>().intensity.value = 0f;
+
 
         //武器發光，戰士弓箭手
         if (anim.runtimeAnimatorController.name == "1_Warrior" || anim.runtimeAnimatorController.name == "3_Archer")
@@ -49,9 +55,8 @@ public class Effects : MonoBehaviour
     {
         // effects.transform.localPosition = new Vector3(0.2075253f, 0.8239655f, 0.4717751f);   //防意外
         animInfo = anim.GetCurrentAnimatorStateInfo(0);                                      //節省廢話
-        UpdaSnake();                                                                       //畫面震盪 
-                                                                                           //  PowerWindownView();
-
+        UpdaSnake();                                                                       //畫面震盪                                                                                            
+        UpdaLensDistortion();
         if (anim.runtimeAnimatorController.name == "1_Warrior")
         {
             WarNormalAttack1();
@@ -62,8 +67,9 @@ public class Effects : MonoBehaviour
         }
         if (anim.runtimeAnimatorController.name == "2_Magician")
         {
+            MagNormalAttack3();
             MagSkillAttack1();
-            //   MagSkillAttack3();3
+            MagSkillAttack3();
             MagEffectsControl();
         }
     }
@@ -84,14 +90,33 @@ public class Effects : MonoBehaviour
             effect.transform.GetChild(3).GetComponent<Projector>().orthographicSize = oSize;
             effect.transform.GetChild(3).gameObject.transform.Rotate(0, 0, 0.5f);
         }
+
+        if (animInfo.IsName("Attack.NormalAttack_1"))//法陣管理    
+        {
+            NormalAttack_3.Stop();
+        }
+
     }
+
+    void MagNormalAttack3()
+    {
+        var idelName = "Attack.NormalAttack_3";
+        float delay = 0.01f;
+        var effect = NormalAttack_3;
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying) effect.Play();
+
+    }
+
 
     void MagSkillAttack1()
     {
-        var idelName = "Attack.SkillAttack_1";
+        var idelName = "Attack.SkillAttack_1";       
         float delay = 0.01f;
         var effect = SkillAttack_1;
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying) effect.Play();
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
+        {
+            effect.Play();
+        }
 
         //投影法陣
         if (animInfo.IsName(idelName))
@@ -109,15 +134,8 @@ public class Effects : MonoBehaviour
         var idelName = "Attack.SkillAttack_3";
         float delay = 0.01f;
         var effect = SkillAttack_3;
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
-        {
-            effect.Play();
-            pWindownView = true;
-            if (animInfo.IsName(idelName) && animInfo.normalizedTime >= 1)
-            {
-                //    pWindownView = false;
-            }
-        }
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying) effect.Play();
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime >= 0.1 && animInfo.IsName(idelName) && animInfo.normalizedTime <= 0.15) lensDistortion = true;
     }
 
 
@@ -344,51 +362,27 @@ public class Effects : MonoBehaviour
     }
 
 
-
-
-
-    #region 畫面縮放
-
-    bool pWindownView = false;
-    float xTime = 0.4f;                                      //拉近速度，越小越慢    
-    float yTime = 12f;                                    //恢復速度，越大越快
-    void PowerWindownView()
+    #region 小魚眼
+    float uldTime;
+    float uldSpeed;
+    void UpdaLensDistortion()
     {
-        if (pWindownView)
+        if (lensDistortion)
         {
-            isshakeCamera = true;          //畫面震盪
-            Camera.main.fieldOfView -= Camera.main.fieldOfView * xTime * Time.deltaTime;
-            if (Camera.main.fieldOfView <= 35f)
-            {
-                Camera.main.fieldOfView = 35f;
-                pWindownView = false;
-            }
-        }
-        else
-        {
-            Camera.main.fieldOfView += Camera.main.fieldOfView * yTime * Time.deltaTime;
-            if (Camera.main.fieldOfView >= fov)
-            {
-                isshakeCamera = false;
-                Camera.main.fieldOfView = fov;
-            }
-        }
+            uldTime += 2f * Time.deltaTime;
+            uldSpeed += 18f * Time.deltaTime;
+            postProcessProfile.GetSetting<LensDistortion>().intensity.value = uldSpeed;
+            if (uldSpeed >= 35) uldSpeed = 35;
+            if (uldTime >= 2) lensDistortion = false;
 
-        //   isshakeCamera = true;          //畫面震盪
-        //var star = new Vector3(Screen.width / 2, Screen.height / 2);
-        //star = Camera.main.ScreenToWorldPoint(star);
-        //var n = gameObject.transform.GetChild(0).position - star;
-        //xTime -= xTime * Time.deltaTime;
-        //Camera.main.transform.forward = n;
-        //Camera.main.transform.position -= Camera.main.transform.position * n.magnitude * yTime * Time.deltaTime;
-        //if (xTime <= 0f)
-        //{
-        //    xTime = 2.5f;
-        //    isshakeCamera = false;
-        //    pWindownView = false;
-        //    return;
-        //}
-        //}
+        }
+        if (!lensDistortion)
+        {
+            uldSpeed -= 1000f * Time.deltaTime;
+            if (uldSpeed <= 0) uldSpeed = 0;
+            uldTime = 0;
+            postProcessProfile.GetSetting<LensDistortion>().intensity.value = uldSpeed;
+        }
     }
     #endregion
 
@@ -461,7 +455,7 @@ public class Effects : MonoBehaviour
                 {
                     frameTime += Time.deltaTime;
 
-                    if (frameTime > 1.0 / fps)
+                    if (frameTime > 1 / fps) //震動節奏，越小越頻繁
                     {
                         frameTime = 0;
                         Camera.main.rect = new Rect(shakeDelta * (-5.0f + 5.0f * Random.value), shakeDelta * (-5.0f + 5.0f * Random.value), 1.0f, 1.0f);
