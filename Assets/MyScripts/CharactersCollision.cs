@@ -370,8 +370,19 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     case 0://擊退
                         LayerMask mask = LayerMask.GetMask("StageObject");
                         if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1f, mask))//碰牆不再擊退
-                        {
-                            transform.position = transform.position + attackerObject.transform.forward * repel * Time.deltaTime;//擊退
+                        {                            
+                            int dir = 1;//擊退方向
+                            //在攻擊者後方
+                            if (Vector3.Dot(attackerObject.transform.forward, transform.position - attackerObject.transform.position) <= 0)
+                            {
+                                dir = -1;
+                            }
+                            else//在攻擊者前方
+                            {
+                                dir = 1;
+                            }
+
+                            transform.position = transform.position + dir * attackerObject.transform.forward * repel * Time.deltaTime;//擊退
                         }                        
                         break;
                     case 1://擊飛                        
