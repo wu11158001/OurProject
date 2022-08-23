@@ -588,6 +588,7 @@ MonoBehaviour:
   heightFromGround: -0.063
   wallCollisionDistance: 0
   wallCollisionHight: 0
+  collisionSize_Character: 0
   collisionObject:
   - {fileID: 0}
   - {fileID: 0}
@@ -605,6 +606,9 @@ MonoBehaviour:
   isSelfHeal: 0
   acceleration: 0
   isDie: 0
+  X: 0
+  Y: 0
+  Z: 0
 --- !u!114 &1432612408603276245
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -71,6 +71,14 @@ public class AStart
         node.nodeState = NodePath.NodeState.關閉;//節點狀態
         closeNodeList.Add(node);//紀錄已關閉的節點
         pathNodesList.Add(node.transform.position);//初始路徑點
+
+        //判斷是否為目標點
+        if (node.transform.position == targetPosition)
+        {
+            pathNodesList.Add(targetPosition);//紀錄目標點
+            return pathNodesList;//回傳所有紀錄路徑點
+        }
+
         #endregion
 
 
@@ -172,6 +180,13 @@ public class AStart
             node.nodeState = NodePath.NodeState.關閉;//節點狀態
             closeNodeList.Add(node);//紀錄已關閉的節點
             pathNodesList.Add(node.transform.position);//初始路徑點
+
+            //判斷是否為目標點
+            if (node.transform.position == targetPosition)
+            {
+                pathNodesList.Add(targetPosition);//紀錄目標點
+                return pathNodesList;//回傳所有紀錄路徑點
+            }
         }
         #endregion
 

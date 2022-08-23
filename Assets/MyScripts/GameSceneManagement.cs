@@ -68,7 +68,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.magicianNormalAttack_1);//普通攻擊_1物件
         objectNumber_Dictionary.Add("magicianNormalAttack_1", number);//添加至紀錄中
 
-        /*//敵人士兵1
+        //敵人士兵1
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
             number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
@@ -83,7 +83,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             }
         }
 
-        //敵人士兵2
+        /*//敵人士兵2
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
             number = objectHandle.OnCreateObject(loadPath.enemySoldier_2);//產生至物件池
@@ -103,7 +103,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {        
         OnAttackBehavior();   
         
-        if(Input.GetKeyDown(KeyCode.O))
+       /* if(Input.GetKeyDown(KeyCode.O))
         {
             if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
             {
@@ -122,7 +122,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 enemy.transform.position = new Vector3(180, -24, -33);//設定位置        
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
-        }
+        }*/
     }
     #region 一般
     /// <summary>
@@ -233,7 +233,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="anmationName">動畫更換目標ID</param>
     /// <param name="animationType">動畫Type</param>
     public void OnConnectAnimationSetting<T>(int targetID, string anmationName, T animationType) 
-    {
+    {        
         Animator animator = connectObject_Dictionary[targetID].GetComponent<Animator>();
         if (animator != null)
         {

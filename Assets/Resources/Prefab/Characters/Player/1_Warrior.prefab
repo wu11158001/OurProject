@@ -22182,6 +22182,8 @@ MonoBehaviour:
   doJumpTime: 0
   JumpTime: 0
   isJumpAttackMove: 0
+  gizmosSpherCenter: 0
+  gizmosSpherRadius: 0
 --- !u!114 &6725411053822584522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22207,7 +22209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a565265c33688840b13ff99d0777acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addDamage: 0
 --- !u!114 &1233985839603104138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22296,6 +22297,17 @@ MonoBehaviour:
   heightFromGround: -0.063
   wallCollisionDistance: 0
   wallCollisionHight: 0
+  collisionSize_Character: 0
+  collisionObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Hp: 0
   MaxHp: 0
   addDefence: 0
@@ -22303,6 +22315,9 @@ MonoBehaviour:
   isSelfHeal: 0
   acceleration: 0
   isDie: 0
+  X: 0
+  Y: 0
+  Z: 0
 --- !u!1 &5583808441237025581
 GameObject:
   m_ObjectHideFlags: 0

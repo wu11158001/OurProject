@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,20 +44,25 @@ public class AI : MonoBehaviourPunCallbacks
     int chaseObject;//追擊對象編號
     bool isStartChase;//是否開始追擊
     bool isReadChase;//是否準備追擊
-    [SerializeField] public float chaseTurnTime;//追擊轉向時間
+    float chaseTurnTime;//追擊轉向時間(計時器)
+    float chaseTurningMoveTime;//追擊轉向移動時間
+    [SerializeField] float[] chaseTurningMoveRandomTime;//追擊轉向移動亂數時間
+    int chaseDiretion;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
 
     [Header("攻擊狀態")]
     [SerializeField] float[] attackFrequency;//攻擊頻率(亂數最小值, 最大值)
     float attackTime;//攻擊時間(計時器)
-    [SerializeField]bool isAttackIdle;//是否攻擊待機
-    [SerializeField]bool isAttacking;//是否攻擊中
-
-    [SerializeField] GameObject[] players;//所有玩家
+    bool isAttackIdle;//是否攻擊待機
+    bool isAttacking;//是否攻擊中    
+    bool isGetHit;//是否被攻擊(判定"Pain"動畫是否觸發)
 
     [Header("尋路")]
-    [SerializeField] List<Vector3> pathsList = new List<Vector3>();//移動路徑節點  
-    [SerializeField] int point = 0;//尋路節點編號    
-    bool isExecuteAStart;//是否執行AStart
+    [SerializeField] bool isExecuteAStart;//是否執行AStart
+    List<Vector3> pathsList = new List<Vector3>();//移動路徑節點  
+    int point = 0;//尋路節點編號        
+
+    [Header("所有玩家")]
+    [SerializeField] GameObject[] players;//所有玩家
 
     private void Awake()
     {
@@ -101,6 +107,7 @@ public class AI : MonoBehaviourPunCallbacks
         chaseSpeed = 5.3f;//追擊速度
         maxRadiansDelta = 0.1405f;//轉向角度
         readyChaseRandomTime = new float[] { 1.5f, 3.5f};//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+        chaseTurningMoveRandomTime = new float[] { 1.5f, 3.3f};//追擊轉向移動亂數時間
 
         //攻擊狀態
         attackFrequency = new float[2] { 0.5f, 1.75f};//攻擊頻率(亂數最小值, 最大值)  
@@ -108,7 +115,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        OnStateBehavior();
+        OnStateBehavior();        
     }
 
     /// <summary>
@@ -121,6 +128,7 @@ public class AI : MonoBehaviourPunCallbacks
         追擊狀態,
         攻擊狀態
     }
+    [Header("AI狀態")]
     [SerializeField] AIState aiState = AIState.一般狀態;
 
     /// <summary>
@@ -160,7 +168,7 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 isNormalMove = true;
 
-                normalRandomMoveTime = Random.Range(2, 4.5f);//一般狀態亂數移動時間
+                normalRandomMoveTime = UnityEngine.Random.Range(2, 4.5f);//一般狀態亂數移動時間
 
                 //選轉
                 if ((transform.position - originalPosition).magnitude > normalStateMoveRadius)//離開一般狀態移動範圍
@@ -169,12 +177,12 @@ public class AI : MonoBehaviourPunCallbacks
                 }
                 else//一般狀態移動範圍內
                 {
-                    normalRandomAngle = Random.Range(0, 360);//一般狀態亂數選轉角度
+                    normalRandomAngle = UnityEngine.Random.Range(0, 360);//一般狀態亂數選轉角度
                     forwardVector = Quaternion.AngleAxis(normalRandomAngle, Vector3.up) * forwardVector;//移動目標向量
                 }
 
                 //更換動畫
-                OnChangeAnimation(animationName: "Walk", isAnimationActive: true);
+                OnChangeAnimation(animationName: "Walk", animationType: true);
             }
 
             if (normalRandomMoveTime > 0)//移動
@@ -182,8 +190,8 @@ public class AI : MonoBehaviourPunCallbacks
                 normalRandomMoveTime -= Time.deltaTime;
 
                 //偵測腳色碰撞
-                RaycastHit hit;
-                if (charactersCollision.OnCollision_Characters(out hit)) forwardVector = transform.position - hit.transform.position;//轉向
+              /*  RaycastHit hit;
+                if (charactersCollision.OnCollision_Characters(out hit)) forwardVector = transform.position - hit.transform.position;//轉向*/
         
                 //移動 && 轉向
                 float maxRadiansDelta = 0.03f;//轉向角度
@@ -196,10 +204,10 @@ public class AI : MonoBehaviourPunCallbacks
             else//待機
             {                
                 isNormalMove = false;
-                normalStateTime = Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//一般狀態亂數移動時間                
+                normalStateTime = UnityEngine.Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//一般狀態亂數移動時間                
 
                 //更換動畫
-                OnChangeAnimation(animationName: "Walk", isAnimationActive: false);
+                OnChangeAnimation(animationName: "Walk", animationType: false);
             }
         }
                 
@@ -226,6 +234,7 @@ public class AI : MonoBehaviourPunCallbacks
                 {
                     OnHowlingBehavior();//咆嘯行為
                     OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
+                    OnChangeAnimation(animationName: "Idle", animationType: false);
                 }
             }
         }
@@ -235,11 +244,44 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 normalRandomMoveTime = 0;//一般狀態亂數移動時間
                 alertTime = 0;
-                normalStateTime = Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//一般狀態亂數移動時間
-                                                                                               //
+                normalStateTime = UnityEngine.Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//一般狀態亂數移動時間
+                                                                                               
                 OnChangeState(state: AIState.一般狀態, openAnimationName: "Idle", closeAnimationName: "Alert");
             }
         }
+    }
+
+    /// <summary>
+    /// 警戒狀態行為
+    /// </summary>
+    void OnAlertStateBehavior()
+    {
+        info = animator.GetCurrentAnimatorStateInfo(0);
+
+        OnAlertRangeCheck();//警戒範圍偵測        
+        OnChaseRangeCheck();//追擊範圍偵測
+        OnCheckClosestPlayer();//檢查最近玩家             
+    }
+
+    /// <summary>
+    /// 受到攻擊
+    /// </summary>
+    public void OnGetHit()
+    {
+        isGetHit = true;//被攻擊(判定"Pain"動畫是否觸發)
+
+        if (aiState == AIState.追擊狀態 || aiState == AIState.攻擊狀態) return;
+        
+        //關閉動畫
+        if (aiState == AIState.警戒狀態) OnChangeAnimation(animationName: "Alert", animationType: false);
+        if (aiState == AIState.一般狀態)
+        {
+            OnChangeAnimation(animationName: "Walk", animationType: false);
+            OnChangeAnimation(animationName: "Idle", animationType: false);
+        }
+
+        OnGetAllPlayers();//獲取所有玩家
+        OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
     }
 
     /// <summary>
@@ -271,15 +313,16 @@ public class AI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 警戒狀態行為
+    /// 更換狀態到追擊狀態
     /// </summary>
-    void OnAlertStateBehavior()
+    /// <param name="chasePlaters">追擊的玩家</param>
+    void OnChangeStateToChase(GameObject[] chasePlaters)
     {
-        info = animator.GetCurrentAnimatorStateInfo(0);
-
-        OnAlertRangeCheck();//警戒範圍偵測        
-        OnChaseRangeCheck();//追擊範圍偵測
-        OnCheckClosestPlayer();//檢查最近玩家             
+        if (aiState != AIState.追擊狀態 || aiState != AIState.攻擊狀態)
+        {
+            players = chasePlaters;//追擊的玩家
+            OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
+        }
     }
 
     /// <summary>
@@ -295,20 +338,7 @@ public class AI : MonoBehaviourPunCallbacks
                 OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
             }
         }
-    }
-
-    /// <summary>
-    /// 更換狀態到追擊狀態
-    /// </summary>
-    /// <param name="chasePlaters">追擊的玩家</param>
-    public void OnChangeStateToChase(GameObject[] chasePlaters)
-    {
-        if(aiState != AIState.追擊狀態 || aiState != AIState.攻擊狀態)
-        {
-            players = chasePlaters;//追擊的玩家
-            OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert");
-        }        
-    }
+    }   
 
     /// <summary>
     /// 追擊行為
@@ -322,8 +352,8 @@ public class AI : MonoBehaviourPunCallbacks
         {
             isStartChase = true;//開始追擊
 
-            OnChangeAnimation(animationName: "Howling", isAnimationActive: false);
-            OnChangeAnimation(animationName: "Run", isAnimationActive: true);
+            OnChangeAnimation(animationName: "Howling", animationType: false);
+            OnChangeAnimation(animationName: "Run", animationType: true);
         }
 
         //開始追擊
@@ -331,13 +361,12 @@ public class AI : MonoBehaviourPunCallbacks
         {
             OnAttackRangeCheck();//攻擊範圍偵測        
             OnCheckExecuteAStart();//偵測碰撞
+            OnCheckClosestPlayer();//檢查最近玩家
 
             //朝玩家移動
-            if(info.IsName("Run")) transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
+            if (info.IsName("Run")) OnMoveBehavior();            
 
-            chaseTurnTime -= Time.deltaTime;
-
-            //前方有自己人
+            /*//前方有自己人
             if (charactersCollision.OnCollision_Enemy())
             {
                 chaseTurnTime = 1;
@@ -349,7 +378,9 @@ public class AI : MonoBehaviourPunCallbacks
             else
             {
                 if (chaseTurnTime <= 0) OnCheckClosestPlayer();//檢查最近玩家
-            }
+            }*/
+
+            if (chaseTurnTime <= 0) OnCheckClosestPlayer();//檢查最近玩家
         }
 
         /*//碰牆重新計算尋路
@@ -361,7 +392,62 @@ public class AI : MonoBehaviourPunCallbacks
             }
         }*/
     }
-    
+
+    /// <summary>
+    /// 移動行為
+    /// </summary>
+    void OnMoveBehavior()
+    {
+        if(chaseDiretion == 0) transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
+        else transform.position = transform.position + transform.forward * (chaseSpeed / 2) * Time.deltaTime;
+
+        if (!isExecuteAStart)//非執行AStart
+        {
+            chaseTurnTime -= Time.deltaTime;//追擊轉向時間
+
+            //追擊轉向時間(計時器) <= 0 && 追擊轉向移動時間 <= 0
+            if (chaseTurnTime <= 0 && chaseTurningMoveTime <= 0)
+            {
+                chaseDiretion = UnityEngine.Random.Range(0, 5);//追擊方向(0 = 前方, 1.2 = 右方, 3.4 = 左方)         
+                chaseTurningMoveTime = UnityEngine.Random.Range(chaseTurningMoveRandomTime[0], chaseTurningMoveRandomTime[0]);//追擊轉向移動時間
+                
+            }
+
+            //追擊轉向
+            if (chaseTurningMoveTime > 0)
+            {
+                chaseTurningMoveTime -= Time.deltaTime;//追擊轉向移動時間
+
+                //攻擊範圍內沒有障礙物
+                if (!Physics.CheckBox(transform.position + charactersCollision.boxCenter + transform.forward * attackRadius, new Vector3(attackRadius * 2, 0.1f, attackRadius), Quaternion.Euler(transform.localEulerAngles), 1 << LayerMask.NameToLayer("StageObject")))
+                {
+                    //追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
+                    switch (chaseDiretion)
+                    {
+                        case 1://向右移動(較偏)
+                            transform.position = transform.position + transform.right * (chaseSpeed / 2) * Time.deltaTime;
+                            break;
+                        case 2://向右移動
+                            transform.position = transform.position + (transform.right / 2) * (chaseSpeed / 2) * Time.deltaTime;
+                            break;
+                        case 3://向左移動(較偏)
+                            transform.position = transform.position - transform.right * (chaseSpeed / 2) * Time.deltaTime;
+                            break;
+                        case 4://向右移動
+                            transform.position = transform.position - (transform.right / 2) * (chaseSpeed / 2) * Time.deltaTime;
+                            break;
+                    }
+                }
+
+                if (chaseTurningMoveTime <= 0)
+                {
+                    chaseTurnTime = UnityEngine.Random.Range(chaseTurningMoveRandomTime[0], chaseTurningMoveRandomTime[0]);//追擊轉向時間(計時器)
+                }
+            }
+            else chaseDiretion = 0;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
+        }
+    }    
+
     /// <summary>
     /// 攻擊範圍偵測
     /// </summary>
@@ -380,7 +466,7 @@ public class AI : MonoBehaviourPunCallbacks
                 isAttackIdle = false;//非攻擊待機
 
                 OnChangeState(state: AIState.攻擊狀態, openAnimationName: "NormalAttack", closeAnimationName: "Run");
-                startChaseTime = Random.Range(readyChaseRandomTime[0], readyChaseRandomTime[1]);//離開戰鬥後亂數開始追擊時間(計時器)
+                startChaseTime = UnityEngine.Random.Range(readyChaseRandomTime[0], readyChaseRandomTime[1]);//離開戰鬥後亂數開始追擊時間(計時器)
             }
         } 
         else
@@ -407,7 +493,7 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 if (isReadChase)//準備追擊
                 {
-                    if (info.IsName("NormalAttack") && info.normalizedTime >= 1)
+                    if (info.IsTag("Attack") && info.normalizedTime >= 1)
                     {
                         if (isAttacking)//攻擊中
                         {                            
@@ -439,7 +525,8 @@ public class AI : MonoBehaviourPunCallbacks
             pathsList.Clear();
         }
 
-        if (info.IsName("NormalAttack") && info.normalizedTime >= 1)
+        //攻擊結束
+        if (info.IsTag("Attack") && info.normalizedTime >= 1)
         {
             if (!isAttackIdle)//是否攻擊待機
             {                
@@ -454,12 +541,19 @@ public class AI : MonoBehaviourPunCallbacks
                 }                
 
                 //亂數攻擊待機時間
-                attackTime = Random.Range(attackFrequency[0], attackFrequency[1]);
+                attackTime = UnityEngine.Random.Range(attackFrequency[0], attackFrequency[1]);
             }
-        }  
+        }
+
+        //攻擊中曾被攻擊過關閉"受擊"動畫
+        if (info.IsTag("Attack") && isGetHit)
+        {            
+            OnChangeAnimation(animationName: "Pain", animationType: false);
+            isGetHit = false;
+        }
         
         if(!isReadChase) OnWaitAttack();//等待攻擊
-    }
+    }    
 
     /// <summary>
     /// 等待攻擊
@@ -475,8 +569,8 @@ public class AI : MonoBehaviourPunCallbacks
                 isAttackIdle = false;
                 isAttacking = true;
                 
-                OnChangeAnimation(animationName: "AttackIdle", isAnimationActive: false);
-                OnChangeAnimation(animationName: "NormalAttack", isAnimationActive: true);                
+                OnChangeAnimation(animationName: "AttackIdle", animationType: false);
+                OnChangeAnimation(animationName: "NormalAttack", animationType: true);
             }
         }
     }
@@ -489,9 +583,7 @@ public class AI : MonoBehaviourPunCallbacks
     {
         if (Physics.CheckSphere(transform.position, radius, mask))
         {
-            //尋找所有玩家
-            if (players[players.Length - 1] == null) players = GameObject.FindGameObjectsWithTag("Player");
-
+            OnGetAllPlayers();//獲取所有玩家
             return true;
         }
 
@@ -499,13 +591,19 @@ public class AI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 獲取所有玩家
+    /// </summary>
+    void OnGetAllPlayers()
+    {
+        //尋找所有玩家
+        if (players[players.Length - 1] == null) players = GameObject.FindGameObjectsWithTag("Player");
+    }
+
+    /// <summary>
     /// 偵測是否執行AStart
     /// </summary>
     void OnCheckExecuteAStart()
     {
-        LayerMask mask = LayerMask.GetMask("StageObject");
-        RaycastHit hit;
-
         //碰撞偵測_牆面
         if (charactersCollision.OnCollision_Wall())
         {
@@ -643,8 +741,8 @@ public class AI : MonoBehaviourPunCallbacks
         if (aiState != state)
         {
             aiState = state;
-            OnChangeAnimation(animationName: openAnimationName, isAnimationActive: true);
-            OnChangeAnimation(animationName: closeAnimationName, isAnimationActive: false);            
+            OnChangeAnimation(animationName: openAnimationName, animationType: true);
+            OnChangeAnimation(animationName: closeAnimationName, animationType: false);            
         }
     }
 
@@ -652,14 +750,27 @@ public class AI : MonoBehaviourPunCallbacks
     /// 更換動畫
     /// </summary>
     /// <param name="animationName">執行動畫名稱</param>
-    /// <param name="isAnimationActive">動畫是否執行</param>
-    void OnChangeAnimation(string animationName, bool isAnimationActive)
+    /// <param name="animationType">動畫Type</param>
+    void OnChangeAnimation<T>(string animationName, T animationType)
     {
-        info = animator.GetCurrentAnimatorStateInfo(0);
+        info = animator.GetCurrentAnimatorStateInfo(0);       
         
-        animator.SetBool(animationName, isAnimationActive);
-        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, isAnimationActive);
-    }
+        switch(animationType.GetType().Name)
+        {
+            case "Boolean":
+                animator.SetBool(animationName, Convert.ToBoolean(animationType));
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, Convert.ToBoolean(animationType));
+                break;
+            case "Single":                
+            break;
+            case "Int32":
+                animator.SetInteger(animationName, Convert.ToInt32(animationType));
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, Convert.ToInt32(animationType));
+                break;
+            case "String":                
+            break;
+        }
+    }    
 
     private void OnDrawGizmos()
     {
@@ -688,6 +799,6 @@ public class AI : MonoBehaviourPunCallbacks
             //n.y = 3;
             Gizmos.color = Color.red;
             Gizmos.DrawLine(s, n);
-        }
+        }        
     }
 }

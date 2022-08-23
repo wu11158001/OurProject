@@ -15,12 +15,21 @@ public class CameraControl : MonoBehaviour
 
     static Transform lookPoint;//攝影機觀看點
     static Vector3 forwardVector;//前方向量
+    static Animator playerAnimator;//觀看玩家Animator
+
     float totalVertical;//記錄垂直移動量
     float distance;//與玩家距離
     bool isCollsion;//是否碰撞
+
+
     [Header("速度")]
     public float lerpSpeed;//lerp速度
     public float rotateSpeed;//選轉速度
+
+    [Header("等待時間")]
+    [SerializeField] public float waitMoveTime; //等待移動時間
+    float waitTime;//等待移動時間(計時器)    
+    bool isWait;//是否有等待過
 
     void Awake()
     {
@@ -38,6 +47,7 @@ public class CameraControl : MonoBehaviour
     {
         lerpSpeed = 0.35f;//選轉速度
         rotateSpeed = 0.6f;//選轉速度
+        waitMoveTime = 1;//等待移動時間
     }
 
     private void LateUpdate()
@@ -54,6 +64,7 @@ public class CameraControl : MonoBehaviour
         {
             lookPoint = value;//設定觀看物件 
             forwardVector = lookPoint.forward;
+            playerAnimator = lookPoint.parent.GetComponent<Animator>();
         }
     }
 
@@ -98,9 +109,9 @@ public class CameraControl : MonoBehaviour
             {
                 moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);//攝影機離開障礙物減速
             }
-        }
+        }          
 
         transform.position = moveTarget;
-        transform.forward = lookPoint.position - transform.position;                
+        transform.forward = lookPoint.position - transform.position; 
     }
 }

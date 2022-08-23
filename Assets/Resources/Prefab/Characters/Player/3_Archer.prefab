@@ -20779,6 +20779,8 @@ MonoBehaviour:
   doJumpTime: 0
   JumpTime: 0
   isJumpAttackMove: 0
+  gizmosSpherCenter: 0
+  gizmosSpherRadius: 0
 --- !u!114 &6956824232803869389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20840,6 +20842,17 @@ MonoBehaviour:
   heightFromGround: -0.063
   wallCollisionDistance: 0
   wallCollisionHight: 0
+  collisionSize_Character: 0
+  collisionObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Hp: 0
   MaxHp: 0
   addDefence: 0
@@ -20847,6 +20860,9 @@ MonoBehaviour:
   isSelfHeal: 0
   acceleration: 0
   isDie: 0
+  X: 0
+  Y: 0
+  Z: 0
 --- !u!114 &9086782214752411980
 MonoBehaviour:
   m_ObjectHideFlags: 0
