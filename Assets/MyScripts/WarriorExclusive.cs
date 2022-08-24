@@ -14,7 +14,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
     PlayerControl playerControl;
 
     //Buff
-    [SerializeField]float addDamage;//增加傷害值      
+    float addDamage;//增加傷害值      
 
     void Start()
     {

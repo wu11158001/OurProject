@@ -291,8 +291,8 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="level">進入關卡編號</param>
     public bool OnStartGame(int level)
     {
-        bool isStartGame = false;
-
+        bool isStartGame = false;               
+        
         //2人以上開始
         if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
@@ -422,13 +422,13 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 發送動畫訊息_Boolean
+    /// 發送動畫訊息
     /// </summary>
     /// <typeparam name="T">泛型</typeparam>
     /// <param name="targetID">動畫更換目標ID</param>
     /// <param name="anmationName">執行動畫名稱</param>
     /// <param name="animationType">動畫Type</param>
-    public void OnSendAniamtion_Boolean<T>(int targetID, string anmationName, T animationType)
+    public void OnSendAniamtion<T>(int targetID, string anmationName, T animationType)
     {        
         switch (animationType.GetType().Name)
         {

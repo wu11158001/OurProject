@@ -20779,6 +20779,8 @@ MonoBehaviour:
   doJumpTime: 0
   JumpTime: 0
   isJumpAttackMove: 0
+  gizmosSpherCenter: 0
+  gizmosSpherRadius: 0
 --- !u!114 &6956824232803869389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20840,6 +20842,17 @@ MonoBehaviour:
   heightFromGround: -0.063
   wallCollisionDistance: 0
   wallCollisionHight: 0
+  collisionSize_Character: 0
+  collisionObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Hp: 0
   MaxHp: 0
   addDefence: 0
@@ -20847,6 +20860,9 @@ MonoBehaviour:
   isSelfHeal: 0
   acceleration: 0
   isDie: 0
+  X: 0
+  Y: 0
+  Z: 0
 --- !u!114 &9086782214752411980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20861,6 +20877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 4675469806297470223}
   effects: {fileID: 5301989304207064663}
+  postProcessProfile: {fileID: 11400000, guid: 6a05924c53695204b89a1ed187dd702e, type: 2}
 --- !u!1 &3912250926662023324
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     [SerializeField] public bool isJump;//是否跳躍
     [SerializeField] bool isJumpTimeCountdown;//可執行跳躍倒數(倒數時不能跳躍)
     [SerializeField] float doJumpTime;//執行跳躍時間間隔
-    [SerializeField] float JumpTime;//跳躍計時器   
+    [SerializeField] float JumpTime;//執行跳躍時間間隔(計時器)   
 
     //閃躲
     bool isDodgeCollision;//是否閃躲碰撞
@@ -82,6 +82,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         //跳躍
         doJumpTime = 1.3f;//執行跳躍時間間隔
+        JumpTime = doJumpTime;//執行跳躍時間間隔(計時器)
 
         //移動
         forwardVector = transform.forward;
@@ -162,14 +163,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             {                
                 isJump = false;
                 animator.SetBool("Jump", isJump);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", isJump);
             }
             
             if(isJumpAttack)
             {
                 isJumpAttack = false;
                 animator.SetBool("JumpAttack", isJumpAttack);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "JumpAttack", isJumpAttack);
             }
         }
     }
@@ -190,7 +191,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 isJumpAttack = true;
 
                 animator.SetBool("JumpAttack", isJumpAttack);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "JumpAttack", isJumpAttack);
                 return;
             }
 
@@ -213,7 +214,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
                 
                 animator.SetBool("SkillAttack", isSkillAttack);
-                if(GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack", isSkillAttack);
+                if(GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
                 return;
             }                           
 
@@ -224,7 +225,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 normalAttackNumber = 1;                
 
                 animator.SetBool("NormalAttack", isNormalAttack);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
             }
 
             //切換普通攻擊招式
@@ -239,7 +240,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
 
                 animator.SetInteger("NormalAttackNumber", normalAttackNumber);
-                if (GameDataManagement.Instance.isConnect)  PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
+                if (GameDataManagement.Instance.isConnect)  PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
             }          
         }       
         else
@@ -254,26 +255,26 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     isSkillAttack = false;                    
 
                     animator.SetInteger("NormalAttackNumber", normalAttackNumber);
-                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
 
                     if (info.IsTag("NormalAttack"))
                     {
                         animator.SetBool("NormalAttack", isNormalAttack);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
                     }
 
                     if (info.IsTag("SkillAttack"))
                     {
                         animator.SetBool("SkillAttack", isSkillAttack);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack", isSkillAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
                     }
 
                     if (info.IsTag("SkillAttack-2"))
                     {
                         animator.SetBool("SkillAttack", isSkillAttack);
                         animator.SetBool("SkillAttack-2", false);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack", isSkillAttack);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack-2", false);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "SkillAttack-2", false);
                     }
 
                     
@@ -292,9 +293,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             animator.SetBool("NormalAttack", isJump);
             if (GameDataManagement.Instance.isConnect)
             {
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isJumpAttack);
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "JumpAttack", isJumpAttack);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", isJump);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
             }
         }
 
@@ -305,7 +306,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             isNormalAttack = false;
 
             animator.SetBool("NormalAttack", isNormalAttack);
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
         }           
     }  
 
@@ -329,7 +330,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 }                
        
                 animator.SetBool("Dodge", true);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", true);                 
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Dodge", true);                 
             }
         }
 
@@ -349,7 +350,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if (info.IsName("Dodge") && info.normalizedTime > 1)
         {    
             animator.SetBool("Dodge", false);
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Dodge", false);
         }
     }
 
@@ -370,8 +371,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             animator.SetBool("Jump", isJump);
             if (GameDataManagement.Instance.isConnect)
             {
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "NormalAttack", isNormalAttack);
-                PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", isJump);
             }
         }
     }
@@ -405,7 +406,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {           
             LayerMask mask = LayerMask.GetMask("StageObject");
             RaycastHit hit;
-            if (charactersCollision.OnCollision_Floor(mask, out hit))
+            if (charactersCollision.OnCollision_Floor(out hit))
             {
                 if ((isJump || isJumpAttack) && info.normalizedTime > 0.9f)
                 {
@@ -413,7 +414,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     {
                         isJump = false;
                         animator.SetBool("Jump", isJump);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isJump);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", isJump);
                     }
                     if (isJumpAttack) isJumpAttackMove = false;
                 }
@@ -456,28 +457,29 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 if (inputValue > 0.1f && !isSendRun)
                 {
                     isSendRun = true;
-                    PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", inputValue);
+                    PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Run", inputValue);
                 }
                 if (inputValue < 0.1f && isSendRun)
                 {
                     isSendRun = false;
-                    PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
+                    PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Run", 0.0f);
                 }
             }
         }
 
-        LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
         if (info.IsName("Jump"))
         {
-            if(charactersCollision.OnCollision_Floor(mask, out hit))
+            if(charactersCollision.OnCollision_Floor(out hit))
             {
                 if (hit.transform.tag == "Stairs") inputValue = (Mathf.Abs(inputX) + Mathf.Abs(inputZ)) * 0.8f;//輸入值
             }      
         }
   
         //移動
-        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;           
+        transform.position = transform.position + transform.forward * inputValue * (NumericalValue.playerMoveSpeed + addMoveSpeed) * Time.deltaTime;
+
+        if (inputValue > 0) charactersCollision.OnCollision_Characters(out hit);//碰撞框_腳色
     }           
 
     /// <summary>
@@ -497,7 +499,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         if(GameSceneUI.Instance.isOptions && info.IsName("Run"))
         {
             animator.SetFloat("Run", 0);
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Run", 0.0f);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Run", 0.0f);
         }
 
         //滑鼠
@@ -509,12 +511,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
     }
 
+    public float gizmosSpherCenter;
+    public float  gizmosSpherRadius;
     private void OnDrawGizmos()
     {
-        /*BoxCollider box = GetComponent<BoxCollider>();
+        BoxCollider box = GetComponent<BoxCollider>();
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * 0, 1.3f);        
-        Gizmos.DrawWireCube(transform.position + box.center + transform.forward * 2.5f, new Vector3(1, 1, 4));*/
+        Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * gizmosSpherCenter, gizmosSpherRadius);        
+        //Gizmos.DrawWireCube(transform.position + box.center + transform.forward * 2.5f, new Vector3(1, 1, 4));
         
     }
 }

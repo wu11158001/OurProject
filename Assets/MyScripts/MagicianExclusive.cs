@@ -92,7 +92,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
                 {
                     //觸發技能之2
                     animator.SetBool("SkillAttack-2", true);
-                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "SkillAttack-2", true);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "SkillAttack-2", true);
 
                     GetComponent<CharactersCollision>().OnBodySetActive(active: 1);//(1:顯示 0:不顯示)
                 }

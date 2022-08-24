@@ -9,7 +9,7 @@ public class ConnectObject : MonoBehaviourPunCallbacks
     void Awake()
     {        
         //³s½u¼Ò¦¡
-       /* if (GameDataManagement.Instance.isConnect)
+        if (GameDataManagement.Instance.isConnect)
         {
             id = GetComponent<PhotonView>().ViewID;
             GameSceneManagement.Instance.OnRecordConnectObject(id, gameObject);
@@ -19,6 +19,6 @@ public class ConnectObject : MonoBehaviourPunCallbacks
         {
             Destroy(GetComponent<PhotonView>());
             Destroy(GetComponent<PhotonTransformView>());
-        }*/
+        }
     }
 }

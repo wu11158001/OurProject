@@ -19,10 +19,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     [Header("距離地面高度")] public float heightFromGround;
     [Header("牆面碰撞距離")] public float wallCollisionDistance;
     [Header("牆面碰撞高度")] public float wallCollisionHight;
+    [Header("碰撞框大小_腳色")] public float collisionSize_Character;//碰撞框大小_腳色
+    //[Tooltip("碰撞框推力_腳色")] public float collisionPushForce_Character;//碰撞框推力_腳色
     float boxCollisionDistance;//碰撞距離
     public Transform[] collisionObject = new Transform[9];//碰撞物件(判定是否有碰撞)    
     public Transform[] GetCollisionObject => collisionObject;
-    float jumpRayDistance;//跳躍射線距離
+    float jumpRayDistance;//跳躍射線距離    
 
     //生命條
     LifeBar_Characters lifeBar;//生命條
@@ -62,8 +64,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         wallCollisionDistance = 0.25f;//牆面碰撞距離
         wallCollisionHight = 0.5f;//牆面碰撞高度
         acceleration = 1;//加速度
+        collisionSize_Character = 0.6f;//碰撞框大小_腳色
+        //collisionPushForce_Character = 0.77f;//碰撞框推力_腳色
 
-        //數值
+        //腳色Tag設定HP
         switch (gameObject.tag)
         {
             case "Player":
@@ -331,12 +335,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
             if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
-            //面向攻擊者          
-            Vector3 attackerPosition = attackerObject.transform.position;//攻擊者向量
-            attackerPosition.y = 0;
-            Vector3 targetPosition = transform.position;//受擊者向量
-            targetPosition.y = 0;
-            transform.forward = attackerPosition - targetPosition;
+            //面向攻擊者(Enemy執行)
+            if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                Vector3 attackerPosition = attackerObject.transform.position;//攻擊者向量
+                attackerPosition.y = 0;
+                Vector3 targetPosition = transform.position;//受擊者向量
+                targetPosition.y = 0;
+                transform.forward = attackerPosition - targetPosition;
+            }
 
             //產生文字            
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
@@ -363,8 +370,19 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     case 0://擊退
                         LayerMask mask = LayerMask.GetMask("StageObject");
                         if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1f, mask))//碰牆不再擊退
-                        {
-                            transform.position = transform.position + attackerObject.transform.forward * repel * Time.deltaTime;//擊退
+                        {                            
+                            int dir = 1;//擊退方向
+                            //在攻擊者後方
+                            if (Vector3.Dot(attackerObject.transform.forward, transform.position - attackerObject.transform.position) <= 0)
+                            {
+                                dir = -1;
+                            }
+                            else//在攻擊者前方
+                            {
+                                dir = 1;
+                            }
+
+                            transform.position = transform.position + dir * attackerObject.transform.forward * repel * Time.deltaTime;//擊退
                         }                        
                         break;
                     case 1://擊飛                        
@@ -388,7 +406,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 isDie = true;
                 animator.SetTrigger("Die");
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Die", "Die");
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
                 return;
             }
          
@@ -404,14 +422,25 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 info.IsTag("Pain") && animationName == "KnockBack")
             {
                 animator.SetBool(animationName, false);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, false);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, false);
             }
            
             //待機 & 奔跑 才執行受擊動畫
-            if (info.IsName("Idle") || info.IsName("Run"))
+            if (info.IsTag("Idle") || info.IsTag("Run"))
             {                
                 animator.SetBool(animationName, true);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, animationName, true);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, true);
+            }
+
+            //不是連線 || 是房主
+            if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
+            {
+                //敵人觸發
+                if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                {
+                    AI ai = GetComponent<AI>();
+                    if (ai != null) ai.OnGetHit();
+                }
             }
         }
     }
@@ -466,10 +495,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         {
             floating_List[i].OnFloating();
             
-            LayerMask mask = LayerMask.GetMask("StageObject");
             RaycastHit hit;
             //地板碰撞
-            if(OnJumpCollision_Floor(mask, out hit, jumpRayDistance))
+            if(OnJumpCollision_Floor(out hit, jumpRayDistance))
             {
                 if (floating_List[i].force < NumericalValue.playerJumpForce / 1.35f)
                 {
@@ -494,9 +522,108 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     void OnCollisionControl()
     {
         info = animator.GetCurrentAnimatorStateInfo(0);        
+        RaycastHit hit;
+                
+        OnCollision_Wall();//碰撞框_牆面        
+
+        //跳躍||落下 地面碰撞
+        if (info.IsName("Jump") || info.IsName("Fall"))
+        {          
+            jumpRayDistance = info.normalizedTime < 0.3f ? jumpRayDistance = -0.1f : jumpRayDistance = 0;//射線長度            
+
+            if (OnJumpCollision_Floor(out hit, jumpRayDistance))
+            {
+                transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
+            }          
+        }
+
+        //一般地面碰撞
+        if (floating_List.Count == 0)
+        {
+            if (OnCollision_Floor(out hit))
+            {
+                transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
+                acceleration = 1;//加速度
+
+                if (isFall)
+                {
+                    isFall = false;
+                    animator.SetBool("Fall", isFall);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Fall", isFall);
+                }
+            }
+            else//沒碰到地板
+            {
+                OnGravity();//重力
+                OnFallJudge();//落下判斷
+                
+            }
+        }
+        else//浮空狀態
+        {
+            OnGravity();//重力
+            OnFallJudge();//落下判斷
+        }
+    }
+
+  /*  /// <summary>
+    /// 碰撞框_敵人腳色
+    /// </summary>    
+    /// <returns></returns>
+    public bool OnCollision_Enemy()
+    {
+        LayerMask mask = LayerMask.GetMask("Enemy");
+
+        if (Physics.Raycast(transform.position, transform.forward, 1.5f, mask))
+        {         
+            return true;
+        }
+
+        return false;
+    }*/
+
+    /// <summary>
+    /// 碰撞框_腳色
+    /// </summary>    
+    /// <returns></returns>
+    public bool OnCollision_Characters(out RaycastHit hit)
+    {
+        LayerMask mask = LayerMask.GetMask("Player", "Enemy");
+        hit = default;
+
+        //射線方向
+        Vector3[] rayDiration = new Vector3[] { transform.forward,
+                                                transform.forward - transform.right,
+                                                transform.right,
+                                                transform.forward + transform.right,
+                                                -transform.right };
+
+        //腳色碰撞    
+        for (int i = 0; i < rayDiration.Length; i++)
+        {
+            if (Physics.BoxCast(transform.position + boxCenter, new Vector3(boxCollisionDistance * collisionSize_Character, boxSize.y / 2, boxCollisionDistance * collisionSize_Character), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance * collisionSize_Character, mask))
+            {
+                //判斷碰撞對象左右
+                //float direction = Vector3.Dot(transform.forward, Vector3.Cross(transform.position - hit.transform.position, Vector3.up)) >= 0 ? direction = 1 : direction = -1;
+
+                //碰撞
+                transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
+                return true;
+            }         
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 碰撞框_牆面
+    /// </summary>    
+    /// <returns></returns>
+    public bool OnCollision_Wall()
+    {
         LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
-               
+
         //射線方向
         Vector3[] rayDiration = new Vector3[] { transform.forward,
                                                 transform.forward - transform.right,
@@ -516,6 +643,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance + (wallCollisionDistance / 2) - hit.distance));
 
                 collisionObject[i] = hit.transform;//紀錄碰撞物件
+
+                return true;
             }
             else
             {
@@ -528,60 +657,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                  }*/
             }
         }
-        
-        //跳躍||落下 地面碰撞
-        if (info.IsName("Jump") || info.IsName("Fall"))
-        {          
-            jumpRayDistance = info.normalizedTime < 0.3f ? jumpRayDistance = -0.1f : jumpRayDistance = 0;//射線長度            
 
-            if (OnJumpCollision_Floor(mask, out hit, jumpRayDistance))
-            {
-                transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
-            }
-            else
-            {
-               /* OnGravity();//重力
-                OnFallJudge();//落下判斷*/
-            }
-        }
-
-        //一般地面碰撞
-        if (floating_List.Count == 0)
-        {
-            if (OnCollision_Floor(mask, out hit))
-            {
-                transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
-                acceleration = 1;//加速度
-
-                if (isFall)
-                {
-                    isFall = false;
-                    animator.SetBool("Fall", isFall);
-                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
-                }
-            }
-            else//沒碰到地板
-            {
-                OnGravity();//重力
-                OnFallJudge();//落下判斷
-                
-            }
-        }
-        else//浮空狀態
-        {
-            OnGravity();//重力
-            OnFallJudge();//落下判斷
-        }
+        return false;
     }
-  
+
     /// <summary>
     /// 碰撞框_地面
     /// </summary>
-    /// <param name="mask">LayerMask</param>
     /// <param name="hit">RaycastHit</param>
     /// <returns></returns>
-    public bool OnCollision_Floor(LayerMask mask, out RaycastHit hit)
+    public bool OnCollision_Floor(out RaycastHit hit)
     {
+        LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
         {            
             return true;
@@ -593,12 +680,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <summary>
     /// 跳躍碰撞框_地面
     /// </summary>
-    /// <param name="mask">LayerMask</param>
     /// <param name="hit">RaycastHit</param>
     /// /// <param name="distance">射線長度</param>
     /// <returns></returns>
-    public bool OnJumpCollision_Floor(LayerMask mask, out RaycastHit hit, float distance)
+    public bool OnJumpCollision_Floor(out RaycastHit hit, float distance)
     {
+        LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
         {            
             return true;
@@ -664,7 +751,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         isFall = true;
         animator.SetBool("Fall", isFall);
-        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Fall", isFall);
+        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Fall", isFall);
 
         if (info.IsName("Jump")) animator.SetBool("Jump", false);
         if (info.IsName("JumpAttack")) animator.SetBool("JumpAttack", false);
@@ -672,10 +759,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (info.IsName("Pain")) animator.SetBool("Pain", false);
         if (GameDataManagement.Instance.isConnect)
         {
-            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Jump", isFall);
-            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "JumpAttack", isFall);
-            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Dodge", isFall);
-            PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Pain", isFall);
+            PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", isFall);
+            PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "JumpAttack", isFall);
+            PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Dodge", isFall);
+            PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", isFall);
         }
     }
 
@@ -689,13 +776,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (info.IsTag("Pain") && info.normalizedTime >= 1)
         {
             animator.SetBool("Pain", false);
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "Pain", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", false);
         }
 
         if (info.IsTag("KnockBack") && info.normalizedTime >= 1)
         {
             animator.SetBool("KnockBack", false);
-            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, "KnockBack", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "KnockBack", false);
         }
         if (info.IsTag("Die") && info.normalizedTime >= 1)
         {
@@ -715,11 +802,20 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     IEnumerator OnAniamtionRepeatTrigger(string aniamtionName)
     {
         animator.SetBool(aniamtionName, false);
-        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, aniamtionName, false);
+        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, aniamtionName, false);
 
         yield return new WaitForSeconds(0.03f);
 
         animator.SetBool(aniamtionName, true);
-        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion_Boolean(photonView.ViewID, aniamtionName, true);
+        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, aniamtionName, true);
+    }
+
+    public float X;
+    public float Y;
+    public float Z;
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position + boxCenter, new Vector3(boxSize.x * X, boxSize.y * Y, boxSize.z * Z));
     }
 }

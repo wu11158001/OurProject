@@ -143759,7 +143759,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 2.5
+  - time: 2.75
     functionName: OnSkillAttack3_Warrior
     data: 
     objectReferenceParameter: {fileID: 0}
