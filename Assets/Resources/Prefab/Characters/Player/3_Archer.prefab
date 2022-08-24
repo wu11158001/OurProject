@@ -20877,6 +20877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 4675469806297470223}
   effects: {fileID: 5301989304207064663}
+  postProcessProfile: {fileID: 11400000, guid: 6a05924c53695204b89a1ed187dd702e, type: 2}
 --- !u!1 &3912250926662023324
 GameObject:
   m_ObjectHideFlags: 0
