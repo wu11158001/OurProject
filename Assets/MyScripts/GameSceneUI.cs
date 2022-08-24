@@ -208,6 +208,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     {
         isOptions = false;
         options.gameObject.SetActive(isOptions);
+
+        //Åã¥Ü·Æ¹«
+        Cursor.visible = isOptions;
+        Cursor.lockState = CursorLockMode.Locked;
     }   
 
     /// <summary>
