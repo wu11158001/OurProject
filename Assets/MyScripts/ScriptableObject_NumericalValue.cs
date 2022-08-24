@@ -246,7 +246,7 @@ public class GameData_NumericalValue
         //cameraAngle = 20;//攝影機角度
 
         //玩家
-        playerHp = 500;//玩家生命值
+        playerHp = 10;//玩家生命值
         playerMoveSpeed = 6.3f;//玩家移動速度        
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
@@ -430,8 +430,8 @@ public class GameData_NumericalValue
         enemySoldier1_Attack_1_RepelDirection = 0;//敵人士兵1_攻擊1_擊退方向(0:擊退 1:擊飛)
         enemySoldier1_Attack_1_RepelDistance = 30;//敵人士兵1_攻擊1_擊退/擊飛距離    
         enemySoldier1_Attack_1_Effect = "Pain";//敵人士兵1_攻擊1_效果(受擊者播放的動畫名稱)        
-        enemySoldier1_Attack_1_ForwardDistance = 1.3f;//敵人士兵1_攻擊1_攻擊範圍中心點距離物件前方
-        enemySoldier1_Attack_1_attackRadius = 1.2f;//敵人士兵1_攻擊1_攻擊半徑
+        enemySoldier1_Attack_1_ForwardDistance = 1.4f;//敵人士兵1_攻擊1_攻擊範圍中心點距離物件前方
+        enemySoldier1_Attack_1_attackRadius = 1.3f;//敵人士兵1_攻擊1_攻擊半徑
         enemySoldier1_Attack_1_IsAttackBehind = false;//敵人士兵1_攻擊1_是否攻擊背後敵人
 
         //敵人士兵1 攻擊2

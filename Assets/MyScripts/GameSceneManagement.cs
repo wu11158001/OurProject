@@ -79,6 +79,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
                 enemy.transform.position = new Vector3(182, -24, -33);//設定位置
                 enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
+                enemy.tag = "EnemySoldier_1";//設定Tag判斷HP
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             }
         }
