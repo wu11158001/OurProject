@@ -80,7 +80,7 @@ public class AI : MonoBehaviourPunCallbacks
         animator = GetComponent<Animator>();
 
         gameObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer        
-
+        
         //連線 && 不是自己的
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
         {
@@ -133,7 +133,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        OnStateBehavior();        
+        OnStateBehavior();              
     }
 
     /// <summary>

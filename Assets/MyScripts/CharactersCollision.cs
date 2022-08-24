@@ -105,7 +105,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }        
 
         //測試用
-        if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
+        //if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
     }   
 
     /// <summary>
@@ -786,11 +786,34 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }
         if (info.IsTag("Die") && info.normalizedTime >= 1)
         {
+            OnJudgeGameResult();//判定遊戲結果
+
             //連線模式
             if (GameDataManagement.Instance.isConnect && photonView.IsMine) PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
           
             //關閉物件
             gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 判定遊戲結果
+    /// </summary>
+    void OnJudgeGameResult()
+    {
+        //玩家執行
+        if(gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            //連線
+            if(GameDataManagement.Instance.isConnect)
+            {
+
+            }
+            else//單人模式
+            {
+                //設定遊戲結束UI
+                GameSceneUI.Instance.OnSetGameOverUI(clearance: false);
+            }
         }
     }
 

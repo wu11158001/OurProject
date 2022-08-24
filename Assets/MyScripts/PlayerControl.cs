@@ -62,11 +62,17 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
             this.enabled = false;
             return;
-        }
+        }        
     }
     void Start()
     {
         NumericalValue = GameDataManagement.Instance.numericalValue;
+
+        //房主
+        if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.AutomaticallySyncScene = false;//關閉自動同步場景
+        }
 
         //設定攝影機觀看點
         CameraControl.SetLookPoint = ExtensionMethods.FindAnyChild<Transform>(transform, "CameraLookPoint");
@@ -148,6 +154,18 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         OnInput();
 
         if (isJumpAttackMove) OnJumpAttackMove();
+
+        if (Input.GetKeyDown(KeyCode.P))        
+        {
+            AI[] ai = GameObject.FindObjectsOfType<AI>();
+
+            foreach (var a in ai)
+            {
+                Debug.LogError("s");
+                a.GetComponent<PhotonView>().TransferOwnership(photonView.ViewID);//交換房主
+            }
+            
+        }
     }
 
     /// <summary>

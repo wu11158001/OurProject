@@ -33,7 +33,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         Debug.Log("準備連線");
 
         PhotonNetwork.ConnectUsingSettings();//設定連線
-        PhotonNetwork.AutomaticallySyncScene = true;        
+        PhotonNetwork.AutomaticallySyncScene = true;//開啟自動同步場景
     }
 
     /// <summary>
@@ -297,7 +297,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
             isStartGame = true;
-
+                        
             PhotonNetwork.LoadLevel("LevelScene" + level);
             PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間
         }
@@ -308,13 +308,21 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     #endregion
 
     #region 遊戲中
+    /// <summary>
+    /// 房主交換觸發
+    /// </summary>
+    /// <param name="newMasterClient"></param>
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        Debug.LogError("房主交換" + newMasterClient.ToString());
+    }
 
     /// <summary>
     /// 發送遊戲提示文字
     /// </summary>
     /// <param name="nickName">發送者暱稱</param>
     public void OnSendGameTip(string nickName)
-    {
+    {        
         photonView.RPC("OnGameTip", RpcTarget.Others, nickName);
     }
 

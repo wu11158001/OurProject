@@ -1613,6 +1613,7 @@ MonoBehaviour:
   - 0
   - 0
   normalStateMoveSpeed: 0
+  normalStateTime: 0
   alertToChaseTime: 0
   leaveAlertRadiusAlertTime: 0
   chaseSpeed: 0
@@ -1622,7 +1623,7 @@ MonoBehaviour:
   attackNumber: 0
   attackIdleMoveSpeed: 0
   backMoveDistance: 0
-  players: []
+  allPlayers: []
   aiState: 0
 --- !u!114 &3093963109411748772
 MonoBehaviour:
@@ -1691,7 +1692,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
   - {fileID: 60266391756296181}
