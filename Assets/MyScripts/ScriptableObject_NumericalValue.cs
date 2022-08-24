@@ -365,59 +365,59 @@ public class GameData_NumericalValue
 
         #region 法師
         //法師普通攻擊1
-        magicianNormalAttack_1_Damage = 15;//法師普通攻擊1_傷害
+        magicianNormalAttack_1_Damage = 30;//法師普通攻擊1_傷害
         magicianNormalAttack_1_RepelDirection = 0;//法師普通攻擊1_擊退方向(0:擊退 1:擊飛)
-        magicianNormalAttack_1_Repel = 25;//法師普通攻擊1_擊退距離        
+        magicianNormalAttack_1_Repel = 45;//法師普通攻擊1_擊退距離        
         magicianNormalAttack_1_Effect = "Pain";//法師普通攻擊1_效果(受擊者播放的動畫名稱)
         magicianNormalAttack_1_FlightSpeed = 25;//法師普通攻擊1_飛行速度
         magicianNormalAttack_1_LifeTime = 0.11f;//法師普通攻擊1_生存時間
 
         //法師普通攻擊2
-        magicianNormalAttack_2_Damge = 13;//法師普通攻擊2_傷害
+        magicianNormalAttack_2_Damge = 12;//法師普通攻擊2_傷害
         magicianNormalAttack_2_RepelDirection = 0;//法師普通攻擊2_擊退方向(0:擊退 1:擊飛)
-        magicianNormalAttack_2_RepelDistance = 13;//法師普通攻擊2_擊退/擊飛距離    
+        magicianNormalAttack_2_RepelDistance = 20;//法師普通攻擊2_擊退/擊飛距離    
         magicianNormalAttack_2_Effect = "Pain";//法師普通攻擊2_效果(受擊者播放的動畫名稱)        
         magicianNormalAttack_2_ForwardDistance = 1.5f;//法師普通攻擊2_攻擊範圍中心點距離物件前方
         magicianNormalAttack_2_attackRange = new Vector3(1, 1f, 3.3f);//法師普通攻擊2_攻擊範圍
         magicianNormalAttack_2_IsAttackBehind = false;//法師普通攻擊2_是否攻擊背後敵人
 
         //法師普通攻擊3
-        magicianNormalAttack_3_Damge = 15;//法師普通攻擊3_傷害
+        magicianNormalAttack_3_Damge = 43;//法師普通攻擊3_傷害
         magicianNormalAttack_3_RepelDirection = 0;//法師普通攻擊3_擊退方向(0:擊退 1:擊飛)
-        magicianNormalAttack_3_RepelDistance = 25;//法師普通攻擊3_擊退/擊飛距離    
+        magicianNormalAttack_3_RepelDistance = 45;//法師普通攻擊3_擊退/擊飛距離    
         magicianNormalAttack_3_Effect = "Pain";//法師普通攻擊3_效果(受擊者播放的動畫名稱)        
         magicianNormalAttack_3_ForwardDistance = 2.7f;//法師普通攻擊3_攻擊範圍中心點距離物件前方
         magicianNormalAttack_3_attackRadius = 2.3f;//法師普通攻擊3_攻擊半徑
         magicianNormalAttack_3_IsAttackBehind = false;//法師普通攻擊3_是否攻擊背後敵人
 
         //法師跳躍攻擊
-        magicianJumpAttack_Damage = 9;//法師跳躍攻擊_傷害
+        magicianJumpAttack_Damage = 28;//法師跳躍攻擊_傷害
         magicianJumpAttack_RepelDirection = 0;//法師跳躍攻擊_擊退方向(0:擊退 1:擊飛)  
-        magicianJumpAttack_RepelDistance = 50;//法師跳躍攻擊_擊退距離
+        magicianJumpAttack_RepelDistance = 40;//法師跳躍攻擊_擊退距離
         magicianJumpAttack_Effect = "Pain";//法師跳躍攻擊_效果(受擊者播放的動畫名稱)
         magicianJumpAttack_ForwardDistance = 0;//法師跳躍攻擊_攻擊範圍中心點距離物件前方
         magicianJumpAttack_attackRadius = 1.3f;//法師跳躍攻擊_攻擊半徑
         magicianJumpAttack_IsAttackBehind = true;//法師跳躍攻擊_是否攻擊背後敵人
 
         //法師技能攻擊1
-        magicianSkillAttack_1_HealValue = 4;//法師普通攻擊1_治療量(%)    
+        magicianSkillAttack_1_HealValue = 10;//法師普通攻擊1_治療量(%)    
         magicianSkillAttack_1_ForwardDistance = 0;//法師普通攻擊1_治療範圍中心點距離物件前方
         magicianSkillAttack_1_attackRange = 5;//法師普通攻擊1_治療半徑
         magicianSkillAttack_1_IsAttackBehind = true;//法師普通攻擊1_是否治療背後盟友
 
         //法師技能攻擊2
-        magicianSkillAttack_2_Damge = new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};//法師技能攻擊2_傷害
-        magicianSkillAttack_2_RepelDirection = new int[] { 0, 0, 0, 0 ,0, 0, 0, 0, 1, 0};//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        magicianSkillAttack_2_RepelDistance = new float[] { 25, 2, 2, 2, 2, 2, 2, 15, 10, 65};//法師技能攻擊2_擊退/擊飛距離    
+        magicianSkillAttack_2_Damge = new float[] { 4, 4, 5, 4, 5, 4, 4, 7, 9, 12};//法師技能攻擊2_傷害
+        magicianSkillAttack_2_RepelDirection = new int[] { 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0};//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
+        magicianSkillAttack_2_RepelDistance = new float[] { 25, 5, 5, 5, 5, 5, 5, 15, 10, 65};//法師技能攻擊2_擊退/擊飛距離    
         magicianSkillAttack_2_Effect = new string[] { "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain" };//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
         magicianSkillAttack_2_ForwardDistance = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};//法師技能攻擊2_攻擊範圍中心點距離物件前方
         magicianSkillAttack_2_attackRadius = new float[] { 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f};//法師技能攻擊2_攻擊半徑
         magicianSkillAttack_2_IsAttackBehind = new bool[] { false, false, false, false, false, false, false, false, false, false };//法師技能攻擊2_是否攻擊背後敵人
 
         //法師技能攻擊3
-        magicianSkillAttack_3_Damge = 14;//法師技能攻擊3_傷害
+        magicianSkillAttack_3_Damge = 52;//法師技能攻擊3_傷害
         magicianSkillAttack_3_RepelDirection = 0;//法師技能攻擊3_擊退方向(0:擊退 1:擊飛)
-        magicianSkillAttack_3_RepelDistance = 13.1f;//法師技能攻擊3_擊退/擊飛距離    
+        magicianSkillAttack_3_RepelDistance = 45;//法師技能攻擊3_擊退/擊飛距離    
         magicianSkillAttack_32_Effect = "Pain";//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
         magicianSkillAttack_3_ForwardDistance = 3;//法師技能攻擊3_攻擊範圍中心點距離物件前方
         magicianSkillAttack_3_attackRadius = 1.8f;//法師技能攻擊3_攻擊半徑
