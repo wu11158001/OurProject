@@ -64,7 +64,10 @@ public class ObjectHandle
                 //連線模式
                 if (GameDataManagement.Instance.isConnect)
                 {
-                    if(getGameObject_List[i].obj.GetComponent<HitNumber>() == null) PhotonConnect.Instance.OnSendObjectActive(getGameObject_List[i].obj, true);
+                    if (getGameObject_List[i].obj.GetComponent<HitNumber>() == null)
+                    {
+                        PhotonConnect.Instance.OnSendObjectActive(getGameObject_List[i].obj, true);                        
+                    }
                 }
                 
                 getGameObject_List[i].obj.SetActive(true);//開啟物件
@@ -77,14 +80,14 @@ public class ObjectHandle
         if (GameDataManagement.Instance.isConnect)//判斷是否為連線模式
         {
             temp.obj = PhotonConnect.Instance.OnCreateObject(path);//創建物件
-            PhotonConnect.Instance.OnSendObjectActive(temp.obj, true);
+            PhotonConnect.Instance.OnSendObjectActive(temp.obj, true);            
         }
         else
         {
-            temp.obj = GameObject.Instantiate(cerateGameObject_List[number]) as GameObject;//創建新物件(複製物件)
-            temp.obj.SetActive(true);//開啟物件       
+            temp.obj = GameObject.Instantiate(cerateGameObject_List[number]) as GameObject;//創建新物件(複製物件)               
         }
 
+        temp.obj.SetActive(true);//開啟物件
         searchGameObject_List[number].Add(temp);//存下物件
         return temp.obj;//回傳新物件
     }

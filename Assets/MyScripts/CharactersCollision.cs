@@ -105,7 +105,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }        
 
         //測試用
-        if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
+        //if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
     }   
 
     /// <summary>
@@ -331,9 +331,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
             Hp -= getDamge;//生命值減少
             if (Hp <= 0) Hp = 0;
-
+            
             if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
-            if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+            if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //面向攻擊者(Enemy執行)
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -461,6 +461,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         Hp -= damage;//生命值減少
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+         
+        if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
         //產生文字
         HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
@@ -482,6 +484,17 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case 1://擊飛                
                 floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List                    
                 break;
+        }
+
+        //不是連線 || 是房主
+        if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
+        {
+            //敵人觸發
+            if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                AI ai = GetComponent<AI>();
+                if (ai != null) ai.OnGetHit();
+            }
         }
     }
 
@@ -786,11 +799,34 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }
         if (info.IsTag("Die") && info.normalizedTime >= 1)
         {
+            OnJudgeGameResult();//判定遊戲結果
+
             //連線模式
             if (GameDataManagement.Instance.isConnect && photonView.IsMine) PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
           
             //關閉物件
             gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 判定遊戲結果
+    /// </summary>
+    void OnJudgeGameResult()
+    {
+        //玩家執行
+        if(gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            //連線
+            if(GameDataManagement.Instance.isConnect)
+            {
+
+            }
+            else//單人模式
+            {
+                //設定遊戲結束UI
+                GameSceneUI.Instance.OnSetGameOverUI(clearance: false);
+            }
         }
     }
 

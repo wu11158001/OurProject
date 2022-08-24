@@ -9,10 +9,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     static GameSceneUI gameSceneUI;
     public static GameSceneUI Instance => gameSceneUI;
        
-    [Header("玩家生命條")]    
-    float playerHpProportion;
+    [Header("玩家生命條")]        
     Image playerLifeBarFront_Image;//生命條(前)
     Image playerLifeBarMid_Image;//生命條(中)
+    float playerHpProportion;
 
     [Header("玩家Buff")]
     Sprite[] buffSprites;//Buff圖片
@@ -20,12 +20,18 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Image playerBuff_2;//玩家裝備Buff2
 
     [Header("選項")]
-    Transform options;//Options UI控制
-    public bool isOptions;//是否開起選項介面
+    Transform options;//Options UI控制    
     Button leaveGame_Button;//離開遊戲按鈕
     Button continueGame_Button;//繼續遊戲按鈕
     AudioSource audioSource;//音樂撥放器
     Scrollbar volume_Scrollbar;//音量ScrollBar
+    public bool isOptions;//是否開起選項介面
+
+    [Header("遊戲結束")]
+    Transform gameOver;//GameOver UI控制
+    Text gameOverResult_Text;//遊戲結果文字
+    Button backToStart_Button;//返回按鈕(確認按鈕)
+    bool isGameOver;//是否遊戲結束
 
     [Header("提示文字")]
     Text tip_Text;//提示文字
@@ -85,6 +91,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         volume_Scrollbar = ExtensionMethods.FindAnyChild<Scrollbar>(transform, "Volume_Scrollbar");//音量ScrollBar
         volume_Scrollbar.value = GameDataManagement.Instance.musicVolume;
 
+        //遊戲結束
+        gameOver = ExtensionMethods.FindAnyChild<Transform>(transform, "GameOver");//GameOver UI控制
+        gameOver.gameObject.SetActive(false);
+        gameOverResult_Text = ExtensionMethods.FindAnyChild<Text>(transform, "GameOverResult_Text");//遊戲結果文字
+        backToStart_Button = ExtensionMethods.FindAnyChild<Button>(transform, "BackToStart_Button");//返回按鈕(確認按鈕)        
+        backToStart_Button.onClick.AddListener(OnLeaveGame);
+
         //其他
         tip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Tip_Text");//提示文字
         tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
@@ -92,9 +105,36 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         
     void Update()
     {        
-        OnPlayerLifeBarBehavior();
-        OnOptions();
-        OnTipText();
+        OnPlayerLifeBarBehavior();//玩家生命條行為
+        OnOptionsUI();//選項介面
+        OnTipText();//提示文字
+    }
+  
+    /// <summary>
+    /// 設定遊戲結束UI
+    /// </summary>
+    /// <param name="clearance">是否過關</param>
+    public void OnSetGameOverUI(bool clearance)
+    {
+        isGameOver = true;//遊戲結束
+
+        //開啟選項
+        if (isOptions)
+        {
+            isOptions = false;
+            options.gameObject.SetActive(isOptions);
+        }
+
+        //開啟遊戲結束UI
+        gameOver.gameObject.SetActive(isGameOver);
+
+        //結果文字
+        if (clearance) gameOverResult_Text.text = "過關";
+        else gameOverResult_Text.text = "失敗";
+
+        //顯示滑鼠
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     /// <summary>
@@ -119,15 +159,16 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// <summary>
     /// 選項介面
     /// </summary>
-    void OnOptions()
+    void OnOptionsUI()
     {
-        //開啟選項介面
-        if (Input.GetKeyDown(KeyCode.Escape))
+        //開啟選項介面 && 遊戲結束不可按
+        if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
         {
             isOptions = !isOptions; 
             options.gameObject.SetActive(isOptions);
 
-            Cursor.visible = true;//顯示滑鼠
+            //顯示滑鼠
+            Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;            
         }
 
@@ -150,10 +191,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //連線
         if (GameDataManagement.Instance.isConnect)
         {
-            if (PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTip("室長: " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束》");
+            if (PhotonNetwork.IsMasterClient)
+            {               
+                PhotonConnect.Instance.OnSendGameTip("室長: " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束...》");
+            }
             else PhotonConnect.Instance.OnSendGameTip("玩家: " + PhotonNetwork.NickName + " 離開遊戲");
         }
-
+        
         StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));        
     }
 

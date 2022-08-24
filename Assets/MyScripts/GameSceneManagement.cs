@@ -19,6 +19,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
     Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
 
+    Transform[] enemySoldiers_1Point;//敵人士兵_1出生點
+
     void Awake()
     {       
         if(gameSceneManagement != null)
@@ -68,16 +70,23 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.magicianNormalAttack_1);//普通攻擊_1物件
         objectNumber_Dictionary.Add("magicianNormalAttack_1", number);//添加至紀錄中
 
+        //敵人士兵_1出生點
+        enemySoldiers_1Point = new Transform[GameObject.Find("EnemySoldiers_1Point").transform.childCount];
+        for (int i = 0; i < GameObject.Find("EnemySoldiers_1Point").transform.childCount; i++)
+        {
+            enemySoldiers_1Point[i] = GameObject.Find("EnemySoldiers_1Point").transform.GetChild(i);
+        }      
+
         //敵人士兵1
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
             number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
             objectNumber_Dictionary.Add("enemySoldier_1", number);////添加至紀錄中
 
-            for (int i = 0; i < 1; i++)
-            {                
+            for (int i = 0; i < enemySoldiers_1Point.Length; i++)
+            {
                 GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
-                enemy.transform.position = new Vector3(182, -24, -33);//設定位置
+                enemy.transform.position = enemySoldiers_1Point[i].position;//設定位置
                 enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
                 enemy.tag = "EnemySoldier_1";//設定Tag判斷HP
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
