@@ -35,7 +35,7 @@ MonoBehaviour:
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 13
-    playerHp: 10
+    playerHp: 100
     playerMoveSpeed: 6.3
     playerJumpForce: 11.05
     playerCriticalRate: 15
@@ -260,7 +260,7 @@ MonoBehaviour:
     enemySoldier1_Attack_2_RepelDistance: 45
     enemySoldier1_Attack_2_Effect: Pain
     enemySoldier1_Attack_2_ForwardDistance: 0
-    enemySoldier1_Attack_2_attackRadius: 1.6
+    enemySoldier1_Attack_2_attackRadius: 1.7
     enemySoldier1_Attack_2_IsAttackBehind: 1
     enemySoldier1_Hp: 300
     enemySoldier2_Hp: 300

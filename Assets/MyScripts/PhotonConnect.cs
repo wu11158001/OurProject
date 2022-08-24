@@ -355,7 +355,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public void OnSendObjectActive(GameObject obj, bool active)
     {        
         if (obj.GetComponent<PhotonView>())
-        {
+        {            
             int id = obj.GetComponent<PhotonView>().ViewID;
             photonView.RPC("OnObjectActive", RpcTarget.Others, id, active);
         }

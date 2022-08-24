@@ -162,7 +162,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             foreach (var a in ai)
             {
                 Debug.LogError("s");
-                a.GetComponent<PhotonView>().TransferOwnership(photonView.ViewID);//交換房主
+                a.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer.ActorNumber);//交換房主
             }
             
         }

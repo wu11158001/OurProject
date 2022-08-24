@@ -246,7 +246,7 @@ public class GameData_NumericalValue
         //cameraAngle = 20;//攝影機角度
 
         //玩家
-        playerHp = 10;//玩家生命值
+        playerHp = 100;//玩家生命值
         playerMoveSpeed = 6.3f;//玩家移動速度        
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
@@ -440,7 +440,7 @@ public class GameData_NumericalValue
         enemySoldier1_Attack_2_RepelDistance = 45;//敵人士兵1_攻擊2_擊退/擊飛距離    
         enemySoldier1_Attack_2_Effect = "Pain";//敵人士兵1_攻擊2_效果(受擊者播放的動畫名稱)        
         enemySoldier1_Attack_2_ForwardDistance = 0;//敵人士兵1_攻擊2_攻擊範圍中心點距離物件前方
-        enemySoldier1_Attack_2_attackRadius = 1.6f;//敵人士兵1_攻擊2_攻擊半徑
+        enemySoldier1_Attack_2_attackRadius = 1.7f;//敵人士兵1_攻擊2_攻擊半徑
         enemySoldier1_Attack_2_IsAttackBehind = true;//敵人士兵1_攻擊2_是否攻擊背後敵人
         #endregion
 

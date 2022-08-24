@@ -303,9 +303,11 @@ public class AI : MonoBehaviourPunCallbacks
             OnChangeAnimation(animationName: "Walk", animationType: false);
             OnChangeAnimation(animationName: "Idle", animationType: false);
         }
-
+                
         OnGetAllPlayers();//獲取所有玩家
         OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
+
+        OnHowlingBehavior();//咆嘯行為
     }
 
     /// <summary>

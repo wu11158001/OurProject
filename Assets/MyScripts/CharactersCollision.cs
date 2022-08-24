@@ -331,9 +331,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
             Hp -= getDamge;//生命值減少
             if (Hp <= 0) Hp = 0;
-
+            
             if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
-            if (gameObject.layer == LayerMask.NameToLayer("Player")) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+            if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
             //面向攻擊者(Enemy執行)
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -461,6 +461,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         Hp -= damage;//生命值減少
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+         
+        if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
         //產生文字
         HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
@@ -482,6 +484,17 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case 1://擊飛                
                 floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List                    
                 break;
+        }
+
+        //不是連線 || 是房主
+        if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
+        {
+            //敵人觸發
+            if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                AI ai = GetComponent<AI>();
+                if (ai != null) ai.OnGetHit();
+            }
         }
     }
 
