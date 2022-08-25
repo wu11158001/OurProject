@@ -64,9 +64,10 @@ public class AStart
             }
         }
 
-        node = allNodes[closeNumber];//最近節點       
+        node = allNodes[closeNumber];//最近節點
+                                     
         //比較鄰居節點
-        //node = OnCompareStartNeighborNode(node: node, targetPosition: targetPosition, startPoint: startPoint, distance: distance);
+        node = OnCompareStartNeighborNode(node: node, targetPosition: targetPosition, startPoint: startPoint, distance: distance);
 
         node.nodeState = NodePath.NodeState.關閉;//節點狀態
         closeNodeList.Add(node);//紀錄已關閉的節點
@@ -105,21 +106,22 @@ public class AStart
                     bestDistance = F;//最佳距離
                     bestNeighbor = i;//最近的鄰居編號                    
                 }
-            }
+            }            
 
             //判斷是否為目標點
-            if(node.neighborNode[bestNeighbor].transform.position == targetPosition)
+            if (node.neighborNode[bestNeighbor].transform.position == targetPosition)
             {
                 pathNodesList.Add(targetPosition);//紀錄目標點
                 return pathNodesList;//回傳所有紀錄路徑點
-            }
+            }            
 
             #region 第三步:最近節點是否有碰撞
             if (!isHaveBestNode)//沒有更近的節點
-            {
+            {                
+                bestDistance = 10000;
                 //判斷與目標路徑是否有障礙物
                 if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
-                {
+                {                    
                     for (int j = 0; j < allNodes.Length; j++)
                     {
                         //存下目前節點
@@ -128,14 +130,15 @@ public class AStart
                         pathNodesList.Add(node.transform.position);//紀錄節點
 
                         //比較鄰居節點
-                        NodePath compareNode = node;
-                        bestDistance = 10000;
-                        for (int i = 0; i < compareNode.neighborNode.Length; i++)
+                        
+                        bool isHaveBestNodeForNext = false;//是否有更近的節點
+                        int bestNeighborForNext = 0;//最近的鄰居編號
+                        for (int i = 0; i < node.neighborNode.Length; i++)
                         {
-                            if (compareNode.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
+                            if (node.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
 
-                            Vector3 nextPosition = compareNode.transform.position;//下個節點位置
-                            Vector3 neighborPosition = compareNode.neighborNode[i].transform.position;//鄰居節點位置
+                            Vector3 nextPosition = node.transform.position;//下個節點位置
+                            Vector3 neighborPosition = node.neighborNode[i].transform.position;//鄰居節點位置
 
                             float G = (nextPosition - neighborPosition).magnitude;//到下個節點位置
                             float H = (neighborPosition - targetPosition).magnitude;//下個節點到目標位置
@@ -143,28 +146,45 @@ public class AStart
 
                             if (F < bestDistance)
                             {
+                                isHaveBestNodeForNext = true;//是否有更近的節點
                                 bestDistance = F;//最佳距離
-                                compareNode = compareNode.neighborNode[i];//更新最近節點
+                                bestNeighborForNext = i;//最近的鄰居編號                                
                             }
-                        }
+                        }                               
 
-                        //判斷是否為目標點
-                        if (compareNode.transform.position == targetPosition)
+                        if (isHaveBestNodeForNext)//是否有更近的節點
                         {
-                            pathNodesList.Add(targetPosition);//紀錄目標點
-                            return pathNodesList;//回傳所有紀錄路徑點
-                        }
+                            //判斷是否為目標點
+                            if (node.neighborNode[bestNeighborForNext].transform.position == targetPosition)
+                            {
+                                pathNodesList.Add(targetPosition);//紀錄目標點
+                                return pathNodesList;//回傳所有紀錄路徑點
+                            }
 
-                        node = compareNode;
-                        node.nodeState = NodePath.NodeState.關閉;//節點狀態
-                        closeNodeList.Add(node);//紀錄已關閉的節點
-                        pathNodesList.Add(node.transform.position);//紀錄節點
-                        pathNodesList.Add(targetPosition);//紀錄目標點
-                        
-                        if(!Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
-                        {                            
+                            //判斷與目標路徑是否有障礙物
+                            if (!Physics.Linecast(node.neighborNode[bestNeighborForNext].transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
+                            {
+                                pathNodesList.Add(targetPosition);//紀錄目標點
+                                return pathNodesList;//回傳所有紀錄路徑點
+                            }
+
+                            node = node.neighborNode[bestNeighborForNext];
+                            node.nodeState = NodePath.NodeState.關閉;//節點狀態
+                            closeNodeList.Add(node);//紀錄已關閉的節點
+                            pathNodesList.Add(node.transform.position);//紀錄節點
+                            pathNodesList.Add(targetPosition);//紀錄目標點
+                        }
+                        else
+                        {
+                            //判斷與目標路徑是否有障礙物
+                            if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
+                            {
+                                continue;
+                            }
+
                             pathNodesList.Add(targetPosition);//紀錄目標點
                             return pathNodesList;//回傳所有紀錄路徑點
+
                         }
                     }
                 }
@@ -172,7 +192,9 @@ public class AStart
                 {
                     pathNodesList.Add(targetPosition);//紀錄目標點
                     return pathNodesList;//回傳所有紀錄路徑點
-                }             
+                } 
+                pathNodesList.Add(targetPosition);//紀錄目標點
+                return pathNodesList;//回傳所有紀錄路徑點
             }
             #endregion
 

@@ -218,6 +218,15 @@ public class GameData_NumericalValue
     public float enemySoldier1_Attack_2_ForwardDistance;//敵人士兵1_攻擊2_攻擊範圍中心點距離物件前方
     public float enemySoldier1_Attack_2_attackRadius;//敵人士兵1_攻擊2_攻擊半徑
     public bool enemySoldier1_Attack_2_IsAttackBehind;//敵人士兵1_攻擊2_是否攻擊背後敵人
+
+    [Header("敵人士兵1 攻擊3")]
+    public float enemySoldier1_Attack_3_Damge;//敵人士兵1_攻擊3_傷害
+    public int enemySoldier1_Attack_3_RepelDirection;//敵人士兵1_攻擊3_擊退方向(0:擊退 1:擊飛)
+    public float enemySoldier1_Attack_3_RepelDistance;//敵人士兵1_攻擊3_擊退/擊飛距離    
+    public string enemySoldier1_Attack_3_Effect;//敵人士兵1_攻擊3_效果(受擊者播放的動畫名稱)        
+    public float enemySoldier1_Attack_3_ForwardDistance;//敵人士兵1_攻擊3_攻擊範圍中心點距離物件前方
+    public float enemySoldier1_Attack_3_attackRadius;//敵人士兵1_攻擊3_攻擊半徑
+    public bool enemySoldier1_Attack_3_IsAttackBehind;//敵人士兵1_攻擊3_是否攻擊背後敵人
     #endregion
 
     [Header("敵人士兵1")]
@@ -246,7 +255,7 @@ public class GameData_NumericalValue
         //cameraAngle = 20;//攝影機角度
 
         //玩家
-        playerHp = 100;//玩家生命值
+        playerHp = 500;//玩家生命值
         playerMoveSpeed = 6.3f;//玩家移動速度        
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
@@ -426,7 +435,7 @@ public class GameData_NumericalValue
 
         #region 敵人士兵1
         //敵人士兵1 攻擊1
-        enemySoldier1_Attack_1_Damge = 7;//敵人士兵1_攻擊1_傷害
+        enemySoldier1_Attack_1_Damge = 9;//敵人士兵1_攻擊1_傷害
         enemySoldier1_Attack_1_RepelDirection = 0;//敵人士兵1_攻擊1_擊退方向(0:擊退 1:擊飛)
         enemySoldier1_Attack_1_RepelDistance = 30;//敵人士兵1_攻擊1_擊退/擊飛距離    
         enemySoldier1_Attack_1_Effect = "Pain";//敵人士兵1_攻擊1_效果(受擊者播放的動畫名稱)        
@@ -442,6 +451,15 @@ public class GameData_NumericalValue
         enemySoldier1_Attack_2_ForwardDistance = 0;//敵人士兵1_攻擊2_攻擊範圍中心點距離物件前方
         enemySoldier1_Attack_2_attackRadius = 1.7f;//敵人士兵1_攻擊2_攻擊半徑
         enemySoldier1_Attack_2_IsAttackBehind = true;//敵人士兵1_攻擊2_是否攻擊背後敵人
+
+        //敵人士兵1 攻擊3
+        enemySoldier1_Attack_3_Damge = 6;//敵人士兵1_攻擊3_傷害
+        enemySoldier1_Attack_3_RepelDirection = 0;//敵人士兵1_攻擊3_擊退方向(0:擊退 1:擊飛)
+        enemySoldier1_Attack_3_RepelDistance = 20;//敵人士兵1_攻擊3_擊退/擊飛距離    
+        enemySoldier1_Attack_3_Effect = "Pain";//敵人士兵1_攻擊3_效果(受擊者播放的動畫名稱)        
+        enemySoldier1_Attack_3_ForwardDistance = 1.4f;//敵人士兵1_攻擊3_攻擊範圍中心點距離物件前方
+        enemySoldier1_Attack_3_attackRadius = 1.3f;//敵人士兵1_攻擊3_攻擊半徑
+        enemySoldier1_Attack_3_IsAttackBehind = false;//敵人士兵1_攻擊3_是否攻擊背後敵人
         #endregion
 
         //敵人

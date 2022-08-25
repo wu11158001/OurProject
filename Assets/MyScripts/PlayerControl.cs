@@ -369,6 +369,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         {    
             animator.SetBool("Dodge", false);
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Dodge", false);
+
+            animator.SetBool("Pain", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", false);
         }
     }
 

@@ -19,9 +19,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     [Header("¶ZÂ÷¦a­±°ª«×")] public float heightFromGround;
     [Header("Àð­±¸I¼²¶ZÂ÷")] public float wallCollisionDistance;
     [Header("Àð­±¸I¼²°ª«×")] public float wallCollisionHight;
-    [Header("¸I¼²®Ø¤j¤p_¸}¦â")] public float collisionSize_Character;//¸I¼²®Ø¤j¤p_¸}¦â
-    //[Tooltip("¸I¼²®Ø±À¤O_¸}¦â")] public float collisionPushForce_Character;//¸I¼²®Ø±À¤O_¸}¦â
-    float boxCollisionDistance;//¸I¼²¶ZÂ÷
+    [Header("¸I¼²®Ø¤j¤p_¸}¦â")] public float collisionSize_Character;//¸I¼²®Ø¤j¤p_¸}¦â    
+    [Header("¸I¼²®Ø³Ì¤p¶ZÂ÷")] public float boxCollisionDistance;//¸I¼²¶ZÂ÷
     public Transform[] collisionObject = new Transform[9];//¸I¼²ª«¥ó(§P©w¬O§_¦³¸I¼²)    
     public Transform[] GetCollisionObject => collisionObject;
     float jumpRayDistance;//¸õÅD®g½u¶ZÂ÷    
@@ -578,23 +577,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             OnFallJudge();//¸¨¤U§PÂ_
         }
     }
-
-  /*  /// <summary>
-    /// ¸I¼²®Ø_¼Ä¤H¸}¦â
-    /// </summary>    
-    /// <returns></returns>
-    public bool OnCollision_Enemy()
-    {
-        LayerMask mask = LayerMask.GetMask("Enemy");
-
-        if (Physics.Raycast(transform.position, transform.forward, 1.5f, mask))
-        {         
-            return true;
-        }
-
-        return false;
-    }*/
-
+ 
     /// <summary>
     /// ¸I¼²®Ø_¸}¦â
     /// </summary>    
@@ -615,10 +598,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         for (int i = 0; i < rayDiration.Length; i++)
         {
             if (Physics.BoxCast(transform.position + boxCenter, new Vector3(boxCollisionDistance * collisionSize_Character, boxSize.y / 2, boxCollisionDistance * collisionSize_Character), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance * collisionSize_Character, mask))
-            {
-                //§PÂ_¸I¼²¹ï¶H¥ª¥k
-                //float direction = Vector3.Dot(transform.forward, Vector3.Cross(transform.position - hit.transform.position, Vector3.up)) >= 0 ? direction = 1 : direction = -1;
-
+            {                
                 //¸I¼²
                 transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
                 return true;

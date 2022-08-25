@@ -119662,7 +119662,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1.3333334
-    functionName: OnAttack2_EnemySoldier
+    functionName: OnAttack2_EnemySoldier1
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
