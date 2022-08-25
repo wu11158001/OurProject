@@ -11,28 +11,28 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -666215783516765280}
-    m_Position: {x: -360, y: 120, z: 0}
+    m_Position: {x: -240, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8692338784958045378}
     m_Position: {x: 30, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2800340751712466329}
-    m_Position: {x: 60, y: 260, z: 0}
+    m_Position: {x: 40, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6482865674230052155}
-    m_Position: {x: -280, y: 250, z: 0}
+    m_Position: {x: -240, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4448655324220199699}
-    m_Position: {x: -250, y: 320, z: 0}
+    m_Position: {x: -240, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3030134925341878310}
-    m_Position: {x: 320, y: 280, z: 0}
+    m_Position: {x: 310, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7888700074583379602}
     m_Position: {x: -240, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6858835166490079216}
-    m_Position: {x: 90, y: 380, z: 0}
+    m_Position: {x: 40, y: 370, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 479193562491477853}
@@ -760,13 +760,13 @@ AnimatorState:
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
+  m_MirrorParameterActive: 1
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 7e985e563d41bdf48ad1deaae9d12080, type: 3}
   m_Tag: Pain
   m_SpeedParameter: 
-  m_MirrorParameter: 
+  m_MirrorParameter: IsPainMirror
   m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!91 &9100000
@@ -796,6 +796,18 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: IsPainMirror
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: Pain
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   - m_Name: NormalAttack
     m_Type: 4
     m_DefaultFloat: 0
@@ -821,12 +833,6 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: JumpAttack
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Pain
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1461,13 +1467,13 @@ AnimatorState:
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
+  m_MirrorParameterActive: 1
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 34bda95f547385f46ac4737eacc2417e, type: 3}
   m_Tag: Die
   m_SpeedParameter: 
-  m_MirrorParameter: 
+  m_MirrorParameter: IsPainMirror
   m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1101 &8041140850786770136

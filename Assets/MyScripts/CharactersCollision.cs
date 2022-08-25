@@ -348,7 +348,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: getDamge,//受到傷害
-                                 color: isCritical ? Color.yellow : Color.red,//文字顏色
+                                 color: isCritical ? Color.red : Color.red,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
             //命中特效
@@ -399,6 +399,19 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                                                            knockDirection: knockDirection,
                                                                                            repel: repel,
                                                                                            attackerObjectID: attackerObject.GetPhotonView().ViewID);
+
+            //判斷動畫是否mirror
+            int isMirror = UnityEngine.Random.Range(0, 2);
+            if(isMirror == 0)
+            {
+                animator.SetBool("IsPainMirror", true);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "IsPainMirror", true);
+            }
+            else
+            {
+                animator.SetBool("IsPainMirror", false);
+                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "IsPainMirror", false);
+            }
 
             //死亡
             if (Hp <= 0)
@@ -820,7 +833,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         animator.SetBool(aniamtionName, false);
         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, aniamtionName, false);
 
-        yield return new WaitForSeconds(0.03f);
+        yield return new WaitForSeconds(0.05f);
 
         animator.SetBool(aniamtionName, true);
         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, aniamtionName, true);
