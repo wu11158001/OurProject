@@ -121,8 +121,7 @@ public class AStart
                 bestDistance = 10000;
                 //判斷與目標路徑是否有障礙物
                 if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
-                {
-                    Debug.LogError("s");
+                {                    
                     for (int j = 0; j < allNodes.Length; j++)
                     {
                         //存下目前節點
