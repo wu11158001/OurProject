@@ -23,11 +23,11 @@ public class BuffDrop : MonoBehaviour, IDropHandler
             Transform childOriginalParent = child.GetComponent<BuffButtonDrag>().originalParent;
             child.SetParent(childOriginalParent);
             child.localPosition = Vector3.zero;
-            child.GetComponent<RectTransform>().sizeDelta = new Vector2(childOriginalParent.GetComponent<RectTransform>().sizeDelta.x - 10, childOriginalParent.GetComponent<RectTransform>().sizeDelta.y - 10);
+            child.GetComponent<RectTransform>().sizeDelta = new Vector2(childOriginalParent.GetComponent<RectTransform>().sizeDelta.x - 30, childOriginalParent.GetComponent<RectTransform>().sizeDelta.y - 30);
         }
 
         GameObject buff = eventData.pointerDrag;
-        buff.GetComponent<RectTransform>().sizeDelta = new Vector2(transform.GetComponent<RectTransform>().sizeDelta.x - 10, transform.GetComponent<RectTransform>().sizeDelta.y - 10);
+        buff.GetComponent<RectTransform>().sizeDelta = new Vector2(transform.GetComponent<RectTransform>().sizeDelta.x - 30, transform.GetComponent<RectTransform>().sizeDelta.y - 30);
         buff.transform.SetParent(transform);
         buff.transform.localPosition = Vector3.zero;        
     }
