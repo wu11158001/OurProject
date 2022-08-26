@@ -76,6 +76,7 @@ public class Effects : MonoBehaviour
         }
         if (anim.runtimeAnimatorController.name == "2_Magician")
         {
+            MagNormalAttack1();
             MagNormalAttack2();
             MagNormalAttack3();
             MagSkillAttack1();
@@ -107,6 +108,40 @@ public class Effects : MonoBehaviour
         }
 
     }
+
+    void MagNormalAttack1()
+    {
+        var idelName = "Attack.NormalAttack_1";
+        float delay = 0.2f;
+        var effect = NormalAttack_1;
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && animInfo.normalizedTime < delay + 0.01f)
+        {
+            MagNa1().transform.SetParent(NormalAttack_1.transform);
+            MagNa1().transform.localPosition = NormalAttack_1.transform.GetChild(0).localPosition;
+            MagNa1().transform.forward = NormalAttack_1.transform.forward;
+            MagNa1().Play();
+        }
+    }
+
+    List<ParticleSystem> magNa1List = new List<ParticleSystem>();
+    ParticleSystem MagNa1Pool()
+    {
+        ParticleSystem hitPs = Instantiate(NormalAttack_1.transform.GetChild(0).GetComponent<ParticleSystem>());
+        hitList.Add(hitPs);
+        return hitPs;
+    }
+    ParticleSystem MagNa1()
+    {
+        foreach (var hl in hitList)
+        {
+            if (!hl.isPlaying) return hl;
+        }
+        return MagNa1Pool();
+    }
+
+
+
+
 
     void MagNormalAttack2()
     {
