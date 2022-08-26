@@ -19,10 +19,15 @@ public class Effects : MonoBehaviour
     ParticleSystem SkillAttack_3;
     ParticleSystem hit;
 
+    //武器發光
     Color baseColor;
     float rColor, gColor, bColor;
     float intensity;
     bool lensDistortion = false;
+
+    //法師特效脫離角色Transform影響
+    Transform magicNa2toWorld;        //角色的父物件
+    Transform magicNa2;              //要脫離的特效
 
 
     void Start()
@@ -37,7 +42,11 @@ public class Effects : MonoBehaviour
         hit = effects.transform.GetChild(6).GetComponent<ParticleSystem>();              //命中效果
         StarShakeSet();                                                                 //畫面震盪
 
-        postProcessProfile.GetSetting<LensDistortion>().intensity.value = 0f;
+        postProcessProfile.GetSetting<LensDistortion>().intensity.value = 0f;                //小魚眼
+
+        magicNa2toWorld = gameObject.transform.parent;                                //角色的父物件，讓特效脫離角色Transform影響      
+        magicNa2 = NormalAttack_2.transform.GetChild(1);                              //要脫離的特效
+
 
 
         //武器發光，戰士弓箭手
@@ -67,6 +76,7 @@ public class Effects : MonoBehaviour
         }
         if (anim.runtimeAnimatorController.name == "2_Magician")
         {
+            MagNormalAttack2();
             MagNormalAttack3();
             MagSkillAttack1();
             MagSkillAttack3();
@@ -98,6 +108,27 @@ public class Effects : MonoBehaviour
 
     }
 
+    void MagNormalAttack2()
+    {
+        var idelName = "Attack.NormalAttack_2";
+        float delay = 0.01f;
+        var effect = NormalAttack_2;
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
+        {
+            effect.Play();
+            magicNa2.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
+        }
+        if (magicNa2.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
+        {
+            //回到角色層級並恢復相關參數
+            magicNa2.SetParent(effect.transform);
+            magicNa2.transform.localPosition = effect.transform.GetChild(0).localPosition;
+            magicNa2.transform.localRotation = effect.transform.GetChild(0).localRotation;
+            magicNa2.transform.localScale = effect.transform.GetChild(0).localScale;
+        }
+
+    }
+
     void MagNormalAttack3()
     {
         var idelName = "Attack.NormalAttack_3";
@@ -110,7 +141,7 @@ public class Effects : MonoBehaviour
 
     void MagSkillAttack1()
     {
-        var idelName = "Attack.SkillAttack_1";       
+        var idelName = "Attack.SkillAttack_1";
         float delay = 0.01f;
         var effect = SkillAttack_1;
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
