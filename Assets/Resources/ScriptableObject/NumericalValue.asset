@@ -19,19 +19,19 @@ MonoBehaviour:
     - "\u6A6B\u6383\u5343\u8ECD"
     - "\u4EBA\u4E2D\u4E4B\u9F8D"
     buffAbleString:
-    - "\u751F\u547D\u503C"
+    - "\u751F\u547D"
     - "\u50B7\u5BB3"
     - "\u9632\u79A6"
     - "\u5438\u8840"
     - "\u79FB\u52D5"
-    - "\u56DE\u8840"
+    - "\u53D7\u7642"
     buffAbleValue:
-    - 5
-    - 10
-    - 5
-    - 10
+    - 30
+    - 25
+    - 25
     - 20
-    - 1
+    - 25
+    - 25
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 13

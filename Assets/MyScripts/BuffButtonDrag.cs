@@ -56,7 +56,7 @@ public class BuffButtonDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         //沒拉進Buff框
         if (buff.transform.parent == StartSceneUI.Instance.transform)
         {
-            buff.GetComponent<RectTransform>().sizeDelta = new Vector2(originalParent.GetComponent<RectTransform>().sizeDelta.x - 10, originalParent.GetComponent<RectTransform>().sizeDelta.y - 10);
+            buff.GetComponent<RectTransform>().sizeDelta = new Vector2(originalParent.GetComponent<RectTransform>().sizeDelta.x - 30, originalParent.GetComponent<RectTransform>().sizeDelta.y - 30);
             buff.transform.SetParent(originalParent);//回原位
             buff.transform.localPosition = Vector3.zero;
         }
