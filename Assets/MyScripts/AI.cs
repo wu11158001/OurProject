@@ -50,14 +50,15 @@ public class AI : MonoBehaviourPunCallbacks
     bool isStartChase;//是否開始追擊
     bool isReadChase;//是否準備追擊
     float chaseTurnTime;//追擊轉向時間(計時器)
-    int chaseDiretion;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
-    float changeDiretionTime;//更換方向時間
-    float changeTime;//更換方向時間(計時器)
+    int chaseDiretion;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)       
 
     [Header("檢查同伴")]
-    [SerializeField]float chaseSlowDownSpeed;//追擊減速速度
+     float changeDiretionTime_Forward;//更換方向時間_前方偵測(計時器)
+     float changeDiretionTime_Near;//更換方向時間_左右方偵測(計時器)
+    float changeDiretionTime;//更換方向時間 
+    float chaseSlowDownSpeed;//追擊減速速度
     bool isPauseChase;//是否暫停追擊
-    bool[] isCheckNearCompanion;//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
+    [SerializeField]bool[] isCheckNearCompanion;//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
 
     [Header("攻擊狀態")]
     [SerializeField] float[] attackFrequency;//攻擊頻率(亂數最小值, 最大值)
@@ -158,7 +159,7 @@ public class AI : MonoBehaviourPunCallbacks
     {
         info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (!info.IsTag("Attack"))//攻擊不碰撞
+        if (!info.IsTag("Attack") && !isExecuteAStart)//攻擊&&執行AStart不碰撞
         {
             LayerMask mask = LayerMask.GetMask("Enemy");
             RaycastHit hit;
@@ -455,6 +456,7 @@ public class AI : MonoBehaviourPunCallbacks
             Vector3 targetDiration = allPlayers[chaseObject].transform.position - transform.position;
             transform.forward = transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, 1, 1);
 
+            OnChangeAnimation(animationName: "Idle", animationType: false);
             OnChangeAnimation(animationName: "Howling", animationType: false);
             OnChangeAnimation(animationName: "Run", animationType: true);
         }
@@ -492,11 +494,11 @@ public class AI : MonoBehaviourPunCallbacks
     /// <param name="diretion">方向</param>
     bool OnCheckCompanionBox(Vector3 diretion)
     {
-        float chechSize = 0.65f;//檢查框大小
+        float chechSize = 0.6f;//檢查框大小
         LayerMask mask = LayerMask.GetMask("Enemy");
 
         //碰到同伴
-        if (Physics.CheckBox(transform.position + charactersCollision.boxCenter + diretion * (charactersCollision.boxSize.x + (chechSize / 2)), new Vector3(chechSize, 0.1f, chechSize), Quaternion.Euler(transform.localEulerAngles), mask))
+        if (Physics.CheckBox(transform.position + charactersCollision.boxCenter + diretion * (charactersCollision.boxSize.x + (chechSize / 2)), new Vector3(chechSize * 1.1f, 0.1f, chechSize), Quaternion.Euler(transform.localEulerAngles), mask))
         {            
             return true;            
         }
@@ -526,12 +528,12 @@ public class AI : MonoBehaviourPunCallbacks
                 }
             }
 
-            changeTime -= Time.deltaTime;//更換方向時間
-            if (changeTime <= 0)
+            changeDiretionTime_Forward -= Time.deltaTime;//更換方向時間
+            if (changeDiretionTime_Forward <= 0)
             {
-                changeTime = changeDiretionTime;
-                if (!isCheckNearCompanion[0] || (!isCheckNearCompanion[0] && !isCheckNearCompanion[1])) chaseDiretion = 1;//右沒有同伴 || 左右都沒有同伴
+                changeDiretionTime_Forward = changeDiretionTime;
                 if (!isCheckNearCompanion[1]) chaseDiretion = 2;//左沒有同伴
+                if (!isCheckNearCompanion[0] || (!isCheckNearCompanion[0] && !isCheckNearCompanion[1])) chaseDiretion = 1;//右沒有同伴 || 左右都沒有同伴                
             }
         }
         else
@@ -558,30 +560,37 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnCheckLefrAndRightCompanion()
     {
-        //檢查右方同伴
-        if (OnCheckCompanionBox(diretion: transform.right))//檢查右方同伴
+        changeDiretionTime_Near -= Time.deltaTime;
+
+        if (changeDiretionTime_Near <= 0)
         {
-            if (!isCheckNearCompanion[0])//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
+            changeDiretionTime_Near = changeDiretionTime;
+
+            //檢查右方同伴
+            if (OnCheckCompanionBox(diretion: transform.right))//檢查右方同伴
             {
-                isCheckNearCompanion[0] = true;
-                chaseDiretion = 2;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
+                if (!isCheckNearCompanion[0])//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
+                {
+                    isCheckNearCompanion[0] = true;
+                    chaseDiretion = 2;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
+                }
             }
-        }
-        else isCheckNearCompanion[0] = false;//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
-        
-        //檢查左方同伴
-        if (OnCheckCompanionBox(diretion: -transform.right))
-        {
-            if (!isCheckNearCompanion[1])//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
+            else isCheckNearCompanion[0] = false;//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
+
+            //檢查左方同伴
+            if (OnCheckCompanionBox(diretion: -transform.right))
             {
-                isCheckNearCompanion[1] = true;
-                chaseDiretion = 1;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
+                if (!isCheckNearCompanion[1])//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
+                {
+                    isCheckNearCompanion[1] = true;
+                    chaseDiretion = 1;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
+                }
             }
+            else isCheckNearCompanion[1] = false;//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)    
+
+            //左右都沒有碰撞同伴
+            if (!isCheckNearCompanion[0] && !isCheckNearCompanion[1]) chaseDiretion = 0;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
         }
-        else isCheckNearCompanion[1] = false;//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)    
-        
-        //左右都沒有碰撞同伴
-        if(!isCheckNearCompanion[0] && !isCheckNearCompanion[1]) chaseDiretion = 0;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
     }
 
     /// <summary>
@@ -650,6 +659,12 @@ public class AI : MonoBehaviourPunCallbacks
                         isAttacking = false; ;
                         OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
                     }
+                    if(isStartChase)
+                    {
+                        isStartChase = false;
+                        OnChangeAnimation(animationName: "Run", animationType: false);
+                    }
+
 
                     return;
                 }
@@ -795,43 +810,45 @@ public class AI : MonoBehaviourPunCallbacks
         
         //攻擊待機移動
         if (isAttackIdleMove && info.IsName("AttackIdleMove"))
-        {
-            if(isCheckNearCompanion[0] && isCheckNearCompanion[1])
-            {
-                attackIdleMoveDiretion = 0;
-                OnChangeAnimation(animationName: "AttackIdleMove", animationType: false);
-                OnChangeAnimation(animationName: "AttackIdle", animationType: true);                
-                return;
-            }
-
+        {            
             int dir = 1;//攻擊待機移動方向
             if (attackIdleMoveDiretion == 2) dir = -1;
 
-            changeTime -= Time.deltaTime;//更換方向時間
-            if (changeTime <= 0)
+            changeDiretionTime_Forward -= Time.deltaTime;//更換方向時間
+            if (changeDiretionTime_Forward <= 0)
             {
-                changeTime = changeDiretionTime;//更換方向時間
+                changeDiretionTime_Forward = changeDiretionTime;//更換方向時間
 
                 //右方有同伴
-                if (isCheckNearCompanion[0] && dir == -1)
-                {                    
-                    dir = 1;
+                if (isCheckNearCompanion[0] && dir == 1)
+                {
+                    attackIdleMoveDiretion = 2;
+                    dir = -1;                    
                     OnChangeAnimation(animationName: "IsAttackIdleMoveMirror", animationType: true);
                 }
 
                 //左方有同伴
-                if (isCheckNearCompanion[1] && dir == 1)
+                if (isCheckNearCompanion[1] && dir == -1)
                 {                    
-                    dir = -1;
+                    attackIdleMoveDiretion = 1;
+                    dir = 1;
                     OnChangeAnimation(animationName: "IsAttackIdleMoveMirror", animationType: false);
                 }                
             }
-            
+
+            if (isCheckNearCompanion[0] && isCheckNearCompanion[1])
+            {
+                attackIdleMoveDiretion = 0;
+                /*OnChangeAnimation(animationName: "AttackIdleMove", animationType: false);
+                OnChangeAnimation(animationName: "AttackIdle", animationType: true);*/
+            }
+
             //左右移動
             transform.position = transform.position + (transform.right * dir) * attackIdleMoveSpeed * Time.deltaTime;
             
-            //判斷與玩家距離
-            if ((transform.position - allPlayers[chaseObject].transform.position).magnitude < backMoveDistance)
+            //判斷與玩家距離 || 左右都有同伴
+            if ((transform.position - allPlayers[chaseObject].transform.position).magnitude < backMoveDistance
+                || attackIdleMoveDiretion == 0)
             {
                 //向後走
                 transform.position = transform.position - transform.forward * attackIdleMoveSpeed * Time.deltaTime;

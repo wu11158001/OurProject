@@ -67,7 +67,7 @@ public class AStart
         node = allNodes[closeNumber];//最近節點
                                      
         //比較鄰居節點
-        node = OnCompareStartNeighborNode(node: node, targetPosition: targetPosition, startPoint: startPoint, distance: distance);
+        //node = OnCompareStartNeighborNode(node: node, targetPosition: targetPosition, startPoint: startPoint, distance: distance);
 
         node.nodeState = NodePath.NodeState.關閉;//節點狀態
         closeNodeList.Add(node);//紀錄已關閉的節點
@@ -121,7 +121,8 @@ public class AStart
                 bestDistance = 10000;
                 //判斷與目標路徑是否有障礙物
                 if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
-                {                    
+                {
+                    Debug.LogError("s");
                     for (int j = 0; j < allNodes.Length; j++)
                     {
                         //存下目前節點
@@ -154,15 +155,15 @@ public class AStart
 
                         if (isHaveBestNodeForNext)//是否有更近的節點
                         {
-                            //判斷是否為目標點
-                            if (node.neighborNode[bestNeighborForNext].transform.position == targetPosition)
+                            //判斷與目標路徑是否有障礙物
+                            if (!Physics.Linecast(node.neighborNode[bestNeighborForNext].transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
                             {
                                 pathNodesList.Add(targetPosition);//紀錄目標點
                                 return pathNodesList;//回傳所有紀錄路徑點
                             }
 
-                            //判斷與目標路徑是否有障礙物
-                            if (!Physics.Linecast(node.neighborNode[bestNeighborForNext].transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
+                            //判斷是否為目標點
+                            if (node.neighborNode[bestNeighborForNext].transform.position == targetPosition)
                             {
                                 pathNodesList.Add(targetPosition);//紀錄目標點
                                 return pathNodesList;//回傳所有紀錄路徑點
@@ -178,7 +179,7 @@ public class AStart
                         {
                             //判斷與目標路徑是否有障礙物
                             if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
-                            {
+                            {                                
                                 continue;
                             }
 
@@ -226,7 +227,7 @@ public class AStart
     NodePath OnCompareStartNeighborNode(NodePath node, Vector3 targetPosition, Vector3 startPoint, float distance)
     {
         NodePath compareNode = node;
-
+        //float bestDistance = (compareNode.transform.position - targetPosition).magnitude;//目前節點到終點距離
         float bestDistance = distance;
         for (int i = 0; i < compareNode.neighborNode.Length; i++)
         {
@@ -235,8 +236,16 @@ public class AStart
             if (Physics.Linecast(startPoint, compareNode.neighborNode[i].transform.position, 1 << LayerMask.NameToLayer("StageObject")))
             {
                 continue;
-            }            
+            }
 
+            float neighborDistance = (compareNode.neighborNode[i].transform.position - targetPosition).magnitude;
+
+            /*if (neighborDistance < bestDistance)
+            {
+                bestDistance = neighborDistance;
+                compareNode = compareNode.neighborNode[i];
+                Debug.LogError("HaveClose:" + compareNode.transform.name);
+            }*/
             Vector3 nextPosition = compareNode.transform.position;//下個節點位置
             Vector3 neighborPosition = compareNode.neighborNode[i].transform.position;//鄰居節點位置
 
