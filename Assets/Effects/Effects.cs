@@ -45,12 +45,15 @@ public class Effects : MonoBehaviour
         postProcessProfile.GetSetting<LensDistortion>().intensity.value = 0f;                //小魚眼
 
         magicNa2toWorld = gameObject.transform.parent;                                //角色的父物件，讓特效脫離角色Transform影響      
-        magicNa2 = NormalAttack_2.transform.GetChild(1);                              //要脫離的特效
+        
+        if (anim.runtimeAnimatorController.name == "2_Magician")
+        {
+            magicNa2 = NormalAttack_2.transform.GetChild(1);                              //要脫離的特效
 
-
+        }
 
         //武器發光，戰士弓箭手
-        if (anim.runtimeAnimatorController.name == "1_Warrior" || anim.runtimeAnimatorController.name == "3_Archer")
+        if (anim.runtimeAnimatorController.name == "1_Warrior" )
         {
             baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
             intensity = 1f;
