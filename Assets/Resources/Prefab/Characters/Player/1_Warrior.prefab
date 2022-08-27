@@ -22299,6 +22299,7 @@ MonoBehaviour:
   wallCollisionDistance: 0
   wallCollisionHight: 0
   collisionSize_Character: 0
+  boxCollisionDistance: 0
   collisionObject:
   - {fileID: 0}
   - {fileID: 0}

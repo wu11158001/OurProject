@@ -422,9 +422,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
                 if(gameObject.layer == LayerMask.NameToLayer("Enemy"))
                 {
-                    //任務文字
                     GameSceneManagement.Instance.KillEnemyNumber += 1;//已擊殺怪物數量
-                    GameSceneManagement.Instance.OnTaskText();//任務文字        
+                    GameSceneManagement.Instance.OnTaskText();//任務文字
+                    PhotonConnect.Instance.OnSendRenewTask();//更新任務
                 }
                 return;
             }
@@ -503,7 +503,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case 1://擊飛                
                 floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List                    
                 break;
-        }
+        }        
 
         //不是連線 || 是房主
         if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)

@@ -1619,10 +1619,12 @@ MonoBehaviour:
   chaseSpeed: 0
   maxRadiansDelta: 0
   readyChaseRandomTime: []
+  isCheckNearCompanion: 
   attackFrequency: []
   attackNumber: 0
   attackIdleMoveSpeed: 0
   backMoveDistance: 0
+  isExecuteAStart: 0
   allPlayers: []
   aiState: 0
 --- !u!114 &3093963109411748772
@@ -1643,6 +1645,7 @@ MonoBehaviour:
   wallCollisionDistance: 0
   wallCollisionHight: 0
   collisionSize_Character: 0.2
+  boxCollisionDistance: 0
   collisionObject:
   - {fileID: 0}
   - {fileID: 0}

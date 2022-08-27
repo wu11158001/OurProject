@@ -77,7 +77,7 @@ public class AI : MonoBehaviourPunCallbacks
     int attackIdleMoveDiretion;//攻擊待機移動方向(0 = 不移動, 1 = 右, 2 = 左)
 
     [Header("尋路")]
-    bool isExecuteAStart;//是否執行AStart
+    [SerializeField] bool isExecuteAStart;//是否執行AStart
     List<Vector3> pathsList = new List<Vector3>();//移動路徑節點  
     int point = 0;//尋路節點編號        
 
@@ -157,6 +157,7 @@ public class AI : MonoBehaviourPunCallbacks
     public void OnInitial()
     {
         aiState = AIState.一般狀態;
+        isExecuteAStart = false;//是否執行AStart
     }
 
     /// <summary>

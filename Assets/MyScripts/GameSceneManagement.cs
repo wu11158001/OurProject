@@ -184,30 +184,31 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         {
                             enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
                             enemy.transform.position = enemySoldiers1_Stage1Point[i].position;//設定位置
-                            enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            enemy.transform.rotation = Quaternion.Euler(0, 90, 0);                            
                             enemy.tag = "EnemySoldier_1";//設定Tag判斷HP
                             //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         break;
                     case 1://階段2
                         //產生城門守衛Boss     
-                        number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
+                        number = objectHandle.OnCreateObject(loadPath.guardBoss);//產生至物件池
                         objectNumber_Dictionary.Add("enemyGuardBoss", number);////添加至紀錄中
                         //產生城門守衛Boss
-                        enemy = OnRequestOpenObject(OnGetObjectNumber("enemyGuardBoss"), loadPath.enemySoldier_1);//開啟物件
+                        enemy = OnRequestOpenObject(OnGetObjectNumber("enemyGuardBoss"), loadPath.guardBoss);//開啟物件
                         enemy.transform.position = guardBoss_Stage2Point.position;//設定位置
                         enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
                         enemy.tag = "GuardBoss";//設定Tag判斷HP
                         //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         break;
                     case 2://階段3
+                        //產生敵人士兵1
                         for (int i = 0; i < enemySoldiers1_Stage3Point.Length; i++)
                         {
                             enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
                             enemy.transform.position = enemySoldiers1_Stage3Point[i].position;//設定位置
                             enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
-                            enemy.tag = "EnemySoldier_1";//設定Tag判斷HP
-                            //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                            enemy.GetComponent<CharactersCollision>().OnInitial();//初始化
+                            enemy.GetComponent<AI>().OnInitial();//初始化
                         }
                         break;
                 }
@@ -257,7 +258,9 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (taskStage >= taskKillNumber.Length)//過關
             {
                 StartCoroutine(OnTaskTipText(taskTipValue: "過關"));//任務提示   
-                GameSceneUI.Instance.OnSetTaskText(taskValue: "過關");   
+                GameSceneUI.Instance.OnSetTaskText(taskValue: "過關");
+
+                StartCoroutine(OnClearance());//過關
             }
             else//進入下階段
             {
