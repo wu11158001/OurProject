@@ -295,6 +295,7 @@ PlayableDirector:
     - 61abb955400ad724793c54568bc6ba17: {fileID: 0}
     - 2d1a2030521083744b0910739eb2b41b: {fileID: 0}
     - b9eec2437e2ad3c4fa2a8f2ff7e2653f: {fileID: 0}
+    - 1f27d30a386a7384d8c7808274933836: {fileID: 2115502193022739347}
     - a91fa0ab4150bca4398025eb83131a2b: {fileID: 0}
     - d77d47075dcf1d341ab1bc8381056141: {fileID: 0}
     - 83c46a72b55e6f44688f2502dbd17108: {fileID: 0}
@@ -306,10 +307,12 @@ PlayableDirector:
     - 5e6dd4067c8323f48aeecd1a6cd352ab: {fileID: 0}
     - 273667886b0685a4291f9d6bbf2ad514: {fileID: 0}
     - d8b8a0ecab891b5429e2366be6bb9ed7: {fileID: 0}
+    - b51da84a1524bc14b9685b83eb3ade1b: {fileID: 2115502193022739347}
     - 560f5a0bd579707419ac3dc7408a62da: {fileID: 0}
     - c41ae3d3fae78e244b3a1a52d4e2218e: {fileID: 0}
     - 0f62c14c825ef874e888237e55749b93: {fileID: 0}
     - 92f152942f21e184a833b099ccea9fa2: {fileID: 0}
+    - 58e203a5a621b0143b4717dbe1384133: {fileID: 2115502193022739347}
     - 1c56c0f82ae2d4940bda6a5b9de60dfd: {fileID: 0}
     - 9c7479df75d526f45ba94c0dc3a99f3b: {fileID: 0}
     - a6f6cfc6b70e39d40ad76f1705fdcda9: {fileID: 0}
@@ -623,14 +626,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: 2_Magician
       objectReference: {fileID: 0}
-    - target: {fileID: 2518987288757387525, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
 --- !u!1 &2115502193022739346 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6662459203608710164, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
+  m_PrefabInstance: {fileID: 2115502193022739345}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2115502193022739347 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2047731002751285795, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
   m_PrefabInstance: {fileID: 2115502193022739345}
   m_PrefabAsset: {fileID: 0}
