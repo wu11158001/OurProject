@@ -152,6 +152,28 @@ public class AI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// ªì©l¤Æ
+    /// </summary>
+    public void OnInitial()
+    {
+        aiState = AIState.¤@¯ëª¬ºA;
+    }
+
+    /// <summary>
+    /// AIª¬ºA
+    /// </summary>
+    enum AIState
+    {
+        ¤@¯ëª¬ºA,
+        Äµ§Ùª¬ºA,
+        °lÀ»ª¬ºA,
+        §ðÀ»ª¬ºA
+    }
+    [Header("AIª¬ºA")]
+    [SerializeField] AIState aiState = AIState.¤@¯ëª¬ºA;
+
+
+    /// <summary>
     /// ¸I¼²®Ø
     /// </summary>    
     /// <returns></returns>
@@ -183,20 +205,7 @@ public class AI : MonoBehaviourPunCallbacks
             }
         }
     }
-
-    /// <summary>
-    /// AIª¬ºA
-    /// </summary>
-    enum AIState
-    {
-        ¤@¯ëª¬ºA,
-        Äµ§Ùª¬ºA,
-        °lÀ»ª¬ºA,
-        §ðÀ»ª¬ºA
-    }
-    [Header("AIª¬ºA")]
-    [SerializeField] AIState aiState = AIState.¤@¯ëª¬ºA;
-
+    
     /// <summary>
     /// ª¬ºA¦æ¬°
     /// </summary>
