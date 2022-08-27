@@ -53,7 +53,7 @@ public class Effects : MonoBehaviour
         }
 
         //武器發光，戰士弓箭手
-        if (anim.runtimeAnimatorController.name == "1_Warrior" || anim.runtimeAnimatorController.name == "3_Archer")
+        if (anim.runtimeAnimatorController.name == "1_Warrior" )
         {
             baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
             intensity = 1f;
