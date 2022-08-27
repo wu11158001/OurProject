@@ -153,15 +153,15 @@ MonoBehaviour:
     archerSkillAttack_3_ForwardDistance: 0
     archerSkillAttack_3_attackRadius: 5
     archerSkillAttack_3_IsAttackBehind: 1
-    magicianNormalAttack_1_Damage: 30
+    magicianNormalAttack_1_Damage: 800
     magicianNormalAttack_1_RepelDirection: 0
-    magicianNormalAttack_1_Repel: 45
+    magicianNormalAttack_1_Repel: 15
     magicianNormalAttack_1_Effect: Pain
     magicianNormalAttack_1_FlightSpeed: 25
     magicianNormalAttack_1_LifeTime: 0.11
-    magicianNormalAttack_2_Damge: 12
+    magicianNormalAttack_2_Damge: 6
     magicianNormalAttack_2_RepelDirection: 0
-    magicianNormalAttack_2_RepelDistance: 20
+    magicianNormalAttack_2_RepelDistance: 10
     magicianNormalAttack_2_Effect: Pain
     magicianNormalAttack_2_ForwardDistance: 1.5
     magicianNormalAttack_2_attackRange: {x: 1, y: 1, z: 3.3}
@@ -269,5 +269,5 @@ MonoBehaviour:
     enemySoldier1_Attack_3_ForwardDistance: 1.4
     enemySoldier1_Attack_3_attackRadius: 1.3
     enemySoldier1_Attack_3_IsAttackBehind: 0
-    enemySoldier1_Hp: 300
-    enemySoldier2_Hp: 300
+    enemySoldier1_Hp: 90
+    enemySoldier2_Hp: 90

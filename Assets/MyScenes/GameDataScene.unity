@@ -374,7 +374,7 @@ MonoBehaviour:
     enemySoldier1_Attack_3_attackRadius: 1.3
     enemySoldier1_Attack_3_IsAttackBehind: 0
     enemySoldier1_Hp: 1000
-    enemySoldier2_Hp: 1000
+    guardBoss_Hp: 50
   loadPath:
     roleSelect_Button: RoleSelectButton
     roleSelect_Sprite: Sprites/ChooseRoleScreen/Role
