@@ -5095,7 +5095,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 776677ab3818fb249adaca05f4e04545, type: 2}
+  - {fileID: 2100000, guid: 15dbbf77d6a39a24cb815e8c348718ae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5200,12 +5200,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'RightHandMiddle2'\n\tTransform 'LeftHandRing2'\n\tTransform
-    'Spine1'\n\tTransform 'RightHandPinky2'\n\tTransform 'Neck'\n\tTransform 'LeftHandThumb1'\n\tTransform
-    'RightHandThumb3'\n\tTransform 'RightForeArm'\n\tTransform 'LeftLeg'\n\tTransform
-    'RightHandThumb1'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -56119,7 +56114,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 776677ab3818fb249adaca05f4e04545, type: 2}
+  - {fileID: 2100000, guid: 385d2d0405ed7ee46ac667cf9096f939, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -61184,7 +61179,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 698a8134f4ebbbd4e848648685f68067, type: 2}
+  - {fileID: 2100000, guid: e2a7168082bbfc943aa47fb108e7f367, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -61218,7 +61213,7 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0.29, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 1
+  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
@@ -65932,7 +65927,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 776677ab3818fb249adaca05f4e04545, type: 2}
+  - {fileID: 2100000, guid: 96962d3838327b847967ded23831404e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75603,7 +75598,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d7f098ed9997e714193be5e86df013f4, type: 2}
+  - {fileID: 2100000, guid: 84a720c93b6bc474ebb6586cc77c29b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105192,7 +105187,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 776677ab3818fb249adaca05f4e04545, type: 2}
+  - {fileID: 2100000, guid: 89b09e38dd267af4eb139f2e93f7a85e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114863,7 +114858,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d7f098ed9997e714193be5e86df013f4, type: 2}
+  - {fileID: 2100000, guid: 703bde73468e9e24a8cb29a5d824625f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119588,7 +119583,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 698a8134f4ebbbd4e848648685f68067, type: 2}
+  - {fileID: 2100000, guid: ab1726ed729abdb44a4c84276555b6e1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119622,7 +119617,7 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0.29, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 1
+  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
@@ -119839,6 +119834,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7006983343297914961, guid: 0fe7dea770b1e60428f2405c79b9dac9, type: 3}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7006983343316266257, guid: 0fe7dea770b1e60428f2405c79b9dac9, type: 3}
+      propertyPath: SubModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7006983343316266257, guid: 0fe7dea770b1e60428f2405c79b9dac9, type: 3}
+      propertyPath: SubModule.subEmitters.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7099308858545025705, guid: 0fe7dea770b1e60428f2405c79b9dac9, type: 3}

@@ -626,6 +626,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 2_Magician
       objectReference: {fileID: 0}
+    - target: {fileID: 2518987288757387525, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
 --- !u!1 &2115502193022739346 stripped
