@@ -19,7 +19,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
     Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
 
+    //出生點
     Transform[] enemySoldiers_1Point;//敵人士兵_1出生點
+    Transform guardBoss_Point;//城門首衛Boss_出生點
+
+    //任務
+    string[] taskText;//各階段任務文字
+    int taskStage;//目前任務階段
+    public int[] taskKillNumber;//各階段任務所需擊殺數
+    public int KillEnemyNumber;//已擊殺怪物數量
 
     void Awake()
     {       
@@ -90,51 +98,86 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
                 enemy.tag = "EnemySoldier_1";//設定Tag判斷HP
                 OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
-            }
+            }           
         }
 
-        /*//敵人士兵2
-        if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
-        {
-            number = objectHandle.OnCreateObject(loadPath.enemySoldier_2);//產生至物件池
-            objectNumber_Dictionary.Add("enemySoldier_2", number);////添加至紀錄中
+        //城門首衛Boss_出生點
+        guardBoss_Point = GameObject.Find("GuardBoss_Point").transform.GetChild(0);
 
-            for (int i = 0; i < 1; i++)
-            {
-                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
-                enemy.transform.position = new Vector3(180, -24, -33);//設定位置
-                enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
-                OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
-            }
-        }*/
+        //任務
+        taskText = new string[] { "擊倒該區域所有怪物", "擊倒城門守衛", "擊倒城內區域所有怪物" };//個階段任務文字
+        taskKillNumber = new int[] { enemySoldiers_1Point.Length, 1, 3 };//各階段任務所需擊殺數               
+
+        //任務提示
+        StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
+
+        //任務文字
+        OnTaskText();
     }
 
     void Update()
-    {        
-        OnAttackBehavior();   
-        
-       /* if(Input.GetKeyDown(KeyCode.O))
-        {
-            if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
-            {
-                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
-                CharactersCollision collision = enemy.GetComponent<CharactersCollision>();
-                if (collision != null) collision.OnInitial();//初始化
-                enemy.transform.position = new Vector3(182, -24, -33);//設定位置        
-                OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
-            }
-
-            if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
-            {
-                GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
-                CharactersCollision collision = enemy.GetComponent<CharactersCollision>();
-                if (collision != null) collision.OnInitial();//初始化
-                enemy.transform.position = new Vector3(180, -24, -33);//設定位置        
-                OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
-            }
-        }*/
+    {
+        //攻擊行為
+        OnAttackBehavior();
     }
+
     #region 一般
+    /// <summary>
+    /// 任務提示
+    /// </summary>
+    /// <param name="value">任務提示文字</param>
+    /// <returns></returns>
+    public IEnumerator OnTaskTipText(string taskTipValue)
+    {
+        yield return new WaitForSeconds(2);
+
+        //設定提示文字(任務提示)
+        GameSceneUI.Instance.OnSetTip(tip: taskTipValue, showTime: 5);
+    }
+
+    /// <summary>
+    /// 任務文字
+    /// </summary>
+    /// <param name="taskValue">任務文字</param>
+    public void OnTaskText()
+    {
+        //任務判定
+        OnJudgeTask();
+
+        //設定任務文字
+        GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage]+ "\n目標:" + KillEnemyNumber + "/" + taskKillNumber[taskStage]);        
+    }
+
+    /// <summary>
+    /// 任務判定
+    /// </summary>
+    void OnJudgeTask()
+    {
+        //已擊殺怪物數量 >= 任務所需擊殺數
+        if (KillEnemyNumber >= taskKillNumber[taskStage])
+        {
+            taskStage+=1;//目前任務階段
+            KillEnemyNumber = 0;//已擊殺怪物數量                                
+            StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage]));//任務提示   
+            GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n目標:" + KillEnemyNumber + "/" + taskKillNumber[taskStage]);
+        }
+
+        //關卡1_任務2
+        if(taskStage == 1)
+        {
+            //產生城門守衛Boss
+            int number = 0;
+            number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
+            objectNumber_Dictionary.Add("enemyGuardBoss", number);////添加至紀錄中
+
+            GameObject enemy = OnRequestOpenObject(OnGetObjectNumber("enemyGuardBoss"), loadPath.enemySoldier_1);//開啟物件
+            enemy.transform.position = guardBoss_Point.position;//設定位置
+            enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
+            enemy.tag = "GuardBoss";//設定Tag判斷HP
+            OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+        }
+    }
+
     /// <summary>
     /// 攻擊行為
     /// </summary>

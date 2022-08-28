@@ -75,8 +75,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case "EnemySoldier_1":
                 MaxHp = NumericalValue.enemySoldier1_Hp;
                 break;
-            case "EnemySoldier_2":
-                MaxHp = NumericalValue.enemySoldier1_Hp;
+            case "GuardBoss":
+                MaxHp = NumericalValue.guardBoss_Hp;
                 break;
         }
 
@@ -419,6 +419,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 isDie = true;
                 animator.SetTrigger("Die");
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
+
+                if(gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                {
+                    //任務文字
+                    GameSceneManagement.Instance.KillEnemyNumber += 1;//已擊殺怪物數量
+                    GameSceneManagement.Instance.OnTaskText();//任務文字        
+                }
                 return;
             }
          

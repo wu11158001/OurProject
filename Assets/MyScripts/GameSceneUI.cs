@@ -34,8 +34,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     bool isGameOver;//是否遊戲結束
 
     [Header("提示文字")]
-    Text tip_Text;//提示文字
+    public Text tip_Text;//提示文字
     float tipTime;//文字顯示時間
+    public Text task_Text;//任務文字
 
     void Awake()
     {
@@ -101,6 +102,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //其他
         tip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Tip_Text");//提示文字
         tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
+        task_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Task_Text");//任務文字
     }
         
     void Update()
@@ -235,5 +237,14 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             tipTime -= Time.deltaTime;
             tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
         }
+    }
+
+    /// <summary>
+    /// 設定任務文字
+    /// </summary>
+    /// <param name="taskValue">任務文字</param>
+    public void OnSetTaskText(string taskValue)
+    {
+        task_Text.text = taskValue;
     }
 }

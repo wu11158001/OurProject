@@ -231,8 +231,8 @@ public class GameData_NumericalValue
 
     [Header("敵人士兵1")]
     public float enemySoldier1_Hp;//敵人士兵1_生命值
-    [Header("敵人士兵2")]
-    public float enemySoldier2_Hp;//敵人士兵2_生命值
+    [Header("城門守衛Boss")]
+    public float guardBoss_Hp;//城門守衛Boss_生命值
 
     /// <summary>
     /// 建構子
@@ -374,17 +374,17 @@ public class GameData_NumericalValue
 
         #region 法師
         //法師普通攻擊1
-        magicianNormalAttack_1_Damage = 30;//法師普通攻擊1_傷害
+        magicianNormalAttack_1_Damage = 800;//法師普通攻擊1_傷害
         magicianNormalAttack_1_RepelDirection = 0;//法師普通攻擊1_擊退方向(0:擊退 1:擊飛)
-        magicianNormalAttack_1_Repel = 45;//法師普通攻擊1_擊退距離        
+        magicianNormalAttack_1_Repel = 15;//法師普通攻擊1_擊退距離        
         magicianNormalAttack_1_Effect = "Pain";//法師普通攻擊1_效果(受擊者播放的動畫名稱)
         magicianNormalAttack_1_FlightSpeed = 25;//法師普通攻擊1_飛行速度
         magicianNormalAttack_1_LifeTime = 0.11f;//法師普通攻擊1_生存時間
 
         //法師普通攻擊2
-        magicianNormalAttack_2_Damge = 12;//法師普通攻擊2_傷害
+        magicianNormalAttack_2_Damge = 6;//法師普通攻擊2_傷害
         magicianNormalAttack_2_RepelDirection = 0;//法師普通攻擊2_擊退方向(0:擊退 1:擊飛)
-        magicianNormalAttack_2_RepelDistance = 20;//法師普通攻擊2_擊退/擊飛距離    
+        magicianNormalAttack_2_RepelDistance = 10;//法師普通攻擊2_擊退/擊飛距離    
         magicianNormalAttack_2_Effect = "Pain";//法師普通攻擊2_效果(受擊者播放的動畫名稱)        
         magicianNormalAttack_2_ForwardDistance = 1.5f;//法師普通攻擊2_攻擊範圍中心點距離物件前方
         magicianNormalAttack_2_attackRange = new Vector3(1, 1f, 3.3f);//法師普通攻擊2_攻擊範圍
@@ -463,8 +463,8 @@ public class GameData_NumericalValue
         #endregion
 
         //敵人
-        enemySoldier1_Hp = 300;//敵人士兵1_生命值
-        enemySoldier2_Hp = 300;//敵人士兵2_生命值
+        enemySoldier1_Hp = 90;//敵人士兵1_生命值
+        guardBoss_Hp = 50;//城門守衛Boss_生命值
     }
 }
 

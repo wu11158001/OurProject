@@ -236,25 +236,17 @@ public class Effects : MonoBehaviour
     {
         var idelName = "Attack.NormalAttack_3";         //動作名稱      
         var effect = NormalAttack_3;                    //特效名稱
-        float delay0 = 0.01f;
-        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();  //地光
-        DoEffects(idelName, delay0, NormalAttack_30);
-
-        float delay1 = 0.2f;
-        var NormalAttack_31 = effect.transform.GetChild(1).GetComponent<ParticleSystem>();  //風
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay1 && !NormalAttack_31.isPlaying)
+        float delay = 0.01f;
+      
+        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();  
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !NormalAttack_30.isPlaying)
         {
-            NormalAttack_31.Play();
-            if (animInfo.normalizedTime > delay1 + 0.1f) effect.Stop();
+            NormalAttack_30.Play();
+            if (animInfo.normalizedTime > delay + 0.1f) effect.Stop();
         }
-
-        var NormalAttack_35 = effect.transform.GetChild(6).GetComponent<ParticleSystem>();
-        float delay5 = 0.35f;                            //控制播放時間點，面板務必保持為0   
-        DoEffects(idelName, delay5, NormalAttack_35);
-
-        var NormalAttack_36 = effect.transform.GetChild(7).GetComponent<ParticleSystem>();
-        float delay6 = 0.35f;                            //控制播放時間點，面板務必保持為0   
-        DoEffects(idelName, delay6, NormalAttack_36);
+        
+        DoEffects(idelName, 0.35f, effect.transform.GetChild(1).GetComponent<ParticleSystem>());                           
+        DoEffects(idelName, 0.35f, effect.transform.GetChild(2).GetComponent<ParticleSystem>());
 
 
         if (animInfo.IsName(idelName))
