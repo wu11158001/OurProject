@@ -245,7 +245,7 @@ public class GameData_NumericalValue
         levelNames = new string[] { "橫掃千軍", "人中之龍"};//關卡名稱
 
         //Buff增加數值
-        buffAbleString = new string[] { "生命", "傷害", "防禦", "吸血", "移動", "受療" };//Buff增益文字
+        buffAbleString = new string[] { "生命", "傷害", "防禦", "吸血", "移動", "回血" };//Buff增益文字
         buffAbleValue = new float[] { 30, 25, 25, 20, 25, 25};//Buff增益數值(%)
 
         //攝影機
