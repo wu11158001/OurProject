@@ -318,6 +318,21 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 發送更新任務
+    /// </summary>
+    public void OnSendRenewTask()
+    {
+        photonView.RPC("OnRenewTask", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    void OnRenewTask(PhotonMessageInfo info)
+    {
+        GameSceneManagement.Instance.KillEnemyNumber += 1;//已擊殺怪物數量
+        GameSceneManagement.Instance.OnTaskText();//任務文字
+    }
+
+    /// <summary>
     /// 發送遊戲提示文字
     /// </summary>
     /// <param name="nickName">發送者暱稱</param>

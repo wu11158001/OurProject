@@ -77,7 +77,7 @@ public class AI : MonoBehaviourPunCallbacks
     int attackIdleMoveDiretion;//§ðÀ»«Ý¾÷²¾°Ê¤è¦V(0 = ¤£²¾°Ê, 1 = ¥k, 2 = ¥ª)
 
     [Header("´M¸ô")]
-    bool isExecuteAStart;//¬O§_°õ¦æAStart
+    [SerializeField] bool isExecuteAStart;//¬O§_°õ¦æAStart
     List<Vector3> pathsList = new List<Vector3>();//²¾°Ê¸ô®|¸`ÂI  
     int point = 0;//´M¸ô¸`ÂI½s¸¹        
 
@@ -152,6 +152,29 @@ public class AI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// ªì©l¤Æ
+    /// </summary>
+    public void OnInitial()
+    {
+        aiState = AIState.¤@¯ëª¬ºA;
+        isExecuteAStart = false;//¬O§_°õ¦æAStart
+    }
+
+    /// <summary>
+    /// AIª¬ºA
+    /// </summary>
+    enum AIState
+    {
+        ¤@¯ëª¬ºA,
+        Äµ§Ùª¬ºA,
+        °lÀ»ª¬ºA,
+        §ðÀ»ª¬ºA
+    }
+    [Header("AIª¬ºA")]
+    [SerializeField] AIState aiState = AIState.¤@¯ëª¬ºA;
+
+
+    /// <summary>
     /// ¸I¼²®Ø
     /// </summary>    
     /// <returns></returns>
@@ -183,20 +206,7 @@ public class AI : MonoBehaviourPunCallbacks
             }
         }
     }
-
-    /// <summary>
-    /// AIª¬ºA
-    /// </summary>
-    enum AIState
-    {
-        ¤@¯ëª¬ºA,
-        Äµ§Ùª¬ºA,
-        °lÀ»ª¬ºA,
-        §ðÀ»ª¬ºA
-    }
-    [Header("AIª¬ºA")]
-    [SerializeField] AIState aiState = AIState.¤@¯ëª¬ºA;
-
+    
     /// <summary>
     /// ª¬ºA¦æ¬°
     /// </summary>

@@ -633,6 +633,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     {
         background_Image.enabled = false;
         levelScreen.gameObject.SetActive(false);
+        GameDataManagement.Instance.selectLevelNumber = level - 1;//選擇的關卡
         StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene" + level));        
     }   
 
