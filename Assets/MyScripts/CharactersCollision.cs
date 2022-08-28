@@ -113,6 +113,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public void OnInitial()
     {
         Hp = MaxHp;
+        GetComponent<BoxCollider>().enabled = true;//開啟碰撞框
+
+        if (isDie)
+        {
+            isDie = false;
+            animator.SetBool("Pain", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", false);
+        }
 
         //生命條(頭頂)
         if (lifeBar != null)
@@ -293,7 +301,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                              damage: MaxHp * (heal / 100),//受到治療
                              color: isCritical ? Color.green : Color.green,//文字顏色
                              isCritical: isCritical);//是否爆擊
-        Debug.LogError(Hp + ":" + transform.name);
+        
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
         if (gameObject.layer == LayerMask.NameToLayer("Player") && photonView.IsMine) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
     }
@@ -342,18 +350,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 Vector3 targetPosition = transform.position;//受擊者向量
                 targetPosition.y = 0;
                 transform.forward = attackerPosition - targetPosition;
-            }
-
-            //產生文字            
-            HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
-            hitNumber.OnSetValue(target: transform,//受傷目標
-                                 damage: getDamge,//受到傷害
-                                 color: isCritical ? Color.red : Color.red,//文字顏色
-                                 isCritical: isCritical);//是否爆擊
+            }                        
 
             //命中特效
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
+                //產生文字            
+                HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
+                hitNumber.OnSetValue(target: transform,//受傷目標
+                                     damage: getDamge,//受到傷害
+                                     color: isCritical ? Color.yellow : Color.red,//文字顏色
+                                     isCritical: isCritical);//是否爆擊
+
                 if (attackerObject.GetComponent<Effects>()!=null )                   
                 {
                      attackerObject.GetComponent<Effects>().HitEffect(attackerObject, gameObject.GetComponent<Collider>());
@@ -420,11 +428,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 animator.SetTrigger("Die");
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
 
+                GetComponent<BoxCollider>().enabled = false;//關閉碰撞框               
+
                 if(gameObject.layer == LayerMask.NameToLayer("Enemy"))
                 {
                     GameSceneManagement.Instance.KillEnemyNumber += 1;//已擊殺怪物數量
                     GameSceneManagement.Instance.OnTaskText();//任務文字
-                    PhotonConnect.Instance.OnSendRenewTask();//更新任務
+                    
+                    //連線
+                    if (GameDataManagement.Instance.isConnect)
+                    {
+                        PhotonConnect.Instance.OnSendRenewTask();//更新任務
+                    }
                 }
                 return;
             }
@@ -481,14 +496,22 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         Hp -= damage;//生命值減少
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
          
+        if(Hp <= 0)
+        {
+            GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
+        }
+
         if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
-        //產生文字
-        HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
-        hitNumber.OnSetValue(target: transform,//受傷目標
-                             damage: damage,//受到傷害
-                             color: isCritical ? Color.yellow : Color.red,//文字顏色
-                             isCritical: isCritical);//是否爆擊
+        if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            //產生文字
+            HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
+            hitNumber.OnSetValue(target: transform,//受傷目標
+                                 damage: damage,//受到傷害
+                                 color: isCritical ? Color.yellow : Color.red,//文字顏色
+                                 isCritical: isCritical);//是否爆擊
+        }
 
         //判斷擊中效果
         switch (knockDirection)
@@ -766,16 +789,20 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         animator.SetBool("Fall", isFall);
         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Fall", isFall);
 
-        if (info.IsName("Jump")) animator.SetBool("Jump", false);
-        if (info.IsName("JumpAttack")) animator.SetBool("JumpAttack", false);
-        if (info.IsName("Dodge")) animator.SetBool("Dodge", false);
-        if (info.IsName("Pain")) animator.SetBool("Pain", false);
-        if (GameDataManagement.Instance.isConnect)
+        //玩家執行
+        if (gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", isFall);
-            PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "JumpAttack", isFall);
-            PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Dodge", isFall);
-            PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", isFall);
+            if (info.IsName("Jump")) animator.SetBool("Jump", false);
+            if (info.IsName("JumpAttack")) animator.SetBool("JumpAttack", false);
+            if (info.IsName("Dodge")) animator.SetBool("Dodge", false);
+            if (info.IsName("Pain")) animator.SetBool("Pain", false);
+            if (GameDataManagement.Instance.isConnect)
+            {
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", isFall);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "JumpAttack", isFall);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Dodge", isFall);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", isFall);
+            }
         }
     }
 

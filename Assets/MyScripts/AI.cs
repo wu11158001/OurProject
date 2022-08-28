@@ -26,7 +26,7 @@ public class AI : MonoBehaviourPunCallbacks
     bool isNormalMove;//是否一般狀態已經移動
     Vector3 originalPosition;//初始位置
     Vector3 forwardVector;//移動目標向量    
-    [SerializeField]float normalStateTime;//一般狀態移動時間(計時器)
+    float normalStateTime;//一般狀態移動時間(計時器)
     float normalRandomMoveTime;//一般狀態亂數移動時間
     float normalRandomAngle;//一般狀態亂數選轉角度
 
@@ -53,8 +53,8 @@ public class AI : MonoBehaviourPunCallbacks
     int chaseDiretion;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)       
 
     [Header("檢查同伴")]
-     float changeDiretionTime_Forward;//更換方向時間_前方偵測(計時器)
-     float changeDiretionTime_Near;//更換方向時間_左右方偵測(計時器)
+    float changeDiretionTime_Forward;//更換方向時間_前方偵測(計時器)
+    float changeDiretionTime_Near;//更換方向時間_左右方偵測(計時器)
     float changeDiretionTime;//更換方向時間 
     float chaseSlowDownSpeed;//追擊減速速度
     bool isPauseChase;//是否暫停追擊
@@ -1111,9 +1111,9 @@ public class AI : MonoBehaviourPunCallbacks
         }
 
         //前方同伴偵測範圍
-        float chechSize = 1;
+       /* float chechSize = 1;
         Gizmos.color = Color.gray;
-        Gizmos.DrawWireCube(transform.position + charactersCollision.boxCenter + transform.forward * (charactersCollision.boxSize.x + chechSize / 2), new Vector3(chechSize, 1, chechSize));
+        Gizmos.DrawWireCube(transform.position + charactersCollision.boxCenter + transform.forward * (charactersCollision.boxSize.x + chechSize / 2), new Vector3(chechSize, 1, chechSize));*/
 
         /*//攻擊範圍測試
         Gizmos.color = Color.gray;

@@ -198,7 +198,6 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         enemy.transform.position = guardBoss_Stage2Point.position;//設定位置
                         enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
                         enemy.tag = "GuardBoss";//設定Tag判斷HP
-                        //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         break;
                     case 2://階段3
                         //產生敵人士兵1

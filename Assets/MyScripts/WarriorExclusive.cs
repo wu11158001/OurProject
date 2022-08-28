@@ -225,7 +225,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
     {
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
-
+        
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
         float getDamage = (NumericalValue.warriorNormalAttack_3_Damge + (NumericalValue.warriorNormalAttack_3_Damge * addDamage)) * rate;//造成傷害

@@ -1613,7 +1613,6 @@ MonoBehaviour:
   - 0
   - 0
   normalStateMoveSpeed: 0
-  normalStateTime: 0
   alertToChaseTime: 0
   leaveAlertRadiusAlertTime: 0
   chaseSpeed: 0

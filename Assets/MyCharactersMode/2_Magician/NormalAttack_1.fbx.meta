@@ -59,21 +59,21 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.358742
+      - time: 0.34853792
         functionName: OnNormalAttack1_Magician
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.45454547
+      - time: 0.52852505
         functionName: OnNormalAttack1_Magician
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.55519485
+      - time: 0.68784785
         functionName: OnNormalAttack1_Magician
         data: 
         objectReferenceParameter: {instanceID: 0}
