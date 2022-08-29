@@ -45,8 +45,8 @@ public class CameraControl : MonoBehaviour
 
     private void Start()
     {
-        lerpSpeed = 0.35f;//選轉速度
-        rotateSpeed = 0.6f;//選轉速度
+        lerpSpeed = 0.1f;//選轉速度
+        rotateSpeed = 0.75f;//選轉速度
         waitMoveTime = 1;//等待移動時間
     }
 
@@ -105,12 +105,16 @@ public class CameraControl : MonoBehaviour
         }     
         else
         {
-            if (isCollsion && distance < NumericalValue.distance)
+            if (isCollsion && distance < NumericalValue.distance)//攝影機離開障礙物減速
             {
-                //moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);//攝影機離開障礙物減速
+                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);
+            }
+            else//一般狀態
+            {                
+                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);
             }
         }
-        //moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);//攝影機離開障礙物減速
+        
         transform.position = moveTarget;
         transform.forward = lookPoint.position - transform.position; 
     }
