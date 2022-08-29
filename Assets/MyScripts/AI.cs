@@ -104,12 +104,49 @@ public class AI : MonoBehaviourPunCallbacks
 
         aStart.initial();
         charactersCollision = GetComponent<CharactersCollision>();
+        
+        //判斷角色
+        switch(gameObject.tag)
+        {
+            case "EnemySoldier_1":
+                //偵測範圍
+                normalStateMoveRadius = 2.5f;//一般狀態移動範圍
+                alertRadius = 12;//警戒範圍
+                chaseRadius = 8;//追擊範圍
+                attackRadius = 2.5f;//攻擊範圍
 
-        //偵測範圍
-        normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-        alertRadius = 12;//警戒範圍
-        chaseRadius = 8;//追擊範圍
-        attackRadius = 2.5f;//攻擊範圍
+                //追擊狀態
+                chaseSpeed = 5.3f;//追擊速度
+                readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+
+                //攻擊狀態
+                attackFrequency = new float[2] { 0.5f, 2.75f };//攻擊頻率(亂數最小值, 最大值)  
+                maxAttackNumber = 3;//可使用攻擊招式
+
+                //攻擊待機
+                attackIdleMoveSpeed = 1;//攻擊待機移動速度
+                backMoveDistance = 2.0f;//距離玩家多近向後走
+                break;
+            case "GuardBoss":
+                //偵測範圍
+                normalStateMoveRadius = 2.5f;//一般狀態移動範圍
+                alertRadius = 35;//警戒範圍
+                chaseRadius = 30;//追擊範圍
+                attackRadius = 2.5f;//攻擊範圍
+
+                //追擊狀態
+                chaseSpeed = 6.3f;//追擊速度
+                readyChaseRandomTime = new float[] { 0.5f, 1.0f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+
+                //攻擊狀態
+                attackFrequency = new float[2] { 0.5f, 1.0f };//攻擊頻率(亂數最小值, 最大值)  
+                maxAttackNumber = 4;//可使用攻擊招式
+
+                //攻擊待機
+                attackIdleMoveSpeed = 3;//攻擊待機移動速度
+                backMoveDistance = 2.0f;//距離玩家多近向後走
+                break;
+        }        
 
         //一般狀態
         originalPosition = transform.position;//初始位置
@@ -120,7 +157,7 @@ public class AI : MonoBehaviourPunCallbacks
         //警戒狀態        
         if (GameDataManagement.Instance.isConnect) allPlayers = new GameObject[PhotonNetwork.CurrentRoom.PlayerCount];//所有玩家
         else allPlayers = new GameObject[1];
-        CheckPlayerDistanceTime = 3;//偵測玩家距離時間
+        CheckPlayerDistanceTime = 2;//偵測玩家距離時間
         alertToChaseTime = 1.5f;//警戒到追擊時間
         leaveAlertRadiusAlertTime = 3;//離開警戒範圍警戒時間
         leaveAlertTime = leaveAlertRadiusAlertTime;//離開警戒範圍警戒時間(計時器)
@@ -129,18 +166,8 @@ public class AI : MonoBehaviourPunCallbacks
         isCheckNearCompanion = new bool[2] { false, false};//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
 
         //追擊狀態
-        chaseSpeed = 5.3f;//追擊速度
-        maxRadiansDelta = 0.085f;//轉向角度
-        readyChaseRandomTime = new float[] { 0.5f, 2.3f};//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
-        changeDiretionTime = 0.5f;//更換方向時間
-
-        //攻擊狀態
-        attackFrequency = new float[2] { 0.5f, 2.75f};//攻擊頻率(亂數最小值, 最大值)  
-        maxAttackNumber = 3;//可使用攻擊招式
-
-        //攻擊待機
-        attackIdleMoveSpeed = 1;//攻擊待機移動速度
-        backMoveDistance = 2.0f;//距離玩家多近向後走
+        maxRadiansDelta = 0.085f;//轉向角度        
+        changeDiretionTime = 0.5f;//更換方向時間        
     }
 
     void Update()
@@ -642,9 +669,27 @@ public class AI : MonoBehaviourPunCallbacks
                 isAttackIdle = false;//非攻擊待機               
 
                 //攻擊招式
-                if ((transform.position - allPlayers[chaseObject].transform.position).magnitude < backMoveDistance) attackNumber = 4;
-                else if ((transform.position - allPlayers[chaseObject].transform.position).magnitude >= backMoveDistance) attackNumber = 1;
-                else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
+                if ((transform.position - allPlayers[chaseObject].transform.position).magnitude < backMoveDistance)//近身攻擊
+                {
+                    attackNumber = maxAttackNumber;
+                }
+                else if ((transform.position - allPlayers[chaseObject].transform.position).magnitude >= backMoveDistance)//衝刺攻擊
+                {
+                    switch(gameObject.tag)
+                    {
+                        case "EnemySoldier_1":
+                            attackNumber = 1;
+                            break;
+                        case "GuardBoss":
+                            attackNumber = UnityEngine.Random.Range(1,3);
+                            Debug.LogError(attackNumber);
+                            break;
+                    }                    
+                }
+                else//一般攻擊
+                {
+                    attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
+                }
                 OnChangeState(state: AIState.攻擊狀態, openAnimationName: "AttackNumber", closeAnimationName: "Run", animationType: attackNumber);
 
                 //離開戰鬥後亂數開始追擊時間(計時器)

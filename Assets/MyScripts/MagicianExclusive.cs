@@ -69,7 +69,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.magicianSkillAttack_1_attackRange;//治療半徑
         attack.isAttackBehind = NumericalValue.magicianSkillAttack_1_IsAttackBehind;//法師普通攻擊1_是否治療背後盟友
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)   
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.magicianSkillAttack_2_attackRadius[number];//攻擊半徑
         attack.isAttackBehind = NumericalValue.magicianSkillAttack_2_IsAttackBehind[number];//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)   
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.magicianSkillAttack_3_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.magicianSkillAttack_3_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)   
     }
 
     /// <summary>
@@ -190,7 +190,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.magicianJumpAttack_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.magicianJumpAttack_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)
 
         playerControl.isJumpAttackMove = true;//跳躍攻擊下降
     }
@@ -223,7 +223,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.flightDiration = transform.forward;//飛行方向        
         attack.performObject.transform.position = transform.position + GetComponent<BoxCollider>().center + transform.forward * 1;//射出位置
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                 
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)                 
     }
 
     /// <summary>
@@ -252,7 +252,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.attackRange = NumericalValue.magicianNormalAttack_2_attackRange;//攻擊範圍
         attack.isAttackBehind = NumericalValue.magicianNormalAttack_2_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
     }
 
     /// <summary>
@@ -281,6 +281,6 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.magicianNormalAttack_3_attackRadius;//攻擊範圍
         attack.isAttackBehind = NumericalValue.magicianNormalAttack_3_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
     }
 }

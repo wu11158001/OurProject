@@ -93,12 +93,12 @@ public class AttackMode
             if (collision != null)
             {
                 //是否攻擊背後敵人
-                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.5f) continue;
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.35f) continue;
                 OnSetHealNumbericalValue(collision);
             }
         }
 
-        GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+        GameSceneManagement.Instance.AttackMode_List.Remove(this);
     }
 
     /// <summary>
@@ -115,12 +115,12 @@ public class AttackMode
             if (collision != null)
             {                
                 //是否攻擊背後敵人
-                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.5f) continue;
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.35f) continue;
                 OnSetAttackNumbericalValue(collision);
             }
         }   
 
-       GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+       GameSceneManagement.Instance.AttackMode_List.Remove(this);
     }
 
     /// <summary>
@@ -137,12 +137,12 @@ public class AttackMode
             if (collision != null)
             {
                 //是否攻擊背後敵人
-                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.5f) continue;
+                if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.35f) continue;
                 OnSetAttackNumbericalValue(collision);
             }
         }
 
-        GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+        GameSceneManagement.Instance.AttackMode_List.Remove(this);
     }    
 
     /// <summary>
@@ -156,7 +156,7 @@ public class AttackMode
         {
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
             performObject.SetActive(false);
-            GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+            GameSceneManagement.Instance.AttackMode_List.Remove(this);
         }
 
         //設定前方
@@ -207,7 +207,7 @@ public class AttackMode
                 //物件關閉
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
                 performObject.SetActive(false);
-                GameSceneManagement.Instance.AttackBehavior_List.Remove(this);
+                GameSceneManagement.Instance.AttackMode_List.Remove(this);
                 return;
             }
         }

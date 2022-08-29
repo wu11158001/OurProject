@@ -29,10 +29,11 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     bool isSendRun;//是否已發送移動動畫       
 
     //跳躍
-    [SerializeField] public bool isJump;//是否跳躍
-    [SerializeField] bool isJumpTimeCountdown;//可執行跳躍倒數(倒數時不能跳躍)
-    [SerializeField] float doJumpTime;//執行跳躍時間間隔
-    [SerializeField] float JumpTime;//執行跳躍時間間隔(計時器)   
+    public bool isJump;//是否跳躍
+    bool isJumpTimeCountdown;//可執行跳躍倒數(倒數時不能跳躍)
+    float doJumpTime;//執行跳躍時間間隔
+    float JumpTime;//執行跳躍時間間隔(計時器)   
+    bool isSendClosePain;//是否已關閉受傷動畫
 
     //閃躲
     bool isDodge;//是否閃躲
@@ -439,11 +440,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJumpControl()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumpTimeCountdown && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall"))
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumpTimeCountdown && !isJump && !isNormalAttack && !isSkillAttack && !info.IsName("Dodge") && !info.IsName("Fall") && !info.IsName("Pain"))
         {            
             isJump = true;
             isNormalAttack = false;
             isJumpTimeCountdown = true;//可執行跳躍倒數                        
+            isSendClosePain = false;//是否已關閉受傷動畫
 
             charactersCollision.floating_List.Add(new CharactersFloating { target = transform, force = NumericalValue.playerJumpForce, gravity = NumericalValue.gravity});//浮空List
 
@@ -499,6 +501,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     if (isJumpAttack) isJumpAttackMove = false;
                 }
             }        
+        }
+
+        //跳躍時受攻擊
+        if(isJump && info.IsTag("Pain") && !isSendClosePain)
+        {            
+            isSendClosePain = true;//是否已關閉受傷動畫
+            animator.SetBool("Pain", false);
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", false);
         }
     }
 

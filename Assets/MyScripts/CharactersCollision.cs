@@ -350,18 +350,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 Vector3 targetPosition = transform.position;//受擊者向量
                 targetPosition.y = 0;
                 transform.forward = attackerPosition - targetPosition;
-            }                        
+            }
+
+            //產生文字            
+            HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
+            hitNumber.OnSetValue(target: transform,//受傷目標
+                                 damage: getDamge,//受到傷害
+                                 color: isCritical ? Color.yellow : Color.red,//文字顏色
+                                 isCritical: isCritical);//是否爆擊            
 
             //命中特效
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                //產生文字            
-                HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
-                hitNumber.OnSetValue(target: transform,//受傷目標
-                                     damage: getDamge,//受到傷害
-                                     color: isCritical ? Color.yellow : Color.red,//文字顏色
-                                     isCritical: isCritical);//是否爆擊
-
+            {               
                 if (attackerObject.GetComponent<Effects>()!=null )                   
                 {
                      attackerObject.GetComponent<Effects>().HitEffect(attackerObject, gameObject.GetComponent<Collider>());
@@ -461,9 +461,17 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
            
             //待機 & 奔跑 才執行受擊動畫
             if (info.IsTag("Idle") || info.IsTag("Run"))
-            {                
-                animator.SetBool(animationName, true);
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, true);
+            {
+                //玩家跳躍狀態
+                if (gameObject.layer == LayerMask.NameToLayer("Player") && GetComponent<PlayerControl>().isJump)
+                {
+
+                }
+                else
+                {
+                    animator.SetBool(animationName, true);
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, true);
+                }
             }
 
             //不是連線 || 是房主

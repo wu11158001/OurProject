@@ -262,20 +262,20 @@ public class GameData_NumericalValue
     [Header("守衛Boss 攻擊1")]
     public float guardBoss_Attack_1_Damge;//守衛Boss_攻擊1_傷害
     public int guardBoss_Attack_1_RepelDirection;//守衛Boss_攻擊1_擊退方向(0:擊退 1:擊飛)
-    public float guardBoss_Attack_1_RepelDistance;//敵人士兵1_攻擊1_擊退/擊飛距離    
-    public string guardBoss_Attack_1_Effect;//敵人士兵1_攻擊1_效果(受擊者播放的動畫名稱)        
-    public float guardBoss_Attack_1_ForwardDistance;//敵人士兵1_攻擊1_攻擊範圍中心點距離物件前方
-    public float guardBoss_Attack_1_attackRadius;//敵人士兵1_攻擊1_攻擊半徑
-    public bool guardBoss_Attack_1_IsAttackBehind;//敵人士兵1_攻擊1_是否攻擊背後敵人
+    public float guardBoss_Attack_1_RepelDistance;//守衛Boss_攻擊1_擊退/擊飛距離    
+    public string guardBoss_Attack_1_Effect;//守衛Boss_攻擊1_效果(受擊者播放的動畫名稱)        
+    public float guardBoss_Attack_1_ForwardDistance;//守衛Boss_攻擊1_攻擊範圍中心點距離物件前方
+    public float guardBoss_Attack_1_FlightSpeed;//守衛Boss_攻擊1_飛行速度
+    public float guardBoss_Attack_1_LifeTime;//守衛Boss_攻擊1_生存時間
 
     [Header("守衛Boss 攻擊2")]
     public float guardBoss_Attack_2_Damge;//守衛Boss_攻擊2_傷害
     public int guardBoss_Attack_2_RepelDirection;//守衛Boss_攻擊2_擊退方向(0:擊退 1:擊飛)
-    public float guardBoss_Attack_2_RepelDistance;//敵人士兵1_攻擊2_擊退/擊飛距離    
-    public string guardBoss_Attack_2_Effect;//敵人士兵1_攻擊2_效果(受擊者播放的動畫名稱)        
-    public float guardBoss_Attack_2_ForwardDistance;//敵人士兵1_攻擊2_攻擊範圍中心點距離物件前方
-    public float guardBoss_Attack_2_attackRadius;//敵人士兵1_攻擊2_攻擊半徑
-    public bool guardBoss_Attack_2_IsAttackBehind;//敵人士兵1_攻擊2_是否攻擊背後敵人
+    public float guardBoss_Attack_2_RepelDistance;//守衛Boss_攻擊2_擊退/擊飛距離    
+    public string guardBoss_Attack_2_Effect;//守衛Boss_攻擊2_效果(受擊者播放的動畫名稱)        
+    public float guardBoss_Attack_2_ForwardDistance;//守衛Boss_攻擊2_攻擊範圍中心點距離物件前方
+    public float guardBoss_Attack_2_attackRadius;//守衛Boss_攻擊2_攻擊半徑
+    public bool guardBoss_Attack_2_IsAttackBehind;//守衛Boss1_攻擊2_是否攻擊背後敵人
 
     [Header("守衛Boss 攻擊3")]
     public float guardBoss_Attack_3_Damge;//守衛Boss_攻擊3_傷害
@@ -285,6 +285,15 @@ public class GameData_NumericalValue
     public float guardBoss_Attack_3_ForwardDistance;//守衛Boss_攻擊3_攻擊範圍中心點距離物件前方
     public float guardBoss_Attack_3_attackRadius;//守衛Boss_攻擊3_攻擊半徑
     public bool guardBoss_Attack_3_IsAttackBehind;//守衛Boss_攻擊3_是否攻擊背後敵人
+
+    [Header("守衛Boss 攻擊4")]
+    public float guardBoss_Attack_4_Damge;//守衛Boss_攻擊4_傷害
+    public int guardBoss_Attack_4_RepelDirection;//守衛Boss_攻擊4_擊退方向(0:擊退 1:擊飛)
+    public float guardBoss_Attack_4_RepelDistance;//守衛Boss_攻擊4_擊退/擊飛距離    
+    public string guardBoss_Attack_4_Effect;//守衛Boss_攻擊4_效果(受擊者播放的動畫名稱)        
+    public float guardBoss_Attack_4_ForwardDistance;//守衛Boss_攻擊4_攻擊範圍中心點距離物件前方
+    public float guardBoss_Attack_4_attackRadius;//守衛Boss_攻擊4_攻擊半徑
+    public bool guardBoss_Attack_4_IsAttackBehind;//守衛Boss_攻擊4_是否攻擊背後敵人
     #endregion
 
     [Header("敵人士兵1")]
@@ -304,7 +313,7 @@ public class GameData_NumericalValue
 
         //Buff增加數值
         buffAbleString = new string[] { "生命", "傷害", "防禦", "吸血", "移動", "回血" };//Buff增益文字
-        buffAbleValue = new float[] { 30, 25, 25, 20, 25, 25};//Buff增益數值(%)
+        buffAbleValue = new float[] { 30, 25, 25, 20, 25, 5};//Buff增益數值(%)
 
         //攝影機
         distance = 2.6f;//與玩家距離        
@@ -344,9 +353,9 @@ public class GameData_NumericalValue
         warriorNormalAttack_3_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
         warriorNormalAttack_3_RepelDistance = 45;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_3_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
-        warriorNormalAttack_3_ForwardDistance = 0.5f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
-        warriorNormalAttack_3_attackRadius = 1.55f;//戰士普通攻擊1_攻擊半徑    
-        warriorNormalAttack_3_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
+        warriorNormalAttack_3_ForwardDistance = 0.0f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
+        warriorNormalAttack_3_attackRadius = 3.0f;//戰士普通攻擊1_攻擊半徑    
+        warriorNormalAttack_3_IsAttackBehind = true;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 跳躍攻擊
         warriorJumpAttack_Damage = 37;//戰士跳躍攻擊_傷害
@@ -522,36 +531,44 @@ public class GameData_NumericalValue
 
         #region 守衛Boss
         //守衛Boss 攻擊1
-        guardBoss_Attack_1_Damge = 30;//守衛Boss_攻擊1_傷害
+        guardBoss_Attack_1_Damge = 47;//守衛Boss_攻擊1_傷害
         guardBoss_Attack_1_RepelDirection = 0;//守衛Boss_攻擊1_擊退方向(0:擊退 1:擊飛)
-        guardBoss_Attack_1_RepelDistance = 35;//敵人士兵1_攻擊1_擊退/擊飛距離    
-        guardBoss_Attack_1_Effect = "Pain";//敵人士兵1_攻擊1_效果(受擊者播放的動畫名稱)        
-        guardBoss_Attack_1_ForwardDistance = 1.4f;//敵人士兵1_攻擊1_攻擊範圍中心點距離物件前方
-        guardBoss_Attack_1_attackRadius = 1.3f;//敵人士兵1_攻擊1_攻擊半徑
-        guardBoss_Attack_1_IsAttackBehind = false;//敵人士兵1_攻擊1_是否攻擊背後敵人
+        guardBoss_Attack_1_RepelDistance = 35;//守衛Boss_攻擊1_擊退/擊飛距離    
+        guardBoss_Attack_1_Effect = "Pain";//守衛Boss_攻擊1_效果(受擊者播放的動畫名稱)        
+        guardBoss_Attack_1_FlightSpeed = 0;//守衛Boss_攻擊1_飛行速度
+        guardBoss_Attack_1_LifeTime = 1;//守衛Boss_攻擊1_生存時間
 
         //守衛Boss 攻擊2
-        guardBoss_Attack_2_Damge = 31;//守衛Boss_攻擊2_傷害
+        guardBoss_Attack_2_Damge = 14;//守衛Boss_攻擊2_傷害
         guardBoss_Attack_2_RepelDirection = 0;//守衛Boss_攻擊2_擊退方向(0:擊退 1:擊飛)
-        guardBoss_Attack_2_RepelDistance = 35;//敵人士兵1_攻擊2_擊退/擊飛距離    
-        guardBoss_Attack_2_Effect = "Pain";//敵人士兵1_攻擊2_效果(受擊者播放的動畫名稱)        
-        guardBoss_Attack_2_ForwardDistance = 1.4f;//敵人士兵1_攻擊2_攻擊範圍中心點距離物件前方
-        guardBoss_Attack_2_attackRadius = 1.3f;//敵人士兵1_攻擊2_攻擊半徑
-        guardBoss_Attack_2_IsAttackBehind = false;//敵人士兵1_攻擊2_是否攻擊背後敵人
+        guardBoss_Attack_2_RepelDistance = 25;//守衛Boss_攻擊2_擊退/擊飛距離    
+        guardBoss_Attack_2_Effect = "Pain";//守衛Boss_攻擊2_效果(受擊者播放的動畫名稱)        
+        guardBoss_Attack_2_ForwardDistance = 1.4f;//守衛Boss_攻擊2_攻擊範圍中心點距離物件前方
+        guardBoss_Attack_2_attackRadius = 1.3f;//守衛Boss_攻擊2_攻擊半徑
+        guardBoss_Attack_2_IsAttackBehind = false;//守衛Boss_攻擊2_是否攻擊背後敵人
 
         //守衛Boss 攻擊3
-        guardBoss_Attack_3_Damge = 32;//守衛Boss_攻擊3_傷害
+        guardBoss_Attack_3_Damge = 38;//守衛Boss_攻擊3_傷害
         guardBoss_Attack_3_RepelDirection = 0;//守衛Boss_攻擊3_擊退方向(0:擊退 1:擊飛)
         guardBoss_Attack_3_RepelDistance = 35;//守衛Boss_攻擊3_擊退/擊飛距離    
         guardBoss_Attack_3_Effect = "Pain";//守衛Boss_攻擊3_效果(受擊者播放的動畫名稱)        
         guardBoss_Attack_3_ForwardDistance = 1.4f;//守衛Boss_攻擊3_攻擊範圍中心點距離物件前方
         guardBoss_Attack_3_attackRadius = 1.3f;//守衛Boss_攻擊3_攻擊半徑
         guardBoss_Attack_3_IsAttackBehind = false;//守衛Boss_攻擊3_是否攻擊背後敵人
-    #endregion
 
-    //敵人
-    enemySoldier1_Hp = 130;//敵人士兵1_生命值
-        guardBoss_Hp = 500;//城門守衛Boss_生命值
+        //守衛Boss 攻擊4
+        guardBoss_Attack_4_Damge = 39;//守衛Boss_攻擊4_傷害
+        guardBoss_Attack_4_RepelDirection = 0;//守衛Boss_攻擊4_擊退方向(0:擊退 1:擊飛)
+        guardBoss_Attack_4_RepelDistance = 35;//守衛Boss_攻擊4_擊退/擊飛距離    
+        guardBoss_Attack_4_Effect = "Pain";//守衛Boss_攻擊4_效果(受擊者播放的動畫名稱)        
+        guardBoss_Attack_4_ForwardDistance = 1.4f;//守衛Boss1_攻擊4_攻擊範圍中心點距離物件前方
+        guardBoss_Attack_4_attackRadius = 1.3f;//守衛Boss_攻擊4_攻擊半徑
+        guardBoss_Attack_4_IsAttackBehind = false;//守衛Boss_攻擊4_是否攻擊背後敵人
+        #endregion
+
+        //敵人
+        enemySoldier1_Hp = 130;//敵人士兵1_生命值
+        guardBoss_Hp = 800;//城門守衛Boss_生命值
     }
 }
 

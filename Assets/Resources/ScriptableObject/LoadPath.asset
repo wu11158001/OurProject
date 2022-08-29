@@ -40,6 +40,7 @@ MonoBehaviour:
     archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1
     magicianNormalAttack_1: Prefab/ShootObject/Magician/MagicianNormalAttack_1
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
-    enemySoldier_2: Prefab/Characters/Enemy/EnemySoldier_2
+    guardBoss: Prefab/Characters/Enemy/GuardBoss
+    guardBossAttack_1: Prefab/ShootObject/GuardBoss/Attack1_GuardBoss
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
