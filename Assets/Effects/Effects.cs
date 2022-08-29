@@ -441,15 +441,16 @@ public class Effects : MonoBehaviour
 
 
         var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
-        float delay = 0.01f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
+        float delay = 0.3f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
+       // if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
+        DoEffects(idelName, delay, SkillAttack_30);
 
         var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
         float delay1 = 0.3f;                            //SkillAttack_31特效播放時間點
         DoEffects(idelName, delay1, SkillAttack_31);
 
         var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
-        float delay2 = 0.5f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        float delay2 = 0.6f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
         DoEffects(idelName, delay2, SkillAttack_32);
     }
 
