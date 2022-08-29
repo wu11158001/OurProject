@@ -353,9 +353,9 @@ public class GameData_NumericalValue
         warriorNormalAttack_3_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
         warriorNormalAttack_3_RepelDistance = 45;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_3_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
-        warriorNormalAttack_3_ForwardDistance = 0.5f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
-        warriorNormalAttack_3_attackRadius = 1.55f;//戰士普通攻擊1_攻擊半徑    
-        warriorNormalAttack_3_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
+        warriorNormalAttack_3_ForwardDistance = 0.0f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
+        warriorNormalAttack_3_attackRadius = 3.0f;//戰士普通攻擊1_攻擊半徑    
+        warriorNormalAttack_3_IsAttackBehind = true;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 跳躍攻擊
         warriorJumpAttack_Damage = 37;//戰士跳躍攻擊_傷害
