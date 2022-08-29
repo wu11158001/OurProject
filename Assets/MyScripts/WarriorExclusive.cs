@@ -62,7 +62,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorSkillAttack_1_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorSkillAttack_1_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                  
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)                  
     }
 
     /// <summary>
@@ -92,7 +92,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorSkillAttack_2_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorSkillAttack_2_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                  
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)                  
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorSkillAttack_3_attackRadius[count];//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorSkillAttack_3_IsAttackBehind[count];//是否攻擊背後敵人
         
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                                 
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)                                 
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorJumpAttack_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorJumpAttack_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)
 
         playerControl.isJumpAttackMove = true;//跳躍攻擊下降
     }
@@ -185,7 +185,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorNormalAttack_1_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorNormalAttack_1_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
     }
 
     /// <summary>
@@ -215,7 +215,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorNormalAttack_2_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorNormalAttack_2_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
     }
 
     /// <summary>
@@ -245,7 +245,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.warriorNormalAttack_3_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.warriorNormalAttack_3_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
     }
 
     /// <summary>

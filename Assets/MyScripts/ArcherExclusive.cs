@@ -83,7 +83,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
             attack.flightDiration = diration[i];//飛行方向        
             attack.performObject.transform.position = arrowMeshRenderer.transform.position;//射出位置
 
-            GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+            GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
         }        
     }
 
@@ -113,7 +113,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.archerSkillAttack_2_attackRadius;//攻擊範圍
         attack.isAttackBehind = NumericalValue.archerSkillAttack_2_IsAttackBehind;//是否攻擊背後敵人
         
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
     }
 
     /// <summary>
@@ -142,7 +142,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.archerSkillAttack_3_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.archerSkillAttack_3_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
     }
 
     /// <summary>
@@ -171,7 +171,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.archerJumpAttack_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.archerJumpAttack_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)   
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)   
 
         playerControl.isJumpAttackMove = true;//跳躍攻擊下降
     }
@@ -205,7 +205,7 @@ public class ArcherExclusive : MonoBehaviourPunCallbacks
         attack.flightDiration = transform.forward;//飛行方向        
         attack.performObject.transform.position = arrowMeshRenderer.transform.position;//射出位置
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)           
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)           
     }
 
     /// <summary>

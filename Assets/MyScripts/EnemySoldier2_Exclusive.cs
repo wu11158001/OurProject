@@ -40,7 +40,7 @@ public class EnemySoldier2_Exclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.enemySoldier1_Attack_1_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.enemySoldier1_Attack_1_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                  
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)                  
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class EnemySoldier2_Exclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.enemySoldier1_Attack_2_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.enemySoldier1_Attack_2_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                  
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)                  
     }
 
     /// <summary>
@@ -100,6 +100,6 @@ public class EnemySoldier2_Exclusive : MonoBehaviourPunCallbacks
         attack.attackRadius = NumericalValue.enemySoldier1_Attack_3_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.enemySoldier1_Attack_3_IsAttackBehind;//是否攻擊背後敵人
 
-        GameSceneManagement.Instance.AttackBehavior_List.Add(attack);//加入List(執行)                  
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)                  
     }
 }

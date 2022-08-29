@@ -15,7 +15,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public GameData_LoadPath loadPath;
 
     Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
-    public List<AttackMode> AttackBehavior_List = new List<AttackMode>();//紀錄所有攻擊行為    
+    public List<AttackMode> AttackMode_List = new List<AttackMode>();//紀錄所有攻擊行為    
 
     Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
 
@@ -78,6 +78,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //法師物件
         number = objectHandle.OnCreateObject(loadPath.magicianNormalAttack_1);//普通攻擊_1物件
         objectNumber_Dictionary.Add("magicianNormalAttack_1", number);//添加至紀錄中
+
+        //守衛Boss物件
+        number = objectHandle.OnCreateObject(loadPath.guardBossAttack_1);//攻擊1物件
+        objectNumber_Dictionary.Add("guardBossAttack_1", number);//添加至紀錄中
 
         //敵人士兵_1_階段1出生點
         enemySoldiers1_Stage1Point = new Transform[GameObject.Find("EnemySoldiers1_Stage1Point").transform.childCount];
@@ -293,9 +297,9 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     void OnAttackBehavior()
     {
-        for (int i = 0; i < AttackBehavior_List.Count; i++)
+        for (int i = 0; i < AttackMode_List.Count; i++)
         {
-            AttackBehavior_List[i].function.Invoke();            
+            AttackMode_List[i].function.Invoke();            
         }
     }
 

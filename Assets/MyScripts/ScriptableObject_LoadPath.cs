@@ -45,6 +45,9 @@ public class GameData_LoadPath
     public string enemySoldier_1;//敵人士兵1
     public string guardBoss;//城門守衛Boss
 
+    [Header("守衛Boss")]
+    public string guardBossAttack_1;//攻擊1
+
     [Header("其他")]
     public string hitNumber;//擊中文字
     public string lifeBar;//生命條
@@ -89,6 +92,8 @@ public class GameData_LoadPath
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1
         guardBoss = "Prefab/Characters/Enemy/GuardBoss";//城門守衛Boss
 
+        //守衛Boss
+        guardBossAttack_1 = "Prefab/ShootObject/GuardBoss/Attack1_GuardBoss";//攻擊1
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字
