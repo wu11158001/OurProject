@@ -193,8 +193,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 switch (taskStage)
                 {
                     case 0://階段1
-                        //產生敵人士兵1
-                        /*number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
+                        /*//產生敵人士兵1
+                        number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
                         objectNumber_Dictionary.Add("enemySoldier_1", number);////添加至紀錄中
                         for (int i = 0; i < enemySoldiers1_Stage1Point.Length; i++)                   
                         {
