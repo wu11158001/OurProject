@@ -28,9 +28,15 @@ public class Effects : MonoBehaviour
     //法師特效脫離角色Transform影響
     Transform magicNa2toWorld;        //角色的父物件
     Transform magicNa2;              //要脫離的特效
+    Transform magicNa30;              //要脫離的特效
     Transform magicNa31;              //要脫離的特效
     Transform magicNa32;              //要脫離的特效
     Transform magicNa33;              //要脫離的特效
+    Transform magicNa34;              //要脫離的特效
+    Transform magicNa35;              //要脫離的特效
+    
+
+
 
 
     void Start()
@@ -52,9 +58,12 @@ public class Effects : MonoBehaviour
         if (anim.runtimeAnimatorController.name == "2_Magician")                        //要脫離的特效
         {
             magicNa2 = NormalAttack_2.transform.GetChild(1);                               //攻擊法盾
-            magicNa31 = NormalAttack_3.transform.GetChild(4).GetChild(1).GetChild(3);        //閃電                     
-            magicNa32 = NormalAttack_3.transform.GetChild(4).GetChild(2).GetChild(3);            //閃電                    
-            magicNa33 = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(3);              //閃電 
+            magicNa30 = NormalAttack_3.transform.GetChild(4).GetChild(1).GetChild(3);        //閃電                     
+            magicNa31 = NormalAttack_3.transform.GetChild(4).GetChild(2).GetChild(3);            //閃電                    
+            magicNa32 = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(3);              //閃電 
+            magicNa33 = NormalAttack_3.transform.GetChild(4).GetChild(4).GetChild(3);        //閃電                     
+            magicNa34 = NormalAttack_3.transform.GetChild(4).GetChild(5).GetChild(3);            //閃電                    
+            magicNa35 = NormalAttack_3.transform.GetChild(4).GetChild(6).GetChild(3);              //閃電 
         }
 
         //武器發光，戰士弓箭手
@@ -180,35 +189,61 @@ public class Effects : MonoBehaviour
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
         {
             effect.Play();
+            magicNa30.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
             magicNa31.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
             magicNa32.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
             magicNa33.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
+            magicNa34.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
+            magicNa35.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
+        }
+        if (magicNa30.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
+        {
+            //回到角色層級並恢復相關參數
+            magicNa30.SetParent(NormalAttack_3.transform.GetChild(4).GetChild(1));
+            magicNa30.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(1).GetChild(2).localPosition;
+            magicNa30.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(1).GetChild(2).localRotation;
+            magicNa30.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(1).GetChild(2).localScale;
         }
         if (magicNa31.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
         {
             //回到角色層級並恢復相關參數
             magicNa31.SetParent(NormalAttack_3.transform.GetChild(4).GetChild(1));
-            magicNa31.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(1).GetChild(2).localPosition;
-            magicNa31.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(1).GetChild(2).localRotation;
-            magicNa31.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(1).GetChild(2).localScale;
+            magicNa31.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(2).GetChild(2).localPosition;
+            magicNa31.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(2).GetChild(2).localRotation;
+            magicNa31.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(2).GetChild(2).localScale;
         }
         if (magicNa32.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
         {
             //回到角色層級並恢復相關參數
             magicNa32.SetParent(NormalAttack_3.transform.GetChild(4).GetChild(2));
-            magicNa32.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(2).GetChild(2).localPosition;
-            magicNa32.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(2).GetChild(2).localRotation;
-            magicNa32.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(2).GetChild(2).localScale;
+            magicNa32.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(2).localPosition;
+            magicNa32.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(2).localRotation;
+            magicNa32.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(2).localScale;
         }
         if (magicNa33.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
         {
             //回到角色層級並恢復相關參數
             magicNa33.SetParent(NormalAttack_3.transform.GetChild(4).GetChild(3));
-            magicNa33.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(2).localPosition;
-            magicNa33.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(2).localRotation;
-            magicNa33.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(2).localScale;
+            magicNa33.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(4).GetChild(2).localPosition;
+            magicNa33.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(4).GetChild(2).localRotation;
+            magicNa33.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(4).GetChild(2).localScale;
         }
-
+        if (magicNa34.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
+        {
+            //回到角色層級並恢復相關參數
+            magicNa34.SetParent(NormalAttack_3.transform.GetChild(4).GetChild(3));
+            magicNa34.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(5).GetChild(2).localPosition;
+            magicNa34.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(5).GetChild(2).localRotation;
+            magicNa34.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(5).GetChild(2).localScale;
+        }
+        if (magicNa35.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
+        {
+            //回到角色層級並恢復相關參數
+            magicNa35.SetParent(NormalAttack_3.transform.GetChild(4).GetChild(3));
+            magicNa35.transform.localPosition = NormalAttack_3.transform.GetChild(4).GetChild(6).GetChild(2).localPosition;
+            magicNa35.transform.localRotation = NormalAttack_3.transform.GetChild(4).GetChild(6).GetChild(2).localRotation;
+            magicNa35.transform.localScale = NormalAttack_3.transform.GetChild(4).GetChild(6).GetChild(2).localScale;
+        }
     }
 
 
