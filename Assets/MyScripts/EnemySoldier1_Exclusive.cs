@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ¼Ä¤H¤h§L±M¥Î
+/// ¼Ä¤H¤h§L1±M¥Î
 /// </summary>
 public class EnemySoldier1_Exclusive : MonoBehaviourPunCallbacks
 {
@@ -17,7 +17,7 @@ public class EnemySoldier1_Exclusive : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// §ðÀ»1_¼Ä¤H¤h§L
+    /// §ðÀ»1_¼Ä¤H¤h§L1
     /// </summary>
     void OnAttack1_EnemySoldier1()
     {
@@ -47,7 +47,7 @@ public class EnemySoldier1_Exclusive : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// §ðÀ»2_¼Ä¤H¤h§L
+    /// §ðÀ»2_¼Ä¤H¤h§L1
     /// </summary>
     void OnAttack2_EnemySoldier1()
     {
@@ -77,7 +77,7 @@ public class EnemySoldier1_Exclusive : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// §ðÀ»3_¼Ä¤H¤h§L
+    /// §ðÀ»3_¼Ä¤H¤h§L1
     /// </summary>
     void OnAttack3_EnemySoldier1()
     {

@@ -269,26 +269,24 @@ MonoBehaviour:
     enemySoldier1_Attack_3_ForwardDistance: 1.4
     enemySoldier1_Attack_3_attackRadius: 1.3
     enemySoldier1_Attack_3_IsAttackBehind: 0
-    enemySoldier2_Attack_1_Damge: 0
-    enemySoldier2_Attack_1_RepelDirection: 0
-    enemySoldier2_Attack_1_RepelDistance: 0
-    enemySoldier2_Attack_1_Effect: 
-    enemySoldier2_Attack_1_ForwardDistance: 0
-    enemySoldier2_Attack_1_attackRadius: 0
-    enemySoldier2_Attack_1_IsAttackBehind: 0
-    enemySoldier2_Attack_2_Damge: 0
-    enemySoldier2_Attack_2_RepelDirection: 0
-    enemySoldier2_Attack_2_RepelDistance: 0
-    enemySoldier2_Attack_2_Effect: 
-    enemySoldier2_Attack_2_ForwardDistance: 0
-    enemySoldier2_Attack_2_attackRadius: 0
-    enemySoldier2_Attack_2_IsAttackBehind: 0
-    enemySoldier2_Attack_3_Damge: 0
+    enemySoldier2_Attack1_Damge: 18
+    enemySoldier2_Attack1_RepelDirection: 0
+    enemySoldier2_Attack1_RepelDistance: 5
+    enemySoldier2_Attack1_Effect: Pain
+    enemySoldier2_Attack1_FloatSpeed: 30
+    enemySoldier2_Attack1_LifeTime: 0.45
+    enemySoldier2_Attack2_Damge: 19
+    enemySoldier2_Attack2_RepelDirection: 0
+    enemySoldier2_Attack2_RepelDistance: 5
+    enemySoldier2_Attack2_Effect: Pain
+    enemySoldier2_Attack2_FloatSpeed: 30
+    enemySoldier2_Attack2_LifeTime: 0.45
+    enemySoldier2_Attack_3_Damge: 25
     enemySoldier2_Attack_3_RepelDirection: 0
-    enemySoldier2_Attack_3_RepelDistance: 0
-    enemySoldier2_Attack_3_Effect: 
-    enemySoldier2_Attack_3_ForwardDistance: 0
-    enemySoldier2_Attack_3_attackRadius: 0
+    enemySoldier2_Attack_3_RepelDistance: 25
+    enemySoldier2_Attack_3_Effect: Pain
+    enemySoldier2_Attack_3_ForwardDistance: 1.4
+    enemySoldier2_Attack_3_attackRadius: 1.3
     enemySoldier2_Attack_3_IsAttackBehind: 0
     guardBoss_Attack_1_Damge: 47
     guardBoss_Attack_1_RepelDirection: 0
@@ -319,4 +317,5 @@ MonoBehaviour:
     guardBoss_Attack_4_attackRadius: 1.3
     guardBoss_Attack_4_IsAttackBehind: 0
     enemySoldier1_Hp: 130
+    enemySoldier2_Hp: 95
     guardBoss_Hp: 800

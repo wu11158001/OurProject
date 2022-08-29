@@ -21,6 +21,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
     //出生點
     Transform[] enemySoldiers1_Stage1Point;//敵人士兵_1_階段1出生點
+    Transform[] enemySoldiers2_Stage1Point;//敵人士兵_2_階段1出生點
     Transform guardBoss_Stage2Point;//城門首衛Boss_階段2出生點
     Transform[] enemySoldiers1_Stage3Point;//敵人士兵_1_階段3出生點
 
@@ -83,11 +84,22 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.guardBossAttack_1);//攻擊1物件
         objectNumber_Dictionary.Add("guardBossAttack_1", number);//添加至紀錄中
 
+        //敵人士兵2物件
+        number = objectHandle.OnCreateObject(loadPath.enemySoldier2Attack_Arrow);//弓箭物件
+        objectNumber_Dictionary.Add("enemySoldier2Attack_Arrow", number);//添加至紀錄中
+
         //敵人士兵_1_階段1出生點
         enemySoldiers1_Stage1Point = new Transform[GameObject.Find("EnemySoldiers1_Stage1Point").transform.childCount];
         for (int i = 0; i < GameObject.Find("EnemySoldiers1_Stage1Point").transform.childCount; i++)
         {
-            enemySoldiers1_Stage1Point[i] = GameObject.Find("EnemySoldiers1_Stage1Point").transform.GetChild(i);
+            enemySoldiers1_Stage1Point[i] = GameObject.Find("EnemySoldiers1_Stage1Point").transform.GetChild(i);        
+        }
+
+        //敵人士兵_2_階段1出生點
+        enemySoldiers2_Stage1Point = new Transform[GameObject.Find("EnemySoldiers2_Stage1Point").transform.childCount];
+        for (int i = 0; i < GameObject.Find("EnemySoldiers2_Stage1Point").transform.childCount; i++)
+        {
+            enemySoldiers2_Stage1Point[i] = GameObject.Find("EnemySoldiers2_Stage1Point").transform.GetChild(i);
         }
 
         //城門首衛Boss_階段2出生點
@@ -182,7 +194,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     case 0://階段1
                         //產生敵人士兵1
-                        number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
+                        /*number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
                         objectNumber_Dictionary.Add("enemySoldier_1", number);////添加至紀錄中
                         for (int i = 0; i < enemySoldiers1_Stage1Point.Length; i++)                   
                         {
@@ -190,6 +202,18 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             enemy.transform.position = enemySoldiers1_Stage1Point[i].position;//設定位置
                             enemy.transform.rotation = Quaternion.Euler(0, 90, 0);                            
                             enemy.tag = "EnemySoldier_1";//設定Tag判斷HP
+                            //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                        }*/
+
+                        //產生敵人士兵2
+                        number = objectHandle.OnCreateObject(loadPath.enemySoldier_2);//產生至物件池
+                        objectNumber_Dictionary.Add("enemySoldier_2", number);////添加至紀錄中
+                        for (int i = 0; i < enemySoldiers2_Stage1Point.Length; i++)
+                        {
+                            enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_1);//開啟物件
+                            enemy.transform.position = enemySoldiers2_Stage1Point[i].position;//設定位置
+                            enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            enemy.tag = "EnemySoldier_2";//設定Tag判斷HP
                             //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         break;

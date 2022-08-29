@@ -34,6 +34,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     bool isGameOver;//是否遊戲結束
 
     [Header("提示文字")]
+    Image tipBackground_Image;//提示文字背景
     public Text tip_Text;//提示文字
     float tipTime;//文字顯示時間
     public Text task_Text;//任務文字
@@ -100,6 +101,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         backToStart_Button.onClick.AddListener(OnLeaveGame);
 
         //其他
+        tipBackground_Image = ExtensionMethods.FindAnyChild<Image>(transform, "TipBackground_Image");//提示文字背景
+        tipBackground_Image.color = new Color(tipBackground_Image.color.r, tipBackground_Image.color.g, tipBackground_Image.color.b, tipTime);
         tip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Tip_Text");//提示文字
         tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
         task_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Task_Text");//任務文字
@@ -235,7 +238,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         if (tipTime > 0)
         {
             tipTime -= Time.deltaTime;
+
             tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
+            tipBackground_Image.color = new Color(tipBackground_Image.color.r, tipBackground_Image.color.g, tipBackground_Image.color.b, tipTime);
         }
     }
 

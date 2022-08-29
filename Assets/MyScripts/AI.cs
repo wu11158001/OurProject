@@ -63,6 +63,7 @@ public class AI : MonoBehaviourPunCallbacks
     [Header("攻擊狀態")]
     [SerializeField] float[] attackFrequency;//攻擊頻率(亂數最小值, 最大值)
     [SerializeField] int attackNumber;//攻擊招式編號(0 = 不攻擊)    
+    [SerializeField] float meleeAttackDistance;//近距離招式攻擊距離
     int maxAttackNumber;//可使用攻擊招式
     float waitAttackTime;//等待攻擊時間(計時器)
     bool isAttackIdle;//是否攻擊待機
@@ -126,6 +127,27 @@ public class AI : MonoBehaviourPunCallbacks
                 //攻擊待機
                 attackIdleMoveSpeed = 1;//攻擊待機移動速度
                 backMoveDistance = 2.0f;//距離玩家多近向後走
+                meleeAttackDistance = 2.0f;//近距離招式攻擊距離
+                break;
+            case "EnemySoldier_2":
+                //偵測範圍
+                normalStateMoveRadius = 2.5f;//一般狀態移動範圍
+                alertRadius = 14.0f;//警戒範圍
+                chaseRadius = 13.0f;//追擊範圍
+                attackRadius = 11.0f;//攻擊範圍
+
+                //追擊狀態
+                chaseSpeed = 5.3f;//追擊速度
+                readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+
+                //攻擊狀態
+                attackFrequency = new float[2] { 0.5f, 2.75f };//攻擊頻率(亂數最小值, 最大值)  
+                maxAttackNumber = 3;//可使用攻擊招式
+
+                //攻擊待機
+                attackIdleMoveSpeed = 2;//攻擊待機移動速度
+                backMoveDistance = 5.0f;//距離玩家多近向後走
+                meleeAttackDistance = 2.0f;//近距離招式攻擊距離
                 break;
             case "GuardBoss":
                 //偵測範圍
@@ -145,6 +167,7 @@ public class AI : MonoBehaviourPunCallbacks
                 //攻擊待機
                 attackIdleMoveSpeed = 3;//攻擊待機移動速度
                 backMoveDistance = 2.0f;//距離玩家多近向後走
+                meleeAttackDistance = 2.0f;//近距離招式攻擊距離
                 break;
         }        
 
@@ -158,7 +181,7 @@ public class AI : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect) allPlayers = new GameObject[PhotonNetwork.CurrentRoom.PlayerCount];//所有玩家
         else allPlayers = new GameObject[1];
         CheckPlayerDistanceTime = 2;//偵測玩家距離時間
-        alertToChaseTime = 1.5f;//警戒到追擊時間
+        alertToChaseTime = 1;//警戒到追擊時間
         leaveAlertRadiusAlertTime = 3;//離開警戒範圍警戒時間
         leaveAlertTime = leaveAlertRadiusAlertTime;//離開警戒範圍警戒時間(計時器)
 
@@ -280,7 +303,7 @@ public class AI : MonoBehaviourPunCallbacks
                 }
                 else//一般狀態移動範圍內
                 {
-                    normalRandomAngle = UnityEngine.Random.Range(0, 360);//一般狀態亂數選轉角度
+                    normalRandomAngle = UnityEngine.Random.Range(0, 360);//一般狀態亂數選轉角度                    
                     forwardVector = Quaternion.AngleAxis(normalRandomAngle, Vector3.up) * forwardVector;//移動目標向量
                 }
 
@@ -669,15 +692,18 @@ public class AI : MonoBehaviourPunCallbacks
                 isAttackIdle = false;//非攻擊待機               
 
                 //攻擊招式
-                if ((transform.position - allPlayers[chaseObject].transform.position).magnitude < backMoveDistance)//近身攻擊
+                if ((transform.position - allPlayers[chaseObject].transform.position).magnitude < meleeAttackDistance)//近身攻擊
                 {
                     attackNumber = maxAttackNumber;
                 }
-                else if ((transform.position - allPlayers[chaseObject].transform.position).magnitude >= backMoveDistance)//衝刺攻擊
+                else if ((transform.position - allPlayers[chaseObject].transform.position).magnitude >= meleeAttackDistance)//衝刺攻擊
                 {
                     switch(gameObject.tag)
                     {
                         case "EnemySoldier_1":
+                            attackNumber = 1;
+                            break;
+                        case "EnemySoldier_2":
                             attackNumber = 1;
                             break;
                         case "GuardBoss":
@@ -688,7 +714,8 @@ public class AI : MonoBehaviourPunCallbacks
                 }
                 else//一般攻擊
                 {
-                    attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
+                    if(gameObject.tag == "EnemySoldier_2") attackNumber = UnityEngine.Random.Range(1, 3);
+                    else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
                 }
                 OnChangeState(state: AIState.攻擊狀態, openAnimationName: "AttackNumber", closeAnimationName: "Run", animationType: attackNumber);
 
@@ -801,7 +828,7 @@ public class AI : MonoBehaviourPunCallbacks
                 if (OnDetectionRange(radius: attackRadius))//攻擊範圍內
                 {
                     OnChangeAnimation(animationName: "AttackIdle", animationType: true);
-                }
+                }               
                 
                 attackIdleMoveDiretion = UnityEngine.Random.Range(1, 3);//攻擊待機移動方向(0 = 不移動, 1 = 右, 2 = 左)
                 waitAttackTime = UnityEngine.Random.Range(attackFrequency[0], attackFrequency[1]);//亂數攻擊待機時間
@@ -847,8 +874,12 @@ public class AI : MonoBehaviourPunCallbacks
                 }
 
                 OnChangeAnimation(animationName: "AttackIdle", animationType: false);
-                
-                attackNumber = UnityEngine.Random.Range(2, maxAttackNumber + 1);
+
+                if ((transform.position - allPlayers[chaseObject].transform.position).magnitude < meleeAttackDistance)//近身攻擊
+                {
+                    attackNumber = maxAttackNumber;
+                }
+                else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber);
                 OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
             }
         }  

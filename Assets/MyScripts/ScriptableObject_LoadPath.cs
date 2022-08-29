@@ -41,12 +41,16 @@ public class GameData_LoadPath
     [Header("法師")]
     public string magicianNormalAttack_1;//普通攻擊_1
 
-    [Header("敵人")]
+    [Header("敵人角色")]
     public string enemySoldier_1;//敵人士兵1
+    public string enemySoldier_2;//敵人士兵2
     public string guardBoss;//城門守衛Boss
 
-    [Header("守衛Boss")]
+    [Header("守衛Boss物件")]
     public string guardBossAttack_1;//攻擊1
+
+    [Header("敵人士兵2物件")]
+    public string enemySoldier2Attack_Arrow;//弓箭
 
     [Header("其他")]
     public string hitNumber;//擊中文字
@@ -88,12 +92,16 @@ public class GameData_LoadPath
         //法師
         magicianNormalAttack_1 = "Prefab/ShootObject/Magician/MagicianNormalAttack_1";//普通攻擊_1
 
-        //敵人
+        //敵人角色
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1
+        enemySoldier_2 = "Prefab/Characters/Enemy/EnemySoldier_2";//敵人士兵2
         guardBoss = "Prefab/Characters/Enemy/GuardBoss";//城門守衛Boss
 
-        //守衛Boss
+        //守衛Boss物件
         guardBossAttack_1 = "Prefab/ShootObject/GuardBoss/Attack1_GuardBoss";//攻擊1
+
+        //敵人士兵2物件
+        enemySoldier2Attack_Arrow = "Prefab/ShootObject/EnemySoldier2/Attack_Arrow";//弓箭
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字

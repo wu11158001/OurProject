@@ -118,13 +118,13 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             }         
         }  
         
-        //判斷關卡
+        /*//判斷關卡
         if(GameDataManagement.Instance.selectLevelNumber == 1)//測試用1 else = 0
         {
             //龍圍繞玩家
             Dragon_Level1 dragon_Level1 = GameObject.Find("Dragon_Around").GetComponent<Dragon_Level1>();
             dragon_Level1.SetRotateAroundTarger = transform;
-        }
+        }*/
     }
 
     void Update()

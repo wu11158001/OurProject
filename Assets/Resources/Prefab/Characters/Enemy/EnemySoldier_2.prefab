@@ -574,6 +574,8 @@ GameObject:
   - component: {fileID: 5084112819928659246}
   - component: {fileID: 775943364647321677}
   - component: {fileID: 3618261941188482941}
+  - component: {fileID: 6810299826314216151}
+  - component: {fileID: 7546859988849217717}
   m_Layer: 0
   m_Name: EnemySoldier_2
   m_TagString: Untagged
@@ -608,7 +610,7 @@ Animator:
   m_GameObject: {fileID: 1682330531181728770}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 2ec89695fccd8fc44a4256b7fc1516f7, type: 3}
-  m_Controller: {fileID: 9100000, guid: 8be5173afb349aa4e80bd13d468df487, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6af5cbdcd4d613844b6b6f0b397ae306, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -628,8 +630,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5405941, y: 1.6676216, z: 0.7572956}
-  m_Center: {x: 0.056342125, y: 0.8235378, z: 0.034672737}
+  m_Size: {x: 0.9467163, y: 1.6676216, z: 0.84620285}
+  m_Center: {x: 0.052627563, y: 0.8235378, z: 0.07912636}
 --- !u!114 &1214829976731032744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +717,57 @@ MonoBehaviour:
   isExecuteAStart: 0
   allPlayers: []
   aiState: 0
+--- !u!114 &6810299826314216151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682330531181728770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a156e852ad56bd440bf6e1d5ed8fc091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCenter: {x: 0, y: 0, z: 0}
+  boxSize: {x: 0, y: 0, z: 0}
+  heightFromGround: 0
+  wallCollisionDistance: 0
+  wallCollisionHight: 0
+  collisionSize_Character: 0
+  boxCollisionDistance: 0
+  collisionObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Hp: 0
+  MaxHp: 0
+  addDefence: 0
+  isSuckBlood: 0
+  isSelfHeal: 0
+  acceleration: 0
+  isDie: 0
+  X: 0
+  Y: 0
+  Z: 0
+--- !u!114 &7546859988849217717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682330531181728770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf6e2febde2ba941a7ed3d4c005dd0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1734160213454373433
 GameObject:
   m_ObjectHideFlags: 0

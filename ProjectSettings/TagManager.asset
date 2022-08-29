@@ -8,6 +8,7 @@ TagManager:
   - Stairs
   - Bullet
   - GuardBoss
+  - EnemySoldier_2
   layers:
   - Default
   - TransparentFX

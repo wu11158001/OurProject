@@ -27,13 +27,15 @@ public class Dragon_Level1 : MonoBehaviour
             targetPos.y = 0;
             Vector3 forward = thisPos - targetPos;
 
-            transform.right = forward;
-            transform.position = transform.position + transform.forward * aroundSpeed * Time.deltaTime;
+            //transform.right = forward;
             
-            if((thisPos - targetPos).magnitude > distance)
+            
+            /*if((thisPos - targetPos).magnitude > distance)
             {
                 transform.position = transform.position - transform.right * aroundSpeed / 2 * Time.deltaTime;
-            }               
+            }*/               
         }
+
+        transform.position = transform.position + transform.forward * aroundSpeed * Time.deltaTime;
     }
 }
