@@ -122,7 +122,7 @@ public class Effects : MonoBehaviour
         var idelName = "Attack.NormalAttack_1";
         float delay = 0.2f;
         var effect = NormalAttack_1;
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && animInfo.normalizedTime < delay + 0.01f)
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && animInfo.normalizedTime < delay + 0.02f)
         {
             MagNa1().transform.SetParent(NormalAttack_1.transform);
             MagNa1().transform.localPosition = NormalAttack_1.transform.GetChild(0).localPosition;
