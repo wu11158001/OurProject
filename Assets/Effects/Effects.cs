@@ -119,7 +119,9 @@ public class Effects : MonoBehaviour
             effect.transform.GetChild(3).gameObject.transform.Rotate(0, 0, 0.5f);
         }
 
-        if (animInfo.IsName("Attack.NormalAttack_1"))//法陣管理    
+        //藍色法陣在Idle時停止
+        //  if (animInfo.IsName("Attack.NormalAttack_1"))   
+        if (animInfo.IsName("Idle"))
         {
             NormalAttack_3.Stop();
         }
@@ -195,7 +197,7 @@ public class Effects : MonoBehaviour
             magicNa33.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
             magicNa34.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
             magicNa35.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
-        }
+        }      
         if (magicNa30.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
         {
             //回到角色層級並恢復相關參數
@@ -302,7 +304,7 @@ public class Effects : MonoBehaviour
         //DoEffects(idelName, delay, effect);
     }
 
-    float wNa3ScaleY = 2.5f;
+    float wNa3ScaleY = 1.5f;
     void WarNormalAttack3()
     {
         var idelName = "Attack.NormalAttack_3";         //動作名稱      
@@ -319,11 +321,12 @@ public class Effects : MonoBehaviour
         DoEffects(idelName, 0.35f, effect.transform.GetChild(1).GetComponent<ParticleSystem>());                           
         DoEffects(idelName, 0.35f, effect.transform.GetChild(2).GetComponent<ParticleSystem>());
 
+        //改變劍大小
         if (animInfo.IsName(idelName))
         {
             if (animInfo.normalizedTime < 0.6)
             {
-                weapon.transform.localScale = new Vector3(1f, 2.5f, 1);
+                weapon.transform.localScale = new Vector3(1f, 1.5f, 1);
                 weapon.transform.localPosition = new Vector3(0, 1f, 0);
             }
             if (animInfo.normalizedTime >= 0.6)
@@ -441,15 +444,16 @@ public class Effects : MonoBehaviour
 
 
         var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
-        float delay = 0.01f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
+        float delay = 0.3f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
+       // if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
+        DoEffects(idelName, delay, SkillAttack_30);
 
         var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
         float delay1 = 0.3f;                            //SkillAttack_31特效播放時間點
         DoEffects(idelName, delay1, SkillAttack_31);
 
         var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
-        float delay2 = 0.5f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
+        float delay2 = 0.6f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
         DoEffects(idelName, delay2, SkillAttack_32);
     }
 
