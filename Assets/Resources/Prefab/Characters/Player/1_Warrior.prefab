@@ -4261,6 +4261,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5165438081346743541}
     m_Modifications:
+    - target: {fileID: 4677738141763771410, guid: 4868303a69eabe746be6b65113e17b9b, type: 3}
+      propertyPath: randomSeed
+      value: 3806
+      objectReference: {fileID: 0}
+    - target: {fileID: 4677738141763771410, guid: 4868303a69eabe746be6b65113e17b9b, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4918079149335552337, guid: 4868303a69eabe746be6b65113e17b9b, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -4304,6 +4312,18 @@ PrefabInstance:
     - target: {fileID: 4918079149335552337, guid: 4868303a69eabe746be6b65113e17b9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241117739118499951, guid: 4868303a69eabe746be6b65113e17b9b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241117739118499951, guid: 4868303a69eabe746be6b65113e17b9b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241117739118499951, guid: 4868303a69eabe746be6b65113e17b9b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7865747894980364403, guid: 4868303a69eabe746be6b65113e17b9b, type: 3}
       propertyPath: m_Name
