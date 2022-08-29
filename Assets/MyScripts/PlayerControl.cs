@@ -46,7 +46,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     bool isJumpAttack;//是否跳躍攻擊
     public bool isJumpAttackMove;//跳躍攻擊下降
 
-
     private void Awake()
     {       
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
@@ -116,7 +115,15 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                     charactersCollision.isSelfHeal = true;
                     break;
             }         
-        }      
+        }  
+        
+        //判斷關卡
+        if(GameDataManagement.Instance.selectLevelNumber == 1)//測試用1 else = 0
+        {
+            //龍圍繞玩家
+            Dragon_Level1 dragon_Level1 = GameObject.Find("Dragon_Around").GetComponent<Dragon_Level1>();
+            dragon_Level1.SetRotateAroundTarger = transform;
+        }
     }
 
     void Update()

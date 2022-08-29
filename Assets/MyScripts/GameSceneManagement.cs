@@ -164,7 +164,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             }*/
         }
 
-        ////關卡1
+        //關卡2
         if (GameDataManagement.Instance.selectLevelNumber == 1)
         {
                         //非連線 || 是房主

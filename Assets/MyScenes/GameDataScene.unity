@@ -373,6 +373,48 @@ MonoBehaviour:
     enemySoldier1_Attack_3_ForwardDistance: 1.4
     enemySoldier1_Attack_3_attackRadius: 1.3
     enemySoldier1_Attack_3_IsAttackBehind: 0
+    enemySoldier2_Attack_1_Damge: 0
+    enemySoldier2_Attack_1_RepelDirection: 0
+    enemySoldier2_Attack_1_RepelDistance: 0
+    enemySoldier2_Attack_1_Effect: 
+    enemySoldier2_Attack_1_ForwardDistance: 0
+    enemySoldier2_Attack_1_attackRadius: 0
+    enemySoldier2_Attack_1_IsAttackBehind: 0
+    enemySoldier2_Attack_2_Damge: 0
+    enemySoldier2_Attack_2_RepelDirection: 0
+    enemySoldier2_Attack_2_RepelDistance: 0
+    enemySoldier2_Attack_2_Effect: 
+    enemySoldier2_Attack_2_ForwardDistance: 0
+    enemySoldier2_Attack_2_attackRadius: 0
+    enemySoldier2_Attack_2_IsAttackBehind: 0
+    enemySoldier2_Attack_3_Damge: 0
+    enemySoldier2_Attack_3_RepelDirection: 0
+    enemySoldier2_Attack_3_RepelDistance: 0
+    enemySoldier2_Attack_3_Effect: 
+    enemySoldier2_Attack_3_ForwardDistance: 0
+    enemySoldier2_Attack_3_attackRadius: 0
+    enemySoldier2_Attack_3_IsAttackBehind: 0
+    guardBoss_Attack_1_Damge: 0
+    guardBoss_Attack_1_RepelDirection: 0
+    guardBoss_Attack_1_RepelDistance: 0
+    guardBoss_Attack_1_Effect: 
+    guardBoss_Attack_1_ForwardDistance: 0
+    guardBoss_Attack_1_attackRadius: 0
+    guardBoss_Attack_1_IsAttackBehind: 0
+    guardBoss_Attack_2_Damge: 0
+    guardBoss_Attack_2_RepelDirection: 0
+    guardBoss_Attack_2_RepelDistance: 0
+    guardBoss_Attack_2_Effect: 
+    guardBoss_Attack_2_ForwardDistance: 0
+    guardBoss_Attack_2_attackRadius: 0
+    guardBoss_Attack_2_IsAttackBehind: 0
+    guardBoss_Attack_3_Damge: 0
+    guardBoss_Attack_3_RepelDirection: 0
+    guardBoss_Attack_3_RepelDistance: 0
+    guardBoss_Attack_3_Effect: 
+    guardBoss_Attack_3_ForwardDistance: 0
+    guardBoss_Attack_3_attackRadius: 0
+    guardBoss_Attack_3_IsAttackBehind: 0
     enemySoldier1_Hp: 1000
     guardBoss_Hp: 50
   loadPath:
@@ -403,7 +445,7 @@ MonoBehaviour:
     archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1_Arrow
     magicianNormalAttack_1: 
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
-    enemySoldier_2: Prefab/Characters/Enemy/EnemySoldier_2
+    guardBoss: Prefab/Characters/Enemy/GuardBoss
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
   musicVolume: 0

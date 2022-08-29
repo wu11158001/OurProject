@@ -16,12 +16,6 @@ public class EnemySoldier1_Exclusive : MonoBehaviourPunCallbacks
         NumericalValue = GameDataManagement.Instance.numericalValue;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// §ðÀ»1_¼Ä¤H¤h§L
     /// </summary>
