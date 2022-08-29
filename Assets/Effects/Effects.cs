@@ -106,6 +106,7 @@ public class Effects : MonoBehaviour
     float oSize = 0.2f;
     void MagEffectsControl()
     {
+        //投影法陣
         var effect = SkillAttack_1;
         if (!animInfo.IsName("Attack.SkillAttack_1"))
         {
@@ -119,9 +120,8 @@ public class Effects : MonoBehaviour
             effect.transform.GetChild(3).gameObject.transform.Rotate(0, 0, 0.5f);
         }
 
-        //藍色法陣在Idle時停止
-        //  if (animInfo.IsName("Attack.NormalAttack_1"))   
-        if (animInfo.IsName("Idle"))
+        //藍色法陣在Idle時停止        
+        if (animInfo.IsName("Idle")|| animInfo.IsName("Attack.NormalAttack_1"))
         {
             NormalAttack_3.Stop();
         }
@@ -264,7 +264,7 @@ public class Effects : MonoBehaviour
         {
             effect.transform.GetChild(3).gameObject.SetActive(true);  //法陣     
             oSize += oSize * 10 * Time.deltaTime;
-            if (oSize >= 1.27f) oSize = 1.27f;
+            if (oSize >= 0.8f) oSize = 0.8f;
             effect.transform.GetChild(3).GetComponent<Projector>().orthographicSize = oSize;
             effect.transform.GetChild(3).gameObject.transform.Rotate(0, 0, 0.5f);
         }
@@ -327,7 +327,7 @@ public class Effects : MonoBehaviour
             if (animInfo.normalizedTime < 0.6)
             {
                 weapon.transform.localScale = new Vector3(1f, 1.5f, 1);
-                weapon.transform.localPosition = new Vector3(0, 1f, 0);
+                weapon.transform.localPosition = new Vector3(0, 0.49f, 0);
             }
             if (animInfo.normalizedTime >= 0.6)
             {
