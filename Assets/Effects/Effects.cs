@@ -267,6 +267,7 @@ public class Effects : MonoBehaviour
         //DoEffects(idelName, delay, effect);
     }
 
+    float wNa3ScaleY = 2.5f;
     void WarNormalAttack3()
     {
         var idelName = "Attack.NormalAttack_3";         //°Ê§@¦WºÙ      
@@ -283,6 +284,29 @@ public class Effects : MonoBehaviour
         DoEffects(idelName, 0.35f, effect.transform.GetChild(1).GetComponent<ParticleSystem>());                           
         DoEffects(idelName, 0.35f, effect.transform.GetChild(2).GetComponent<ParticleSystem>());
 
+        if (animInfo.IsName(idelName))
+        {
+            if (animInfo.normalizedTime < 0.6)
+            {
+                weapon.transform.localScale = new Vector3(1f, 2.5f, 1);
+                weapon.transform.localPosition = new Vector3(0, 1f, 0);
+            }
+            if (animInfo.normalizedTime >= 0.6)
+            {
+
+                wNa3ScaleY -= wNa3ScaleY * 0.5f * Time.deltaTime;
+                if (wNa3ScaleY <= 1f) wNa3ScaleY = 1f;
+                weapon.transform.localScale = new Vector3(1, wNa3ScaleY, 1);
+                weapon.transform.localPosition = new Vector3(0, 0.347f, 0);
+            }
+        }
+        else
+        {
+            wNa3ScaleY -= wNa3ScaleY * 0.5f * Time.deltaTime;
+            if (wNa3ScaleY <= 1f) wNa3ScaleY = 1f;
+            weapon.transform.localScale = new Vector3(1, wNa3ScaleY, 1);
+            weapon.transform.localPosition = new Vector3(0, 0.347f, 0);
+        }
 
         if (animInfo.IsName(idelName))
         {
