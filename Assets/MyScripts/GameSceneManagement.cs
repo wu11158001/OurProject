@@ -62,7 +62,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
         objectNumber_Dictionary.Add("playerNumbering", number);//添加至紀錄中
         GameObject player = OnRequestOpenObject(OnGetObjectNumber("playerNumbering"), loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//開啟物件
-        player.transform.position = new Vector3(207, -24, -45);        
+        player.transform.position = new Vector3(227.5f, -23.6f, -23.5f);        
         player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
         OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點           
 
@@ -88,14 +88,14 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.enemySoldier2Attack_Arrow);//弓箭物件
         objectNumber_Dictionary.Add("enemySoldier2Attack_Arrow", number);//添加至紀錄中
 
-        //敵人士兵_1_階段1出生點
+        //敵人士兵1_階段1出生點
         enemySoldiers1_Stage1Point = new Transform[GameObject.Find("EnemySoldiers1_Stage1Point").transform.childCount];
         for (int i = 0; i < GameObject.Find("EnemySoldiers1_Stage1Point").transform.childCount; i++)
         {
             enemySoldiers1_Stage1Point[i] = GameObject.Find("EnemySoldiers1_Stage1Point").transform.GetChild(i);        
         }
 
-        //敵人士兵_2_階段1出生點
+        //敵人士兵2_階段1出生點
         enemySoldiers2_Stage1Point = new Transform[GameObject.Find("EnemySoldiers2_Stage1Point").transform.childCount];
         for (int i = 0; i < GameObject.Find("EnemySoldiers2_Stage1Point").transform.childCount; i++)
         {
@@ -117,7 +117,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         //任務
         taskText = new string[] { "擊倒該區域所有怪物", "擊倒城門守衛", "擊倒城內區域所有怪物" };//個階段任務文字
-        taskKillNumber = new int[] { enemySoldiers1_Stage1Point.Length, 1, enemySoldiers1_Stage3Point.Length };//各階段任務所需擊殺數               
+        taskKillNumber = new int[] { enemySoldiers1_Stage1Point.Length + enemySoldiers2_Stage1Point.Length, 1, enemySoldiers1_Stage3Point.Length };//各階段任務所需擊殺數               
 
         //任務提示
         StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
