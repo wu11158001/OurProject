@@ -151,7 +151,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //任務
         taskText = new string[] { "擊倒該區域所有怪物", "擊倒城門守衛", "擊倒城內區域所有怪物" };//個階段任務文字
         //各階段任務所需擊殺數
-        taskKillNumber = new int[] { enemySoldiers1_Stage1Point.Length + enemySoldiers2_Stage1Point.Length,//階段1
+        taskKillNumber = new int[] { 2,//階段1
                                      1,//階段1
                                      enemySoldiers1_Stage3Point.Length + enemySoldiers2_Stage3Point.Length + enemySoldiers3_Stage3Point.Length};//階段3
 
@@ -196,7 +196,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         //產生敵人士兵1
                         number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
                         objectNumber_Dictionary.Add("enemySoldier_1", number);////添加至紀錄中
-                        for (int i = 0; i < enemySoldiers1_Stage1Point.Length; i++)                   
+                        for (int i = 0; i < 1; i++)                   
                         {
                             enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
                             enemy.transform.position = enemySoldiers1_Stage1Point[i].position;//設定位置
@@ -208,7 +208,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         //產生敵人士兵2
                         number = objectHandle.OnCreateObject(loadPath.enemySoldier_2);//產生至物件池
                         objectNumber_Dictionary.Add("enemySoldier_2", number);////添加至紀錄中
-                        for (int i = 0; i < enemySoldiers2_Stage1Point.Length; i++)
+                        for (int i = 0; i < 1; i++)
                         {
                             enemy = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_1);//開啟物件
                             enemy.transform.position = enemySoldiers2_Stage1Point[i].position;//設定位置

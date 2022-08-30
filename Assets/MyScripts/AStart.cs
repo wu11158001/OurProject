@@ -113,12 +113,62 @@ public class AStart
             {
                 pathNodesList.Add(targetPosition);//紀錄目標點
                 return pathNodesList;//回傳所有紀錄路徑點
-            }            
+            }
 
-            #region 第三步:最近節點是否有碰撞
+            #region 第三步:最近節點是否有碰撞(找中間沒有障礙物為目標)
             if (!isHaveBestNode)//沒有更近的節點
-            {                
-                bestDistance = 10000;
+            {
+                //判斷與目標路徑是否有障礙物
+                if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
+                {
+                    while (closeNodeList.Count < allNodes.Length)
+                    {
+                        float bestNode = 10000;//最佳節點距離
+                        int bestNeighborNode = 0;//最近的鄰居編號
+                        for (int i = 0; i < node.neighborNode.Length; i++)
+                        {
+                            if (node.neighborNode[i].nodeState == NodePath.NodeState.關閉) continue;
+
+                            //有障礙物
+                            if (Physics.Linecast(node.neighborNode[i].transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
+                            {
+                                Vector3 nextPosition = node.transform.position;//下個節點位置
+                                Vector3 neighborPosition = node.neighborNode[i].transform.position;//鄰居節點位置
+
+                                float G = (nextPosition - neighborPosition).magnitude;//到下個節點位置
+                                float H = (neighborPosition - targetPosition).magnitude;//下個節點到目標位置
+                                float F = G + H;//距離
+
+                                if (F < bestNode)
+                                {
+                                    bestNode = F;//最佳節點距離
+                                    bestNeighborNode = i;//最近的鄰居編號                    
+                                }                               
+                            }
+                            else//沒有障礙物
+                            {
+                                node = node.neighborNode[i];
+                                node.nodeState = NodePath.NodeState.關閉;//節點狀態
+                                closeNodeList.Add(node);//紀錄已關閉的節點
+                                pathNodesList.Add(targetPosition);//紀錄目標點
+                                return pathNodesList;//回傳所有紀錄路徑點
+                            }
+                        }
+
+                        node = node.neighborNode[bestNeighborNode];
+                        node.nodeState = NodePath.NodeState.關閉;//節點狀態
+                        closeNodeList.Add(node);//紀錄已關閉的節點
+                    }
+                }
+                else
+                {
+                    pathNodesList.Add(targetPosition);//紀錄目標點
+                    return pathNodesList;//回傳所有紀錄路徑點
+                }
+                                
+                pathNodesList.Add(targetPosition);//紀錄目標點
+                return pathNodesList;//回傳所有紀錄路徑點*/
+                /*bestDistance = 10000;
                 //判斷與目標路徑是否有障礙物
                 if (Physics.Linecast(node.transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
                 {                    
@@ -194,7 +244,7 @@ public class AStart
                     return pathNodesList;//回傳所有紀錄路徑點
                 } 
                 pathNodesList.Add(targetPosition);//紀錄目標點
-                return pathNodesList;//回傳所有紀錄路徑點
+                return pathNodesList;//回傳所有紀錄路徑點*/
             }
             #endregion
 

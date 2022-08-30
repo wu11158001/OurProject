@@ -31,11 +31,11 @@ MonoBehaviour:
     - 25
     - 20
     - 25
-    - 5
+    - 1
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 13
-    playerHp: 500
+    playerHp: 850
     playerMoveSpeed: 6.3
     playerJumpForce: 11.05
     playerCriticalRate: 15
@@ -44,7 +44,7 @@ MonoBehaviour:
     enemySoldier1_Hp: 130
     enemySoldier2_Hp: 95
     enemySoldier3_Hp: 155
-    guardBoss_Hp: 100
+    guardBoss_Hp: 650
     warriorNormalAttack_1_Damge: 30
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 37
@@ -75,7 +75,7 @@ MonoBehaviour:
     warriorJumpAttack_IsAttackBehind: 0
     warriorSkillAttack_1_Damge: 50
     warriorSkillAttack_1_RepelDirection: 0
-    warriorSkillAttack_1_RepelDistance: 80
+    warriorSkillAttack_1_RepelDistance: 70
     warriorSkillAttack_1_Effect: Pain
     warriorSkillAttack_1_ForwardDistance: 1.6
     warriorSkillAttack_1_attackRadius: 1.65
@@ -85,7 +85,7 @@ MonoBehaviour:
     warriorSkillAttack_2_RepelDistance: 45
     warriorSkillAttack_2_Effect: Pain
     warriorSkillAttack_2_ForwardDistance: 1.3
-    warriorSkillAttack_2_attackRadius: 1.2
+    warriorSkillAttack_2_attackRadius: 1.4
     warriorSkillAttack_2_IsAttackBehind: 0
     warriorSkillAttack_3_Damge:
     - 16
@@ -252,14 +252,14 @@ MonoBehaviour:
     magicianSkillAttack_3_ForwardDistance: 3
     magicianSkillAttack_3_attackRadius: 1.8
     magicianSkillAttack_3_IsAttackBehind: 0
-    enemySoldier1_Attack_1_Damge: 9
+    enemySoldier1_Attack_1_Damge: 13
     enemySoldier1_Attack_1_RepelDirection: 0
     enemySoldier1_Attack_1_RepelDistance: 30
     enemySoldier1_Attack_1_Effect: Pain
     enemySoldier1_Attack_1_ForwardDistance: 0
     enemySoldier1_Attack_1_attackRadius: 1.3
     enemySoldier1_Attack_1_IsAttackBehind: 1
-    enemySoldier1_Attack_2_Damge: 15
+    enemySoldier1_Attack_2_Damge: 9
     enemySoldier1_Attack_2_RepelDirection: 0
     enemySoldier1_Attack_2_RepelDistance: 45
     enemySoldier1_Attack_2_Effect: Pain
@@ -273,68 +273,68 @@ MonoBehaviour:
     enemySoldier1_Attack_3_ForwardDistance: 1.4
     enemySoldier1_Attack_3_attackRadius: 1.3
     enemySoldier1_Attack_3_IsAttackBehind: 0
-    enemySoldier2_Attack1_Damge: 18
+    enemySoldier2_Attack1_Damge: 5
     enemySoldier2_Attack1_RepelDirection: 0
     enemySoldier2_Attack1_RepelDistance: 5
     enemySoldier2_Attack1_Effect: Pain
     enemySoldier2_Attack1_FloatSpeed: 30
     enemySoldier2_Attack1_LifeTime: 0.45
-    enemySoldier2_Attack2_Damge: 19
+    enemySoldier2_Attack2_Damge: 5
     enemySoldier2_Attack2_RepelDirection: 0
     enemySoldier2_Attack2_RepelDistance: 5
     enemySoldier2_Attack2_Effect: Pain
     enemySoldier2_Attack2_FloatSpeed: 30
     enemySoldier2_Attack2_LifeTime: 0.45
-    enemySoldier2_Attack_3_Damge: 25
+    enemySoldier2_Attack_3_Damge: 9
     enemySoldier2_Attack_3_RepelDirection: 0
     enemySoldier2_Attack_3_RepelDistance: 25
     enemySoldier2_Attack_3_Effect: Pain
     enemySoldier2_Attack_3_ForwardDistance: 1.4
     enemySoldier2_Attack_3_attackRadius: 1.3
     enemySoldier2_Attack_3_IsAttackBehind: 0
-    enemySoldier3_Attack_1_Damge: 9
+    enemySoldier3_Attack_1_Damge: 15
     enemySoldier3_Attack_1_RepelDirection: 0
     enemySoldier3_Attack_1_RepelDistance: 30
     enemySoldier3_Attack_1_Effect: Pain
-    enemySoldier3_Attack_1_ForwardDistance: 1.4
-    enemySoldier3_Attack_1_attackRadius: 1.3
-    enemySoldier3_Attack_1_IsAttackBehind: 0
-    enemySoldier3_Attack_2_Damge: 15
+    enemySoldier3_Attack_1_ForwardDistance: 0
+    enemySoldier3_Attack_1_attackRadius: 1.5
+    enemySoldier3_Attack_1_IsAttackBehind: 1
+    enemySoldier3_Attack_2_Damge: 11
     enemySoldier3_Attack_2_RepelDirection: 0
     enemySoldier3_Attack_2_RepelDistance: 45
     enemySoldier3_Attack_2_Effect: Pain
     enemySoldier3_Attack_2_ForwardDistance: 1.4
     enemySoldier3_Attack_2_attackRadius: 1.3
     enemySoldier3_Attack_2_IsAttackBehind: 1
-    enemySoldier3_Attack_3_Damge: 6
+    enemySoldier3_Attack_3_Damge: 10
     enemySoldier3_Attack_3_RepelDirection: 0
     enemySoldier3_Attack_3_RepelDistance: 20
     enemySoldier3_Attack_3_Effect: Pain
     enemySoldier3_Attack_3_ForwardDistance: 1.4
     enemySoldier3_Attack_3_attackRadius: 1.3
     enemySoldier3_Attack_3_IsAttackBehind: 0
-    guardBoss_Attack_1_Damge: 47
+    guardBoss_Attack_1_Damge: 28
     guardBoss_Attack_1_RepelDirection: 0
     guardBoss_Attack_1_RepelDistance: 35
     guardBoss_Attack_1_Effect: Pain
     guardBoss_Attack_1_ForwardDistance: 0
     guardBoss_Attack_1_FlightSpeed: 0
     guardBoss_Attack_1_LifeTime: 1
-    guardBoss_Attack_2_Damge: 14
+    guardBoss_Attack_2_Damge: 17
     guardBoss_Attack_2_RepelDirection: 0
     guardBoss_Attack_2_RepelDistance: 25
     guardBoss_Attack_2_Effect: Pain
     guardBoss_Attack_2_ForwardDistance: 1.4
     guardBoss_Attack_2_attackRadius: 1.3
     guardBoss_Attack_2_IsAttackBehind: 0
-    guardBoss_Attack_3_Damge: 38
+    guardBoss_Attack_3_Damge: 35
     guardBoss_Attack_3_RepelDirection: 0
     guardBoss_Attack_3_RepelDistance: 35
     guardBoss_Attack_3_Effect: Pain
     guardBoss_Attack_3_ForwardDistance: 1.4
     guardBoss_Attack_3_attackRadius: 1.3
     guardBoss_Attack_3_IsAttackBehind: 0
-    guardBoss_Attack_4_Damge: 39
+    guardBoss_Attack_4_Damge: 33
     guardBoss_Attack_4_RepelDirection: 0
     guardBoss_Attack_4_RepelDistance: 35
     guardBoss_Attack_4_Effect: Pain

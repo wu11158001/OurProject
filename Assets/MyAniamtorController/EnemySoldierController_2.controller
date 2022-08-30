@@ -757,7 +757,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: f1b39dda57fa2e44eacce8b174f3211b, type: 2}
-  m_Tag: Idle
+  m_Tag: Run
   m_SpeedParameter: 
   m_MirrorParameter: IsAttackIdleMoveMirror
   m_CycleOffsetParameter: 
@@ -1087,6 +1087,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Pain
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Backflip
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3221368822162255090}
   m_Solo: 0
@@ -1139,6 +1142,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Pain
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Backflip
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3221368822162255090}
@@ -1431,7 +1437,7 @@ AnimatorStateMachine:
     m_Position: {x: -190, y: 440, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2546837418790287126}
-    m_Position: {x: 120, y: 440, z: 0}
+    m_Position: {x: 110, y: 440, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -9025872251766510810}
     m_Position: {x: -400, y: 340, z: 0}
@@ -1443,7 +1449,7 @@ AnimatorStateMachine:
     m_Position: {x: 120, y: 540, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1255023275562771868}
-    m_Position: {x: 400, y: 500, z: 0}
+    m_Position: {x: 410, y: 490, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -2016852475626201754}

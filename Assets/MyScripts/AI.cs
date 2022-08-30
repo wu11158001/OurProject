@@ -46,6 +46,7 @@ public class AI : MonoBehaviourPunCallbacks
     [SerializeField] float chaseSpeed;//追擊速度
     [SerializeField] float maxRadiansDelta;//轉向角度
     [SerializeField] float[] readyChaseRandomTime;//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+    float loseSpeed;//減少的速度比例
     float startChaseTime;//離開戰鬥後亂數開始追擊時間(計時器)
     int chaseObject;//追擊對象編號
     bool isStartChase;//是否開始追擊
@@ -53,7 +54,7 @@ public class AI : MonoBehaviourPunCallbacks
     float chaseTurnTime;//追擊轉向時間(計時器)
     int chaseDiretion;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)       
     float delayAttackRandomTime;//延遲攻擊亂數時間(計時器)
-    float[] delayAttackTime;//延遲攻擊時間(亂數最小值, 最大值)
+    float[] delayAttackTime;//延遲攻擊時間(亂數最小值, 最大值)    
 
     [Header("檢查同伴")]
     float changeDiretionTime_Forward;//更換方向時間_前方偵測(計時器)
@@ -83,7 +84,8 @@ public class AI : MonoBehaviourPunCallbacks
     [Header("尋路")]
     [SerializeField] bool isExecuteAStart;//是否執行AStart
     List<Vector3> pathsList = new List<Vector3>();//移動路徑節點  
-    int point = 0;//尋路節點編號        
+    int point = 0;//尋路節點編號
+    int aStarCheckPointNumber;//AStar至少經過多少點
 
     [Header("所有玩家")]
     [SerializeField] GameObject[] allPlayers;//所有玩家
@@ -225,6 +227,10 @@ public class AI : MonoBehaviourPunCallbacks
         maxRadiansDelta = 0.065f;//轉向角度        
         changeDiretionTime = 0.5f;//更換方向時間
         delayAttackTime = new float[] { 0.5f, 1};//延遲攻擊時間(亂數最小值, 最大值)
+        loseSpeed = 0.6f;//減少的速度比例
+
+        //尋路
+        aStarCheckPointNumber = 3;//AStar至少經過多少點
     }
 
     void Update()
@@ -351,8 +357,8 @@ public class AI : MonoBehaviourPunCallbacks
                 normalRandomMoveTime -= Time.deltaTime;
                 float maxRadiansDelta = 0.03f;//轉向角度
 
-                //檢查前方同伴
-                if (OnCheckCompanionBox(diretion: transform.forward))
+                //檢查前方同伴 && 非執行AStart
+                if (OnCheckCompanionBox(diretion: transform.forward) && !isExecuteAStart)
                 {                    
                     maxRadiansDelta = 0.065f;//轉向角度                    
                     forwardVector = -transform.forward - transform.right;//轉向方向                    
@@ -613,10 +619,10 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnCheckForwardCompanion()
     {
-        //檢查前方同伴
-        if (OnCheckCompanionBox(diretion: transform.forward))
+        //檢查前方同伴 && 非執行AStart
+        if (OnCheckCompanionBox(diretion: transform.forward) && !isExecuteAStart)
         {
-            chaseSlowDownSpeed -= 0.7f * Time.deltaTime;//追擊減速速度            
+            chaseSlowDownSpeed -= loseSpeed * Time.deltaTime;//追擊減速速度            
             if (chaseSlowDownSpeed <= 0f)
             {
                 chaseSlowDownSpeed = 0f;
@@ -668,8 +674,8 @@ public class AI : MonoBehaviourPunCallbacks
         {
             changeDiretionTime_Near = changeDiretionTime;
 
-            //檢查右方同伴
-            if (OnCheckCompanionBox(diretion: transform.right))//檢查右方同伴
+            //檢查右方同伴 && 非執行AStart
+            if (OnCheckCompanionBox(diretion: transform.right) && !isExecuteAStart)//檢查右方同伴
             {
                 if (!isCheckNearCompanion[0])//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
                 {
@@ -679,8 +685,8 @@ public class AI : MonoBehaviourPunCallbacks
             }
             else isCheckNearCompanion[0] = false;//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
 
-            //檢查左方同伴
-            if (OnCheckCompanionBox(diretion: -transform.right))
+            //檢查左方同伴 && 非執行AStart
+            if (OnCheckCompanionBox(diretion: -transform.right) && !isExecuteAStart)
             {
                 if (!isCheckNearCompanion[1])//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
                 {
@@ -912,9 +918,13 @@ public class AI : MonoBehaviourPunCallbacks
         //等待攻擊時間 && 非攻擊中
         if (waitAttackTime > 0 && !isAttacking)
         {
-            waitAttackTime -= Time.deltaTime;//亂數攻擊待機時間
-            attackIdleMoveRandomTime -= Time.deltaTime;//攻擊待機移動亂數時間(計時器)
-                        
+            //非執行AStart
+            if (!isExecuteAStart)
+            {
+                waitAttackTime -= Time.deltaTime;//亂數攻擊待機時間
+                attackIdleMoveRandomTime -= Time.deltaTime;//攻擊待機移動亂數時間(計時器)
+            }
+            
             OnAttackIdleMove();//攻擊待機移動            
 
             if (waitAttackTime <= 0)//攻擊待機時間
@@ -1144,13 +1154,25 @@ public class AI : MonoBehaviourPunCallbacks
         {
             point++;//目前尋路節點編號
 
-            //到達目標 || 到達搜索節點數量
-            if (point >= pathsList.Count || !OnCollision_Player())
+            //到達目標
+            if (point >= pathsList.Count)
             {                
                 point = pathsList.Count;//尋路節點編號
                 isExecuteAStart = false;//非執行AStart
-                pathsList.Clear();
-            }            
+                pathsList.Clear();                
+            }
+
+            //到達搜索節點數量
+            if (point >= aStarCheckPointNumber)
+            {                
+                //與玩家之間沒有障礙物
+                if (!OnCollision_Player())
+                {
+                    point = pathsList.Count - 1;//尋路節點編號
+                    isExecuteAStart = false;//非執行AStart
+                    pathsList.Clear();
+                }
+            }
         }
     }
     
