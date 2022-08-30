@@ -159,6 +159,7 @@ PlayableDirector:
     value: {fileID: 4044139412289126662}
   m_ExposedReferences:
     m_References:
+    - 902370b3260084542aa4276bdb36e2aa: {fileID: 0}
     - 6933cad9d3cc9314b984bd388b63a7de: {fileID: 0}
     - de52d936fafd6e94f90393b487972ffe: {fileID: 0}
     - efc9919a4d312594ba4f4f7c7c832f29: {fileID: 0}
@@ -244,6 +245,7 @@ PlayableDirector:
     - 6946b43aa22ad324297c58db4dffd7ac: {fileID: 0}
     - fedb89d6a3b3ae14f81c1e5f852eca88: {fileID: 0}
     - fcbfc75257c7b1c42ad37c11bfb38785: {fileID: 0}
+    - 77f19b5177da79a418f1a7d19e7ae0e1: {fileID: 4044139412289126664}
     - e7a3b7c4ae9d8854d9be87b84cc3ec76: {fileID: 0}
     - 0a0d652a8f95a8247ab9a45a9dccf5ef: {fileID: 0}
     - 74f25da655b7f584b94f411c04cfcfdf: {fileID: 0}
@@ -344,6 +346,7 @@ PlayableDirector:
     - a6f6cfc6b70e39d40ad76f1705fdcda9: {fileID: 0}
     - 210cfc6fa049e3546be6b4efa3aee47b: {fileID: 0}
     - 607af5329f4ef5547a8efde2deac95eb: {fileID: 0}
+    - 67e7952618689494ca6dbdd5a8e26e6d: {fileID: 4044139412289126664}
     - 223e25e59cc80c6419fb92d14ab1bb08: {fileID: 0}
     - 896f223e0dc556648b2fbb369b3c0ea6: {fileID: 0}
     - f6705ae18a8841a49bb537293825a671: {fileID: 0}
@@ -367,6 +370,7 @@ PlayableDirector:
     - 32e8191afbd172943ad6dc4bb9647cbd: {fileID: 0}
     - ca5f3b3dd6ebb564e8a722953fe6b17f: {fileID: 0}
     - d345c27695c825f4291b8ec1c46feca7: {fileID: 0}
+    - 0d171942f1fe1fd4ba5459cec2a2431a: {fileID: 4044139412289126663}
     - 0f08d3f2b5396dd488bde1ff4ceef925: {fileID: 0}
     - 2d1e4d9e0815f7f408a71b8b7f5cf6eb: {fileID: 0}
     - 8dd209d26d229374f87659f06924cdc5: {fileID: 0}
@@ -630,8 +634,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778684076}
-  m_LocalRotation: {x: -0.0855738, y: -0.12296728, z: 0.0103774965, w: -0.98866}
-  m_LocalPosition: {x: -0.20947322, y: 2.23113, z: -2.4928498}
+  m_LocalRotation: {x: -0.31447175, y: -0.6858477, z: 0.46127966, w: -0.46684206}
+  m_LocalPosition: {x: -1.0662327, y: 3.6388059, z: 0.47967562}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5559,6 +5563,16 @@ PrefabInstance:
 --- !u!95 &4044139412289126662 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6137406379775528471, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
+  m_PrefabInstance: {fileID: 4044139412289126661}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4044139412289126663 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5021433314489574966, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
+  m_PrefabInstance: {fileID: 4044139412289126661}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4044139412289126664 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 122575941006701906, guid: 044acff6c0468764bb4d62d341c16123, type: 3}
   m_PrefabInstance: {fileID: 4044139412289126661}
   m_PrefabAsset: {fileID: 0}
 --- !u!198 &7003655802950874302

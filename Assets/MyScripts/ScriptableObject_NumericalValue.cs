@@ -187,20 +187,29 @@ public class GameData_NumericalValue
     public float magicianSkillAttack_1_attackRange;//法師普通攻擊1_治療範圍
     public bool magicianSkillAttack_1_IsAttackBehind;//法師普通攻擊1_是否治療背後盟友
 
-    [Header("法師 技能攻擊2")]
+    /*[Header("法師 技能攻擊2")]
     public float[] magicianSkillAttack_2_Damge;//法師技能攻擊2_傷害
     public int[] magicianSkillAttack_2_RepelDirection;//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
     public float[] magicianSkillAttack_2_RepelDistance;//法師技能攻擊2_擊退/擊飛距離    
     public string[] magicianSkillAttack_2_Effect;//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
     public float[] magicianSkillAttack_2_ForwardDistance;//法師技能攻擊2_攻擊範圍中心點距離物件前方
     public float[] magicianSkillAttack_2_attackRadius;//法師技能攻擊2_攻擊半徑
-    public bool[] magicianSkillAttack_2_IsAttackBehind;//法師技能攻擊2_是否攻擊背後敵人
+    public bool[] magicianSkillAttack_2_IsAttackBehind;//法師技能攻擊2_是否攻擊背後敵人*/
+
+    [Header("法師 技能攻23")]
+    public float magicianSkillAttack_2_Damge;//法師技能攻擊2_傷害
+    public int magicianSkillAttack_2_RepelDirection;//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
+    public float magicianSkillAttack_2_RepelDistance;//法師技能攻擊2_擊退/擊飛距離    
+    public string magicianSkillAttack_2_Effect;//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
+    public float magicianSkillAttack_2_ForwardDistance;//法師技能攻擊2_攻擊範圍中心點距離物件前方
+    public float magicianSkillAttack_2_attackRadius;//法師技能攻擊2_攻擊半徑
+    public bool magicianSkillAttack_2_IsAttackBehind;//法師技能攻擊2_是否攻擊背後敵人
 
     [Header("法師 技能攻擊3")]
     public float magicianSkillAttack_3_Damge;//法師技能攻擊3_傷害
     public int magicianSkillAttack_3_RepelDirection;//法師技能攻擊3_擊退方向(0:擊退 1:擊飛)
     public float magicianSkillAttack_3_RepelDistance;//法師技能攻擊3_擊退/擊飛距離    
-    public string magicianSkillAttack_32_Effect;//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
+    public string magicianSkillAttack_3_Effect;//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
     public float magicianSkillAttack_3_ForwardDistance;//法師技能攻擊3_攻擊範圍中心點距離物件前方
     public float magicianSkillAttack_3_attackRadius;//法師技能攻擊3_攻擊半徑
     public bool magicianSkillAttack_3_IsAttackBehind;//法師技能攻擊3_是否攻擊背後敵人
@@ -341,7 +350,7 @@ public class GameData_NumericalValue
 
         //Buff增加數值
         buffAbleString = new string[] { "生命", "傷害", "防禦", "吸血", "移動", "回血" };//Buff增益文字
-        buffAbleValue = new float[] { 30, 25, 25, 20, 25, 5};//Buff增益數值(%)
+        buffAbleValue = new float[] { 30, 25, 25, 20, 25, 1};//Buff增益數值(%)
 
         //攝影機
         distance = 2.6f;//與玩家距離        
@@ -350,7 +359,7 @@ public class GameData_NumericalValue
         //cameraAngle = 20;//攝影機角度
 
         //玩家
-        playerHp = 500;//玩家生命值
+        playerHp = 850;//玩家生命值
         playerMoveSpeed = 6.3f;//玩家移動速度        
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
@@ -361,7 +370,7 @@ public class GameData_NumericalValue
         enemySoldier1_Hp = 130;//敵人士兵1_生命值
         enemySoldier2_Hp = 95;//敵人士兵2_生命值
         enemySoldier3_Hp = 155;//敵人士兵3_生命值
-        guardBoss_Hp = 100;//城門守衛Boss_生命值
+        guardBoss_Hp = 500;//城門守衛Boss_生命值
 
         #region 戰士
         //戰士 普通攻擊1
@@ -403,7 +412,7 @@ public class GameData_NumericalValue
         //戰士 技能攻擊1
         warriorSkillAttack_1_Damge = 50;//戰士技能攻擊2_傷害
         warriorSkillAttack_1_RepelDirection = 0;//戰士技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        warriorSkillAttack_1_RepelDistance = 80;//戰士技能攻擊2_擊退/擊飛距離    
+        warriorSkillAttack_1_RepelDistance = 70;//戰士技能攻擊2_擊退/擊飛距離    
         warriorSkillAttack_1_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
         warriorSkillAttack_1_ForwardDistance = 1.6f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
         warriorSkillAttack_1_attackRadius = 1.65f;//戰士技能攻擊2_攻擊半徑
@@ -415,7 +424,7 @@ public class GameData_NumericalValue
         warriorSkillAttack_2_RepelDistance = 45;//戰士技能攻擊2_擊退/擊飛距離    
         warriorSkillAttack_2_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
         warriorSkillAttack_2_ForwardDistance = 1.3f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
-        warriorSkillAttack_2_attackRadius = 1.2f;//戰士技能攻擊2_攻擊半徑
+        warriorSkillAttack_2_attackRadius = 1.4f;//戰士技能攻擊2_攻擊半徑
         warriorSkillAttack_2_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
 
         //戰士 技能攻擊3
@@ -485,23 +494,23 @@ public class GameData_NumericalValue
         //法師普通攻擊2
         magicianNormalAttack_2_Damge = 5;//法師普通攻擊2_傷害
         magicianNormalAttack_2_RepelDirection = 0;//法師普通攻擊2_擊退方向(0:擊退 1:擊飛)
-        magicianNormalAttack_2_RepelDistance = 10;//法師普通攻擊2_擊退/擊飛距離    
+        magicianNormalAttack_2_RepelDistance = 7;//法師普通攻擊2_擊退/擊飛距離    
         magicianNormalAttack_2_Effect = "Pain";//法師普通攻擊2_效果(受擊者播放的動畫名稱)        
-        magicianNormalAttack_2_ForwardDistance = 1.5f;//法師普通攻擊2_攻擊範圍中心點距離物件前方
-        magicianNormalAttack_2_attackRange = new Vector3(1, 1f, 3.3f);//法師普通攻擊2_攻擊範圍
+        magicianNormalAttack_2_ForwardDistance = 8.0f;//法師普通攻擊2_攻擊範圍中心點距離物件前方
+        magicianNormalAttack_2_attackRange = new Vector3(1, 1f, 16);//法師普通攻擊2_攻擊範圍
         magicianNormalAttack_2_IsAttackBehind = false;//法師普通攻擊2_是否攻擊背後敵人
 
         //法師普通攻擊3
-        magicianNormalAttack_3_Damge = 33;//法師普通攻擊3_傷害
+        magicianNormalAttack_3_Damge = 14;//法師普通攻擊3_傷害
         magicianNormalAttack_3_RepelDirection = 0;//法師普通攻擊3_擊退方向(0:擊退 1:擊飛)
-        magicianNormalAttack_3_RepelDistance = 25;//法師普通攻擊3_擊退/擊飛距離    
+        magicianNormalAttack_3_RepelDistance = 5f;//法師普通攻擊3_擊退/擊飛距離    
         magicianNormalAttack_3_Effect = "Pain";//法師普通攻擊3_效果(受擊者播放的動畫名稱)        
-        magicianNormalAttack_3_ForwardDistance = 2.7f;//法師普通攻擊3_攻擊範圍中心點距離物件前方
-        magicianNormalAttack_3_attackRadius = 2.3f;//法師普通攻擊3_攻擊半徑
-        magicianNormalAttack_3_IsAttackBehind = false;//法師普通攻擊3_是否攻擊背後敵人
+        magicianNormalAttack_3_ForwardDistance = 0;//法師普通攻擊3_攻擊範圍中心點距離物件前方
+        magicianNormalAttack_3_attackRadius = 8.0f;//法師普通攻擊3_攻擊半徑
+        magicianNormalAttack_3_IsAttackBehind = true;//法師普通攻擊3_是否攻擊背後敵人
 
         //法師跳躍攻擊
-        magicianJumpAttack_Damage = 28;//法師跳躍攻擊_傷害
+        magicianJumpAttack_Damage = 37;//法師跳躍攻擊_傷害
         magicianJumpAttack_RepelDirection = 0;//法師跳躍攻擊_擊退方向(0:擊退 1:擊飛)  
         magicianJumpAttack_RepelDistance = 40;//法師跳躍攻擊_擊退距離
         magicianJumpAttack_Effect = "Pain";//法師跳躍攻擊_效果(受擊者播放的動畫名稱)
@@ -515,28 +524,37 @@ public class GameData_NumericalValue
         magicianSkillAttack_1_attackRange = 5;//法師普通攻擊1_治療半徑
         magicianSkillAttack_1_IsAttackBehind = true;//法師普通攻擊1_是否治療背後盟友
 
-        //法師技能攻擊2
+        /*//法師技能攻擊2
         magicianSkillAttack_2_Damge = new float[] { 4, 4, 5, 4, 5, 4, 4, 7, 9, 12};//法師技能攻擊2_傷害
         magicianSkillAttack_2_RepelDirection = new int[] { 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0};//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
         magicianSkillAttack_2_RepelDistance = new float[] { 25, 5, 5, 5, 5, 5, 5, 15, 10, 65};//法師技能攻擊2_擊退/擊飛距離    
         magicianSkillAttack_2_Effect = new string[] { "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain", "Pain" };//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
         magicianSkillAttack_2_ForwardDistance = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};//法師技能攻擊2_攻擊範圍中心點距離物件前方
         magicianSkillAttack_2_attackRadius = new float[] { 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 1.2f};//法師技能攻擊2_攻擊半徑
-        magicianSkillAttack_2_IsAttackBehind = new bool[] { false, false, false, false, false, false, false, false, false, false };//法師技能攻擊2_是否攻擊背後敵人
+        magicianSkillAttack_2_IsAttackBehind = new bool[] { false, false, false, false, false, false, false, false, false, false };//法師技能攻擊2_是否攻擊背後敵人*/
+
+        //法師技能攻擊2
+        magicianSkillAttack_2_Damge = 32;//法師技能攻擊2_傷害
+        magicianSkillAttack_2_RepelDirection = 0;//法師技能攻擊2_擊退方向(0:擊退 1:擊飛)
+        magicianSkillAttack_2_RepelDistance = 25;//法師技能攻擊2_擊退/擊飛距離    
+        magicianSkillAttack_2_Effect = "Pain";//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
+        magicianSkillAttack_2_ForwardDistance = 5;//法師技能攻擊2_攻擊範圍中心點距離物件前方
+        magicianSkillAttack_2_attackRadius = 10.0f;//法師技能攻擊2_攻擊半徑
+        magicianSkillAttack_2_IsAttackBehind = true;//法師技能攻擊2_是否攻擊背後敵人
 
         //法師技能攻擊3
-        magicianSkillAttack_3_Damge = 52;//法師技能攻擊3_傷害
+        magicianSkillAttack_3_Damge = 35;//法師技能攻擊3_傷害
         magicianSkillAttack_3_RepelDirection = 0;//法師技能攻擊3_擊退方向(0:擊退 1:擊飛)
-        magicianSkillAttack_3_RepelDistance = 45;//法師技能攻擊3_擊退/擊飛距離    
-        magicianSkillAttack_32_Effect = "Pain";//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
-        magicianSkillAttack_3_ForwardDistance = 3;//法師技能攻擊3_攻擊範圍中心點距離物件前方
-        magicianSkillAttack_3_attackRadius = 1.8f;//法師技能攻擊3_攻擊半徑
-        magicianSkillAttack_3_IsAttackBehind = false;//法師技能攻擊3_是否攻擊背後敵人
+        magicianSkillAttack_3_RepelDistance = 25;//法師技能攻擊3_擊退/擊飛距離    
+        magicianSkillAttack_3_Effect = "Pain";//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
+        magicianSkillAttack_3_ForwardDistance = 5;//法師技能攻擊3_攻擊範圍中心點距離物件前方
+        magicianSkillAttack_3_attackRadius = 10.0f;//法師技能攻擊3_攻擊半徑
+        magicianSkillAttack_3_IsAttackBehind = true;//法師技能攻擊3_是否攻擊背後敵人
         #endregion
 
         #region 敵人士兵1(石頭人)
         //敵人士兵1 攻擊1
-        enemySoldier1_Attack_1_Damge = 9;//敵人士兵1_攻擊1_傷害
+        enemySoldier1_Attack_1_Damge = 13;//敵人士兵1_攻擊1_傷害
         enemySoldier1_Attack_1_RepelDirection = 0;//敵人士兵1_攻擊1_擊退方向(0:擊退 1:擊飛)
         enemySoldier1_Attack_1_RepelDistance = 30;//敵人士兵1_攻擊1_擊退/擊飛距離    
         enemySoldier1_Attack_1_Effect = "Pain";//敵人士兵1_攻擊1_效果(受擊者播放的動畫名稱)        
@@ -545,7 +563,7 @@ public class GameData_NumericalValue
         enemySoldier1_Attack_1_IsAttackBehind = true;//敵人士兵1_攻擊1_是否攻擊背後敵人
 
         //敵人士兵1 攻擊2
-        enemySoldier1_Attack_2_Damge = 15;//敵人士兵1_攻擊2_傷害
+        enemySoldier1_Attack_2_Damge = 9;//敵人士兵1_攻擊2_傷害
         enemySoldier1_Attack_2_RepelDirection = 0;//敵人士兵1_攻擊2_擊退方向(0:擊退 1:擊飛)
         enemySoldier1_Attack_2_RepelDistance = 45;//敵人士兵1_攻擊2_擊退/擊飛距離    
         enemySoldier1_Attack_2_Effect = "Pain";//敵人士兵1_攻擊2_效果(受擊者播放的動畫名稱)        
@@ -565,7 +583,7 @@ public class GameData_NumericalValue
 
         #region 敵人士兵2(弓箭手)
         //敵人士兵2 攻擊1
-        enemySoldier2_Attack1_Damge = 18;//敵人士兵2_攻擊1_傷害
+        enemySoldier2_Attack1_Damge = 5;//敵人士兵2_攻擊1_傷害
         enemySoldier2_Attack1_RepelDirection = 0;//敵人士兵2_攻擊1_擊退方向(0:擊退 1:擊飛)
         enemySoldier2_Attack1_RepelDistance = 5;//敵人士兵2_攻擊1_擊退/擊飛距離    
         enemySoldier2_Attack1_Effect = "Pain";//敵人士兵2_攻擊1_效果(受擊者播放的動畫名稱)
@@ -573,7 +591,7 @@ public class GameData_NumericalValue
         enemySoldier2_Attack1_LifeTime = 0.45f;//敵人士兵2_攻擊1_生存時間
 
         //敵人士兵2 攻擊2
-        enemySoldier2_Attack2_Damge = 19;//敵人士兵2_攻擊2_傷害
+        enemySoldier2_Attack2_Damge = 5;//敵人士兵2_攻擊2_傷害
         enemySoldier2_Attack2_RepelDirection = 0;//敵人士兵2_攻擊2_擊退方向(0:擊退 1:擊飛)
         enemySoldier2_Attack2_RepelDistance = 5;//敵人士兵2_攻擊2_擊退/擊飛距離    
         enemySoldier2_Attack2_Effect = "Pain";//敵人士兵2_攻擊2_效果(受擊者播放的動畫名稱)
@@ -581,7 +599,7 @@ public class GameData_NumericalValue
         enemySoldier2_Attack2_LifeTime = 0.45f;//敵人士兵2_攻擊2_生存時間
 
         //敵人士兵2 攻擊3
-        enemySoldier2_Attack_3_Damge = 25;//敵人士兵2_攻擊3_傷害
+        enemySoldier2_Attack_3_Damge = 9;//敵人士兵2_攻擊3_傷害
         enemySoldier2_Attack_3_RepelDirection = 0;//敵人士兵2_攻擊3_擊退方向(0:擊退 1:擊飛)
         enemySoldier2_Attack_3_RepelDistance = 25;//敵人士兵2_攻擊3_擊退/擊飛距離    
         enemySoldier2_Attack_3_Effect = "Pain";//敵人士兵2_攻擊3_效果(受擊者播放的動畫名稱)        
@@ -592,7 +610,7 @@ public class GameData_NumericalValue
 
         #region 敵人士兵3(斧頭人)
         //敵人士兵3 攻擊1
-        enemySoldier3_Attack_1_Damge = 9;//敵人士兵3_攻擊1_傷害
+        enemySoldier3_Attack_1_Damge = 15;//敵人士兵3_攻擊1_傷害
         enemySoldier3_Attack_1_RepelDirection = 0;//敵人士兵3_攻擊1_擊退方向(0:擊退 1:擊飛)
         enemySoldier3_Attack_1_RepelDistance = 30;//敵人士兵3_攻擊1_擊退/擊飛距離    
         enemySoldier3_Attack_1_Effect = "Pain";//敵人士兵3_攻擊1_效果(受擊者播放的動畫名稱)        
@@ -601,7 +619,7 @@ public class GameData_NumericalValue
         enemySoldier3_Attack_1_IsAttackBehind = true;//敵人士兵3_攻擊1_是否攻擊背後敵人
 
         //敵人士兵3 攻擊2
-        enemySoldier3_Attack_2_Damge = 15;//敵人士兵3_攻擊2_傷害
+        enemySoldier3_Attack_2_Damge = 11;//敵人士兵3_攻擊2_傷害
         enemySoldier3_Attack_2_RepelDirection = 0;//敵人士兵3_攻擊2_擊退方向(0:擊退 1:擊飛)
         enemySoldier3_Attack_2_RepelDistance = 45;//敵人士兵3_攻擊2_擊退/擊飛距離    
         enemySoldier3_Attack_2_Effect = "Pain";//敵人士兵3_攻擊2_效果(受擊者播放的動畫名稱)        
@@ -610,7 +628,7 @@ public class GameData_NumericalValue
         enemySoldier3_Attack_2_IsAttackBehind = true;//敵人士兵3_攻擊2_是否攻擊背後敵人
 
         //敵人士兵3 攻擊3
-        enemySoldier3_Attack_3_Damge = 6;//敵人士兵3_攻擊3_傷害
+        enemySoldier3_Attack_3_Damge = 10;//敵人士兵3_攻擊3_傷害
         enemySoldier3_Attack_3_RepelDirection = 0;//敵人士兵3_攻擊3_擊退方向(0:擊退 1:擊飛)
         enemySoldier3_Attack_3_RepelDistance = 20;//敵人士兵3_攻擊3_擊退/擊飛距離    
         enemySoldier3_Attack_3_Effect = "Pain";//敵人士兵3_攻擊3_效果(受擊者播放的動畫名稱)        
@@ -621,7 +639,7 @@ public class GameData_NumericalValue
 
         #region 守衛Boss
         //守衛Boss 攻擊1
-        guardBoss_Attack_1_Damge = 47;//守衛Boss_攻擊1_傷害
+        guardBoss_Attack_1_Damge = 28;//守衛Boss_攻擊1_傷害
         guardBoss_Attack_1_RepelDirection = 0;//守衛Boss_攻擊1_擊退方向(0:擊退 1:擊飛)
         guardBoss_Attack_1_RepelDistance = 35;//守衛Boss_攻擊1_擊退/擊飛距離    
         guardBoss_Attack_1_Effect = "Pain";//守衛Boss_攻擊1_效果(受擊者播放的動畫名稱)        
@@ -629,7 +647,7 @@ public class GameData_NumericalValue
         guardBoss_Attack_1_LifeTime = 1;//守衛Boss_攻擊1_生存時間
 
         //守衛Boss 攻擊2
-        guardBoss_Attack_2_Damge = 14;//守衛Boss_攻擊2_傷害
+        guardBoss_Attack_2_Damge = 17;//守衛Boss_攻擊2_傷害
         guardBoss_Attack_2_RepelDirection = 0;//守衛Boss_攻擊2_擊退方向(0:擊退 1:擊飛)
         guardBoss_Attack_2_RepelDistance = 25;//守衛Boss_攻擊2_擊退/擊飛距離    
         guardBoss_Attack_2_Effect = "Pain";//守衛Boss_攻擊2_效果(受擊者播放的動畫名稱)        
@@ -638,7 +656,7 @@ public class GameData_NumericalValue
         guardBoss_Attack_2_IsAttackBehind = false;//守衛Boss_攻擊2_是否攻擊背後敵人
 
         //守衛Boss 攻擊3
-        guardBoss_Attack_3_Damge = 38;//守衛Boss_攻擊3_傷害
+        guardBoss_Attack_3_Damge = 35;//守衛Boss_攻擊3_傷害
         guardBoss_Attack_3_RepelDirection = 0;//守衛Boss_攻擊3_擊退方向(0:擊退 1:擊飛)
         guardBoss_Attack_3_RepelDistance = 35;//守衛Boss_攻擊3_擊退/擊飛距離    
         guardBoss_Attack_3_Effect = "Pain";//守衛Boss_攻擊3_效果(受擊者播放的動畫名稱)        
@@ -647,7 +665,7 @@ public class GameData_NumericalValue
         guardBoss_Attack_3_IsAttackBehind = false;//守衛Boss_攻擊3_是否攻擊背後敵人
 
         //守衛Boss 攻擊4
-        guardBoss_Attack_4_Damge = 39;//守衛Boss_攻擊4_傷害
+        guardBoss_Attack_4_Damge = 33;//守衛Boss_攻擊4_傷害
         guardBoss_Attack_4_RepelDirection = 0;//守衛Boss_攻擊4_擊退方向(0:擊退 1:擊飛)
         guardBoss_Attack_4_RepelDistance = 35;//守衛Boss_攻擊4_擊退/擊飛距離    
         guardBoss_Attack_4_Effect = "Pain";//守衛Boss_攻擊4_效果(受擊者播放的動畫名稱)        
@@ -655,8 +673,6 @@ public class GameData_NumericalValue
         guardBoss_Attack_4_attackRadius = 1.3f;//守衛Boss_攻擊4_攻擊半徑
         guardBoss_Attack_4_IsAttackBehind = false;//守衛Boss_攻擊4_是否攻擊背後敵人
         #endregion
-
-
     }
 }
 

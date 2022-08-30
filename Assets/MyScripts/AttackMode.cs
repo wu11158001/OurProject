@@ -116,7 +116,7 @@ public class AttackMode
             {                
                 //是否攻擊背後敵人
                 if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.35f) continue;
-                OnSetAttackNumbericalValue(collision);
+                OnSetAttackNumbericalValue(collision);                
             }
         }   
 
@@ -149,10 +149,11 @@ public class AttackMode
     /// 射出物件(遠程攻擊)
     /// </summary>
     void OnShoot()
-    {
-        //生存時間
-        lifeTime -= Time.deltaTime;
-        if (lifeTime <= 0)
+    {        
+        lifeTime -= Time.deltaTime;//生存時間
+
+        //生存時間 || 碰撞牆壁
+        if (lifeTime <= 0 || Physics.CheckSphere(performObject.transform.position, performObject.GetComponent<SphereCollider>().radius, 1 << LayerMask.NameToLayer("StageObject")))
         {
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
             performObject.SetActive(false);

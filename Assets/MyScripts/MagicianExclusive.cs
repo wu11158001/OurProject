@@ -43,7 +43,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        OnSkillAttack2_Magician();
+       // OnSkillAttack2_Magician();
     }    
 
     /// <summary>
@@ -72,7 +72,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)   
     }
 
-    /// <summary>
+    /*/// <summary>
     /// 技能攻擊2_法師
     /// </summary>
     void OnSkillAttack2_Magician()
@@ -133,6 +133,35 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.isAttackBehind = NumericalValue.magicianSkillAttack_2_IsAttackBehind[number];//是否攻擊背後敵人
 
         GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)   
+    }*/
+
+    /// <summary>
+    /// 技能攻擊2_法師
+    /// </summary>
+    void OnOnSkillAttack2_Magician()
+    {
+        //連線模式
+        if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
+
+        bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
+        float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
+
+        AttackMode attack = AttackMode.Instance;
+        attack.performCharacters = gameObject;//執行攻擊腳色
+        attack.performObject = gameObject;//執行攻擊的物件(自身/射出物件)                                                                                            
+        attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
+        attack.isCritical = isCritical;//是否爆擊
+
+        attack.function = new Action(attack.OnSetHitSphereFunction);//設定執行函式
+        attack.damage = (NumericalValue.magicianSkillAttack_2_Damge + (NumericalValue.magicianSkillAttack_2_Damge * addDamage)) * rate;//造成傷害 
+        attack.direction = NumericalValue.magicianSkillAttack_2_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
+        attack.repel = NumericalValue.magicianSkillAttack_2_RepelDistance;//擊退距離
+        attack.animationName = NumericalValue.magicianSkillAttack_2_Effect;//攻擊效果(播放動畫名稱)
+        attack.forwardDistance = NumericalValue.magicianSkillAttack_2_ForwardDistance;//攻擊範圍中心點距離物件前方
+        attack.attackRadius = NumericalValue.magicianSkillAttack_2_attackRadius;//攻擊半徑
+        attack.isAttackBehind = NumericalValue.magicianSkillAttack_2_IsAttackBehind;//是否攻擊背後敵人
+
+        GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)   
     }
 
     /// <summary>
@@ -156,7 +185,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         attack.damage = (NumericalValue.magicianSkillAttack_3_Damge + (NumericalValue.magicianSkillAttack_3_Damge * addDamage)) * rate;//造成傷害 
         attack.direction = NumericalValue.magicianSkillAttack_3_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.magicianSkillAttack_3_RepelDistance;//擊退距離
-        attack.animationName = NumericalValue.magicianSkillAttack_32_Effect;//攻擊效果(播放動畫名稱)
+        attack.animationName = NumericalValue.magicianSkillAttack_3_Effect;//攻擊效果(播放動畫名稱)
         attack.forwardDistance = NumericalValue.magicianSkillAttack_3_ForwardDistance;//攻擊範圍中心點距離物件前方
         attack.attackRadius = NumericalValue.magicianSkillAttack_3_attackRadius;//攻擊半徑
         attack.isAttackBehind = NumericalValue.magicianSkillAttack_3_IsAttackBehind;//是否攻擊背後敵人
@@ -205,7 +234,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
   
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
-
+        
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("magicianNormalAttack_1"), GameSceneManagement.Instance.loadPath.magicianNormalAttack_1);//執行攻擊的物件(自身/射出物件)
@@ -262,7 +291,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
     {
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
-
+        
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//是否爆擊
         float rate = isCritical ? NumericalValue.criticalBonus : 1;//爆擊攻擊提升倍率
 
