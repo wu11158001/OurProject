@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.029087128, g: 0.029898217, b: 0.029896265, a: 1}
+  m_IndirectSpecularColor: {r: 0.029087018, g: 0.029898075, b: 0.029896133, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -183,6 +183,10 @@ MonoBehaviour:
     playerCriticalRate: 30
     playerDodgeSeppd: 3
     playerSelfHealTime: 5
+    enemySoldier1_Hp: 1000
+    enemySoldier2_Hp: 95
+    enemySoldier3_Hp: 155
+    guardBoss_Hp: 50
     warriorNormalAttack_1_Damge: 10
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 50
@@ -392,6 +396,27 @@ MonoBehaviour:
     enemySoldier2_Attack_3_ForwardDistance: 0
     enemySoldier2_Attack_3_attackRadius: 0
     enemySoldier2_Attack_3_IsAttackBehind: 0
+    enemySoldier3_Attack_1_Damge: 9
+    enemySoldier3_Attack_1_RepelDirection: 0
+    enemySoldier3_Attack_1_RepelDistance: 30
+    enemySoldier3_Attack_1_Effect: Pain
+    enemySoldier3_Attack_1_ForwardDistance: 1.4
+    enemySoldier3_Attack_1_attackRadius: 1.3
+    enemySoldier3_Attack_1_IsAttackBehind: 0
+    enemySoldier3_Attack_2_Damge: 15
+    enemySoldier3_Attack_2_RepelDirection: 0
+    enemySoldier3_Attack_2_RepelDistance: 45
+    enemySoldier3_Attack_2_Effect: Pain
+    enemySoldier3_Attack_2_ForwardDistance: 0
+    enemySoldier3_Attack_2_attackRadius: 1.7
+    enemySoldier3_Attack_2_IsAttackBehind: 1
+    enemySoldier3_Attack_3_Damge: 6
+    enemySoldier3_Attack_3_RepelDirection: 0
+    enemySoldier3_Attack_3_RepelDistance: 20
+    enemySoldier3_Attack_3_Effect: Pain
+    enemySoldier3_Attack_3_ForwardDistance: 1.4
+    enemySoldier3_Attack_3_attackRadius: 1.3
+    enemySoldier3_Attack_3_IsAttackBehind: 0
     guardBoss_Attack_1_Damge: 0
     guardBoss_Attack_1_RepelDirection: 0
     guardBoss_Attack_1_RepelDistance: 0
@@ -420,9 +445,6 @@ MonoBehaviour:
     guardBoss_Attack_4_ForwardDistance: 1.4
     guardBoss_Attack_4_attackRadius: 1.3
     guardBoss_Attack_4_IsAttackBehind: 0
-    enemySoldier1_Hp: 1000
-    enemySoldier2_Hp: 95
-    guardBoss_Hp: 50
   loadPath:
     roleSelect_Button: RoleSelectButton
     roleSelect_Sprite: Sprites/ChooseRoleScreen/Role
@@ -452,6 +474,7 @@ MonoBehaviour:
     magicianNormalAttack_1: 
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     enemySoldier_2: 
+    enemySoldier_3: Prefab/Characters/Enemy/EnemySoldier_3
     guardBoss: Prefab/Characters/Enemy/GuardBoss
     guardBossAttack_1: Prefab/ShootObject/GuardBoss/Attack1_GuardBoss
     enemySoldier2Attack_Arrow: Prefab/ShootObject/EnemySoldier2/Attack_Arrow

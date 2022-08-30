@@ -44,6 +44,7 @@ public class GameData_LoadPath
     [Header("敵人角色")]
     public string enemySoldier_1;//敵人士兵1
     public string enemySoldier_2;//敵人士兵2
+    public string enemySoldier_3;//敵人士兵3
     public string guardBoss;//城門守衛Boss
 
     [Header("守衛Boss物件")]
@@ -95,6 +96,7 @@ public class GameData_LoadPath
         //敵人角色
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1
         enemySoldier_2 = "Prefab/Characters/Enemy/EnemySoldier_2";//敵人士兵2
+        enemySoldier_3 = "Prefab/Characters/Enemy/EnemySoldier_3";//敵人士兵3
         guardBoss = "Prefab/Characters/Enemy/GuardBoss";//城門守衛Boss
 
         //守衛Boss物件

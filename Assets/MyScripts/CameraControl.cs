@@ -45,8 +45,8 @@ public class CameraControl : MonoBehaviour
 
     private void Start()
     {
-        lerpSpeed = 0.1f;//選轉速度
-        rotateSpeed = 0.75f;//選轉速度
+        lerpSpeed = 0.2f;//選轉速度
+        rotateSpeed = 0.80f;//選轉速度
         waitMoveTime = 1;//等待移動時間
     }
 

@@ -41,6 +41,7 @@ MonoBehaviour:
     magicianNormalAttack_1: Prefab/ShootObject/Magician/MagicianNormalAttack_1
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     enemySoldier_2: Prefab/Characters/Enemy/EnemySoldier_2
+    enemySoldier_3: Prefab/Characters/Enemy/EnemySoldier_3
     guardBoss: Prefab/Characters/Enemy/GuardBoss
     guardBossAttack_1: Prefab/ShootObject/GuardBoss/Attack1_GuardBoss
     enemySoldier2Attack_Arrow: Prefab/ShootObject/EnemySoldier2/Attack_Arrow

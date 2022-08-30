@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - GuardBoss
   - EnemySoldier_2
+  - EnemySoldier_3
   layers:
   - Default
   - TransparentFX

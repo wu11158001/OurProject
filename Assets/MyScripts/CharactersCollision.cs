@@ -78,6 +78,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case "EnemySoldier_2":
                 MaxHp = NumericalValue.enemySoldier2_Hp;
                 break;
+            case "EnemySoldier_3":
+                MaxHp = NumericalValue.enemySoldier3_Hp;
+                break;
             case "GuardBoss":
                 MaxHp = NumericalValue.guardBoss_Hp;
                 break;
@@ -345,7 +348,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
             if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
 
-            //面向攻擊者(Enemy執行)
+            /*//面向攻擊者(Enemy執行)
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 Vector3 attackerPosition = attackerObject.transform.position;//攻擊者向量
@@ -353,7 +356,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 Vector3 targetPosition = transform.position;//受擊者向量
                 targetPosition.y = 0;
                 transform.forward = attackerPosition - targetPosition;
-            }
+            }*/
 
             //產生文字            
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
