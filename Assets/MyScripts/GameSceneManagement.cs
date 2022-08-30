@@ -22,7 +22,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     //出生點
     Transform[] enemySoldiers1_Stage1Point;//敵人士兵1_階段1出生點
     Transform[] enemySoldiers2_Stage1Point;//敵人士兵2_階段1出生點
-    Transform guardBoss_Stage2Point;//城門首衛Boss_階段2出生點
+    Transform[] guardBoss_Stage2Point;//城門首衛Boss_階段2出生點
     Transform[] enemySoldiers1_Stage3Point;//敵人士兵1_階段3出生點
     Transform[] enemySoldiers2_Stage3Point;//敵人士兵2_階段3出生點
     Transform[] enemySoldiers3_Stage3Point;//敵人士兵3_階段3出生點
@@ -32,6 +32,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     int taskStage;//目前任務階段
     public int[] taskKillNumber;//各階段任務所需擊殺數
     public int KillEnemyNumber;//已擊殺怪物數量
+
+    //可控制城門
+    float gateSpeed;//城門移動速度
+    [SerializeField]bool[] stageGateOpen;//個階段城門開啟狀態
+    [SerializeField] GameObject stage1_Gate;//階段1城門
 
     void Awake()
     {       
@@ -58,6 +63,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (item.GetComponent<BoxCollider>()) OnSetMiniMapPoint(item, loadPath.miniMapMatirial_Object);
         }*/
 
+        //可控制城門
+        stageGateOpen = new bool[] { false};//個階段城門開啟狀態
+        gateSpeed = 1;//城門移動速度
+        stage1_Gate = GameObject.Find("Stage1_Gate");//階段1城門
+
         int number = 0;
 
         //玩家腳色
@@ -80,8 +90,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
                 }
             }            
-        }
-        
+        }        
 
         //弓箭手物件
         number = objectHandle.OnCreateObject(loadPath.archerNormalAttack_1);//普通攻擊_1物件
@@ -120,9 +129,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             enemySoldiers2_Stage1Point[i] = GameObject.Find("EnemySoldiers2_Stage1Point").transform.GetChild(i);
         }
 
-        //城門首衛Boss_階段2出生點
-        guardBoss_Stage2Point = GameObject.Find("GuardBoss_Stage2Point").transform.GetChild(0);
-
+        //城門首衛Boss_階段2出生點        
+        guardBoss_Stage2Point = new Transform[GameObject.Find("GuardBoss_Stage2Point").transform.childCount];
+        for (int i = 0; i < GameObject.Find("GuardBoss_Stage2Point").transform.childCount; i++)
+        {
+            guardBoss_Stage2Point[i] = GameObject.Find("GuardBoss_Stage2Point").transform.GetChild(i);
+        }
         //敵人士兵1_階段3出生點
         enemySoldiers1_Stage3Point = new Transform[GameObject.Find("EnemySoldiers1_Stage3Point").transform.childCount];
         for (int i = 0; i < GameObject.Find("EnemySoldiers1_Stage3Point").transform.childCount; i++)
@@ -163,12 +175,33 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     }
 
     void Update()
-    {
-        //攻擊行為
-        OnAttackBehavior();
+    {        
+        OnAttackBehavior();//攻擊行為
+        OnGate();//可控制城門
     }
 
     #region 任務
+    /// <summary>
+    /// 可控制城門
+    /// </summary>
+    void OnGate()
+    {
+        if(taskStage >= 1)//第1階段過關
+        {
+            if (stage1_Gate.transform.position.y < -12)
+            {
+                //玩家在範圍內
+                if (Physics.CheckSphere(stage1_Gate.transform.position, 20, 1 << LayerMask.NameToLayer("Player")))
+                {
+                    stageGateOpen[0] = true;
+                }
+
+                //階段1城門開啟
+                if(stageGateOpen[0]) stage1_Gate.transform.position = stage1_Gate.transform.position + Vector3.up * gateSpeed * Time.deltaTime;
+            }
+        }
+    }
+
     /// <summary>
     /// 創建敵人
     /// </summary>
@@ -222,10 +255,13 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         number = objectHandle.OnCreateObject(loadPath.guardBoss);//產生至物件池
                         objectNumber_Dictionary.Add("enemyGuardBoss", number);////添加至紀錄中
                         //產生城門守衛Boss
-                        enemy = OnRequestOpenObject(OnGetObjectNumber("enemyGuardBoss"), loadPath.guardBoss);//開啟物件
-                        enemy.transform.position = guardBoss_Stage2Point.position;//設定位置
-                        enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
-                        enemy.tag = "GuardBoss";//設定Tag判斷HP
+                        for (int i = 0; i < guardBoss_Stage2Point.Length; i++)
+                        {
+                            enemy = OnRequestOpenObject(OnGetObjectNumber("enemyGuardBoss"), loadPath.guardBoss);//開啟物件
+                            enemy.transform.position = guardBoss_Stage2Point[i].position;//設定位置
+                            enemy.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            enemy.tag = "GuardBoss";//設定Tag判斷HP
+                        }                        
                         break;
                     case 2://階段3
                         //產生敵人士兵1
