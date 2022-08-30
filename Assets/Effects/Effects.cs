@@ -105,25 +105,24 @@ public class Effects : MonoBehaviour
     }
 
 
-    float oSize = 0.2f;
-    float booksize = 0.008676398f;
+    float oSize = 0.2f;  
+    float booksize = 0.01262763f;
     bool closeMagicBook = false;
-    float buffTime = 0;
     void MagEffectsControl()
     {
         //投影法陣，消失
-        var effect = SkillAttack_1;
-        if (!animInfo.IsName("Attack.SkillAttack_1"))  //如果不在補血狀態
-        {
-            oSize -= oSize * 10 * Time.deltaTime;
-            if (oSize <= 0.2f)
-            {
-                effect.transform.GetChild(2).gameObject.SetActive(false);
-                oSize = 0.2f;
-            }
-            effect.transform.GetChild(2).GetComponent<Projector>().orthographicSize = oSize;
-            effect.transform.GetChild(2).gameObject.transform.Rotate(0, 0, 0.5f);
-        }
+        //var effect = SkillAttack_1;
+        //if (!animInfo.IsName("Attack.SkillAttack_1"))  //如果不在補血狀態
+        //{
+        //    oSize -= oSize * 10 * Time.deltaTime;
+        //    if (oSize <= 0.2f)
+        //    {
+        //        effect.transform.GetChild(2).gameObject.SetActive(false);
+        //        oSize = 0.2f;
+        //    }
+        //    effect.transform.GetChild(2).GetComponent<Projector>().orthographicSize = oSize;
+        //    effect.transform.GetChild(2).gameObject.transform.Rotate(0, 0, 0.5f);
+        //}
 
         //藍色法陣在Idle時停止        
         if (animInfo.IsName("Idle") || animInfo.IsName("Attack.NormalAttack_1"))
@@ -132,30 +131,28 @@ public class Effects : MonoBehaviour
         }
 
         //魔法書
-        if (magicBook.gameObject.activeInHierarchy)
+        if (magicBook.gameObject.activeInHierarchy)  //當魔法書啟動時
         {
+            if (!closeMagicBook)
+            {
+                booksize += booksize * 10f * Time.deltaTime;   //開始放大                
+                if (booksize >= 0.01262763f) booksize = 0.01262763f;
+            }
+
+            magicBook.localScale = new Vector3(booksize, booksize, booksize);
+
             magicBook.Rotate(Vector3.up, 50 * Time.deltaTime, Space.World);
             magicBook.SetParent(magicNa2toWorld);
 
-            magicBook.position = Vector3.Lerp(magicBook.position, gameObject.transform.position + (gameObject.transform.right * (0.5f) + gameObject.transform.forward * (-1f) + gameObject.transform.up * 2f), Time.deltaTime);
-            //gameObject.transform.forward * (-2f) + gameObject.transform.up * 2f 偏移量，避免重疊
-            buffTime +=Time.deltaTime;
-            //if (buffTime>=3)
-            //{
-               // SkillAttack_1.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-                SkillAttack_1.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().Play();
-                //if (buffTime >= 5)
-                //{
-                //    SkillAttack_1.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().Stop();
-                //   // SkillAttack_1.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-                //    buffTime = 0;
-                //}
-            //}
+            magicBook.position = Vector3.Lerp(magicBook.position, gameObject.transform.position + (gameObject.transform.right * (0.5f) + gameObject.transform.forward * (0.3f) + gameObject.transform.up * 2f), Time.deltaTime);
+            // 偏移量，避免重疊  gameObject.transform.right場景腳色的右邊,gameObject.transform.forward 前面 gameObject.transform.up上面
+
         }
         else
         {
             magicBook.SetParent(SkillAttack_1.transform);
             magicBook.gameObject.SetActive(false);
+            magicBook.GetChild(1).GetComponent<ParticleSystem>().Stop();   //關閉魔法書時關閉金光特效
         }
         if (animInfo.IsName("Pain"))
         {
@@ -163,11 +160,12 @@ public class Effects : MonoBehaviour
         }
         if (closeMagicBook)
         {
-            booksize -= booksize * 10f * Time.deltaTime;
+            booksize -= booksize * 40f * Time.deltaTime;   //跟前面魔法陣啟動時放大有相反作用，所以值要大
             if (booksize <= 0f)
             {
                 magicBook.SetParent(SkillAttack_1.transform);
                 magicBook.gameObject.SetActive(false);
+                magicBook.GetChild(1).GetComponent<ParticleSystem>().Stop();   //關閉魔法書時關閉金光特效
                 booksize = 0.008676398f;
                 closeMagicBook = false;
             }
@@ -303,6 +301,18 @@ public class Effects : MonoBehaviour
     {
         var idelName = "Attack.SkillAttack_1";
 
+        //魔法書
+        if (animInfo.IsName(idelName))
+        {
+            //if (animInfo.normalizedTime > 0.001f && !magicBook.gameObject.activeInHierarchy) //當魔法書沒有啟動，就縮到很小，不能為0
+            if (!magicBook.gameObject.activeInHierarchy)
+            {
+                booksize = 0.000000011f;
+                magicBook.gameObject.SetActive(true);  //打開魔法書，腳本銜接法陣管理          
+            }
+        }
+
+
         var SkillAttack_10 = SkillAttack_1.transform.GetChild(0).GetComponent<ParticleSystem>();
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.2f) SkillAttack_10.Play();
 
@@ -310,26 +320,17 @@ public class Effects : MonoBehaviour
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.2f && !SkillAttack_11.isPlaying) SkillAttack_11.Play();
 
 
-
         //投影法陣
-        if (animInfo.IsName(idelName))
-        {
-            SkillAttack_1.transform.GetChild(2).gameObject.SetActive(true);  //法陣     
-            oSize += oSize * 10 * Time.deltaTime;
-            if (oSize >= 0.8f) oSize = 0.8f;
-            SkillAttack_1.transform.GetChild(2).GetComponent<Projector>().orthographicSize = oSize;
-            SkillAttack_1.transform.GetChild(2).gameObject.transform.Rotate(0, 0, 0.5f);
-            //關閉在法陣管理MagEffectsControl控制
-        }
-        //魔法書
-        if (animInfo.IsName(idelName))
-        {
-            if (animInfo.normalizedTime > 0.3f)
-            {
-                magicBook.gameObject.SetActive(true);  //魔法書  
-            }
+        //if (animInfo.IsName(idelName))
+        //{
+        //    SkillAttack_1.transform.GetChild(2).gameObject.SetActive(true);  //法陣     
+        //    oSize += oSize * 10 * Time.deltaTime;
+        //    if (oSize >= 0.8f) oSize = 0.8f;
+        //    SkillAttack_1.transform.GetChild(2).GetComponent<Projector>().orthographicSize = oSize;
+        //    SkillAttack_1.transform.GetChild(2).gameObject.transform.Rotate(0, 0, 0.5f);
+        //    //關閉在法陣管理MagEffectsControl控制
+        //}
 
-        }
     }
 
     void MagSkillAttack3()
