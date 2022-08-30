@@ -165,19 +165,19 @@ MonoBehaviour:
     magicianNormalAttack_1_LifeTime: 1
     magicianNormalAttack_2_Damge: 5
     magicianNormalAttack_2_RepelDirection: 0
-    magicianNormalAttack_2_RepelDistance: 10
+    magicianNormalAttack_2_RepelDistance: 7
     magicianNormalAttack_2_Effect: Pain
-    magicianNormalAttack_2_ForwardDistance: 1.5
-    magicianNormalAttack_2_attackRange: {x: 1, y: 1, z: 3.3}
+    magicianNormalAttack_2_ForwardDistance: 8
+    magicianNormalAttack_2_attackRange: {x: 1, y: 1, z: 16}
     magicianNormalAttack_2_IsAttackBehind: 0
-    magicianNormalAttack_3_Damge: 33
+    magicianNormalAttack_3_Damge: 14
     magicianNormalAttack_3_RepelDirection: 0
-    magicianNormalAttack_3_RepelDistance: 25
+    magicianNormalAttack_3_RepelDistance: 5
     magicianNormalAttack_3_Effect: Pain
-    magicianNormalAttack_3_ForwardDistance: 2.7
-    magicianNormalAttack_3_attackRadius: 2.3
-    magicianNormalAttack_3_IsAttackBehind: 0
-    magicianJumpAttack_Damage: 28
+    magicianNormalAttack_3_ForwardDistance: 0
+    magicianNormalAttack_3_attackRadius: 8
+    magicianNormalAttack_3_IsAttackBehind: 1
+    magicianJumpAttack_Damage: 37
     magicianJumpAttack_RepelDirection: 0
     magicianJumpAttack_RepelDistance: 40
     magicianJumpAttack_Effect: Pain
@@ -188,70 +188,20 @@ MonoBehaviour:
     magicianSkillAttack_1_ForwardDistance: 0
     magicianSkillAttack_1_attackRange: 5
     magicianSkillAttack_1_IsAttackBehind: 1
-    magicianSkillAttack_2_Damge:
-    - 4
-    - 4
-    - 5
-    - 4
-    - 5
-    - 4
-    - 4
-    - 7
-    - 9
-    - 12
-    magicianSkillAttack_2_RepelDirection: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
-    magicianSkillAttack_2_RepelDistance:
-    - 25
-    - 5
-    - 5
-    - 5
-    - 5
-    - 5
-    - 5
-    - 15
-    - 10
-    - 65
-    magicianSkillAttack_2_Effect:
-    - Pain
-    - Pain
-    - Pain
-    - Pain
-    - Pain
-    - Pain
-    - Pain
-    - Pain
-    - Pain
-    - Pain
-    magicianSkillAttack_2_ForwardDistance:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    magicianSkillAttack_2_attackRadius:
-    - 1.2
-    - 1.2
-    - 1.2
-    - 1.2
-    - 1.2
-    - 1.2
-    - 1.2
-    - 1.2
-    - 1.2
-    - 1.2
-    magicianSkillAttack_2_IsAttackBehind: 00000000000000000000
-    magicianSkillAttack_3_Damge: 52
+    magicianSkillAttack_2_Damge: 32
+    magicianSkillAttack_2_RepelDirection: 0
+    magicianSkillAttack_2_RepelDistance: 25
+    magicianSkillAttack_2_Effect: Pain
+    magicianSkillAttack_2_ForwardDistance: 5
+    magicianSkillAttack_2_attackRadius: 10
+    magicianSkillAttack_2_IsAttackBehind: 1
+    magicianSkillAttack_3_Damge: 30
     magicianSkillAttack_3_RepelDirection: 0
-    magicianSkillAttack_3_RepelDistance: 45
-    magicianSkillAttack_32_Effect: Pain
-    magicianSkillAttack_3_ForwardDistance: 3
-    magicianSkillAttack_3_attackRadius: 1.8
-    magicianSkillAttack_3_IsAttackBehind: 0
+    magicianSkillAttack_3_RepelDistance: 25
+    magicianSkillAttack_3_Effect: Pain
+    magicianSkillAttack_3_ForwardDistance: 5
+    magicianSkillAttack_3_attackRadius: 10
+    magicianSkillAttack_3_IsAttackBehind: 1
     enemySoldier1_Attack_1_Damge: 13
     enemySoldier1_Attack_1_RepelDirection: 0
     enemySoldier1_Attack_1_RepelDistance: 30

@@ -200,7 +200,7 @@ public class AI : MonoBehaviourPunCallbacks
                 maxAttackNumber = 4;//可使用攻擊招式
 
                 //攻擊待機
-                attackIdleMoveSpeed = 3;//攻擊待機移動速度
+                attackIdleMoveSpeed = 2;//攻擊待機移動速度
                 backMoveDistance = 2.0f;//距離玩家多近向後走
                 meleeAttackDistance = 2.5f;//近距離招式攻擊距離
                 break;

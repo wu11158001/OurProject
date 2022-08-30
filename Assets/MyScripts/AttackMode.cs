@@ -116,7 +116,7 @@ public class AttackMode
             {                
                 //¬O§_§ðÀ»­I«á¼Ä¤H
                 if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.35f) continue;
-                OnSetAttackNumbericalValue(collision);
+                OnSetAttackNumbericalValue(collision);                
             }
         }   
 

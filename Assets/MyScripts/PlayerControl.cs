@@ -216,7 +216,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         //普通攻擊
         if (Input.GetMouseButton(0) && !info.IsTag("SkillAttack") && !info.IsTag("SkillAttack-2") && !info.IsName("Fall") && !isDodge)
-        {
+        {           
             //跳躍攻擊
             if (isJump && !isJumpAttack)
             {
@@ -237,13 +237,28 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 }
             }
 
+            if(info.IsTag("NormalAttack") || info.IsTag("SkillAttack"))
+            {
+                if(info.normalizedTime < 0.05f)
+                {
+                    //轉向               
+                    if (inputX != 0 && inputZ != 0) transform.forward = (horizontalCross * inputX) + (forwardVector * inputZ);//斜邊
+                    else if (inputX != 0) transform.forward = horizontalCross * inputX;//左右
+                    else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
+                    /*float maxRadiansDelta = 0.3f;//轉向角度
+                    if (inputX != 0 && inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, (horizontalCross * inputX) + (forwardVector * inputZ), maxRadiansDelta, maxRadiansDelta);//斜邊
+                    else if (inputX != 0) transform.forward = Vector3.RotateTowards(transform.forward, horizontalCross * inputX, maxRadiansDelta, maxRadiansDelta);//左右
+                    else if (inputZ != 0) transform.forward = Vector3.RotateTowards(transform.forward, forwardVector * inputZ, maxRadiansDelta, maxRadiansDelta);//前後*/
+                }
+            }
+
             //等待普通攻擊結束再執行技能
             if (isSkillAttack && info.IsTag("NormalAttack") && info.normalizedTime >= 1)
             {
-                //轉向               
+                /*//轉向               
                 if (inputX != 0 && inputZ != 0) transform.forward = (horizontalCross * inputX) + (forwardVector * inputZ);//斜邊
                 else if (inputX != 0) transform.forward = horizontalCross * inputX;//左右
-                else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
+                else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後*/
                 
                 animator.SetBool("SkillAttack", isSkillAttack);
                 if(GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
@@ -258,7 +273,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
                 animator.SetBool("NormalAttack", isNormalAttack);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
-            }
+            }                        
 
             //切換普通攻擊招式
             if (info.IsTag("NormalAttack") && info.normalizedTime >= 1)
@@ -266,10 +281,10 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 normalAttackNumber++;//普通攻擊編號                
                 if (normalAttackNumber > 3) normalAttackNumber = 0;
                 
-                //轉向               
+                /*//轉向               
                 if (inputX != 0 && inputZ != 0) transform.forward = (horizontalCross * inputX) + (forwardVector * inputZ);//斜邊
                 else if (inputX != 0) transform.forward = horizontalCross * inputX;//左右
-                else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後
+                else if (inputZ != 0) transform.forward = forwardVector * inputZ;//前後*/
 
                 animator.SetInteger("NormalAttackNumber", normalAttackNumber);
                 if (GameDataManagement.Instance.isConnect)  PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
@@ -608,7 +623,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         BoxCollider box = GetComponent<BoxCollider>();
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + box.center + transform.forward * gizmosSpherCenter, gizmosSpherRadius);        
-        //Gizmos.DrawWireCube(transform.position + box.center + transform.forward * 2.5f, new Vector3(1, 1, 4));
+        //Gizmos.DrawWireCube(transform.position + box.center + transform.forward * 5f, new Vector3(1, 1, 10));
         
     }
 }
