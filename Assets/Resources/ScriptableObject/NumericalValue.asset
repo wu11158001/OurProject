@@ -195,7 +195,7 @@ MonoBehaviour:
     magicianSkillAttack_2_ForwardDistance: 5
     magicianSkillAttack_2_attackRadius: 10
     magicianSkillAttack_2_IsAttackBehind: 1
-    magicianSkillAttack_3_Damge: 30
+    magicianSkillAttack_3_Damge: 35
     magicianSkillAttack_3_RepelDirection: 0
     magicianSkillAttack_3_RepelDistance: 25
     magicianSkillAttack_3_Effect: Pain

@@ -543,7 +543,7 @@ public class GameData_NumericalValue
         magicianSkillAttack_2_IsAttackBehind = true;//法師技能攻擊2_是否攻擊背後敵人
 
         //法師技能攻擊3
-        magicianSkillAttack_3_Damge = 30;//法師技能攻擊3_傷害
+        magicianSkillAttack_3_Damge = 35;//法師技能攻擊3_傷害
         magicianSkillAttack_3_RepelDirection = 0;//法師技能攻擊3_擊退方向(0:擊退 1:擊飛)
         magicianSkillAttack_3_RepelDistance = 25;//法師技能攻擊3_擊退/擊飛距離    
         magicianSkillAttack_3_Effect = "Pain";//法師技能攻擊3_效果(受擊者播放的動畫名稱)        
