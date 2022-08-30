@@ -746,10 +746,12 @@ MonoBehaviour:
   isCheckNearCompanion: 
   attackFrequency: []
   attackNumber: 0
+  meleeAttackDistance: 0
   attackIdleMoveSpeed: 0
   backMoveDistance: 0
   isExecuteAStart: 0
   allPlayers: []
+  isMelee: 0
   aiState: 0
 --- !u!114 &8844366053070989819
 MonoBehaviour:
