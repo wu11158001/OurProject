@@ -34,7 +34,8 @@ public class Effects : MonoBehaviour
     Transform magicNa33;              //要脫離的特效
     Transform magicNa34;              //要脫離的特效
     Transform magicNa35;              //要脫離的特效
-    
+    Transform magicBook;
+
 
 
 
@@ -54,7 +55,7 @@ public class Effects : MonoBehaviour
         postProcessProfile.GetSetting<LensDistortion>().intensity.value = 0f;                //小魚眼
 
         magicNa2toWorld = gameObject.transform.parent;                                //角色的父物件，讓特效脫離角色Transform影響      
-        
+
         if (anim.runtimeAnimatorController.name == "2_Magician")                        //要脫離的特效
         {
             magicNa2 = NormalAttack_2.transform.GetChild(1);                               //攻擊法盾
@@ -63,11 +64,12 @@ public class Effects : MonoBehaviour
             magicNa32 = NormalAttack_3.transform.GetChild(4).GetChild(3).GetChild(3);              //閃電 
             magicNa33 = NormalAttack_3.transform.GetChild(4).GetChild(4).GetChild(3);        //閃電                     
             magicNa34 = NormalAttack_3.transform.GetChild(4).GetChild(5).GetChild(3);            //閃電                    
-            magicNa35 = NormalAttack_3.transform.GetChild(4).GetChild(6).GetChild(3);              //閃電 
+            magicNa35 = NormalAttack_3.transform.GetChild(4).GetChild(6).GetChild(3);              //閃電
+            magicBook = SkillAttack_1.transform.GetChild(3);                                     //魔法書
         }
 
         //武器發光，戰士弓箭手
-        if (anim.runtimeAnimatorController.name == "1_Warrior" )
+        if (anim.runtimeAnimatorController.name == "1_Warrior")
         {
             baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
             intensity = 1f;
@@ -104,27 +106,75 @@ public class Effects : MonoBehaviour
 
 
     float oSize = 0.2f;
+    float booksize = 0.008676398f;
+    bool closeMagicBook = false;
+    float buffTime = 0;
     void MagEffectsControl()
     {
-        //投影法陣
+        //投影法陣，消失
         var effect = SkillAttack_1;
-        if (!animInfo.IsName("Attack.SkillAttack_1"))
+        if (!animInfo.IsName("Attack.SkillAttack_1"))  //如果不在補血狀態
         {
             oSize -= oSize * 10 * Time.deltaTime;
             if (oSize <= 0.2f)
             {
-                effect.transform.GetChild(3).gameObject.SetActive(false);
+                effect.transform.GetChild(2).gameObject.SetActive(false);
                 oSize = 0.2f;
             }
-            effect.transform.GetChild(3).GetComponent<Projector>().orthographicSize = oSize;
-            effect.transform.GetChild(3).gameObject.transform.Rotate(0, 0, 0.5f);
+            effect.transform.GetChild(2).GetComponent<Projector>().orthographicSize = oSize;
+            effect.transform.GetChild(2).gameObject.transform.Rotate(0, 0, 0.5f);
         }
 
         //藍色法陣在Idle時停止        
-        if (animInfo.IsName("Idle")|| animInfo.IsName("Attack.NormalAttack_1"))
+        if (animInfo.IsName("Idle") || animInfo.IsName("Attack.NormalAttack_1"))
         {
             NormalAttack_3.Stop();
         }
+
+        //魔法書
+        if (magicBook.gameObject.activeInHierarchy)
+        {
+            magicBook.Rotate(Vector3.up, 50 * Time.deltaTime, Space.World);
+            magicBook.SetParent(magicNa2toWorld);
+
+            magicBook.position = Vector3.Lerp(magicBook.position, gameObject.transform.position + (gameObject.transform.right * (0.5f) + gameObject.transform.forward * (-1f) + gameObject.transform.up * 2f), Time.deltaTime);
+            //gameObject.transform.forward * (-2f) + gameObject.transform.up * 2f 偏移量，避免重疊
+            buffTime +=Time.deltaTime;
+            //if (buffTime>=3)
+            //{
+               // SkillAttack_1.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                SkillAttack_1.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().Play();
+                //if (buffTime >= 5)
+                //{
+                //    SkillAttack_1.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().Stop();
+                //   // SkillAttack_1.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+                //    buffTime = 0;
+                //}
+            //}
+        }
+        else
+        {
+            magicBook.SetParent(SkillAttack_1.transform);
+            magicBook.gameObject.SetActive(false);
+        }
+        if (animInfo.IsName("Pain"))
+        {
+            closeMagicBook = true;
+        }
+        if (closeMagicBook)
+        {
+            booksize -= booksize * 10f * Time.deltaTime;
+            if (booksize <= 0f)
+            {
+                magicBook.SetParent(SkillAttack_1.transform);
+                magicBook.gameObject.SetActive(false);
+                booksize = 0.008676398f;
+                closeMagicBook = false;
+            }
+            magicBook.localScale = new Vector3(booksize, booksize, booksize);
+        }
+
+
 
     }
 
@@ -197,7 +247,7 @@ public class Effects : MonoBehaviour
             magicNa33.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
             magicNa34.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
             magicNa35.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
-        }      
+        }
         if (magicNa30.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
         {
             //回到角色層級並恢復相關參數
@@ -252,21 +302,33 @@ public class Effects : MonoBehaviour
     void MagSkillAttack1()
     {
         var idelName = "Attack.SkillAttack_1";
-        float delay = 0.01f;
-        var effect = SkillAttack_1;
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
-        {
-            effect.Play();
-        }
+
+        var SkillAttack_10 = SkillAttack_1.transform.GetChild(0).GetComponent<ParticleSystem>();
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.2f) SkillAttack_10.Play();
+
+        var SkillAttack_11 = SkillAttack_1.transform.GetChild(1).GetComponent<ParticleSystem>();
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.2f && !SkillAttack_11.isPlaying) SkillAttack_11.Play();
+
+
 
         //投影法陣
         if (animInfo.IsName(idelName))
         {
-            effect.transform.GetChild(3).gameObject.SetActive(true);  //法陣     
+            SkillAttack_1.transform.GetChild(2).gameObject.SetActive(true);  //法陣     
             oSize += oSize * 10 * Time.deltaTime;
             if (oSize >= 0.8f) oSize = 0.8f;
-            effect.transform.GetChild(3).GetComponent<Projector>().orthographicSize = oSize;
-            effect.transform.GetChild(3).gameObject.transform.Rotate(0, 0, 0.5f);
+            SkillAttack_1.transform.GetChild(2).GetComponent<Projector>().orthographicSize = oSize;
+            SkillAttack_1.transform.GetChild(2).gameObject.transform.Rotate(0, 0, 0.5f);
+            //關閉在法陣管理MagEffectsControl控制
+        }
+        //魔法書
+        if (animInfo.IsName(idelName))
+        {
+            if (animInfo.normalizedTime > 0.3f)
+            {
+                magicBook.gameObject.SetActive(true);  //魔法書  
+            }
+
         }
     }
 
@@ -310,15 +372,15 @@ public class Effects : MonoBehaviour
         var idelName = "Attack.NormalAttack_3";         //動作名稱      
         var effect = NormalAttack_3;                    //特效名稱
         float delay = 0.01f;
-      
-        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();  
+
+        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !NormalAttack_30.isPlaying)
         {
             NormalAttack_30.Play();
             if (animInfo.normalizedTime > delay + 0.1f) effect.Stop();
         }
-        
-        DoEffects(idelName, 0.35f, effect.transform.GetChild(1).GetComponent<ParticleSystem>());                           
+
+        DoEffects(idelName, 0.35f, effect.transform.GetChild(1).GetComponent<ParticleSystem>());
         DoEffects(idelName, 0.35f, effect.transform.GetChild(2).GetComponent<ParticleSystem>());
 
         //改變劍大小
@@ -445,7 +507,7 @@ public class Effects : MonoBehaviour
 
         var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
         float delay = 0.3f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
-       // if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
+                                                       // if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
         DoEffects(idelName, delay, SkillAttack_30);
 
         var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
