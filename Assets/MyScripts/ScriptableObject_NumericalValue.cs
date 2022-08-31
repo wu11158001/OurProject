@@ -367,10 +367,10 @@ public class GameData_NumericalValue
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         //敵人HP
-        enemySoldier1_Hp = 130;//敵人士兵1_生命值
-        enemySoldier2_Hp = 95;//敵人士兵2_生命值
+        enemySoldier1_Hp = 80;//石頭人_生命值
+        enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 155;//敵人士兵3_生命值
-        guardBoss_Hp = 500;//城門守衛Boss_生命值
+        guardBoss_Hp = 300;//城門守衛Boss_生命值
 
         #region 戰士
         //戰士 普通攻擊1

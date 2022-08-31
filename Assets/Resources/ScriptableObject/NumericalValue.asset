@@ -41,10 +41,10 @@ MonoBehaviour:
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
-    enemySoldier1_Hp: 130
-    enemySoldier2_Hp: 95
+    enemySoldier1_Hp: 80
+    enemySoldier2_Hp: 60
     enemySoldier3_Hp: 155
-    guardBoss_Hp: 500
+    guardBoss_Hp: 300
     warriorNormalAttack_1_Damge: 30
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 37
