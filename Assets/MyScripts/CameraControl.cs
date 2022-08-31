@@ -45,6 +45,8 @@ public class CameraControl : MonoBehaviour
 
     private void Start()
     {
+        transform.position = new Vector3(285,-13, -25);//初始位置
+
         lerpSpeed = 0.2f;//選轉速度
         rotateSpeed = 0.80f;//選轉速度
         waitMoveTime = 1;//等待移動時間
