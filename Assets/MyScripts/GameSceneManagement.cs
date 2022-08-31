@@ -77,8 +77,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點           
         if (!GameDataManagement.Instance.isConnect)//未連線位置
         {
-            player.transform.position = new Vector3(273f, -23.6f, -26f);
-            player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
+            player.transform.position = new Vector3(300f, -24f, -29f);
+            player.transform.rotation = Quaternion.Euler(0, -85, 0);//設定選轉
         }
         else//連線位置
         {
@@ -86,7 +86,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             {
                 if(PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                 {
-                    player.transform.position = new Vector3(273f, -23.6f, -30f + (i * 2.5f));
+                    player.transform.position = new Vector3(317f, -23.9f, -29f+ (i * 2.5f));
                     player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
                 }
             }            
