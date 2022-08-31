@@ -474,7 +474,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         nickNameConfirm_Button.gameObject.SetActive(true);//暱稱確定按鈕
         nickNameBack_Button.gameObject.SetActive(true);//返回按鈕
         selectModeScreen.gameObject.SetActive(false);
-        nickName_InputField.text = "訪客" + UnityEngine.Random.Range(0, 1000);//預設暱稱 
+    //  nickName_InputField.text = "訪客" + UnityEngine.Random.Range(0, 1000);
+    //  預設暱稱,先暫時屏蔽,因點選時初始會出現白色背景框有點醜,訪客若未輸入暱稱,一樣會給予ID "訪客XXX",所以不影響
                
        /* modeSelectBackground_Image.gameObject.SetActive(false);
         modeLeaveGame_Button.gameObject.SetActive(false);
@@ -803,7 +804,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         //重製
         for (int j = 0; j < roomPlayerList.Count; j++)
         {
-            ExtensionMethods.FindAnyChild<Text>(roomPlayerTransformList[j], "ID_Text").text = "等待玩家";
+            ExtensionMethods.FindAnyChild<Text>(roomPlayerTransformList[j], "ID_Text").text = "玩家";
             ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[j], "Left_Button").gameObject.SetActive(false);//更換腳色(左)
             ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[j], "Right_Button").gameObject.SetActive(false);//更換腳色(右)
             roomPlayerList[j].GetComponent<RawImage>().texture = connectRoomRoleBackground;
