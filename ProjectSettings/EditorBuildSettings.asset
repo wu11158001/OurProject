@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/MyScenes/GameDataScene.unity
+    path: Assets/MyScenes/ImportantScenes/GameDataScene.unity
     guid: 5e64ccdd70a27904e9d3ebfa7d9cc8aa
   - enabled: 1
-    path: Assets/MyScenes/StartScene.unity
+    path: Assets/MyScenes/ImportantScenes/StartScene.unity
     guid: 27e98f26583ceb14495ed785aa2162a8
   - enabled: 1
     path: Assets/MyScenes/LevelScene1.unity

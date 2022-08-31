@@ -47,7 +47,7 @@ public class CameraControl : MonoBehaviour
     {
         transform.position = new Vector3(285,-13, -25);//初始位置
 
-        lerpSpeed = 0.2f;//選轉速度
+        lerpSpeed = 4f;//選轉速度
         rotateSpeed = 0.80f;//選轉速度
         waitMoveTime = 1;//等待移動時間
     }
@@ -98,7 +98,7 @@ public class CameraControl : MonoBehaviour
         {
             //lerpSpeed = 0.25f;//lerp速度
             if (!isCollsion) isCollsion = true;
-            moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * hit.distance, lerpSpeed);//攝影機靠近減速
+            moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * hit.distance, lerpSpeed * Time.deltaTime);//攝影機靠近減速
             //moveTarget = lookPoint.position - RotateVector * hit.distance;//攝影機靠近
 
             //碰到"StageObject"攝影機移動位置改為(觀看物件位置 - 與碰撞物件距離)                                    
@@ -109,11 +109,11 @@ public class CameraControl : MonoBehaviour
         {
             if (isCollsion && distance < NumericalValue.distance)//攝影機離開障礙物減速
             {
-                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);
+                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);
             }
             else//一般狀態
             {                
-                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed);
+                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);
             }
         }
         
