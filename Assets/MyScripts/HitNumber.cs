@@ -15,7 +15,7 @@ public class HitNumber : MonoBehaviour
     Vector3 startPosition;//初始位置
     float lifeTime;//生存時間
     float speed;//速度
-    float colorAlpha;//透明度
+    float addSpeed;//增加的速度
 
     void Start()
     {
@@ -23,6 +23,7 @@ public class HitNumber : MonoBehaviour
         transform.SetParent(canvas_Overlay.transform);
 
         lifeTime = 1.5f;//生存時間
+        addSpeed = 12;//增加的速度
     }
 
     
@@ -48,8 +49,7 @@ public class HitNumber : MonoBehaviour
 
         this.target = target;//受傷目標
         thisText.text = Mathf.Round(damage).ToString();//受到傷害(四捨五入)        
-        thisText.color = color;//文字顏色
-        colorAlpha = color.a;
+        thisText.color = color;//文字顏色 
     }
     
     /// <summary>
@@ -62,7 +62,13 @@ public class HitNumber : MonoBehaviour
         //超過距離不顯示        
         if((target.position - Camera.main.transform.position).magnitude > 40) Destroy(gameObject);
 
-        speed += 2 * Time.deltaTime; 
+        if (addSpeed > 0)
+        {
+            addSpeed -= 55 * Time.deltaTime;
+            if (addSpeed <= 0) addSpeed = 0;
+        }
+
+        speed += addSpeed * Time.deltaTime; 
 
         //文字移動
         startPosition = target.position + target.transform.up * (1 + speed);
