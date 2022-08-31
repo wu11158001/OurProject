@@ -107,10 +107,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             OnCollisionControl();
             OnFloation();
             OnAnimationOver();
-        }        
+        }
 
         //測試用
-        //if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject,gameObject, "Enemy", 100, "Pain", 0, 1, false);
+        if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, gameObject, "Player", 1000, "Pain", 0, 1, false);        
     }   
 
     /// <summary>
@@ -341,7 +341,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 if (attackerCollision.isSuckBlood) attackerCollision.OnSuckBlood(getDamge, isCritical);               
             }
-
+            
             Hp -= getDamge;//生命值減少
             if (Hp <= 0) Hp = 0;
             

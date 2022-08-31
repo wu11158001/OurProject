@@ -77,8 +77,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點           
         if (!GameDataManagement.Instance.isConnect)//未連線位置
         {
-            player.transform.position = new Vector3(273f, -23.6f, -26f);
-            player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
+            player.transform.position = new Vector3(300f, -24f, -29f);
+            player.transform.rotation = Quaternion.Euler(0, -85, 0);//設定選轉
         }
         else//連線位置
         {
@@ -86,7 +86,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             {
                 if(PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                 {
-                    player.transform.position = new Vector3(273f, -23.6f, -30f + (i * 2.5f));
+                    player.transform.position = new Vector3(317f, -23.9f, -29f+ (i * 2.5f));
                     player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
                 }
             }            
@@ -163,7 +163,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //任務
         taskText = new string[] { "擊倒該區域所有怪物", "擊倒城門守衛", "擊倒城內區域所有怪物" };//個階段任務文字
         //各階段任務所需擊殺數
-        taskKillNumber = new int[] { enemySoldiers1_Stage1Point.Length + enemySoldiers2_Stage1Point.Length,//階段1
+        taskKillNumber = new int[] { enemySoldiers1_Stage1Point.Length + enemySoldiers2_Stage1Point.Length,//階段
                                      guardBoss_Stage2Point.Length,//階段1
                                      enemySoldiers1_Stage3Point.Length + enemySoldiers2_Stage3Point.Length + enemySoldiers3_Stage3Point.Length};//階段3
 

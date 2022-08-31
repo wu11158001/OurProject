@@ -201,8 +201,8 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //攻擊待機
                 attackIdleMoveSpeed = 2;//攻擊待機移動速度
-                backMoveDistance = 2.0f;//距離玩家多近向後走
-                meleeAttackDistance = 2.5f;//近距離招式攻擊距離
+                backMoveDistance = 2.3f;//距離玩家多近向後走
+                meleeAttackDistance = 2.7f;//近距離招式攻擊距離
                 break;
         }        
 
@@ -238,6 +238,7 @@ public class AI : MonoBehaviourPunCallbacks
         OnStateBehavior();//狀態行為        
         OnCollision();//碰撞框
         OnCheckLefrAndRightCompanion();//檢查左右同伴
+        OnRotateToPlayer();//選轉至玩家方向
     }
 
     /// <summary>
@@ -304,15 +305,13 @@ public class AI : MonoBehaviourPunCallbacks
         switch (aiState)
         {
             case AIState.一般狀態:
-                OnNormalStateBehavior();                
+                OnNormalStateBehavior();
                 break;
             case AIState.警戒狀態:
                 OnAlertStateBehavior();
-                OnRotateToPlayer();//選轉至玩家方向
                 break;
             case AIState.追擊狀態:
                 OnChaseBehavior();
-                OnRotateToPlayer();//選轉至玩家方向
                 break;
             case AIState.攻擊狀態:
                 OnAttackBehavior();                
@@ -329,7 +328,7 @@ public class AI : MonoBehaviourPunCallbacks
 
         normalStateTime -= Time.deltaTime;//一般狀態移動時間
 
-        if (normalStateTime <= 0)
+        if (normalStateTime <= 0 && !isRotateToPlayer)
         {
             if (!isNormalMove)//是否一般狀態已經移動
             {
@@ -476,7 +475,9 @@ public class AI : MonoBehaviourPunCallbacks
                 //通知同伴
                 companion.OnChangeStateToChase(allPlayers: allPlayers, chaseObject: chaseObject);
             }
-        }   
+        }
+
+        StartCoroutine(OnWaitChase());//等待追擊
     }
 
     /// <summary>
@@ -488,7 +489,7 @@ public class AI : MonoBehaviourPunCallbacks
     {
         this.allPlayers = allPlayers;//所有玩家
         this.chaseObject = chaseObject;//追擊的玩家
-        StartCoroutine(OnWautChase());//等待追擊
+        StartCoroutine(OnWaitChase());//等待追擊
     }
 
     /// <summary>
@@ -498,9 +499,9 @@ public class AI : MonoBehaviourPunCallbacks
     {
         //轉向至玩家
         if (isRotateToPlayer)
-        {
+        {            
             Vector3 targetDiration = allPlayers[chaseObject].transform.position - transform.position;
-            transform.forward = transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);
+            transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);
         }
     }
 
@@ -508,11 +509,11 @@ public class AI : MonoBehaviourPunCallbacks
     /// 等待追擊
     /// </summary>
     /// <returns></returns>
-    IEnumerator OnWautChase()
+    IEnumerator OnWaitChase()
     {
-        isRotateToPlayer = true;//轉向至玩家
-
-        yield return new WaitForSeconds(1.3f);
+        isRotateToPlayer = true;//轉向至玩家                
+        
+        yield return new WaitForSeconds(0.55f);
 
         isRotateToPlayer = false;
 
