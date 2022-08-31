@@ -513,7 +513,7 @@ public class AI : MonoBehaviourPunCallbacks
     {
         isRotateToPlayer = true;//轉向至玩家                
         
-        yield return new WaitForSeconds(0.45f);
+        yield return new WaitForSeconds(0.55f);
 
         isRotateToPlayer = false;
 

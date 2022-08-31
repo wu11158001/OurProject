@@ -59,6 +59,9 @@ public class HitNumber : MonoBehaviour
     {
         if (target == null) return;
 
+        //超過距離不顯示        
+        if((target.position - Camera.main.transform.position).magnitude > 40) Destroy(gameObject);
+
         speed += 2 * Time.deltaTime; 
 
         //文字移動
