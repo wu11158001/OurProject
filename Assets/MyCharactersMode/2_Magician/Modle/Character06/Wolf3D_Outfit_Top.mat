@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Wolf3D_Outfit_Top
-  m_Shader: {fileID: 16, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 11, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -41,6 +41,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Illum:
         m_Texture: {fileID: 2800000, guid: 370e7df4ba1390741b331588f24e4be5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
