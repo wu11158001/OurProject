@@ -373,6 +373,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                      attackerObject.GetComponent<Effects>().HitEffect(attackerObject, gameObject.GetComponent<Collider>());
                 }
             }
+            if (gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                if (attackerObject.GetComponent<EffectsEnemyHit>() != null)
+                {
+                    attackerObject.GetComponent<EffectsEnemyHit>().HitEffect(attackerObject, gameObject.GetComponent<Collider>());
+                }
+            }
+
+
 
             //不是連線 || 房主
             if (!GameDataManagement.Instance.isConnect || photonView.IsMine)
