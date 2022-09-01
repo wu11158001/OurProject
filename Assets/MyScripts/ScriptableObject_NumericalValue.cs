@@ -29,6 +29,9 @@ public class GameData_NumericalValue
     public float playerDodgeSeppd;//玩家閃躲速度
     public float playerSelfHealTime;//玩家自身回復時間
 
+    [Header("同盟士兵HP")]
+    public float allianceSoldier1_Hp;//同盟士兵1_生命值
+
     [Header("敵人HP")]
     public float enemySoldier1_Hp;//敵人士兵1_生命值
     public float enemySoldier2_Hp;//敵人士兵2_生命值
@@ -365,6 +368,9 @@ public class GameData_NumericalValue
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
+
+        //同盟士兵HP
+        allianceSoldier1_Hp = 80;//同盟士兵1_生命值
 
         //敵人HP
         enemySoldier1_Hp = 80;//石頭人_生命值

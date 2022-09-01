@@ -72,6 +72,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case "Player":
                 MaxHp = NumericalValue.playerHp;
                 break;
+            /*case "Alliance":
+                MaxHp = NumericalValue.allianceSoldier1_Hp;
+                break;
             case "EnemySoldier_1":
                 MaxHp = NumericalValue.enemySoldier1_Hp;
                 break;
@@ -83,7 +86,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 break;
             case "GuardBoss":
                 MaxHp = NumericalValue.guardBoss_Hp;
-                break;
+                break;*/
         }
 
         //Buff
@@ -331,8 +334,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (info.IsName("Dodge") || info.IsName("Die")) return;
         
         //判斷受擊對象
-        if (gameObject.layer == LayerMask.NameToLayer("Player") && layer == "Enemy" ||
-            gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Player")
+        if (((gameObject.layer == LayerMask.NameToLayer("Player") || gameObject.layer == LayerMask.NameToLayer("Alliance")) && layer == "Enemy") ||
+            (gameObject.layer == LayerMask.NameToLayer("Enemy") && (layer == "Player") || layer == "Alliance"))
         {
             float getDamge = (damage - (damage * (addDefence / 100))) < 0 ? 0: damage - addDefence;//受到的方害
 

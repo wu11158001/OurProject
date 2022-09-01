@@ -41,6 +41,9 @@ public class GameData_LoadPath
     [Header("法師")]
     public string magicianNormalAttack_1;//普通攻擊_1
 
+    [Header("我方同盟士兵腳色")]
+    public string allianceSoldier_1;//同盟士兵1
+
     [Header("敵人角色")]
     public string enemySoldier_1;//敵人士兵1
     public string enemySoldier_2;//敵人士兵2
@@ -92,6 +95,10 @@ public class GameData_LoadPath
 
         //法師
         magicianNormalAttack_1 = "Prefab/ShootObject/Magician/MagicianNormalAttack_1";//普通攻擊_1
+
+
+        //我方同盟士兵腳色
+        allianceSoldier_1 = "Prefab/Characters/Alliance/AllianceSoldier_1"; ;//同盟士兵1
 
         //敵人角色
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1

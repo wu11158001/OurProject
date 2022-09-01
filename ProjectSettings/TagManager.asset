@@ -10,6 +10,10 @@ TagManager:
   - GuardBoss
   - EnemySoldier_2
   - EnemySoldier_3
+  - Effects
+  - Alliance
+  - Enemy
+  - AllianceSoldier_1
   layers:
   - Default
   - TransparentFX
@@ -21,7 +25,7 @@ TagManager:
   - MiniMap
   - Player
   - Enemy
-  - 
+  - Alliance
   - 
   - 
   - 
