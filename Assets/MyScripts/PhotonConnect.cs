@@ -328,7 +328,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     [PunRPC]
     void OnRenewTask(PhotonMessageInfo info)
     {
-        GameSceneManagement.Instance.KillEnemyNumber += 1;//已擊殺怪物數量
+        GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
         GameSceneManagement.Instance.OnTaskText();//任務文字
     }
 
@@ -419,6 +419,27 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID)
     {
         GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID);
+    }
+
+    /// <summary>
+    /// 發送據點受擊訊息
+    /// </summary>
+    /// <param name="targetID">目標ID</param>
+    /// <param name="damage">受到傷害</param>
+    public void OnSendStrongholdGetHit(int targetID, float damage)
+    {
+        photonView.RPC("OnStrongholdGetHit", RpcTarget.Others, targetID, damage);
+    }
+
+    /// <summary>
+    /// 據點受擊訊息
+    /// </summary>
+    /// <param name="targetID">目標ID</param>
+    /// <param name="damage">受到傷害</param>
+    [PunRPC]
+    void OnStrongholdGetHit(int targetID, float damage)
+    {
+        GameSceneManagement.Instance.OnConnectStrongholdGetHit(targetID, damage);
     }
 
     /// <summary>

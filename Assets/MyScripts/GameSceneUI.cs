@@ -102,7 +102,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
         //其他
         tipBackground_Image = ExtensionMethods.FindAnyChild<Image>(transform, "TipBackground_Image");//提示文字背景
-        tipBackground_Image.color = new Color(tipBackground_Image.color.r, tipBackground_Image.color.g, tipBackground_Image.color.b, tipTime);
+        tipBackground_Image.color = new Color(tipBackground_Image.color.r, tipBackground_Image.color.g, tipBackground_Image.color.b, tipTime); 
         tip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Tip_Text");//提示文字
         tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
         task_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Task_Text");//任務文字
@@ -125,7 +125,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
         //開啟選項
         if (isOptions)
-        {
+        {            
             isOptions = false;
             options.gameObject.SetActive(isOptions);
         }
@@ -169,7 +169,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //開啟選項介面 && 遊戲結束不可按
         if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
         {
-            isOptions = !isOptions; 
+            isOptions = !isOptions;                                
             options.gameObject.SetActive(isOptions);
 
             //顯示滑鼠
@@ -179,10 +179,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
         if(isOptions)
         {
+            if (!GameDataManagement.Instance.isConnect) Time.timeScale = 0;
+
             //音量
             GameDataManagement.Instance.musicVolume = volume_Scrollbar.value;
             audioSource.volume = GameDataManagement.Instance.musicVolume;
         }
+        else Time.timeScale = 1;
     }
 
     /// <summary>
@@ -213,6 +216,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     {
         isOptions = false;
         options.gameObject.SetActive(isOptions);
+        
+        if(!GameDataManagement.Instance.isConnect)Time.timeScale = 1;
 
         //顯示滑鼠
         Cursor.visible = isOptions;

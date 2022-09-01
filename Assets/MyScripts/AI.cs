@@ -40,7 +40,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     [Header("咆嘯狀態")]
     bool isRotateToPlayer;//是否轉向至玩家
-    bool isHowling;//是否咆嘯
+    [SerializeField]bool isHowling;//是否咆嘯
 
     [Header("追擊狀態")]
     [SerializeField] float chaseSpeed;//追擊速度
@@ -251,20 +251,22 @@ public class AI : MonoBehaviourPunCallbacks
         maxRadiansDelta = 0.065f;//轉向角度        
         changeDiretionTime = 0.5f;//更換方向時間
         delayAttackTime = new float[] { 0.5f, 1};//延遲攻擊時間(亂數最小值, 最大值)
-        loseSpeed = 0.6f;//減少的速度比例
+        loseSpeed = 0.45f;//減少的速度比例
         readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
         //尋路
         aStarCheckPointNumber = 3;//AStar至少經過多少點
 
-        //OnGetAllPlayers();//獲取所有玩家
+        OnGetAllPlayers();//獲取所有玩家
+        isHowling = true;
         OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
     }
 
     void Update()
     {
-        OnStateBehavior();//狀態行為        
-        OnCollision();//碰撞框
+        //OnCollision();//碰撞框
+
+        OnStateBehavior();//狀態行為               
         OnCheckLefrAndRightCompanion();//檢查左右同伴
         
         OnGetAllPlayers();//獲取所有玩家
@@ -276,7 +278,8 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnInitial()
     {
-        aiState = AIState.一般狀態;
+        isHowling = true;
+        OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
         isExecuteAStart = false;//是否執行AStart
     }
 
@@ -294,7 +297,7 @@ public class AI : MonoBehaviourPunCallbacks
     [SerializeField] AIState aiState = AIState.一般狀態;
 
 
-    /// <summary>
+   /* /// <summary>
     /// 碰撞框
     /// </summary>    
     /// <returns></returns>
@@ -325,7 +328,7 @@ public class AI : MonoBehaviourPunCallbacks
                 }
             }
         }
-    }
+    }*/
     
     /// <summary>
     /// 狀態行為
@@ -582,6 +585,11 @@ public class AI : MonoBehaviourPunCallbacks
     {
         info = animator.GetCurrentAnimatorStateInfo(0);
 
+        if(isHowling && !info.IsName("Howling"))
+        {
+            OnChangeAnimation(animationName: "Howling", animationType: true);
+        }
+
         //咆嘯完開始追擊
         if (info.IsName("Howling") && info.normalizedTime >= 1)
         {
@@ -785,31 +793,33 @@ public class AI : MonoBehaviourPunCallbacks
             isReadChase = true;//準備追擊
             startChaseTime -= Time.deltaTime;//離開戰鬥後亂數開始追擊時間(計時器)
 
-            //追擊的玩家死亡 && 追擊範圍內沒有其他玩家
-            if (chaseObject.activeSelf == false && OnDetectionRange(radius: chaseRadius) == false)
+            if (chaseObject != null)
             {
-                if (aiState != AIState.追擊狀態)
+                //追擊的玩家死亡 && 追擊範圍內沒有其他玩家
+                if (chaseObject.activeSelf == false && OnDetectionRange(radius: chaseRadius) == false)
                 {
-                    OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle", animationType: true);
+                    if (aiState != AIState.追擊狀態)
+                    {
+                        OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle", animationType: true);
 
-                    if (isAttackIdleMove)
-                    {
-                        isAttackIdleMove = false;
-                        OnChangeAnimation(animationName: "AttackIdleMove", animationType: false);
-                    }
-                    if (isAttacking)
-                    {
-                        isAttacking = false; ;
-                        OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
-                    }
-                   /* if(isStartChase)
-                    {
-                        isStartChase = false;
-                        OnChangeAnimation(animationName: "Run", animationType: false);
-                    }*/
-                    
+                        if (isAttackIdleMove)
+                        {
+                            isAttackIdleMove = false;
+                            OnChangeAnimation(animationName: "AttackIdleMove", animationType: false);
+                        }
+                        if (isAttacking)
+                        {
+                            isAttacking = false; ;
+                            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
+                        }
+                        /* if(isStartChase)
+                         {
+                             isStartChase = false;
+                             OnChangeAnimation(animationName: "Run", animationType: false);
+                         }*/
 
-                    return;
+                        return;
+                    }
                 }
             }
 
@@ -942,8 +952,14 @@ public class AI : MonoBehaviourPunCallbacks
             OnChangeAnimation(animationName: "Pain", animationType: false);
             isGetHit = false;
         }
-        
-        if(!isReadChase) OnWaitAttackBehavior();//等待攻擊行為
+
+        if (isHowling)//是否咆嘯
+        {
+            isHowling = false;                
+            OnChangeAnimation(animationName: "Howling", animationType: false);
+        }
+
+        if (!isReadChase) OnWaitAttackBehavior();//等待攻擊行為
     }    
 
     /// <summary>
@@ -1138,8 +1154,8 @@ public class AI : MonoBehaviourPunCallbacks
             }
         }
 
-        //碰撞偵測_玩家
-        if (OnCollision_Player())
+        //碰撞偵測_目標
+        if (OnCollision_Target())
         {
             //尋找節點
             if (!isExecuteAStart)
@@ -1158,19 +1174,19 @@ public class AI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 碰撞偵測_玩家
+    /// 碰撞偵測_目標
     /// </summary>
     /// <returns></returns>
-    bool OnCollision_Player()
+    bool OnCollision_Target()
     {
         //玩家物件存在 && 非執行AStar
-        if (allPlayers[chaseNumber] != null)
+        if (chaseObject != null && chaseObject.activeSelf != false)
         {
-            CharactersCollision playerCharactersCollision = allPlayers[chaseNumber].GetComponent<CharactersCollision>();
-
+            CharactersCollision charactersCollision = chaseObject.GetComponent<CharactersCollision>();
+            
             //偵測障礙物
             LayerMask mask = LayerMask.GetMask("StageObject");
-            if (Physics.Linecast(transform.position + (charactersCollision.boxCenter / 2), chaseObject.transform.position + (playerCharactersCollision.boxCenter / 2), mask))
+            if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter / 2), chaseObject.transform.position + (charactersCollision.boxCenter / 2), mask))
             {                
                 return true;
             }
@@ -1210,13 +1226,13 @@ public class AI : MonoBehaviourPunCallbacks
             //到達搜索節點數量
             if (point >= aStarCheckPointNumber)
             {                
-                //與玩家之間沒有障礙物
+               /* //與玩家之間沒有障礙物
                 if (!OnCollision_Player())
                 {
                     point = pathsList.Count - 1;//尋路節點編號
                     isExecuteAStart = false;//非執行AStart
                     pathsList.Clear();
-                }
+                }*/
             }
         }
     }
@@ -1237,39 +1253,42 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 allPlayerAlliance = GameObject.FindGameObjectsWithTag("Alliance");//所有玩家同盟士兵                              
 
-                chaseNumber = 0;//追擊對象編號
-                float closestPlayerDistance = 100000;//最近距離
-                float distance;//其他玩家距離
-
-                for (int i = 0; i < allPlayers.Length; i++)
+                if (allPlayerAlliance != null)
                 {
-                    if (allPlayers[i].activeSelf != false)
+                    chaseNumber = 0;//追擊對象編號
+                    float closestPlayerDistance = 100000;//最近距離
+                    float distance;//其他玩家距離
+
+                    for (int i = 0; i < allPlayers.Length; i++)
                     {
-                        distance = (allPlayers[i].transform.position - transform.position).magnitude;
-                        if (distance < closestPlayerDistance)
+                        if (allPlayers[i].activeSelf != false)
                         {
-                            closestPlayerDistance = distance;
-                            chaseNumber = i;
+                            distance = (allPlayers[i].transform.position - transform.position).magnitude;
+                            if (distance < closestPlayerDistance)
+                            {
+                                closestPlayerDistance = distance;
+                                chaseNumber = i;
+                            }
+                        }
+                    }
+                    
+                    //檢查玩家同盟士兵
+                    for (int i = 0; i < allPlayerAlliance.Length; i++)
+                    {
+                        if (allPlayerAlliance[i].activeSelf != false)
+                        {
+                            if ((allPlayerAlliance[i].transform.position - transform.position).magnitude < (allPlayers[chaseNumber].transform.position - transform.position).magnitude &&
+                                allPlayerAlliance[i].GetComponent<CharactersCollision>() != null)
+                            {
+                                CheckTargetTime = CheckPlayerDistanceTime;
+                                chaseObject = allPlayerAlliance[i];//追擊目標
+                                return;
+                            }
                         }
                     }
                 }
 
-                //檢查玩家同盟士兵
-                for (int i = 0; i < allPlayerAlliance.Length; i++)
-                {
-                    if (allPlayerAlliance[i].activeSelf != false)
-                    {
-                        if ((allPlayerAlliance[i].transform.position - transform.position).magnitude < (allPlayers[chaseNumber].transform.position - transform.position).magnitude)
-                        {
-                            CheckTargetTime = CheckPlayerDistanceTime;
-                            chaseObject = allPlayerAlliance[i];//追擊目標
-                            return;
-                        }
-                    }
-                }
-                
-                chaseObject = allPlayers[chaseNumber];//追擊目標
-                CheckTargetTime = CheckPlayerDistanceTime;
+                chaseObject = allPlayers[chaseNumber];//追擊目標(玩家)
             }
 
             //我方同盟士兵AI
@@ -1277,31 +1296,39 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 allEnemySoldier = GameObject.FindGameObjectsWithTag("Enemy");//所有敵人士兵
 
-                //檢查玩家同盟士兵
-                chaseNumber = 0;//追擊對象編號
-                float closestPlayerDistance = 100000;//最近距離
-                float distance;//其他玩家距離
-
-                for (int i = 0; i < allEnemySoldier.Length; i++)
+                if (allEnemySoldier != null)
                 {
-                    if (allEnemySoldier[i].activeSelf != false)
+                    //檢查玩家同盟士兵
+                    chaseNumber = 0;//追擊對象編號
+                    float closestPlayerDistance = 100000;//最近距離
+                    float distance;//其他玩家距離
+                    for (int i = 0; i < allEnemySoldier.Length; i++)
                     {
-                        distance = (allEnemySoldier[i].transform.position - transform.position).magnitude;
-                        if (distance < closestPlayerDistance)
+                        if (allEnemySoldier[i].activeSelf != false &&
+                            allEnemySoldier[i].GetComponent<CharactersCollision>() != null)
                         {
-                            closestPlayerDistance = distance;
-                            chaseNumber = i;
+                            distance = (allEnemySoldier[i].transform.position - transform.position).magnitude;
+                            if (distance < closestPlayerDistance)
+                            {
+                                closestPlayerDistance = distance;
+                                chaseNumber = i;
+                            }
                         }
                     }
-                }
 
-                chaseObject = allEnemySoldier[chaseNumber];//追擊目標
-                CheckTargetTime = CheckPlayerDistanceTime;
-            }            
+                    if (allEnemySoldier != null)
+                    {
+                        chaseObject = allEnemySoldier[chaseNumber];//追擊目標
+                    }
+                    else chaseObject = null;
+                }                
+            }
+
+            CheckTargetTime = CheckPlayerDistanceTime;
         }
         
         //觀看最近玩家 
-        Vector3 targetDiration;//目標向量        
+        Vector3 targetDiration = Vector3.one;//目標向量        
         if (pathsList.Count > 0)//執行AStart
         {
             targetDiration = pathsList[point] - transform.position;       
@@ -1309,7 +1336,7 @@ public class AI : MonoBehaviourPunCallbacks
 
         else//一般情況
         {
-            targetDiration = chaseObject.transform.position - transform.position;
+            if(chaseObject != null) targetDiration = chaseObject.transform.position - transform.position;
         }
         
         //判斷目標在左/右方               

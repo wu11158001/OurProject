@@ -29,6 +29,9 @@ public class GameData_NumericalValue
     public float playerDodgeSeppd;//玩家閃躲速度
     public float playerSelfHealTime;//玩家自身回復時間
 
+    [Header("據點")]
+    public float strongholdHp;//據點HP
+
     [Header("同盟士兵HP")]
     public float allianceSoldier1_Hp;//同盟士兵1_生命值
 
@@ -349,7 +352,7 @@ public class GameData_NumericalValue
         //共通
         gravity = 6.8f;//重力
         criticalBonus = 1.3f;//報擊傷害加成
-        levelNames = new string[] { "橫掃千軍", "人中之龍"};//關卡名稱
+        levelNames = new string[] { "第一章", "最終章"};//關卡名稱
 
         //Buff增加數值
         buffAbleString = new string[] { "生命", "傷害", "防禦", "吸血", "移動", "回血" };//Buff增益文字
@@ -368,6 +371,9 @@ public class GameData_NumericalValue
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
+
+        //據點
+        strongholdHp = 200;//據點HP
 
         //同盟士兵HP
         allianceSoldier1_Hp = 80;//同盟士兵1_生命值

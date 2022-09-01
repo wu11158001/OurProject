@@ -13,6 +13,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     AnimatorStateInfo info;
     GameData_NumericalValue NumericalValue;
 
+    [SerializeField] bool isTaskObject;//是否為任務物件
+
     //碰撞框
     public Vector3 boxCenter;
     public Vector3 boxSize;
@@ -439,15 +441,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
                 GetComponent<BoxCollider>().enabled = false;//關閉碰撞框               
 
-                if(gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                //任務
+                if(isTaskObject)//是否為任務物件
                 {
-                    GameSceneManagement.Instance.KillEnemyNumber += 1;//已擊殺怪物數量
-                    GameSceneManagement.Instance.OnTaskText();//任務文字
-                    
-                    //連線
-                    if (GameDataManagement.Instance.isConnect)
+                    if (GameSceneManagement.Instance.taskStage == 1)//第2階段
                     {
-                        PhotonConnect.Instance.OnSendRenewTask();//更新任務
+                        GameSceneManagement.Instance.OnTaskText();//任務文字
+
+                        //連線
+                        if (GameDataManagement.Instance.isConnect)
+                        {
+                            PhotonConnect.Instance.OnSendRenewTask();//更新任務
+                        }
                     }
                 }
                 return;
@@ -843,7 +848,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }
         if (info.IsTag("Die") && info.normalizedTime >= 1)
         {
-            OnJudgeGameResult();//判定遊戲結果
+            //OnJudgeGameResult();//判定遊戲結果
 
             //連線模式
             if (GameDataManagement.Instance.isConnect && photonView.IsMine) PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
@@ -853,7 +858,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }
     }
 
-    /// <summary>
+    /*/// <summary>
     /// 判定遊戲結果
     /// </summary>
     void OnJudgeGameResult()
@@ -872,7 +877,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 GameSceneUI.Instance.OnSetGameOverUI(clearance: false);
             }
         }
-    }
+    }*/
 
     /// <summary>
     /// 動畫重複觸發

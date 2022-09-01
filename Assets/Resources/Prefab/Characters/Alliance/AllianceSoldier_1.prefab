@@ -1623,6 +1623,8 @@ MonoBehaviour:
   isExecuteAStart: 0
   allPlayers: []
   allPlayerAlliance: []
+  allEnemySoldier: []
+  chaseObject: {fileID: 0}
   isMelee: 1
   aiState: 0
 --- !u!114 &3093963109411748772
@@ -1655,7 +1657,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Hp: 0
-  MaxHp: 101
+  MaxHp: 10
   addDefence: 0
   isSuckBlood: 0
   isSelfHeal: 0

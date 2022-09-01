@@ -183,6 +183,8 @@ MonoBehaviour:
     playerCriticalRate: 30
     playerDodgeSeppd: 3
     playerSelfHealTime: 5
+    strongholdHp: 200
+    allianceSoldier1_Hp: 80
     enemySoldier1_Hp: 1000
     enemySoldier2_Hp: 95
     enemySoldier3_Hp: 155
@@ -457,6 +459,7 @@ MonoBehaviour:
     - Prefab/ShootObject/Archer/ArcherNormalAttack_3_Arrow
     archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1_Arrow
     magicianNormalAttack_1: 
+    allianceSoldier_1: Prefab/Characters/Alliance/AllianceSoldier_1
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     enemySoldier_2: 
     enemySoldier_3: Prefab/Characters/Enemy/EnemySoldier_3

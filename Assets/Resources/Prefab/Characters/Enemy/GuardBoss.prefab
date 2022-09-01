@@ -610,9 +610,9 @@ GameObject:
   - component: {fileID: 6385173428567762350}
   - component: {fileID: 318811782991487588}
   - component: {fileID: 2215815991190493316}
-  - component: {fileID: 1417212011772971843}
   - component: {fileID: 8844366053070989819}
   - component: {fileID: 2065388901435687814}
+  - component: {fileID: -1844984090823904885}
   m_Layer: 0
   m_Name: GuardBoss
   m_TagString: Untagged
@@ -720,41 +720,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
---- !u!114 &1417212011772971843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2057313314108200744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd807a9c068492468f1f1eb499f3496, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalStateMoveRadius: 0
-  alertRadius: 0
-  chaseRadius: 0
-  attackRadius: 0
-  normalStateMoveTime:
-  - 0
-  - 0
-  normalStateMoveSpeed: 0
-  alertToChaseTime: 0
-  leaveAlertRadiusAlertTime: 0
-  chaseSpeed: 0
-  maxRadiansDelta: 0
-  readyChaseRandomTime: []
-  isCheckNearCompanion: 
-  attackFrequency: []
-  attackNumber: 0
-  meleeAttackDistance: 0
-  attackIdleMoveSpeed: 0
-  backMoveDistance: 0
-  isExecuteAStart: 0
-  allPlayers: []
-  isMelee: 0
-  aiState: 0
 --- !u!114 &8844366053070989819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -767,6 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a156e852ad56bd440bf6e1d5ed8fc091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTaskObject: 1
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
   heightFromGround: 0
@@ -785,7 +751,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Hp: 0
-  MaxHp: 0
+  MaxHp: 40
   addDefence: 0
   isSuckBlood: 0
   isSelfHeal: 0
@@ -806,6 +772,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99b9980a0f9ce24ca3d5386af947628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1844984090823904885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057313314108200744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd807a9c068492468f1f1eb499f3496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
+  normalStateMoveRadius: 2.5
+  alertRadius: 12
+  chaseRadius: 8
+  attackRadius: 3
+  isHowling: 0
+  chaseSpeed: 5.3
+  maxAttackNumber: 3
+  attackFrequency:
+  - 0.5
+  - 2.75
+  meleeAttackDistance: 2.5
+  attackIdleMoveSpeed: 1
+  backMoveDistance: 2
+  isExecuteAStart: 0
+  allPlayers: []
+  allPlayerAlliance: []
+  allEnemySoldier: []
+  chaseObject: {fileID: 0}
+  isMelee: 1
+  aiState: 0
 --- !u!1 &2086741659549050150
 GameObject:
   m_ObjectHideFlags: 0

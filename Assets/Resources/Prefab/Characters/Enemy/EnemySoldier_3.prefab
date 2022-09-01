@@ -3679,8 +3679,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  Hp: 0
-  MaxHp: 0
+  Hp: 3
+  MaxHp: 30
   addDefence: 0
   isSuckBlood: 0
   isSelfHeal: 0
@@ -3701,28 +3701,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd807a9c068492468f1f1eb499f3496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalStateMoveRadius: 0
-  alertRadius: 0
-  chaseRadius: 0
-  attackRadius: 0
-  normalStateMoveTime:
-  - 0
-  - 0
-  normalStateMoveSpeed: 0
-  alertToChaseTime: 0
-  leaveAlertRadiusAlertTime: 0
-  chaseSpeed: 0
-  maxRadiansDelta: 0
-  readyChaseRandomTime: []
-  isCheckNearCompanion: 
-  attackFrequency: []
-  attackNumber: 0
-  meleeAttackDistance: 0
-  attackIdleMoveSpeed: 0
-  backMoveDistance: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
+  normalStateMoveRadius: 2.5
+  alertRadius: 12
+  chaseRadius: 8
+  attackRadius: 3
+  isHowling: 0
+  chaseSpeed: 5.3
+  maxAttackNumber: 3
+  attackFrequency:
+  - 0.5
+  - 2.75
+  meleeAttackDistance: 2.5
+  attackIdleMoveSpeed: 1
+  backMoveDistance: 2
   isExecuteAStart: 0
   allPlayers: []
-  isMelee: 0
+  allPlayerAlliance: []
+  allEnemySoldier: []
+  chaseObject: {fileID: 0}
+  isMelee: 1
   aiState: 0
 --- !u!1 &8476602583806177799
 GameObject:

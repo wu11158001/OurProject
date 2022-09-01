@@ -118,6 +118,10 @@ public class AttackMode
                 if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0.35f) continue;
                 OnSetAttackNumbericalValue(collision);                
             }
+
+            //¾ÚÂI¨üÀ»
+            Stronghold stronghold = hit.GetComponent<Stronghold>();
+            if (stronghold != null) stronghold.OnGetHit(layer, damage);
         }   
 
        GameSceneManagement.Instance.AttackMode_List.Remove(this);
