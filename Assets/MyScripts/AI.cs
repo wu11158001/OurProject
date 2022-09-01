@@ -237,8 +237,7 @@ public class AI : MonoBehaviourPunCallbacks
     {
         OnStateBehavior();//狀態行為        
         OnCollision();//碰撞框
-        OnCheckLefrAndRightCompanion();//檢查左右同伴
-        OnRotateToPlayer();//選轉至玩家方向
+        OnCheckLefrAndRightCompanion();//檢查左右同伴        
     }
 
     /// <summary>
@@ -306,9 +305,11 @@ public class AI : MonoBehaviourPunCallbacks
         {
             case AIState.一般狀態:
                 OnNormalStateBehavior();
+                OnRotateToPlayer();//選轉至玩家方向
                 break;
             case AIState.警戒狀態:
                 OnAlertStateBehavior();
+                OnRotateToPlayer();//選轉至玩家方向
                 break;
             case AIState.追擊狀態:
                 OnChaseBehavior();

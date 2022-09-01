@@ -581,7 +581,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// </summary>
     void OnGravity()
     {
-        acceleration += 0.8f * Time.deltaTime;//加速度        
+        acceleration += 0.9f * Time.deltaTime;//加速度        
         transform.position = transform.position + NumericalValue.gravity * acceleration * Time.deltaTime * -Vector3.up;//重力加速度    
     }
 

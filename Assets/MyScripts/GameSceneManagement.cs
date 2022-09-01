@@ -158,7 +158,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         #endregion
 
         //創建敵人
-        OnCreateEnemy();
+        //OnCreateEnemy();
 
         //任務
         taskText = new string[] { "擊倒該區域所有怪物", "擊倒城門守衛", "擊倒城內區域所有怪物" };//個階段任務文字
