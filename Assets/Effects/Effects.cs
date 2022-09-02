@@ -77,6 +77,12 @@ public class Effects : MonoBehaviour
             gColor = 0.933f;
             bColor = 0.933f;
         }
+
+        //拖曳刀光
+        if (anim.runtimeAnimatorController.name == "1_Warrior")
+        {
+            weapon.GetComponent<TrailRenderer>().enabled = false;
+        }
     }
 
     void Update()
@@ -92,6 +98,7 @@ public class Effects : MonoBehaviour
             WarSkillAttack1();
             WarSkillAttack2();
             WarSkillAttack3();
+            WeaponTrailControl();  //武器拖曳刀光
         }
         if (anim.runtimeAnimatorController.name == "2_Magician")
         {
@@ -100,7 +107,7 @@ public class Effects : MonoBehaviour
             MagNormalAttack3();
             MagSkillAttack1();
             MagSkillAttack3();
-            MagEffectsControl();
+            MagEffectsControl();   //魔法陣
         }
     }
 
@@ -549,6 +556,17 @@ public class Effects : MonoBehaviour
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
 
+        //拖曳刀光
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime <= 0.4)
+        {
+            weapon.GetComponent<TrailRenderer>().enabled = true;
+        }
+        if (animInfo.normalizedTime > 0.4)
+        {
+            weapon.GetComponent<TrailRenderer>().enabled = false;
+        }
+
+
         var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
         float delay = 0.001f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
@@ -569,7 +587,18 @@ public class Effects : MonoBehaviour
             isshakeCamera = true;          //畫面震盪
         }
         else SkillAttack_33.Stop();
+
+
     }
+
+    void WeaponTrailControl()
+    {
+        if (!animInfo.IsName("Attack.SkillAttack_3"))
+        {
+            weapon.GetComponent<TrailRenderer>().enabled = false;
+        }
+    }
+
 
     #endregion
 
