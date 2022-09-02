@@ -48,9 +48,9 @@ public class GuardBossNA2 : MonoBehaviour
         gameObject.transform.GetComponentInParent<ConnectObject>().enabled = false;
         gameObject.transform.GetComponentInParent<GuardBoss_Exclusive>().enabled = false;
 
-        if (!animInfo.IsName("Attack.Attack2"))
-        {
-            anim.Play("Attack.Attack2");
-        }
+        //if (!animInfo.IsName("Attack.Attack2"))
+        //{
+        //    anim.Play("Attack.Attack2");
+        //}
     }
 }
