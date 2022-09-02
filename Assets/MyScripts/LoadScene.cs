@@ -47,7 +47,8 @@ public class LoadScene : MonoBehaviour
         loadFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "LoadFront_Image");
         loadFront_Image.enabled = false;
 
-        StartCoroutine(OnLoadScene("StartScene"));
+        //StartCoroutine(OnLoadScene("StartScene"));
+        SceneManager.LoadScene("StartScene");
     }
 
     void Update()

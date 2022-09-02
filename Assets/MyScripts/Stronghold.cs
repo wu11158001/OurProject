@@ -91,7 +91,9 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
                 //任務
                 GameSceneManagement.Instance.OnTaskText();//任務文字                
-                if (GameDataManagement.Instance.isConnect)//連線
+
+                //連線
+                if (GameDataManagement.Instance.isConnect && PhotonNetwork.IsMasterClient)
                 {
                     PhotonConnect.Instance.OnSendRenewTask();//更新任務
                 }

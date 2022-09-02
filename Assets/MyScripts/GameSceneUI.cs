@@ -47,7 +47,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     float comboLifeTime;//連擊數文字時間
 
     [Header("紀錄分數")]
-    [SerializeField] int MaxCombo;//最大連擊數
+    int MaxCombo;//最大連擊數
+    float playerGameTime;//遊戲時間
 
     void Awake()
     {
@@ -130,6 +131,15 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         OnOptionsUI();//選項介面
         OnTipText();//提示文字
         OnComboLifeTime();//連擊數生存時間
+        OnPlayGameTime();//遊戲時間
+    }
+
+    /// <summary>
+    /// 遊戲時間
+    /// </summary>
+    void OnPlayGameTime()
+    {
+        playerGameTime += Time.deltaTime;//遊戲時間
     }
 
     /// <summary>
@@ -183,7 +193,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetGameOverUI(bool clearance)
     {
         isGameOver = true;//遊戲結束
-
+        Time.timeScale = 0;
+        
         //開啟選項
         if (isOptions)
         {            
@@ -233,20 +244,30 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             isOptions = !isOptions;                                
             options.gameObject.SetActive(isOptions);
 
-            //顯示滑鼠
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;            
+            if (isOptions)
+            {
+                if (!GameDataManagement.Instance.isConnect) Time.timeScale = 0;              
+
+                //顯示滑鼠                
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Time.timeScale = 1;
+                
+                //顯示滑鼠                
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+
+            Cursor.visible = isOptions;
         }
 
-        if(isOptions)
-        {
-            if (!GameDataManagement.Instance.isConnect) Time.timeScale = 0;
-
+        if (isOptions)
+        {    
             //音量
             GameDataManagement.Instance.musicVolume = volume_Scrollbar.value;
-            audioSource.volume = GameDataManagement.Instance.musicVolume;
-        }
-        else Time.timeScale = 1;
+            audioSource.volume = GameDataManagement.Instance.musicVolume;;
+        }  
     }
 
     /// <summary>

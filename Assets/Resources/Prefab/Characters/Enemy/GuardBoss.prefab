@@ -19934,7 +19934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a156e852ad56bd440bf6e1d5ed8fc091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTaskObject: 0
+  isTaskObject: 1
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
   heightFromGround: 0
