@@ -988,6 +988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a156e852ad56bd440bf6e1d5ed8fc091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTaskObject: 0
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
   heightFromGround: 0
@@ -1027,9 +1028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd807a9c068492468f1f1eb499f3496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mask:
-    serializedVersion: 2
-    m_Bits: 0
+  role: 2
   normalStateMoveRadius: 2.5
   alertRadius: 12
   chaseRadius: 8

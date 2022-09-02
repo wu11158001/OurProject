@@ -65,7 +65,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         wallCollisionDistance = 0.25f;//牆面碰撞距離
         wallCollisionHight = 0.5f;//牆面碰撞高度
         acceleration = 1;//加速度
-        collisionSize_Character = 0.6f;//碰撞框大小_腳色
+        collisionSize_Character = 1f;//碰撞框大小_腳色
         //collisionPushForce_Character = 0.77f;//碰撞框推力_腳色
 
         //腳色Tag設定HP
@@ -74,21 +74,21 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case "Player":
                 MaxHp = NumericalValue.playerHp;
                 break;
-            /*case "Alliance":
-                MaxHp = NumericalValue.allianceSoldier1_Hp;
-                break;
-            case "EnemySoldier_1":
-                MaxHp = NumericalValue.enemySoldier1_Hp;
-                break;
-            case "EnemySoldier_2":
-                MaxHp = NumericalValue.enemySoldier2_Hp;
-                break;
-            case "EnemySoldier_3":
-                MaxHp = NumericalValue.enemySoldier3_Hp;
-                break;
-            case "GuardBoss":
-                MaxHp = NumericalValue.guardBoss_Hp;
-                break;*/
+                /*case "Alliance":
+                    MaxHp = NumericalValue.allianceSoldier1_Hp;
+                    break;
+                case "EnemySoldier_1":
+                    MaxHp = NumericalValue.enemySoldier1_Hp;
+                    break;
+                case "EnemySoldier_2":
+                    MaxHp = NumericalValue.enemySoldier2_Hp;
+                    break;
+                case "EnemySoldier_3":
+                    MaxHp = NumericalValue.enemySoldier3_Hp;
+                    break;
+                case "GuardBoss":
+                    MaxHp = NumericalValue.guardBoss_Hp;
+                    break;*/
         }
 
         //Buff
@@ -107,7 +107,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (lifeBar != null) lifeBar.gameObject.SetActive(gameObject.activeSelf);
 
         if (!GameDataManagement.Instance.isConnect || photonView.IsMine)
-        {                        
+        {
             OnSelfHeal();
             OnCollisionControl();
             OnFloation();
@@ -115,8 +115,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }
 
         //測試用
-        if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, gameObject, "Player", 1000, "Pain", 0, 1, false);        
-    }   
+        if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, gameObject, "Player", 1000, "Pain", 0, 1, false);
+    }
 
     /// <summary>
     /// 初始化
@@ -172,10 +172,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         if (Hp <= 0) return;//死了
 
-        if(isSelfHeal)
+        if (isSelfHeal)
         {
             selfTime -= Time.deltaTime;
-            if(selfTime <= 0 && Hp < MaxHp)
+            if (selfTime <= 0 && Hp < MaxHp)
             {
                 selfTime = NumericalValue.playerSelfHealTime;//重製時間
 
@@ -312,7 +312,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                              damage: MaxHp * (heal / 100),//受到治療
                              color: isCritical ? Color.green : Color.green,//文字顏色
                              isCritical: isCritical);//是否爆擊
-        
+
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
         if (gameObject.layer == LayerMask.NameToLayer("Player") && photonView.IsMine) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
     }
@@ -329,29 +329,29 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <param name="repel">擊退距離</param>
     /// <param name="isCritical">是否爆擊</param>
     public void OnGetHit(GameObject attacker, GameObject attackerObject, string layer, float damage, string animationName, int knockDirection, float repel, bool isCritical)
-    {        
+    {
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         //閃躲
         if (info.IsName("Dodge") || info.IsName("Die")) return;
-        
+
         //判斷受擊對象
         if (((gameObject.layer == LayerMask.NameToLayer("Player") || gameObject.layer == LayerMask.NameToLayer("Alliance")) && layer == "Enemy") ||
             (gameObject.layer == LayerMask.NameToLayer("Enemy") && (layer == "Player") || layer == "Alliance"))
         {
-            float getDamge = (damage - (damage * (addDefence / 100))) < 0 ? 0: damage - addDefence;//受到的方害
+            float getDamge = (damage - (damage * (addDefence / 100))) < 0 ? 0 : damage - addDefence;//受到的方害
 
             //判斷攻擊者是否有吸血效果
             if (attacker.TryGetComponent(out CharactersCollision attackerCollision))
             {
-                if (attackerCollision.isSuckBlood) attackerCollision.OnSuckBlood(getDamge, isCritical);               
+                if (attackerCollision.isSuckBlood) attackerCollision.OnSuckBlood(getDamge, isCritical);
             }
-            
+
             Hp -= getDamge;//生命值減少
             if (Hp <= 0) Hp = 0;
-            
+
             if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
-            if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+            if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)                       
 
             /*//面向攻擊者(Enemy執行)
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -372,10 +372,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
             //命中特效
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {               
-                if (attackerObject.GetComponent<Effects>()!=null )                   
+            {
+                if (attackerObject.GetComponent<Effects>() != null)
                 {
-                     attackerObject.GetComponent<Effects>().HitEffect(attackerObject, gameObject.GetComponent<Collider>());
+                    attackerObject.GetComponent<Effects>().HitEffect(attackerObject, gameObject.GetComponent<Collider>());
                 }
             }
             if (gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -386,6 +386,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 }
             }
 
+            //設定連擊數
+            if (gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Player") GameSceneUI.Instance.OnSetComboNumber();
 
 
             //不是連線 || 房主
@@ -397,7 +399,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     case 0://擊退
                         LayerMask mask = LayerMask.GetMask("StageObject");
                         if (!Physics.Raycast(transform.position + boxCenter, -transform.forward, 1f, mask))//碰牆不再擊退
-                        {                            
+                        {
                             int dir = 1;//擊退方向
                             //在攻擊者後方
                             if (Vector3.Dot(attackerObject.transform.forward, transform.position - attackerObject.transform.position) <= 0)
@@ -410,7 +412,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                             }
 
                             transform.position = transform.position + dir * attackerObject.transform.forward * repel * Time.deltaTime;//擊退
-                        }                        
+                        }
                         break;
                     case 1://擊飛                        
                         floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List                    
@@ -430,7 +432,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
             //判斷動畫是否mirror
             int isMirror = UnityEngine.Random.Range(0, 2);
-            if(isMirror == 0)
+            if (isMirror == 0)
             {
                 animator.SetBool("IsPainMirror", true);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "IsPainMirror", true);
@@ -444,6 +446,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             //死亡
             if (Hp <= 0)
             {
+                //設定擊殺數
+                if (gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Player") GameSceneUI.Instance.OnSetKillNumber();
+
                 isDie = true;
                 animator.SetTrigger("Die");
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
@@ -451,7 +456,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 GetComponent<BoxCollider>().enabled = false;//關閉碰撞框               
 
                 //任務
-                if(isTaskObject)//是否為任務物件
+                if (isTaskObject)//是否為任務物件
                 {
                     if (GameSceneManagement.Instance.taskStage == 1)//第2階段
                     {
@@ -466,22 +471,22 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 }
                 return;
             }
-         
+
             //重複觸發動畫
             if (info.IsTag(animationName))
             {
                 StartCoroutine(OnAniamtionRepeatTrigger(animationName));
                 return;
             }
-        
+
             //狀態改變(關閉前一個動畫)
-            if (info.IsTag("KnockBack") && animationName == "Pain"||
+            if (info.IsTag("KnockBack") && animationName == "Pain" ||
                 info.IsTag("Pain") && animationName == "KnockBack")
             {
                 animator.SetBool(animationName, false);
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, false);
             }
-           
+
             //待機 & 奔跑 才執行受擊動畫
             if (info.IsTag("Idle") || info.IsTag("Run"))
             {
@@ -526,8 +531,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         Hp -= damage;//生命值減少
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
-         
-        if(Hp <= 0)
+
+        if (Hp <= 0)
         {
             GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
         }
@@ -557,7 +562,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             case 1://擊飛                
                 floating_List.Add(new CharactersFloating { target = transform, force = repel, gravity = NumericalValue.gravity });//浮空List                    
                 break;
-        }        
+        }
 
         //不是連線 || 是房主
         if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
@@ -580,17 +585,17 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         for (int i = 0; i < floating_List.Count; i++)
         {
             floating_List[i].OnFloating();
-            
+
             RaycastHit hit;
             //地板碰撞
-            if(OnJumpCollision_Floor(out hit, jumpRayDistance))
+            if (OnJumpCollision_Floor(out hit, jumpRayDistance))
             {
                 if (floating_List[i].force < NumericalValue.playerJumpForce / 1.35f)
                 {
                     floating_List.Clear();//清除浮空效果                  
                 }
-            }   
-        }    
+            }
+        }
     }
 
     /// <summary>
@@ -607,20 +612,20 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// </summary>
     void OnCollisionControl()
     {
-        info = animator.GetCurrentAnimatorStateInfo(0);        
+        info = animator.GetCurrentAnimatorStateInfo(0);
         RaycastHit hit;
-                
+
         OnCollision_Wall();//碰撞框_牆面        
 
         //跳躍||落下 地面碰撞
         if (info.IsName("Jump") || info.IsName("Fall"))
-        {          
+        {
             jumpRayDistance = info.normalizedTime < 0.3f ? jumpRayDistance = -0.1f : jumpRayDistance = 0;//射線長度            
 
             if (OnJumpCollision_Floor(out hit, jumpRayDistance))
             {
                 transform.position = transform.position + ((boxSize.y / 2) - 0.1f - hit.distance) * Vector3.up;
-            }          
+            }
         }
 
         //一般地面碰撞
@@ -642,7 +647,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 OnGravity();//重力
                 OnFallJudge();//落下判斷
-                
+
             }
         }
         else//浮空狀態
@@ -651,14 +656,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             OnFallJudge();//落下判斷
         }
     }
- 
+
     /// <summary>
     /// 碰撞框_腳色
     /// </summary>    
     /// <returns></returns>
     public bool OnCollision_Characters(out RaycastHit hit)
     {
-        LayerMask mask = LayerMask.GetMask("Player", "Enemy");
+        LayerMask mask = LayerMask.GetMask("Enemy");
         hit = default;
 
         //射線方向
@@ -671,12 +676,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //腳色碰撞    
         for (int i = 0; i < rayDiration.Length; i++)
         {
-            if (Physics.BoxCast(transform.position + boxCenter, new Vector3(boxCollisionDistance * collisionSize_Character, boxSize.y / 2, boxCollisionDistance * collisionSize_Character), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance * collisionSize_Character, mask))
-            {                
-                //碰撞
-                transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
+            if (Physics.BoxCast(transform.position + boxCenter, new Vector3(boxCollisionDistance * collisionSize_Character, boxSize.y, boxCollisionDistance * collisionSize_Character), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance * collisionSize_Character, mask))
+            {
+                //推擠方向
+                Vector3 dir = Vector3.Dot(transform.forward, Vector3.Cross(hit.transform.position - transform.position, Vector3.up)) > 0 ? transform.right : -transform.right;
+                hit.transform.position = hit.transform.position + dir * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
                 return true;
-            }         
+            }
         }
 
         return false;
@@ -737,7 +743,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
-        {            
+        {
             return true;
         }
 
@@ -754,7 +760,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     {
         LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
-        {            
+        {
             return true;
         }
 
@@ -765,9 +771,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// 落下判斷
     /// </summary>
     void OnFallJudge()
-    {        
+    {
         if (!isFall)
-        {               
+        {
             if (floating_List.Count == 0)//沒有浮空
             {
                 if (info.IsName("Dodge"))
@@ -799,13 +805,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// 落下距離
     /// </summary>
     bool OnFallDistance()
-    {        
+    {
         float distance = boxSize.y * 1.2f;//落下距離
         LayerMask mask = LayerMask.GetMask("StageObject");
         if (Physics.Raycast(transform.position + boxCenter, -transform.up, distance, mask))
-        {            
+        {
             return false;
-        }      
+        }
 
         Debug.DrawRay(transform.position + boxCenter, -transform.up * distance);
         return true;
@@ -861,7 +867,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
             //連線模式
             if (GameDataManagement.Instance.isConnect && photonView.IsMine) PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
-          
+
             //關閉物件
             gameObject.SetActive(false);
         }

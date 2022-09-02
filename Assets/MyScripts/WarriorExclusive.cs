@@ -44,7 +44,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = (NumericalValue.warriorSkillAttack_1_Damge + (NumericalValue.warriorSkillAttack_1_Damge * addDamage)) * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;
@@ -74,7 +74,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = (NumericalValue.warriorSkillAttack_2_Damge + (NumericalValue.warriorSkillAttack_2_Damge * addDamage)) * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;
@@ -105,7 +105,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = (NumericalValue.warriorSkillAttack_3_Damge[count] + (NumericalValue.warriorSkillAttack_3_Damge[count] * addDamage)) * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;        
@@ -135,7 +135,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = (NumericalValue.warriorJumpAttack_Damage + (NumericalValue.warriorJumpAttack_Damage * addDamage)) * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;
@@ -167,7 +167,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = (NumericalValue.warriorNormalAttack_1_Damge + (NumericalValue.warriorNormalAttack_1_Damge * addDamage)) * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;
@@ -197,7 +197,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = (NumericalValue.warriorNormalAttack_2_Damge + (NumericalValue.warriorNormalAttack_2_Damge * addDamage)) * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;
@@ -227,7 +227,7 @@ public class WarriorExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
         
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = (NumericalValue.warriorNormalAttack_3_Damge + (NumericalValue.warriorNormalAttack_3_Damge * addDamage)) * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;

@@ -55,7 +55,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
 
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//°õ¦æ§ðÀ»¸}¦â
@@ -144,7 +144,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
 
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//°õ¦æ§ðÀ»¸}¦â
@@ -173,7 +173,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
 
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//°õ¦æ§ðÀ»¸}¦â
@@ -202,7 +202,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
 
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//°õ¦æ§ðÀ»¸}¦â
@@ -233,7 +233,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
   
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//°õ¦æ§ðÀ»¸}¦â
@@ -264,7 +264,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
 
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//°õ¦æ§ðÀ»¸}¦â
@@ -293,7 +293,7 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
         
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
 
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//°õ¦æ§ðÀ»¸}¦â

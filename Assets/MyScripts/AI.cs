@@ -12,8 +12,19 @@ public class AI : MonoBehaviourPunCallbacks
     CharactersCollision charactersCollision;
     readonly AStart aStart = new AStart();
 
-    [SerializeField] LayerMask mask;//攻擊對象Layer
-        
+    LayerMask mask;//攻擊對象Layer
+
+    [Header("腳色")]
+    public Role role;
+    public enum Role 
+    {
+        同盟士兵1,
+        石頭人,
+        弓箭手,
+        斧頭人,
+        小Boss
+    }
+
     [Header("範圍")]
     [SerializeField] public float normalStateMoveRadius;//一般狀態移動範圍
     [SerializeField] public float alertRadius;//警戒範圍
@@ -117,9 +128,9 @@ public class AI : MonoBehaviourPunCallbacks
         charactersCollision = GetComponent<CharactersCollision>();
 
         //判斷角色
-        /* switch(gameObject.tag)
+         switch(role)
          {
-             case "Alliance"://同盟士兵
+             case Role.同盟士兵1://同盟士兵
                  isMelee = true;//近戰腳色
 
                  //偵測範圍
@@ -130,18 +141,18 @@ public class AI : MonoBehaviourPunCallbacks
 
                  //追擊狀態
                  chaseSpeed = 5.3f;//追擊速度
-                 readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+                 readyChaseRandomTime = new float[] { 0.5f, 3.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
                  //攻擊狀態
-                 attackFrequency = new float[2] { 0.5f, 2.75f };//攻擊頻率(亂數最小值, 最大值)  
+                 attackFrequency = new float[2] { 0.5f, 3.5f };//攻擊頻率(亂數最小值, 最大值)  
                  maxAttackNumber = 3;//可使用攻擊招式
-                 meleeAttackDistance = 2.5f;//近距離招式攻擊距離
+                 meleeAttackDistance = 2.0f;//近距離招式攻擊距離
 
                  //攻擊待機
                  attackIdleMoveSpeed = 1;//攻擊待機移動速度
                  backMoveDistance = 2.0f;//距離玩家多近向後走
                  break;
-             case "EnemySoldier_1"://石頭人
+             case Role.石頭人://石頭人
                  isMelee = true;//近戰腳色
 
                  //偵測範圍
@@ -152,10 +163,10 @@ public class AI : MonoBehaviourPunCallbacks
 
                  //追擊狀態
                  chaseSpeed = 5.3f;//追擊速度
-                 readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+                 readyChaseRandomTime = new float[] { 0.5f, 3.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
                  //攻擊狀態
-                 attackFrequency = new float[2] { 0.5f, 2.75f };//攻擊頻率(亂數最小值, 最大值)  
+                 attackFrequency = new float[2] { 0.5f, 3.5f };//攻擊頻率(亂數最小值, 最大值)  
                  maxAttackNumber = 3;//可使用攻擊招式
 
                  //攻擊待機
@@ -163,7 +174,7 @@ public class AI : MonoBehaviourPunCallbacks
                  backMoveDistance = 2.0f;//距離玩家多近向後走
                  meleeAttackDistance = 2.5f;//近距離招式攻擊距離
                  break;
-             case "EnemySoldier_2"://弓箭手
+             case Role.弓箭手://弓箭手
                  isMelee = false;//非近戰腳色
 
                  //偵測範圍
@@ -174,10 +185,10 @@ public class AI : MonoBehaviourPunCallbacks
 
                  //追擊狀態
                  chaseSpeed = 5.3f;//追擊速度
-                 readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+                 readyChaseRandomTime = new float[] { 1.0f, 4.0f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
                  //攻擊狀態
-                 attackFrequency = new float[2] { 0.5f, 2.75f };//攻擊頻率(亂數最小值, 最大值)  
+                 attackFrequency = new float[2] { 1.0f, 5.0f };//攻擊頻率(亂數最小值, 最大值)  
                  maxAttackNumber = 3;//可使用攻擊招式
 
                  //攻擊待機
@@ -185,7 +196,7 @@ public class AI : MonoBehaviourPunCallbacks
                  backMoveDistance = 5.0f;//距離玩家多近向後走
                  meleeAttackDistance = 2.3f;//近距離招式攻擊距離
                  break;
-             case "EnemySoldier_3"://斧頭人
+             case Role.斧頭人://斧頭人
                  isMelee = true;//近戰腳色
 
                  //偵測範圍
@@ -207,7 +218,7 @@ public class AI : MonoBehaviourPunCallbacks
                  backMoveDistance = 2.0f;//距離玩家多近向後走
                  meleeAttackDistance = 2.5f;//近距離招式攻擊距離
                  break;
-             case "GuardBoss":
+             case Role.小Boss:
                  isMelee = true;//近戰腳色
                  //偵測範圍
                  normalStateMoveRadius = 2.5f;//一般狀態移動範圍
@@ -228,7 +239,7 @@ public class AI : MonoBehaviourPunCallbacks
                  backMoveDistance = 2.3f;//距離玩家多近向後走
                  meleeAttackDistance = 2.7f;//近距離招式攻擊距離
                  break;
-         }    */
+         }    
 
         //一般狀態
         originalPosition = transform.position;//初始位置
@@ -264,13 +275,16 @@ public class AI : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        //OnCollision();//碰撞框
+        if (!charactersCollision.isDie)
+        {
+            //OnCollision();//碰撞框
 
-        OnStateBehavior();//狀態行為               
-        OnCheckLefrAndRightCompanion();//檢查左右同伴
-        
-        OnGetAllPlayers();//獲取所有玩家
-        OnCheckClosestPlayer();//檢查最近玩家
+            OnStateBehavior();//狀態行為               
+            OnCheckLefrAndRightCompanion();//檢查左右同伴
+
+            OnGetAllPlayers();//獲取所有玩家
+            OnCheckClosestPlayer();//檢查最近玩家
+        }
     }
 
     /// <summary>
@@ -1188,12 +1202,15 @@ public class AI : MonoBehaviourPunCallbacks
         if (chaseObject != null && chaseObject.activeSelf != false)
         {
             CharactersCollision charactersCollision = chaseObject.GetComponent<CharactersCollision>();
-            
-            //偵測障礙物
-            LayerMask mask = LayerMask.GetMask("StageObject");
-            if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter / 2), chaseObject.transform.position + (charactersCollision.boxCenter / 2), mask))
-            {                
-                return true;
+
+            if (charactersCollision != null)
+            {
+                //偵測障礙物
+                LayerMask mask = LayerMask.GetMask("StageObject");
+                if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter / 2), chaseObject.transform.position + (charactersCollision.boxCenter / 2), mask))
+                {
+                    return true;
+                }
             }
         }
 
@@ -1231,17 +1248,17 @@ public class AI : MonoBehaviourPunCallbacks
             //到達搜索節點數量
             if (point >= aStarCheckPointNumber)
             {                
-               /* //與玩家之間沒有障礙物
-                if (!OnCollision_Player())
+                //與目標之間沒有障礙物
+                if (!OnCollision_Target())
                 {
                     point = pathsList.Count - 1;//尋路節點編號
                     isExecuteAStart = false;//非執行AStart
                     pathsList.Clear();
-                }*/
+                }
             }
         }
     }
-    
+
     /// <summary>
     /// 檢查最近玩家
     /// </summary>

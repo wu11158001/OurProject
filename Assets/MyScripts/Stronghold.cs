@@ -48,7 +48,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
         //產生士兵時間
         createSoldierTime = 30;//產生士兵時間
-        createTime = createSoldierTime;//產生士兵時間(計時器)
+        //createTime = createSoldierTime;//產生士兵時間(計時器)
     }
 
     void Update()

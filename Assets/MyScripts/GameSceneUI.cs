@@ -39,6 +39,16 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     float tipTime;//文字顯示時間
     public Text task_Text;//任務文字
 
+    [Header("分數")]
+    Text killNumber_Text;//擊殺數文字
+    int killNumber;//擊殺數
+    Text comboNumber_Text;//連擊數文字
+    int comboNumber;//連擊數
+    float comboLifeTime;//連擊數文字時間
+
+    [Header("紀錄分數")]
+    [SerializeField] int MaxCombo;//最大連擊數
+
     void Awake()
     {
         if(gameSceneUI != null)
@@ -79,7 +89,6 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             }
         }
 
-
         //選項
         options = ExtensionMethods.FindAnyChild<Transform>(transform, "Options");//Options UI控制
         options.gameObject.SetActive(false);
@@ -106,6 +115,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         tip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Tip_Text");//提示文字
         tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
         task_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Task_Text");//任務文字
+
+        //分數
+        killNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "KillNumber_Text");//擊殺數文字
+        killNumber_Text.text = "擊殺數:" + killNumber;
+        comboNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ComboNumber_Text");//連擊數文字
+        comboNumber_Text.enabled = false;
+        comboNumber_Text.text = "連擊:" + comboNumber;
     }
         
     void Update()
@@ -113,6 +129,51 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         OnPlayerLifeBarBehavior();//玩家生命條行為
         OnOptionsUI();//選項介面
         OnTipText();//提示文字
+        OnComboLifeTime();//連擊數生存時間
+    }
+
+    /// <summary>
+    /// 連擊數生存時間
+    /// </summary>
+    void OnComboLifeTime()
+    {
+        if (comboLifeTime > 0)
+        {
+            comboLifeTime -= Time.deltaTime; ;//連擊數文字時間
+
+            if(comboNumber_Text.fontSize > 50) comboNumber_Text.fontSize -= 2;//文字縮小
+            comboNumber_Text.color = new Color(comboNumber_Text.color.r, comboNumber_Text.color.g, comboNumber_Text.color.b, comboLifeTime);
+
+            if (comboLifeTime <= 0)
+            {
+                comboNumber = 0;
+                comboNumber_Text.enabled = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 設定連擊數
+    /// </summary>
+    public void OnSetComboNumber()
+    {
+        comboLifeTime = 3;
+        comboNumber++;//擊殺數
+        comboNumber_Text.text = "連擊:" + comboNumber;
+        comboNumber_Text.enabled = true;
+        comboNumber_Text.fontSize = 80;
+
+        //最大連擊數
+        if (MaxCombo < comboNumber) MaxCombo = comboNumber;
+    }
+
+    /// <summary>
+    /// 設定擊殺數
+    /// </summary>
+    public void OnSetKillNumber()
+    {
+        killNumber++;//擊殺數
+        killNumber_Text.text = "擊殺數:" + killNumber;
     }
   
     /// <summary>

@@ -16,14 +16,14 @@ public class HitNumber : MonoBehaviour
     float lifeTime;//生存時間
     float speed;//速度
     float addSpeed;//增加的速度
-
+    float randonLoseSpeed;//亂數減少速度
     void Start()
     {
         canvas_Overlay = GameObject.Find("Canvas_Overlay").GetComponent<Canvas>();     
         transform.SetParent(canvas_Overlay.transform);
 
-        lifeTime = 1.5f;//生存時間
-        addSpeed = 12;//增加的速度
+        lifeTime = 1f;//生存時間
+        
     }
 
     
@@ -44,12 +44,23 @@ public class HitNumber : MonoBehaviour
         if (thisText == null) thisText = GetComponent<Text>();
 
         //爆擊字放大
-        if (isCritical) thisText.fontSize = 105;
-        else thisText.fontSize = 70;
+        if (isCritical) thisText.fontSize = 75;
+        else thisText.fontSize = 60;
 
+        //符號文字
+        string symbolCritical = "";
+        string symbol = "";
+        if (isCritical) symbolCritical = "爆擊";
+        if (color == Color.red || color == Color.yellow) symbol = "-";
+        if (color == Color.green) symbol = "+";
+        symbol = symbolCritical + symbol;
+
+        //文字
         this.target = target;//受傷目標
-        thisText.text = Mathf.Round(damage).ToString();//受到傷害(四捨五入)        
+        thisText.text = symbol + Mathf.Round(damage).ToString();//受到傷害(四捨五入)        
         thisText.color = color;//文字顏色 
+        addSpeed = UnityEngine.Random.Range(10.5f, 12.5f); ;//增加的速度
+        randonLoseSpeed = UnityEngine.Random.Range(47.0f, 57.5f);//亂數減少速度        
     }
     
     /// <summary>
@@ -64,7 +75,7 @@ public class HitNumber : MonoBehaviour
 
         if (addSpeed > 0)
         {
-            addSpeed -= 55 * Time.deltaTime;
+            addSpeed -= randonLoseSpeed * Time.deltaTime;
             if (addSpeed <= 0) addSpeed = 0;
         }
 

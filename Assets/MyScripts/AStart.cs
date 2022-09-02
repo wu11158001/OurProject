@@ -143,8 +143,7 @@ public class AStart
                                 {
                                     bestNode = F;//最佳節點距離
                                     bestNeighborNode = i;//最近的鄰居編號                    
-                                }
-                                Debug.LogError(node.neighborNode[bestNeighborNode].transform.name);
+                                }                                
                             }
                             else//沒有障礙物
                             {

@@ -25,7 +25,7 @@ public class EnemySoldier1_Exclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = NumericalValue.enemySoldier1_Attack_1_Damge * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;
@@ -55,7 +55,7 @@ public class EnemySoldier1_Exclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = NumericalValue.enemySoldier1_Attack_2_Damge * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;
@@ -85,7 +85,7 @@ public class EnemySoldier1_Exclusive : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
         bool isCritical = UnityEngine.Random.Range(0, 100) < NumericalValue.playerCriticalRate ? true : false;//¬O§_ÃzÀ»
-        float rate = isCritical ? NumericalValue.criticalBonus : 1;//ÃzÀ»§ðÀ»´£¤É­¿²v
+        float rate = isCritical ? NumericalValue.criticalBonus : UnityEngine.Random.Range(0.9f, 1.0f);//ÃzÀ»§ðÀ»´£¤É­¿²v
         float getDamage = NumericalValue.enemySoldier1_Attack_3_Damge * rate;//³y¦¨¶Ë®`
 
         AttackMode attack = AttackMode.Instance;
