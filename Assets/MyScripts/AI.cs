@@ -292,6 +292,17 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnInitial()
     {
+        if (isAttackIdle)
+        {
+            isAttackIdle = false;
+            OnChangeAnimation(animationName: "AttackIdle", animationType: false);
+        }
+        if (isAttackIdleMove)
+        {
+            isAttackIdleMove = false;
+            OnChangeAnimation(animationName: "AttackIdleMove", animationType: false);
+        }
+
         isHowling = true;
         OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
         isExecuteAStart = false;//¬O§_°õ¦æAStart
@@ -895,21 +906,21 @@ public class AI : MonoBehaviourPunCallbacks
             OnChangeAnimation(animationName: "Howling", animationType: false);
         }
 
-        /* //§ðÀ»©Û¦¡
+         //§ðÀ»©Û¦¡
          if ((transform.position - chaseObject.transform.position).magnitude < meleeAttackDistance)//ªñ¨­§ðÀ»
          {
              attackNumber = maxAttackNumber;
          }
          else if ((transform.position - chaseObject.transform.position).magnitude >= meleeAttackDistance)//½Ä¨ë§ðÀ»
-         {
-             if(gameObject.tag == "GuardBoss") attackNumber = UnityEngine.Random.Range(1, 3);
-             else attackNumber = 1;
+         {             
+             attackNumber = 1;
          }
          else//¤@¯ë§ðÀ»
          {
-             if (gameObject.tag == "EnemySoldier_2") attackNumber = UnityEngine.Random.Range(1, 3);
+             if (!isMelee) attackNumber = UnityEngine.Random.Range(1, 3);//»·µ{
              else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
-         }*/
+         }
+
         attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
         yield return new WaitForSeconds(0.3f);               
 

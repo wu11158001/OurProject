@@ -45,6 +45,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Text comboNumber_Text;//連擊數文字
     int comboNumber;//連擊數
     float comboLifeTime;//連擊數文字時間
+    Image comboBackground_Image;//連擊數文字背景
 
     [Header("紀錄分數")]
     int MaxCombo;//最大連擊數
@@ -121,8 +122,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         killNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "KillNumber_Text");//擊殺數文字
         killNumber_Text.text = "擊殺數:" + killNumber;
         comboNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ComboNumber_Text");//連擊數文字
-        comboNumber_Text.enabled = false;
-        comboNumber_Text.text = "連擊:" + comboNumber;
+        comboNumber_Text.enabled = false;        
+        comboBackground_Image = ExtensionMethods.FindAnyChild<Image>(transform, "ComboBackground_Image");//連擊數文字背景
+        comboBackground_Image.enabled = false;
     }
         
     void Update()
@@ -152,7 +154,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             comboLifeTime -= Time.deltaTime; ;//連擊數文字時間
 
             if(comboNumber_Text.fontSize > 50) comboNumber_Text.fontSize -= 2;//文字縮小
-            comboNumber_Text.color = new Color(comboNumber_Text.color.r, comboNumber_Text.color.g, comboNumber_Text.color.b, comboLifeTime);
+            comboNumber_Text.color = new Color(comboNumber_Text.color.r, comboNumber_Text.color.g, comboNumber_Text.color.b, comboLifeTime);//文字
+            comboBackground_Image.color = new Color(comboBackground_Image.color.r, comboBackground_Image.color.g, comboBackground_Image.color.b, comboLifeTime);//背景
 
             if (comboLifeTime <= 0)
             {
@@ -167,11 +170,15 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnSetComboNumber()
     {
+        //文字
         comboLifeTime = 3;
         comboNumber++;//擊殺數
         comboNumber_Text.text = "連擊:" + comboNumber;
         comboNumber_Text.enabled = true;
         comboNumber_Text.fontSize = 80;
+
+        //背景
+        comboBackground_Image.enabled = true;
 
         //最大連擊數
         if (MaxCombo < comboNumber) MaxCombo = comboNumber;
