@@ -266,7 +266,7 @@ public class AI : MonoBehaviourPunCallbacks
         readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
         //尋路
-        aStarCheckPointNumber = 2;//AStar至少經過多少點
+        aStarCheckPointNumber = 1;//AStar至少經過多少點
 
         OnGetAllPlayers();//獲取所有玩家
         isHowling = true;
