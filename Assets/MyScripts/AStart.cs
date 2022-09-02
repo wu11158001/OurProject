@@ -131,7 +131,7 @@ public class AStart
 
                             //有障礙物
                             if (Physics.Linecast(node.neighborNode[i].transform.position, targetPosition, 1 << LayerMask.NameToLayer("StageObject")))
-                            {
+                            {                                
                                 Vector3 nextPosition = node.transform.position;//下個節點位置
                                 Vector3 neighborPosition = node.neighborNode[i].transform.position;//鄰居節點位置
 
@@ -143,7 +143,8 @@ public class AStart
                                 {
                                     bestNode = F;//最佳節點距離
                                     bestNeighborNode = i;//最近的鄰居編號                    
-                                }                               
+                                }
+                                Debug.LogError(node.neighborNode[bestNeighborNode].transform.name);
                             }
                             else//沒有障礙物
                             {
@@ -158,6 +159,7 @@ public class AStart
                         node = node.neighborNode[bestNeighborNode];
                         node.nodeState = NodePath.NodeState.關閉;//節點狀態
                         closeNodeList.Add(node);//紀錄已關閉的節點
+                        pathNodesList.Add(node.transform.position);//紀錄節點
                     }
                 }
                 else

@@ -255,7 +255,7 @@ public class AI : MonoBehaviourPunCallbacks
         readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
         //尋路
-        aStarCheckPointNumber = 3;//AStar至少經過多少點
+        aStarCheckPointNumber = 2;//AStar至少經過多少點
 
         OnGetAllPlayers();//獲取所有玩家
         isHowling = true;
@@ -913,7 +913,12 @@ public class AI : MonoBehaviourPunCallbacks
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         OnAttackRangeCheck();//攻擊範圍偵測
-        //if (!isAttacking) OnCheckClosestPlayer();//檢查最近玩家       
+                             //if (!isAttacking) OnCheckClosestPlayer();//檢查最近玩家       
+
+        if (!isHowling && info.IsName("Howling"))
+        {
+            OnChangeAnimation(animationName: "AttackIdle", animationType: true);
+        }
 
         //移除尋路
         if (pathsList.Count > 0)
