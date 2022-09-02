@@ -328,7 +328,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     [PunRPC]
     void OnRenewTask(PhotonMessageInfo info)
     {
-        GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
+        //GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
         GameSceneManagement.Instance.OnTaskText();//任務文字
     }
 
