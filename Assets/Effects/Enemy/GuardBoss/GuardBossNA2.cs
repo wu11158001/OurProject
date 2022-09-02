@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GuardBossNA2 : MonoBehaviour
 {
     Animator anim;                 //對應角色動作組件
     AnimatorStateInfo animInfo;    //獲得動作狀態(節省腳本用)   
+    bool testMode = false;
     void Start()
     {
         anim = gameObject.transform.GetComponentInParent<Animator>();
         gameObject.GetComponent<ParticleSystem>().Stop();
+        if (SceneManager.GetActiveScene().name.Equals("EffectScene")) testMode = true;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         animInfo = anim.GetCurrentAnimatorStateInfo(0);
@@ -34,7 +37,8 @@ public class GuardBossNA2 : MonoBehaviour
         {
             gameObject.transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
         }
-       // TestMode();  //測試模式，用在編輯特效
+
+        if (testMode) TestMode(); //測試模式，用在編輯特效       
     }
 
     void TestMode()
@@ -47,15 +51,6 @@ public class GuardBossNA2 : MonoBehaviour
         if (!animInfo.IsName("Attack.Attack2"))
         {
             anim.Play("Attack.Attack2");
-
         }
-
-
-        //         anim.Play("Stand", 0,0f);
-        //anim.speed = 0;
-        //if (Input.GetKeyDown(KeyCode.Z))
-        //{
-        //    anim.speed = 1;
-        //}
     }
 }
