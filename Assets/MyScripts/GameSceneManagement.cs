@@ -365,6 +365,24 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //非連線 || 是房主
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
+            #region 我方據點
+            if (objTag == "Alliance")
+            {
+                //產生敵人士兵1
+                for (int i = 0; i < 1; i++)
+                {
+                    AIObject = OnRequestOpenObject(OnGetObjectNumber("allianceSoldier_1"), loadPath.allianceSoldier_1);//開啟物件
+                    AIObject.transform.position = createPoint.position + createPoint.forward * 1;//設定位置
+                    AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                    AIObject.tag = objTag;//設定Tag
+                    AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer         
+                    AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
+                    AIObject.GetComponent<AI>().OnInitial();//初始化
+                }
+            }
+            #endregion
+
+
             //判斷目前任務階段
             switch (taskStage)
             {
@@ -376,49 +394,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         for (int i = 0; i < 1; i++)
                         {
                             AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
-                            AIObject.transform.position = createPoint.position + createPoint.forward * 10;//設定位置
+                            AIObject.transform.position = createPoint.position + createPoint.forward * 8.5f;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = objTag;//設定Tag
                             AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化
-                        }
-                        /*//產生敵人士兵2                      
-                        for (int i = 0; i < enemySoldiers2_Stage1Point.Length; i++)
-                        {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_1);//開啟物件
-                            AIObject.transform.position = createPoint.forward * (createPoint.GetComponent<BoxCollider>().size.z + 0.5f);//設定位置
-                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
-                            AIObject.tag = objTag;//設定Tag
-                            AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer
-                            AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化
-                        }*/
+                        }                     
                     }
-                    #endregion
-                    #region 我方據點
-                    if (objTag == "Alliance")
-                    {
-                        //產生敵人士兵1
-                        for (int i = 0; i < 1; i++)
-                        {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("allianceSoldier_1"), loadPath.allianceSoldier_1);//開啟物件
-                            AIObject.transform.position = createPoint.position + createPoint.forward * 10;//設定位置
-                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
-                            AIObject.tag = objTag;//設定Tag
-                            AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer                                                                       
-                        }
-                        //產生敵人士兵2                      
-                        /*for (int i = 0; i < enemySoldiers2_Stage1Point.Length; i++)
-                        {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_1);//開啟物件
-                            AIObject.transform.position = createPoint.forward * (createPoint.GetComponent<BoxCollider>().size.z + 0.5f);//設定位置
-                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
-                            AIObject.tag = objTag;//設定Tag
-                            AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer                        
-                        }*/
-                    }
-                    #endregion
+                    #endregion                    
                     break;
                 case 2:
                     #region 敵人據點

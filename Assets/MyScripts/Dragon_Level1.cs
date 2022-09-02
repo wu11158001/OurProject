@@ -13,7 +13,7 @@ public class Dragon_Level1 : MonoBehaviour
 
     void Start()
     {
-        aroundSpeed = 10;//圍繞速度
+        aroundSpeed = 30;//圍繞速度
     }
   
     void Update()
@@ -24,7 +24,7 @@ public class Dragon_Level1 : MonoBehaviour
         }
 
         Vector3 targetDiration = waypoint.GetChild(point).transform.position - transform.position;
-        transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, 0.01f, 0.001f);
+        transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, 0.025f, 0.025f);
         transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
 
         transform.position = transform.position + transform.forward * aroundSpeed * Time.deltaTime;
