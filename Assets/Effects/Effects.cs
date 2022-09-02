@@ -112,7 +112,7 @@ public class Effects : MonoBehaviour
     }
 
 
-    float oSize = 0.2f;  
+    float oSize = 0.2f;
     float booksize = 0.01262763f;
     bool closeMagicBook = false;
     void MagEffectsControl()
@@ -567,26 +567,25 @@ public class Effects : MonoBehaviour
         }
 
 
-        var SkillAttack_30 = skill.transform.GetChild(0).GetComponent<ParticleSystem>();
-        float delay = 0.001f;                            //SkillAttack_30特效播放時間點，面板務必保持為0        
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !SkillAttack_30.isPlaying) SkillAttack_30.Play();
-
-        //var SkillAttack_31 = skill.transform.GetChild(1).GetComponent<ParticleSystem>();
-        //float delay1 = 0.2f;                            //SkillAttack_31特效播放時間點
-        //DoEffects(idelName, delay1, SkillAttack_31);
-
-        //var SkillAttack_32 = skill.transform.GetChild(2).GetComponent<ParticleSystem>();
-        //float delay2 = 0.4f;                             //SkillAttack_32特效播放時間點，面板務必保持為0
-        //DoEffects(idelName, delay2, SkillAttack_32);
-
-        var SkillAttack_33 = skill.transform.GetChild(3).GetComponent<ParticleSystem>();
-        float delay3 = 0.7f;
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay3 && !SkillAttack_33.isPlaying)
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.2f && !skill.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
         {
-            SkillAttack_33.Play();
+            skill.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        }
+
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.7f && !skill.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
+        {
+            skill.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.7f && !skill.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
+        {
+            skill.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.8f && !skill.transform.GetChild(3).GetComponent<ParticleSystem>().isPlaying)
+        {
+            skill.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
             isshakeCamera = true;          //畫面震盪
         }
-        else SkillAttack_33.Stop();
+
 
 
     }
