@@ -4,38 +4,73 @@ using UnityEngine;
 
 public class Dragon_Level1 : MonoBehaviour
 {
-    [SerializeField] Transform rotateAroundTarger;//圍繞目標
-    public Transform SetRotateAroundTarger { set { rotateAroundTarger = value; } }
-
     [Header("數值")]
     [SerializeField] float aroundSpeed;//圍繞速度
-    [SerializeField] float distance;//距離玩家距離
+
+    [Tooltip("WayPoint")]public Transform waypoint;
+
+    int point;
 
     void Start()
     {
-        aroundSpeed = 5;//圍繞速度
-        distance = 20;//距離玩家距離
+        aroundSpeed = 10;//圍繞速度
     }
   
     void Update()
     {
-        if (rotateAroundTarger != null)
+        if((transform.position - waypoint.GetChild(point).transform.position).magnitude < 1)
         {
-            Vector3 thisPos = transform.position;
-            thisPos.y = 0;
-            Vector3 targetPos = rotateAroundTarger.position;
-            targetPos.y = 0;
-            Vector3 forward = thisPos - targetPos;
-
-            //transform.right = forward;
-            
-            
-            /*if((thisPos - targetPos).magnitude > distance)
-            {
-                transform.position = transform.position - transform.right * aroundSpeed / 2 * Time.deltaTime;
-            }*/               
+            point = OnGetNextIndex(point);            
         }
 
+        Vector3 targetDiration = waypoint.GetChild(point).transform.position - transform.position;
+        transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, 0.01f, 0.001f);
+        transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+
         transform.position = transform.position + transform.forward * aroundSpeed * Time.deltaTime;
+    }
+
+    // <summary>
+    /// 獲取節點position
+    /// </summary>
+    /// <param name="i">節點編號</param>
+    /// <returns></returns>
+    public Vector3 OnGetWayPoint(int i)
+    {
+        return waypoint.transform.GetChild(i).position;
+    }
+
+    /// <summary>
+    /// 獲取下個節點編號
+    /// </summary>
+    /// <param name="i">節點編號</param>
+    /// <returns></returns>
+    public int OnGetNextIndex(int i)
+    {
+        if (i + 1 == waypoint.transform.childCount) return 0;
+
+        return i + 1;
+    }
+
+    /// <summary>
+    /// 獲取前個節點編號
+    /// </summary>
+    /// <param name="i">節點編號</param>
+    /// <returns></returns>
+    public int OnGetPreviousIndex(int i)
+    {
+        if (i == 0) return waypoint.transform.childCount - 1;
+
+        return i - 1;
+    }
+
+    private void OnDrawGizmos()
+    {
+        for (int i = 0; i < waypoint.transform.childCount; i++)
+        {
+            Gizmos.color = Color.green;            
+            Gizmos.DrawSphere(OnGetWayPoint(i), 0.5f);
+            Gizmos.DrawLine(OnGetWayPoint(i), waypoint.transform.GetChild(OnGetNextIndex(i)).position);
+        }
     }
 }
