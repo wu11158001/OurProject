@@ -197,7 +197,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         //任務
         taskNumber = -1;//已完成任務數量
-        taskText = new string[] { "擊破該區域所有據點", "擊倒城門守衛", "開啟湖中機關打開城門" };//個階段任務文字
+        taskText = new string[] { "擊破該區所有據點", "擊倒城門守衛", "擊破湖中城門機關" };//個階段任務文字
         //各階段任務所需擊殺數
         taskNeedNumber = new int[] { 2,//階段1
                                      guardBoss_Stage2Point.Length,//階段2
