@@ -8,7 +8,12 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 {
     static GameSceneUI gameSceneUI;
     public static GameSceneUI Instance => gameSceneUI;
-       
+
+    [Header("敵人生命條")]
+    Transform enemyLifeBar;//EnemyLifeBar UI控制
+    Image enemyLifeBarFront_Image;//生命條(前)
+    Text enemyLifeBarName_Text;//敵人名稱
+
     [Header("玩家生命條")]        
     Image playerLifeBarFront_Image;//生命條(前)
     Image playerLifeBarMid_Image;//生命條(中)
@@ -27,11 +32,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Scrollbar volume_Scrollbar;//音量ScrollBar
     public bool isOptions;//是否開起選項介面
 
-    [Header("遊戲結束")]
+    [Header("遊戲結束")]    
     Transform gameOver;//GameOver UI控制
     Text gameOverResult_Text;//遊戲結果文字
     Button backToStart_Button;//返回按鈕(確認按鈕)
     public bool isGameOver;//是否遊戲結束
+    Transform gameResult;//GameResult UI控制
+    Text gameResult_Text;//遊戲結果文字
 
     [Header("提示文字")]
     Image tipBackground_Image;//提示文字背景
@@ -69,6 +76,12 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        //敵人生命條        
+        enemyLifeBarName_Text = ExtensionMethods.FindAnyChild<Text>(transform, "EnemyLifeBarName_Text");//敵人名稱
+        enemyLifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "EnemyLifeBarFront_Image");//生命條(前)
+        enemyLifeBar = ExtensionMethods.FindAnyChild<Transform>(transform, "EnemyLifeBar");//EnemyLifeBar UI控制
+        enemyLifeBar.gameObject.SetActive(false);
+
         //玩家生命條
         playerHpProportion = 1;
         playerLifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerLifeBarFront_Image");//生命條(前)
@@ -110,12 +123,15 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         volume_Scrollbar = ExtensionMethods.FindAnyChild<Scrollbar>(transform, "Volume_Scrollbar");//音量ScrollBar
         volume_Scrollbar.value = GameDataManagement.Instance.musicVolume;
 
-        //遊戲結束
+        //遊戲結束                
         gameOver = ExtensionMethods.FindAnyChild<Transform>(transform, "GameOver");//GameOver UI控制
         gameOver.gameObject.SetActive(false);
         gameOverResult_Text = ExtensionMethods.FindAnyChild<Text>(transform, "GameOverResult_Text");//遊戲結果文字
         backToStart_Button = ExtensionMethods.FindAnyChild<Button>(transform, "BackToStart_Button");//返回按鈕(確認按鈕)        
         backToStart_Button.onClick.AddListener(OnLeaveGame);
+        gameResult = ExtensionMethods.FindAnyChild<Transform>(transform, "GameResult");//GameResult UI控制
+        gameResult_Text = ExtensionMethods.FindAnyChild<Text>(transform, "GameResult_Text"); ;//遊戲結果文字
+        gameResult.gameObject.SetActive(false);
 
         //其他
         tipBackground_Image = ExtensionMethods.FindAnyChild<Image>(transform, "TipBackground_Image");//提示文字背景
@@ -129,7 +145,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
         //分數
         killNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "KillNumber_Text");//擊殺數文字
-        killNumber_Text.text = "擊殺數:" + killNumber;
+        killNumber_Text.text = "擊殺數: " + killNumber;
         comboNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ComboNumber_Text");//連擊數文字
         comboNumber_Text.enabled = false;        
         comboBackground_Image = ExtensionMethods.FindAnyChild<Image>(transform, "ComboBackground_Image");//連擊數文字背景
@@ -149,6 +165,22 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         OnComboLifeTime();//連擊數生存時間
         OnPlayGameTime();//遊戲時間
     }
+
+    /// <summary>
+    /// 設定敵人生命條
+    /// </summary>
+    /// <param name="name">敵人名稱</param>
+    /// <param name="value">生命比例</param>
+    public void OnSetEnemyLifeBarValue(string name, float value)
+    {      
+        enemyLifeBarName_Text.text = name;//設定名稱
+        enemyLifeBarFront_Image.fillAmount = value;//設定比例
+    }
+
+    /// <summary>
+    /// 設定敵人生命條顯示
+    /// </summary>
+    public bool SetEnemyLifeBarActive { set { enemyLifeBar.gameObject.SetActive(value); } }
 
     /// <summary>
     /// 遊戲結束關閉物件
@@ -189,13 +221,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //遊戲時間
         int minute = (int)playerGameTime / 60;
         int second = (int)playerGameTime % 60;
-        playGameTime_Text.text = $"遊戲時間:{minute}分{second}秒";
+        playGameTime_Text.text = $"遊戲時間: {minute}分{second}秒";
 
         //最大擊殺數
-        maxKillNumber_Text.text = $"最大擊殺數:{killNumber}";
+        maxKillNumber_Text.text = $"最大擊殺數: {killNumber}";
 
         //最大連擊數
-        maxCombolNumber_Text.text = $"最大連擊數:{MaxCombo}";
+        maxCombolNumber_Text.text = $"最大連擊數: {MaxCombo}";
     }
 
     /// <summary>
@@ -235,7 +267,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //文字
         comboLifeTime = 3;
         comboNumber++;//擊殺數
-        comboNumber_Text.text = "連擊:" + comboNumber;
+        comboNumber_Text.text = "連擊: " + comboNumber;
         comboNumber_Text.enabled = true;
         comboNumber_Text.fontSize = 80;
 
@@ -252,7 +284,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetKillNumber()
     {
         killNumber++;//擊殺數
-        killNumber_Text.text = "擊殺數:" + killNumber;
+        killNumber_Text.text = "擊殺數: " + killNumber;
     }
 
     /// <summary>
@@ -380,5 +412,16 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetTaskText(string taskValue)
     {
         task_Text.text = taskValue;
+    }
+
+    /// <summary>
+    /// 設定遊戲結果
+    /// </summary>
+    /// <param name="active">是否顯示</param>
+    /// <param name="result">遊戲結果文字</param>
+    public void OnSetGameResult(bool active, string result)
+    {        
+        gameResult.gameObject.SetActive(active);
+        gameResult_Text.text = result;
     }
 }

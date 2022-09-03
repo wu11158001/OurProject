@@ -1174,7 +1174,10 @@ public class AI : MonoBehaviourPunCallbacks
     void OnGetAllPlayers()
     {
         //´M§ä©Ò¦³ª±®a
-        if (allPlayers[allPlayers.Length - 1] == null) allPlayers = GameObject.FindGameObjectsWithTag("Player");        
+        if (allPlayers[allPlayers.Length - 1] == null && !GameSceneUI.Instance.isGameOver)
+        {
+            allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        }
     }
 
     /// <summary>

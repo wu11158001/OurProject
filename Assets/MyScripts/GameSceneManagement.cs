@@ -35,7 +35,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public int taskStage;//目前任務階段
     public int[] taskNeedNumber;//各階段任務所需數量
     public int taskNumber;//已完成任務數量
-    GameObject strongholdStage3;//第3階段據點
+    GameObject strongholdStage3;//第3階段據點    
 
     //可控制城門
     float gateSpeed;//城門移動速度
@@ -447,7 +447,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //設定任務文字
         if (taskStage < taskNeedNumber.Length)//未過關
         {
-            GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n目標:" + taskNumber + "/" + taskNeedNumber[taskStage]);
+            GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n目標: " + taskNumber + " / " + taskNeedNumber[taskStage]);
         }
     }
 
@@ -463,16 +463,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             if (taskStage >= taskNeedNumber.Length)//過關
             {
-                StartCoroutine(OnTaskTipText(taskTipValue: "過關"));//任務提示   
-                GameSceneUI.Instance.OnSetTaskText(taskValue: "過關");
-
-                StartCoroutine(OnClearance());//過關
+                //StartCoroutine(OnTaskTipText(taskTipValue: "勝利"));//任務提示                  
+                GameSceneUI.Instance.OnSetGameResult(true, "勝利");
+                StartCoroutine(OnSetGameOver(true));//設定遊戲結束
             }
             else//進入下階段
             {
                 taskNumber = 0;//已完成任務數量                                
                 StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage]));//任務提示   
-                GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n目標:" + taskNumber + "/" + taskNeedNumber[taskStage]);
+                GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n目標: " + taskNumber + " / " + taskNeedNumber[taskStage]);
 
                 //初始階段創建敵人
                 OnInitialCreateEnemy();
@@ -481,18 +480,20 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 過關
+    /// 設定遊戲結束
     /// </summary>
+    /// <param name="result">結果</param>
     /// <returns></returns>
-    IEnumerator OnClearance()
+    public IEnumerator OnSetGameOver(bool result)
     {
         //遊戲結束關閉物件
         GameSceneUI.Instance.OnGameOverCloseObject();
-
+        
         yield return new WaitForSeconds(5);
-
+        GameSceneUI.Instance.OnSetGameResult(false, "");
+        
         //設定遊戲結束UI
-        GameSceneUI.Instance.OnSetGameOverUI(clearance: true);
+        GameSceneUI.Instance.OnSetGameOverUI(clearance: result);
     }
 
     #endregion

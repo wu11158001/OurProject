@@ -13,7 +13,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     AnimatorStateInfo info;
     GameData_NumericalValue NumericalValue;
 
+    [Header("任務設定")]
     [SerializeField] bool isTaskObject;//是否為任務物件
+    [SerializeField] string enemyName;//敵人名稱
 
     //碰撞框
     public Vector3 boxCenter;
@@ -61,11 +63,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             boxSize = GetComponent<BoxCollider>().size;
         }
         boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//碰撞距離
-        heightFromGround = -0.063f;//距離地面高度        
+        //heightFromGround = -0.063f;//距離地面高度        
         wallCollisionDistance = 0.25f;//牆面碰撞距離
         wallCollisionHight = 0.5f;//牆面碰撞高度
         acceleration = 1;//加速度
-        collisionSize_Character = 1f;//碰撞框大小_腳色
+        collisionSize_Character = 1.5f;//碰撞框大小_腳色
         //collisionPushForce_Character = 0.77f;//碰撞框推力_腳色
 
         //腳色HP
@@ -363,7 +365,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (((gameObject.layer == LayerMask.NameToLayer("Player") || gameObject.layer == LayerMask.NameToLayer("Alliance")) && layer == "Enemy") ||
             (gameObject.layer == LayerMask.NameToLayer("Enemy") && (layer == "Player") || layer == "Alliance"))
         {
-            float getDamge = (damage - (damage * (addDefence / 100))) < 0 ? 0 : damage - addDefence;//受到的方害
+            float getDamge = (damage - (damage * (addDefence / 100))) < 0 ? 0 : (damage - (damage * (addDefence / 100)));//受到的方害
 
             //判斷攻擊者是否有吸血效果
             if (attacker.TryGetComponent(out CharactersCollision attackerCollision))
@@ -387,12 +389,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 transform.forward = attackerPosition - targetPosition;
             }*/
 
-            //產生文字            
+            /*//產生文字            
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: getDamge,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
-                                 isCritical: isCritical);//是否爆擊            
+                                 isCritical: isCritical);//是否爆擊*/
 
             //命中特效
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -467,6 +469,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "IsPainMirror", false);
             }
 
+            //任務物件
+            if(isTaskObject)
+            {
+                //設定生命條
+                GameSceneUI.Instance.OnSetEnemyLifeBarValue(enemyName, Hp / MaxHp);
+                GameSceneUI.Instance.SetEnemyLifeBarActive = true;
+            }
+
             //死亡
             if (Hp <= 0)
             {
@@ -479,8 +489,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
                 GetComponent<BoxCollider>().enabled = false;//關閉碰撞框               
 
-                //任務
-                if (isTaskObject)//是否為任務物件
+                //任務物件
+                if (isTaskObject)
                 {
                     if (GameSceneManagement.Instance.taskStage == 1)//第2階段
                     {
@@ -491,7 +501,19 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                         {
                             PhotonConnect.Instance.OnSendRenewTask();//更新任務
                         }
+
+                        GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字
+                        GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條                        
                     }
+                }
+
+                //非連線 && 玩家死亡
+                if(!GameDataManagement.Instance.isConnect && gameObject.layer == LayerMask.NameToLayer("Player"))
+                {
+                    //遊戲結果文字
+                    GameSceneUI.Instance.OnSetGameResult(true, "失敗");
+                    //設定遊戲結束
+                    StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
                 }
                 return;
             }
@@ -704,8 +726,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 //推擠方向
                 Vector3 dir = Vector3.Dot(transform.forward, Vector3.Cross(hit.transform.position - transform.position, Vector3.up)) > 0 ? transform.right : -transform.right;
-                //hit.transform.position = hit.transform.position + dir * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
-                hit.transform.position = hit.transform.position + dir * 4.3f * Time.deltaTime;
+                hit.transform.position = hit.transform.position + dir * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
+                //hit.transform.position = hit.transform.position + dir * 4.3f * Time.deltaTime;
                 return true;
             }
         }
@@ -886,7 +908,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             animator.SetBool("KnockBack", false);
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "KnockBack", false);
         }
-        if (info.IsTag("Die") && info.normalizedTime >= 1)
+        if (info.IsTag("Die") && info.normalizedTime >= 1 && gameObject.layer != LayerMask.NameToLayer("Player"))
         {
             //OnJudgeGameResult();//判定遊戲結果
 

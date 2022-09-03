@@ -14,6 +14,9 @@ public class Stronghold : MonoBehaviourPunCallbacks
     [Header("第幾階段生兵(0 == 階段1)")]
     public int stage;
 
+    [Header("建築物名稱")]
+    public string builidName;
+
     //生命值
    public float maxHp;
    public float hp;
@@ -21,6 +24,9 @@ public class Stronghold : MonoBehaviourPunCallbacks
     //產生士兵時間
     float createSoldierTime;//產生士兵時間
     float createTime;//產生士兵時間(計時器)
+
+    //判斷
+    bool isGetHit;//是否受攻擊
 
     private void Awake()
     {
@@ -65,7 +71,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
                     createTime = createSoldierTime;
                 }
             }
-        }       
+        }     
     }
 
     /// <summary>
@@ -77,6 +83,8 @@ public class Stronghold : MonoBehaviourPunCallbacks
     {
         if (gameObject.tag == "Enemy" && attackerLayer == "Player")
         {
+            isGetHit = true;//是否受攻擊
+
             hp -= damage;
 
             //連線
@@ -84,6 +92,10 @@ public class Stronghold : MonoBehaviourPunCallbacks
             {
                 PhotonConnect.Instance.OnSendStrongholdGetHit(id, damage);
             }
+
+            //設定生命條
+            GameSceneUI.Instance.OnSetEnemyLifeBarValue(builidName, hp / maxHp);
+            GameSceneUI.Instance.SetEnemyLifeBarActive = true;
 
             if (hp <= 0)
             {
@@ -103,8 +115,12 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 {                    
                     PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
                 }
-                gameObject.SetActive(false);//關閉物件
-            }
+
+                GameSceneUI.Instance.OnSetTip($"{builidName}已擊破", 5);//設定提示文字
+                GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
+
+                gameObject.SetActive(false);//關閉物件                
+            }            
         }
     }
 
