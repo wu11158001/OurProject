@@ -68,7 +68,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         collisionSize_Character = 1f;//碰撞框大小_腳色
         //collisionPushForce_Character = 0.77f;//碰撞框推力_腳色
 
-        //腳色Tag設定HP
+        //腳色HP
         switch (gameObject.tag)
         {
             case "Player":
@@ -89,6 +89,30 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 case "GuardBoss":
                     MaxHp = NumericalValue.guardBoss_Hp;
                     break;*/
+        }
+
+        AI ai = GetComponent<AI>();
+        if (ai)
+        {
+            //判斷角色
+            switch (ai.role)
+            {
+                case AI.Role.同盟士兵1://同盟士兵
+                    MaxHp = NumericalValue.allianceSoldier1_Hp;
+                    break;
+                case AI.Role.石頭人://石頭人
+                    MaxHp = NumericalValue.enemySoldier1_Hp;
+                    break;
+                case AI.Role.弓箭手://弓箭手
+                    MaxHp = NumericalValue.enemySoldier2_Hp;
+                    break;
+                case AI.Role.斧頭人://斧頭人
+                    MaxHp = NumericalValue.enemySoldier3_Hp;
+                    break;
+                case AI.Role.小Boss:
+                    MaxHp = NumericalValue.guardBoss_Hp;
+                    break;
+            }
         }
 
         //Buff
@@ -680,7 +704,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 //推擠方向
                 Vector3 dir = Vector3.Dot(transform.forward, Vector3.Cross(hit.transform.position - transform.position, Vector3.up)) > 0 ? transform.right : -transform.right;
-                hit.transform.position = hit.transform.position + dir * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
+                //hit.transform.position = hit.transform.position + dir * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
+                hit.transform.position = hit.transform.position + dir * 4.3f * Time.deltaTime;
                 return true;
             }
         }

@@ -31,12 +31,15 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Transform gameOver;//GameOver UI控制
     Text gameOverResult_Text;//遊戲結果文字
     Button backToStart_Button;//返回按鈕(確認按鈕)
-    bool isGameOver;//是否遊戲結束
+    public bool isGameOver;//是否遊戲結束
 
     [Header("提示文字")]
     Image tipBackground_Image;//提示文字背景
     public Text tip_Text;//提示文字
     float tipTime;//文字顯示時間
+
+    [Header("任務")]
+    Transform task;//Task UI控制
     public Text task_Text;//任務文字
 
     [Header("分數")]
@@ -47,7 +50,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     float comboLifeTime;//連擊數文字時間
     Image comboBackground_Image;//連擊數文字背景
 
-    [Header("紀錄分數")]
+    [Header("計分板")]
+    Text playGameTime_Text;//遊戲時間文字
+    Text maxKillNumber_Text;//最大擊殺數文字
+    Text maxCombolNumber_Text;//最大連擊數文字
     int MaxCombo;//最大連擊數
     float playerGameTime;//遊戲時間
 
@@ -116,6 +122,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         tipBackground_Image.color = new Color(tipBackground_Image.color.r, tipBackground_Image.color.g, tipBackground_Image.color.b, tipTime); 
         tip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Tip_Text");//提示文字
         tip_Text.color = new Color(tip_Text.color.r, tip_Text.color.g, tip_Text.color.b, tipTime);
+
+        //任務
+        task = ExtensionMethods.FindAnyChild<Transform>(transform, "Task");//Task UI控制
         task_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Task_Text");//任務文字
 
         //分數
@@ -125,6 +134,11 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         comboNumber_Text.enabled = false;        
         comboBackground_Image = ExtensionMethods.FindAnyChild<Image>(transform, "ComboBackground_Image");//連擊數文字背景
         comboBackground_Image.enabled = false;
+
+        //計分板
+        playGameTime_Text = ExtensionMethods.FindAnyChild<Text>(transform, "PlayGameTime_Text");//遊戲時間文字
+        maxKillNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "MaxKillNumber_Text");//最大擊殺數文字
+        maxCombolNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "MaxCombolNumber_Text");//最大連擊數文字
     }
         
     void Update()
@@ -134,6 +148,54 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         OnTipText();//提示文字
         OnComboLifeTime();//連擊數生存時間
         OnPlayGameTime();//遊戲時間
+    }
+
+    /// <summary>
+    /// 遊戲結束關閉物件
+    /// </summary>
+    public void OnGameOverCloseObject()
+    {
+        //關閉任務UI
+        task.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// 設定遊戲結束UI
+    /// </summary>
+    /// <param name="clearance">是否過關</param>
+    public void OnSetGameOverUI(bool clearance)
+    {
+        isGameOver = true;//遊戲結束
+        Time.timeScale = 0;
+
+        //開啟選項
+        if (isOptions)
+        {
+            isOptions = false;
+            options.gameObject.SetActive(isOptions);
+        }
+
+        //開啟遊戲結束UI
+        gameOver.gameObject.SetActive(isGameOver);
+
+        //顯示滑鼠
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        //結果文字
+        if (clearance) gameOverResult_Text.text = "勝利總結";
+        else gameOverResult_Text.text = "失敗總結";
+
+        //遊戲時間
+        int minute = (int)playerGameTime / 60;
+        int second = (int)playerGameTime % 60;
+        playGameTime_Text.text = $"遊戲時間:{minute}分{second}秒";
+
+        //最大擊殺數
+        maxKillNumber_Text.text = $"最大擊殺數:{killNumber}";
+
+        //最大連擊數
+        maxCombolNumber_Text.text = $"最大連擊數:{MaxCombo}";
     }
 
     /// <summary>
@@ -191,34 +253,6 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     {
         killNumber++;//擊殺數
         killNumber_Text.text = "擊殺數:" + killNumber;
-    }
-  
-    /// <summary>
-    /// 設定遊戲結束UI
-    /// </summary>
-    /// <param name="clearance">是否過關</param>
-    public void OnSetGameOverUI(bool clearance)
-    {
-        isGameOver = true;//遊戲結束
-        Time.timeScale = 0;
-        
-        //開啟選項
-        if (isOptions)
-        {            
-            isOptions = false;
-            options.gameObject.SetActive(isOptions);
-        }
-
-        //開啟遊戲結束UI
-        gameOver.gameObject.SetActive(isGameOver);
-
-        //結果文字
-        if (clearance) gameOverResult_Text.text = "過關";
-        else gameOverResult_Text.text = "失敗";
-
-        //顯示滑鼠
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
     }
 
     /// <summary>
@@ -284,6 +318,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     {
         isOptions = false;
         options.gameObject.SetActive(isOptions);
+        Time.timeScale = 1;
 
         //連線
         if (GameDataManagement.Instance.isConnect)
