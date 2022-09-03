@@ -183,7 +183,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
 
         //結果文字
-        if (clearance) gameOverResult_Text.text = "過關總結";
+        if (clearance) gameOverResult_Text.text = "勝利總結";
         else gameOverResult_Text.text = "失敗總結";
 
         //遊戲時間
