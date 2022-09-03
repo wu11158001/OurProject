@@ -413,7 +413,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             }
 
             //設定連擊數
-            if (gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Player") GameSceneUI.Instance.OnSetComboNumber();
+            if (gameObject.layer == LayerMask.NameToLayer("Enemy") && attacker.GetComponent<PlayerControl>()) GameSceneUI.Instance.OnSetComboNumber();
 
 
             //不是連線 || 房主
@@ -470,7 +470,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             }
 
             //任務物件
-            if(isTaskObject)
+            if(isTaskObject && attacker.GetComponent<PlayerControl>())
             {
                 //設定生命條
                 GameSceneUI.Instance.OnSetEnemyLifeBarValue(enemyName, Hp / MaxHp);

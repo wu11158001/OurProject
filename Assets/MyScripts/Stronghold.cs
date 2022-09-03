@@ -71,7 +71,10 @@ public class Stronghold : MonoBehaviourPunCallbacks
                     createTime = createSoldierTime;
                 }
             }
-        }     
+        }
+
+        //ด๚ธี
+        if (Input.GetKeyDown(KeyCode.K)) OnGetHit("Player", 1000);
     }
 
     /// <summary>
