@@ -13,7 +13,7 @@ public class Dragon_Level1 : MonoBehaviour
 
     void Start()
     {
-        aroundSpeed = 20;//圍繞速度
+        aroundSpeed = 30;//圍繞速度
     }
   
     void Update()
