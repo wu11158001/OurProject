@@ -15,8 +15,8 @@ public class Stronghold : MonoBehaviourPunCallbacks
     public int stage;
 
     //生命值
-    float maxHp;
-    float hp;
+   public float maxHp;
+   public float hp;
 
     //產生士兵時間
     float createSoldierTime;//產生士兵時間
