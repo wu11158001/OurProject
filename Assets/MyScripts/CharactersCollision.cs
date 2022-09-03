@@ -704,7 +704,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 //±ÀÀ½¤è¦V
                 Vector3 dir = Vector3.Dot(transform.forward, Vector3.Cross(hit.transform.position - transform.position, Vector3.up)) > 0 ? transform.right : -transform.right;
-                hit.transform.position = hit.transform.position + dir * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
+                //hit.transform.position = hit.transform.position + dir * (Mathf.Abs(boxCollisionDistance * collisionSize_Character - hit.distance));
+                hit.transform.position = hit.transform.position + dir * 4.3f * Time.deltaTime;
                 return true;
             }
         }
