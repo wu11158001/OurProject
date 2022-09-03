@@ -262,11 +262,11 @@ public class AI : MonoBehaviourPunCallbacks
         maxRadiansDelta = 0.065f;//轉向角度        
         changeDiretionTime = 0.5f;//更換方向時間
         delayAttackTime = new float[] { 0.5f, 1};//延遲攻擊時間(亂數最小值, 最大值)
-        loseSpeed = 0.45f;//減少的速度比例
+        loseSpeed = 0.35f;//減少的速度比例
         readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
         //尋路
-        aStarCheckPointNumber = 1;//AStar至少經過多少點
+        aStarCheckPointNumber = 2;//AStar至少經過多少點
 
         OnGetAllPlayers();//獲取所有玩家
         isHowling = true;
@@ -849,7 +849,7 @@ public class AI : MonoBehaviourPunCallbacks
             }
 
             if (startChaseTime <= 0)
-            {
+            {                
                 //"待機中動畫"中沒關閉"攻擊中"狀態
                 if (info.IsName("AttackIdle") && isAttacking) isAttacking = false;
 
@@ -860,6 +860,13 @@ public class AI : MonoBehaviourPunCallbacks
                     {                           
                         OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
                         OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle", animationType: true);
+                    }
+                    else
+                    {
+                        if (loseSpeed == 0)//減少的速度
+                        {
+                            OnChangeAnimation(animationName: "Run", animationType: true);
+                        }
                     }
                 }
             }
@@ -1371,10 +1378,14 @@ public class AI : MonoBehaviourPunCallbacks
         {
             if(chaseObject != null) targetDiration = chaseObject.transform.position - transform.position;
         }
-        
-        //判斷目標在左/右方               
-        transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);        
-        transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);  
+
+        //攻擊時不轉向
+        if (!info.IsTag("Attack"))
+        {
+            //判斷目標在左/右方               
+            transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);
+            transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+        }
     }
 
     /// <summary>

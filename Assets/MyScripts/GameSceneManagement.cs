@@ -341,7 +341,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 //產生敵人士兵1
                 for (int i = 0; i < 3; i++)
                 {                
-                    StartCoroutine(OnDelayCreateSoldier_Alliance("allianceSoldier_1", loadPath.allianceSoldier_1, createPoint, objTag, i , UnityEngine.Random.Range(0.5f, 1)));
+                    StartCoroutine(OnDelayCreateSoldier_Alliance("allianceSoldier_1", loadPath.allianceSoldier_1, createPoint, objTag, i , UnityEngine.Random.Range(0.0f, 1.5f)));
                 }
             }
             #endregion
@@ -354,14 +354,14 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     if (objTag == "Enemy")
                     {
                         //產生敵人士兵1
-                        for (int i = 0; i < 1; i++)
+                        for (int i = 0; i < 2; i++)
                         {
-                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.5f, 1)));                           
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));                           
                         }
                         //產生敵人士兵2
-                        for (int j = 0; j < 2; j++)
+                        for (int j = 2; j < 3; j++)
                         {
-                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.5f, 1)));                           
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));                           
                         }
                     }
                     #endregion                    
@@ -388,7 +388,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         GameObject AIObject = null;
         AIObject = OnRequestOpenObject(OnGetObjectNumber(soldierName), soldierPath);//開啟物件
-        AIObject.transform.position = createPoint.position + createPoint.forward * (1 + (number * 0.7f));//設定位置
+        AIObject.transform.position = createPoint.position + createPoint.forward * (-2 + (number * 2f));//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = objTag;//設定Tag
         AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer         
@@ -412,7 +412,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         GameObject AIObject = null;
         AIObject = OnRequestOpenObject(OnGetObjectNumber(soldierName), soldierPath);//開啟物件
-        AIObject.transform.position = createPoint.position + createPoint.forward * (10 + (number * 0.7f));//設定位置
+        AIObject.transform.position = createPoint.position + createPoint.forward * (10 + (number * 2f));//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = objTag;//設定Tag
         AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer         
@@ -486,7 +486,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <returns></returns>
     IEnumerator OnClearance()
     {
-        yield return new WaitForSeconds(3);
+        //遊戲結束關閉物件
+        GameSceneUI.Instance.OnGameOverCloseObject();
+
+        yield return new WaitForSeconds(5);
 
         //設定遊戲結束UI
         GameSceneUI.Instance.OnSetGameOverUI(clearance: true);

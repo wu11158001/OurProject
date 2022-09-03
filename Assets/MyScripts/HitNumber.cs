@@ -11,7 +11,9 @@ public class HitNumber : MonoBehaviour
     Canvas canvas_Overlay;
     Text thisText;
 
-    [SerializeField]Transform target;//受傷目標   
+    PlayerControl playerControl;
+
+    Transform target;//受傷目標   
     Vector3 startPosition;//初始位置
     float lifeTime;//生存時間
     float speed;//速度
@@ -22,8 +24,7 @@ public class HitNumber : MonoBehaviour
         canvas_Overlay = GameObject.Find("Canvas_Overlay").GetComponent<Canvas>();     
         transform.SetParent(canvas_Overlay.transform);
 
-        lifeTime = 1f;//生存時間
-        
+        lifeTime = 1f;//生存時間                
     }
 
     
@@ -60,7 +61,15 @@ public class HitNumber : MonoBehaviour
         thisText.text = symbol + Mathf.Round(damage).ToString();//受到傷害(四捨五入)        
         thisText.color = color;//文字顏色 
         addSpeed = UnityEngine.Random.Range(10.5f, 12.5f); ;//增加的速度
-        randonLoseSpeed = UnityEngine.Random.Range(47.0f, 57.5f);//亂數減少速度        
+        randonLoseSpeed = UnityEngine.Random.Range(47.0f, 57.5f);//亂數減少速度   
+
+        playerControl = GameObject.FindObjectOfType<PlayerControl>();
+
+        //與玩家之間有障礙物
+        if (Physics.Linecast(target.position + Vector3.up * 1, playerControl.transform.position + Vector3.up * 1, 1 << LayerMask.NameToLayer("StageObject")))
+        {
+            thisText.enabled = false;
+        }
     }
     
     /// <summary>
@@ -105,6 +114,15 @@ public class HitNumber : MonoBehaviour
         if (lifeTime <= 0 || position.z < 0)
         {
             Destroy(gameObject);
-        }        
+        }
+
+        //與玩家之間有障礙物
+        if (Physics.Linecast(target.position + Vector3.up * 1, playerControl.transform.position + Vector3.up * 1, 1 << LayerMask.NameToLayer("StageObject")))
+        {            
+            Destroy(gameObject);
+        }
+
+        //遊戲結束
+        if (GameSceneUI.Instance.isGameOver) Destroy(gameObject);
     }
 }
