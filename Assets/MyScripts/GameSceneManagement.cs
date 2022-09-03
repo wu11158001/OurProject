@@ -354,12 +354,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     if (objTag == "Enemy")
                     {
                         //產生敵人士兵1
-                        for (int i = 0; i < 2; i++)
+                        for (int i = 0; i < 3; i++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));                           
                         }
                         //產生敵人士兵2
-                        for (int j = 2; j < 3; j++)
+                        for (int j = 3; j < 4; j++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));                           
                         }

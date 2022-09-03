@@ -376,12 +376,12 @@ public class GameData_NumericalValue
         strongholdHp = 200;//據點HP
 
         //同盟士兵HP
-        allianceSoldier1_Hp = 80;//同盟士兵1_生命值
+        allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
-        enemySoldier3_Hp = 80;//敵人士兵3_生命值
+        enemySoldier3_Hp = 40;//敵人士兵3_生命值
         guardBoss_Hp = 300;//城門守衛Boss_生命值
 
         #region 戰士
