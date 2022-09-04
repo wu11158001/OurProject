@@ -35,7 +35,7 @@ MonoBehaviour:
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 13
-    playerHp: 5
+    playerHp: 850
     playerMoveSpeed: 6.3
     playerJumpForce: 11.05
     playerCriticalRate: 15
@@ -265,13 +265,13 @@ MonoBehaviour:
     enemySoldier3_Attack_3_ForwardDistance: 1.4
     enemySoldier3_Attack_3_attackRadius: 1.3
     enemySoldier3_Attack_3_IsAttackBehind: 0
-    guardBoss_Attack_1_Damge: 28
+    guardBoss_Attack_1_Damge: 17
     guardBoss_Attack_1_RepelDirection: 0
     guardBoss_Attack_1_RepelDistance: 0
     guardBoss_Attack_1_Effect: Pain
-    guardBoss_Attack_1_ForwardDistance: 0
-    guardBoss_Attack_1_FlightSpeed: 0
-    guardBoss_Attack_1_LifeTime: 1
+    guardBoss_Attack_1_ForwardDistance: 1.4
+    guardBoss_Attack_1_attackRadius: 1.3
+    guardBoss_Attack_1_IsAttackBehind: 0
     guardBoss_Attack_2_Damge: 17
     guardBoss_Attack_2_RepelDirection: 0
     guardBoss_Attack_2_RepelDistance: 0

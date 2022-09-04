@@ -21,10 +21,14 @@ public class CameraControl : MonoBehaviour
     float distance;//與玩家距離
     bool isCollsion;//是否碰撞
 
+    [Header("SmoothDamp")]
+    Vector3 velocity;
+    [SerializeField] float smoothTime;
 
     [Header("速度")]
-    public float lerpSpeed;//lerp速度
     public float rotateSpeed;//選轉速度
+    public float lerpSpeed;//lerp速度
+    
 
     [Header("等待時間")]
     [SerializeField] public float waitMoveTime; //等待移動時間
@@ -50,6 +54,10 @@ public class CameraControl : MonoBehaviour
         lerpSpeed = 3f;//選轉速度
         rotateSpeed = 0.80f;//選轉速度
         waitMoveTime = 1;//等待移動時間
+
+        //SmoothDamp
+        velocity = Vector3.zero;
+        smoothTime = 0.35f;
     }
 
     private void LateUpdate()
@@ -112,8 +120,9 @@ public class CameraControl : MonoBehaviour
                 moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);
             }
             else//一般狀態
-            {                
-                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);
+            {
+                //moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);                
+                moveTarget = Vector3.SmoothDamp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, ref velocity, smoothTime);
             }
         }
         

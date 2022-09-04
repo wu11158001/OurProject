@@ -197,11 +197,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         //任務
         taskNumber = -1;//已完成任務數量
-        taskText = new string[] { "擊破該區所有據點", "擊倒城門守衛", "擊破湖中城門機關" };//個階段任務文字
+        taskText = new string[] { "擊破該區所有據點", "擊倒城門守衛", "擊破湖中城門機關", "擊破城內所有據點" };//個階段任務文字
         //各階段任務所需擊殺數
         taskNeedNumber = new int[] { 2,//階段1
                                      guardBoss_Stage2Point.Length,//階段2
-                                     1};//階段3
+                                     1,//階段3
+                                     1};//階段4
 
         //任務提示
         StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
@@ -226,7 +227,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     void OnGate()
     {
-        if (taskStage >= 1)//第1階段過關
+        if (taskStage >= 3)//第3階段過關
         {
             if (stage1_Gate.transform.position.y < -12)
             {
@@ -318,7 +319,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         }
                         break;
                     case 2://階段3 
-                        strongholdStage3.SetActive(true);
+                        strongholdStage3.SetActive(true);//開啟機關
+                        break;
+                    case 3://階段4
+                        strongholdStage3.SetActive(true);//開啟機關
                         break;
                 }
             }
@@ -366,7 +370,22 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     }
                     #endregion                    
                     break;
-                case 2:
+                case 3://階段4
+                    #region 敵人據點
+                    if (objTag == "Enemy")
+                    {
+                        //產生敵人士兵1
+                        for (int i = 0; i < 3; i++)
+                        {
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));
+                        }
+                        //產生敵人士兵2
+                        for (int j = 3; j < 4; j++)
+                        {
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
+                        }
+                    }
+                    #endregion       
                     break;
             }
         }
@@ -412,7 +431,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         GameObject AIObject = null;
         AIObject = OnRequestOpenObject(OnGetObjectNumber(soldierName), soldierPath);//開啟物件
-        AIObject.transform.position = createPoint.position + createPoint.forward * (10 + (number * 2f));//設定位置
+        //AIObject.transform.position = createPoint.position + createPoint.forward * (10 + (number * 2f));//設定位置
+        AIObject.transform.position = (createPoint.position + createPoint.forward * 10) + (createPoint.right * (number * 1.5f));//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = objTag;//設定Tag
         AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer         
@@ -489,7 +509,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //遊戲結束關閉物件
         GameSceneUI.Instance.OnGameOverCloseObject();
         
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         GameSceneUI.Instance.OnSetGameResult(false, "");
         
         //設定遊戲結束UI
