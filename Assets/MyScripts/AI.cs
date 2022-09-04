@@ -146,7 +146,7 @@ public class AI : MonoBehaviourPunCallbacks
                  //攻擊狀態
                  attackFrequency = new float[2] { 0.5f, 3.5f };//攻擊頻率(亂數最小值, 最大值)  
                  maxAttackNumber = 3;//可使用攻擊招式
-                 meleeAttackDistance = 2.0f;//近距離招式攻擊距離
+                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
 
                  //攻擊待機
                  attackIdleMoveSpeed = 1;//攻擊待機移動速度
@@ -172,7 +172,7 @@ public class AI : MonoBehaviourPunCallbacks
                  //攻擊待機
                  attackIdleMoveSpeed = 1;//攻擊待機移動速度
                  backMoveDistance = 2.0f;//距離玩家多近向後走
-                 meleeAttackDistance = 2.5f;//近距離招式攻擊距離
+                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
                  break;
              case Role.弓箭手://弓箭手
                  isMelee = false;//非近戰腳色
@@ -194,7 +194,7 @@ public class AI : MonoBehaviourPunCallbacks
                  //攻擊待機
                  attackIdleMoveSpeed = 2;//攻擊待機移動速度
                  backMoveDistance = 5.0f;//距離玩家多近向後走
-                 meleeAttackDistance = 2.3f;//近距離招式攻擊距離
+                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
                  break;
              case Role.斧頭人://斧頭人
                  isMelee = true;//近戰腳色
@@ -216,7 +216,7 @@ public class AI : MonoBehaviourPunCallbacks
                  //攻擊待機
                  attackIdleMoveSpeed = 1;//攻擊待機移動速度
                  backMoveDistance = 2.0f;//距離玩家多近向後走
-                 meleeAttackDistance = 2.5f;//近距離招式攻擊距離
+                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
                  break;
              case Role.小Boss:
                  isMelee = true;//近戰腳色
@@ -237,7 +237,7 @@ public class AI : MonoBehaviourPunCallbacks
                  //攻擊待機
                  attackIdleMoveSpeed = 2;//攻擊待機移動速度
                  backMoveDistance = 2.3f;//距離玩家多近向後走
-                 meleeAttackDistance = 2.7f;//近距離招式攻擊距離
+                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
                  break;
          }    
 
@@ -917,11 +917,7 @@ public class AI : MonoBehaviourPunCallbacks
          if ((transform.position - chaseObject.transform.position).magnitude < meleeAttackDistance)//近身攻擊
          {
              attackNumber = maxAttackNumber;
-         }
-         else if ((transform.position - chaseObject.transform.position).magnitude >= meleeAttackDistance)//衝刺攻擊
-         {             
-             attackNumber = 1;
-         }
+         }        
          else//一般攻擊
          {
              if (!isMelee) attackNumber = UnityEngine.Random.Range(1, 3);//遠程
@@ -1174,7 +1170,10 @@ public class AI : MonoBehaviourPunCallbacks
     void OnGetAllPlayers()
     {
         //尋找所有玩家
-        if (allPlayers[allPlayers.Length - 1] == null) allPlayers = GameObject.FindGameObjectsWithTag("Player");        
+        if (allPlayers[allPlayers.Length - 1] == null && !GameSceneUI.Instance.isGameOver)
+        {
+            allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        }
     }
 
     /// <summary>
@@ -1356,7 +1355,7 @@ public class AI : MonoBehaviourPunCallbacks
                         }
                     }
 
-                    if (allEnemySoldier != null)
+                    if (allEnemySoldier[chaseNumber] != null)
                     {
                         chaseObject = allEnemySoldier[chaseNumber];//追擊目標
                     }

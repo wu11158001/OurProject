@@ -44,5 +44,7 @@ public class GameDataManagement : MonoBehaviour
         //紀錄遊戲資料
         musicVolume = 0.3f;//音樂音量
         equipBuff = new int[2] { -1, -1};//裝備的Buff
+
+        selectLevelNumber = 11;//選擇的關卡編號
     }   
 }

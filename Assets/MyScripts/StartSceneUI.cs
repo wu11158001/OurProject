@@ -277,7 +277,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         for (int i = 0; i < allLevels.childCount; i++)
         {
             Button levelButton = ExtensionMethods.FindAnyChild<Button>(transform, "Level" + (i + 1) + "_Button");//關卡按鈕            
-            OnSetLevelButtonFunction(levelButton: levelButton, level: i + 1);
+            OnSetLevelButtonFunction(levelButton: levelButton, level: i + 1);            
         }
 
         roomName_Text = ExtensionMethods.FindAnyChild<Text>(transform, "RoomName_Text");//房間名稱
@@ -359,7 +359,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         roomLevelRight_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoomLevelRight_Button");//關卡選擇按鈕(右)
         roomLevelRight_Button.onClick.AddListener(delegate { OnRoomSelectLevelButton(1); });
         roomSelectLevel_Text = ExtensionMethods.FindAnyChild<Text>(transform, "RoomSelectLevel_Text");//選擇的關卡
-        roomSelectLevel_Text.text = GameDataManagement.Instance.numericalValue.levelNames[GameDataManagement.Instance.selectLevelNumber];
+        roomSelectLevel_Text.text = GameDataManagement.Instance.numericalValue.levelNames[GameDataManagement.Instance.selectLevelNumber - 11];
         roomStartGame_Button = ExtensionMethods.FindAnyChild<Button>(transform, "RoomStartGame_Button");//開始遊戲按鈕
         roomStartGame_Button.onClick.AddListener(OnStartConnectGame);
         roomTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "RoomTip_Text");//提示文字
@@ -623,7 +623,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <param name="level"></param>
     void OnSetLevelButtonFunction(Button levelButton, int level)
     {
-        levelButton.onClick.AddListener(() => { OnSelectLecel(level: level); });
+        levelButton.onClick.AddListener(() => { OnSelectLecel(level: level); });        
     }
 
     /// <summary>
@@ -634,8 +634,10 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     {
         background_Image.enabled = false;
         levelScreen.gameObject.SetActive(false);
-        GameDataManagement.Instance.selectLevelNumber = level - 1;//選擇的關卡
-        StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene" + level));        
+        //GameDataManagement.Instance.selectLevelNumber = level - 1;//選擇的關卡
+        //StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene" + level));
+        GameDataManagement.Instance.selectLevelNumber = level + 10;//選擇的關卡(測試)        
+        StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene" + (level +10)));// (測試)
     }   
 
     /// <summary>
@@ -917,9 +919,15 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     {
         int levelNumber = GameDataManagement.Instance.selectLevelNumber;
         levelNumber += value;
-        if (levelNumber < 0) levelNumber = GameDataManagement.Instance.numericalValue.levelNames.Length - 1;
-        if (levelNumber > GameDataManagement.Instance.numericalValue.levelNames.Length - 1) levelNumber = 0;
+        /*if (levelNumber < 0) levelNumber = GameDataManagement.Instance.numericalValue.levelNames.Length - 1;
+        if (levelNumber > GameDataManagement.Instance.numericalValue.levelNames.Length - 1) levelNumber = 0;*/
 
+        /*GameDataManagement.Instance.selectLevelNumber = levelNumber;
+        PhotonConnect.Instance.OnSendLevelNumber(levelNumber);*/
+
+        //測試
+        if (levelNumber < 11) levelNumber = 12;
+        if (levelNumber > 12) levelNumber = 11;
         GameDataManagement.Instance.selectLevelNumber = levelNumber;
         PhotonConnect.Instance.OnSendLevelNumber(levelNumber);
     }
@@ -930,7 +938,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <param name="level">選擇的關卡</param>
     public void OnRoomLevelText(int level)
     {        
-        roomSelectLevel_Text.text = GameDataManagement.Instance.numericalValue.levelNames[level];
+        roomSelectLevel_Text.text = GameDataManagement.Instance.numericalValue.levelNames[level - 11];
     }
 
     /// <summary>
@@ -938,7 +946,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnStartConnectGame()
     {
-        if (PhotonConnect.Instance.OnStartGame(GameDataManagement.Instance.selectLevelNumber + 1))
+        if (PhotonConnect.Instance.OnStartGame(GameDataManagement.Instance.selectLevelNumber))//測試
         {     
             roomStartGame_Button.enabled = false;//關閉按鈕(避免連按)
         }

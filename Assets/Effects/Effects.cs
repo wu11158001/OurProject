@@ -379,17 +379,31 @@ public class Effects : MonoBehaviour
     {
         var idelName = "Attack.NormalAttack_3";         //動作名稱      
         var effect = NormalAttack_3;                    //特效名稱
-        float delay = 0.01f;
 
-        var NormalAttack_30 = effect.transform.GetChild(0).GetComponent<ParticleSystem>();
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !NormalAttack_30.isPlaying)
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.01f
+                                      && !effect.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
         {
-            NormalAttack_30.Play();
-            if (animInfo.normalizedTime > delay + 0.1f) effect.Stop();
+            effect.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        }
+        //if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35f
+        //                              && animInfo.normalizedTime <= 0.4f
+        //                              && !effect.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
+        //{
+        //    effect.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+        //}
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35f
+                                     && animInfo.normalizedTime <= 0.37f) effect.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+
+
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35f
+                                     && animInfo.normalizedTime <= 0.4f
+                                     && !effect.transform.GetChild(3).GetComponent<ParticleSystem>().isPlaying)
+        {
+            effect.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
         }
 
-        DoEffects(idelName, 0.35f, effect.transform.GetChild(1).GetComponent<ParticleSystem>());
-        DoEffects(idelName, 0.35f, effect.transform.GetChild(2).GetComponent<ParticleSystem>());
+        //DoEffects(idelName, 0.35f, effect.transform.GetChild(1).GetComponent<ParticleSystem>());
+        //DoEffects(idelName, 0.35f, effect.transform.GetChild(2).GetComponent<ParticleSystem>());
 
         //改變劍大小
         if (animInfo.IsName(idelName))

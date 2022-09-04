@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: s1
   m_Shader: {fileID: 210, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHABLEND_ON _REQUIRE_UV2
+  m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -27,11 +27,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 453246294b8e93b42a7f6eb74eec858e, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 1, y: 1.91}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 25e13b437843a5b44a9d32ad8a66795b, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 38030c8500886234bbe0e6670d28fd9f, type: 3}
+        m_Scale: {x: 1, y: 1.91}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -43,15 +43,15 @@ Material:
     - _CameraFadingEnabled: 0
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.5
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0.1
     - _DstBlend: 10
-    - _EmissionEnabled: 0
-    - _FlipbookMode: 1
+    - _EmissionEnabled: 1
+    - _FlipbookMode: 0
     - _Glossiness: 0.756
     - _InvFade: 1
     - _LightingEnabled: 1
@@ -64,8 +64,8 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 1.5567492, g: 1.433848, b: 0.19800758, a: 0.6862745}
-    - _EmissionColor: {r: 1024, g: 1024, b: 1024, a: 1}
+    - _Color: {r: 2.0783825, g: 2.0783825, b: 2.0783825, a: 0.6862745}
+    - _EmissionColor: {r: 0, g: 1.254902, b: 2.9960785, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.7244571, g: 0.81756794, b: 0.8301887, a: 0.1764706}
   m_BuildTextureStacks: []
