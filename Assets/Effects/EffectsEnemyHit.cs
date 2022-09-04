@@ -6,16 +6,43 @@ public class EffectsEnemyHit : MonoBehaviour
 {
     public GameObject effects;     //掛載身上的effects，以定位特效位置(因為不想用GameObject.Find)     
     ParticleSystem hit;
+    ParticleSystem bigRipples;
+    AnimatorStateInfo nowState;
+
     void Start()
     {
         hit = effects.transform.GetChild(0).GetComponent<ParticleSystem>();              //命中效果
+        if (effects.transform.childCount > 1 && effects.transform.GetChild(1).name.Equals("BigRipples"))
+        {
+            bigRipples = effects.transform.GetChild(1).GetComponent<ParticleSystem>();       //落地波           
+        }
     }
 
 
     void Update()
     {
-
+        if (gameObject.transform.GetComponent<Animator>() != null)
+        {
+            nowState = gameObject.transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);  //省廢話
+        }
+        BigRipples();  //石頭怪的跳落地
     }
+
+    void BigRipples()
+    {
+        if (bigRipples != null)
+        {
+            if (nowState.IsName("Attack.Attack2") && nowState.normalizedTime > 0.4
+                                                  && nowState.normalizedTime <= 0.45
+                                                  && !bigRipples.isPlaying)  bigRipples.Play(); 
+        }
+    }
+
+
+
+
+
+
 
     public void HitEffect(GameObject Enemy, Collider hitPos)
     {

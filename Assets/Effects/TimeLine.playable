@@ -90,10 +90,17 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
+<<<<<<< HEAD
     m_Start: 5.6
     m_ClipIn: 0
     m_Asset: {fileID: -2018972909069868798}
     m_Duration: 5
+=======
+    m_Start: 4.066666666666666
+    m_ClipIn: 0
+    m_Asset: {fileID: 7876483815627120789}
+    m_Duration: 1
+>>>>>>> 0be0af29ac7335e656467d7e51e48e4f55cd7fec
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5638771955270447336}
     m_EaseInDuration: 0
@@ -157,7 +164,11 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
+<<<<<<< HEAD
     m_DisplayName: 1_Warrior-NA_3
+=======
+    m_DisplayName: Big Ripples
+>>>>>>> 0be0af29ac7335e656467d7e51e48e4f55cd7fec
   m_Markers:
     m_Objects: []
 --- !u!114 &6417052735253005583
@@ -205,10 +216,17 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
+<<<<<<< HEAD
     m_Start: 4.366666666666666
     m_ClipIn: 0
     m_Asset: {fileID: -7073256365445403751}
     m_Duration: 2.6666666666666665
+=======
+    m_Start: 2.7
+    m_ClipIn: 0
+    m_Asset: {fileID: 8057173012883035674}
+    m_Duration: 3.4
+>>>>>>> 0be0af29ac7335e656467d7e51e48e4f55cd7fec
     m_TimeScale: 1
     m_ParentTrack: {fileID: 6904245149307743839}
     m_EaseInDuration: 0
@@ -271,8 +289,13 @@ MonoBehaviour:
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
     m_PostExtrapolationTime: Infinity
+<<<<<<< HEAD
     m_PreExtrapolationTime: 4.366666666666666
     m_DisplayName: NormalAttack_3
+=======
+    m_PreExtrapolationTime: 2.7
+    m_DisplayName: Attack1
+>>>>>>> 0be0af29ac7335e656467d7e51e48e4f55cd7fec
   m_Markers:
     m_Objects: []
   m_InfiniteClipPreExtrapolation: 0
@@ -293,3 +316,48 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
+--- !u!114 &7876483815627120789
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48853ae485fa386428341ac1ea122570, type: 3}
+  m_Name: ControlPlayableAsset
+  m_EditorClassIdentifier: 
+  sourceGameObject:
+    exposedName: d1ef9e8e29a8411449c6fd58bc084faa
+    defaultValue: {fileID: 0}
+  prefabGameObject: {fileID: 0}
+  updateParticle: 1
+  particleRandomSeed: 7229
+  updateDirector: 1
+  updateITimeControl: 1
+  searchHierarchy: 0
+  active: 1
+  postPlayback: 2
+--- !u!114 &8057173012883035674
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 030f85c3f73729f4f976f66ffb23b875, type: 3}
+  m_Name: AnimationPlayableAsset
+  m_EditorClassIdentifier: 
+  m_Clip: {fileID: 7400000, guid: 2bcaa1d6965fc7c4eae5b353ee493c79, type: 2}
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_UseTrackMatchFields: 1
+  m_MatchTargetFields: 63
+  m_RemoveStartOffset: 1
+  m_ApplyFootIK: 1
+  m_Loop: 0
+  m_Version: 1
+  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
