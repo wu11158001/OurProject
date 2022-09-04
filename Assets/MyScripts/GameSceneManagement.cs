@@ -36,6 +36,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public int[] taskNeedNumber;//各階段任務所需數量
     public int taskNumber;//已完成任務數量
     GameObject strongholdStage3;//第3階段據點    
+    public bool isCreateBoss;//是否已創建Boss
 
     //可控制城門
     float gateSpeed;//城門移動速度
@@ -248,6 +249,22 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     }
 
     #region 任務
+
+    /// <summary>
+    /// 產生Boss
+    /// </summary>
+    public void OnCreateBoss()
+    {
+        //守衛Boss物件
+        int number = objectHandle.OnCreateObject(loadPath.boss);//攻擊1物件
+        objectNumber_Dictionary.Add("boss", number);//添加至紀錄中
+        GameObject AIObject = OnRequestOpenObject(OnGetObjectNumber("boss"), loadPath.boss);//開啟物件
+        AIObject.transform.position = new Vector3(4.8f, 2.5f, -3f);//設定位置
+        AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+        AIObject.tag = "Enemy";//設定Tag
+        AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer
+    }
+
     /// <summary>
     /// 可控制城門
     /// </summary>

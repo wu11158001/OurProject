@@ -36,6 +36,7 @@ public class GameData_NumericalValue
     public float allianceSoldier1_Hp;//同盟士兵1_生命值
 
     [Header("敵人HP")]
+    public float boss_Hp;//Boss_生命值
     public float enemySoldier1_Hp;//敵人士兵1_生命值
     public float enemySoldier2_Hp;//敵人士兵2_生命值
     public float enemySoldier3_Hp;//敵人士兵3_生命值
@@ -379,6 +380,7 @@ public class GameData_NumericalValue
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
+        boss_Hp = 2000;//Boss_生命值
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值

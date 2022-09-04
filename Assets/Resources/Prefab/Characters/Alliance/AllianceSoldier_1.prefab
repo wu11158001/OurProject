@@ -3690,9 +3690,6 @@ MonoBehaviour:
   isSelfHeal: 0
   acceleration: 0
   isDie: 0
-  X: 0
-  Y: 0
-  Z: 0
 --- !u!114 &7256252359986930375
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20701,7 +20701,7 @@ Animator:
   m_GameObject: {fileID: 3826201887993512684}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: a78822e88db7eb7458ecc1b94222c569, type: 3}
-  m_Controller: {fileID: 9100000, guid: 8be5173afb349aa4e80bd13d468df487, type: 2}
+  m_Controller: {fileID: 9100000, guid: add7560e0d06bec4a802c4bfae31dfcf, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -20775,9 +20775,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isJump: 0
-  isJumpTimeCountdown: 0
-  doJumpTime: 0
-  JumpTime: 0
   isJumpAttackMove: 0
   gizmosSpherCenter: 0
   gizmosSpherRadius: 0
@@ -20837,6 +20834,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a156e852ad56bd440bf6e1d5ed8fc091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTaskObject: 0
+  enemyName: 
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
   heightFromGround: -0.063
@@ -20861,9 +20860,6 @@ MonoBehaviour:
   isSelfHeal: 0
   acceleration: 0
   isDie: 0
-  X: 0
-  Y: 0
-  Z: 0
 --- !u!114 &9086782214752411980
 MonoBehaviour:
   m_ObjectHideFlags: 0

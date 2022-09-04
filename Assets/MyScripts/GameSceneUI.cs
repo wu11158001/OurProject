@@ -61,8 +61,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Text playGameTime_Text;//遊戲時間文字
     Text maxKillNumber_Text;//最大擊殺數文字
     Text maxCombolNumber_Text;//最大連擊數文字
+    Text accumulationDamageNumber_Text;//累積傷害
     int MaxCombo;//最大連擊數
     float playerGameTime;//遊戲時間
+    public float accumulationDamage;//累積傷害
 
     void Awake()
     {
@@ -155,6 +157,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         playGameTime_Text = ExtensionMethods.FindAnyChild<Text>(transform, "PlayGameTime_Text");//遊戲時間文字
         maxKillNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "MaxKillNumber_Text");//最大擊殺數文字
         maxCombolNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "MaxCombolNumber_Text");//最大連擊數文字
+        accumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "AccumulationDamageNumber_Text");//累積傷害文字
     }
         
     void Update()
@@ -228,6 +231,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
         //最大連擊數
         maxCombolNumber_Text.text = $"最大連擊數: {MaxCombo}";
+
+        //累積傷害
+        accumulationDamageNumber_Text.text = $"累積傷害: {((int)accumulationDamage).ToString()}";
     }
 
     /// <summary>

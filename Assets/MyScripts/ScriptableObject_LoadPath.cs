@@ -45,6 +45,7 @@ public class GameData_LoadPath
     public string allianceSoldier_1;//同盟士兵1
 
     [Header("敵人角色")]
+    public string boss;//Boss
     public string enemySoldier_1;//敵人士兵1
     public string enemySoldier_2;//敵人士兵2
     public string enemySoldier_3;//敵人士兵3
@@ -101,6 +102,7 @@ public class GameData_LoadPath
         allianceSoldier_1 = "Prefab/Characters/Alliance/AllianceSoldier_1"; ;//同盟士兵1
 
         //敵人角色
+        boss = "Prefab/Characters/Enemy/Boss";//Boss
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1
         enemySoldier_2 = "Prefab/Characters/Enemy/EnemySoldier_2";//敵人士兵2
         enemySoldier_3 = "Prefab/Characters/Enemy/EnemySoldier_3";//敵人士兵3

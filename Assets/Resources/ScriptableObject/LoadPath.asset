@@ -40,6 +40,7 @@ MonoBehaviour:
     archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1
     magicianNormalAttack_1: Prefab/ShootObject/Magician/MagicianNormalAttack_1
     allianceSoldier_1: Prefab/Characters/Alliance/AllianceSoldier_1
+    boss: Prefab/Characters/Enemy/Boss
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     enemySoldier_2: Prefab/Characters/Enemy/EnemySoldier_2
     enemySoldier_3: Prefab/Characters/Enemy/EnemySoldier_3

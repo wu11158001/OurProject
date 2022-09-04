@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.029087128, g: 0.029898217, b: 0.029896265, a: 1}
+  m_IndirectSpecularColor: {r: 0.029087018, g: 0.029898075, b: 0.029896133, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -260,6 +260,7 @@ MonoBehaviour:
     playerSelfHealTime: 5
     strongholdHp: 200
     allianceSoldier1_Hp: 80
+    boss_Hp: 2000
     enemySoldier1_Hp: 1000
     enemySoldier2_Hp: 95
     enemySoldier3_Hp: 155
@@ -484,8 +485,8 @@ MonoBehaviour:
     guardBoss_Attack_1_RepelDistance: 0
     guardBoss_Attack_1_Effect: 
     guardBoss_Attack_1_ForwardDistance: 0
-    guardBoss_Attack_1_FlightSpeed: 0
-    guardBoss_Attack_1_LifeTime: 1
+    guardBoss_Attack_1_attackRadius: 1.3
+    guardBoss_Attack_1_IsAttackBehind: 0
     guardBoss_Attack_2_Damge: 0
     guardBoss_Attack_2_RepelDirection: 0
     guardBoss_Attack_2_RepelDistance: 0
@@ -535,6 +536,7 @@ MonoBehaviour:
     archerSkilllAttack_1: Prefab/ShootObject/Archer/ArcherSkilllAttack_1_Arrow
     magicianNormalAttack_1: 
     allianceSoldier_1: Prefab/Characters/Alliance/AllianceSoldier_1
+    boss: Prefab/Characters/Enemy/Boss
     enemySoldier_1: Prefab/Characters/Enemy/EnemySoldier_1
     enemySoldier_2: 
     enemySoldier_3: Prefab/Characters/Enemy/EnemySoldier_3

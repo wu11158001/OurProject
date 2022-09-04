@@ -282,7 +282,11 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     [PunRPC]
     void OnLevelNumber(int level, PhotonMessageInfo info)
     {
-        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景) StartSceneUI.Instance.OnRoomLevelText(level);
+        if (GameDataManagement.Instance.stage == GameDataManagement.Stage.開始場景)
+        {
+            StartSceneUI.Instance.OnRoomLevelText(level);
+            GameDataManagement.Instance.selectLevelNumber = level;
+        }
     }
 
     /// <summary>
@@ -561,6 +565,29 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnGameOver()
     {
         StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
+    }
+
+    /// <summary>
+    /// 發送創建Boss訊息
+    /// </summary>
+    public void OnSendCreateBoss()
+    {
+        photonView.RPC("OnCreateBoss", RpcTarget.Others);
+    }
+
+    /// <summary>
+    /// 創建Boss
+    /// </summary>
+    [PunRPC]
+    void OnCreateBoss()
+    {
+        GameSceneManagement.Instance.isCreateBoss = true;
+
+        //是房主
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameSceneManagement.Instance.OnCreateBoss();
+        }        
     }
     #endregion
 }
