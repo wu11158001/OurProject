@@ -57,6 +57,9 @@ public class GameData_LoadPath
     [Header("敵人士兵2物件")]
     public string enemySoldier2Attack_Arrow;//弓箭
 
+    [Header("Boss物件")]
+    public string bossAttack1;//Boss攻擊1物件(飛行攻擊)
+
     [Header("其他")]
     public string hitNumber;//擊中文字
     public string lifeBar;//生命條
@@ -113,6 +116,9 @@ public class GameData_LoadPath
 
         //敵人士兵2物件
         enemySoldier2Attack_Arrow = "Prefab/ShootObject/EnemySoldier2/Attack_Arrow";//弓箭
+
+        //Boss物件
+        bossAttack1 = "Prefab/ShootObject/Boss/FlyAttack";//Boss攻擊1物件(飛行攻擊)
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字

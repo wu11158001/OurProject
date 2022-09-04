@@ -162,6 +162,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
                 }
             }
 
+
+            charactersCollision.OnCollision_Boss();
             OnFallBehavior();
         }
 

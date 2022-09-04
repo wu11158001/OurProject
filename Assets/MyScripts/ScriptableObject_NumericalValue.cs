@@ -11,7 +11,7 @@ public class GameData_NumericalValue
     public float criticalBonus;//報擊傷害加成
     public string[] levelNames;//關卡名稱
 
-    [Header("Buff增加數值")]    
+    [Header("Buff增加數值")]
     public string[] buffAbleString;//Buff增益文字
     public float[] buffAbleValue;//Buff增益數值
 
@@ -345,6 +345,16 @@ public class GameData_NumericalValue
     public bool guardBoss_Attack_4_IsAttackBehind;//守衛Boss_攻擊4_是否攻擊背後敵人
     #endregion
 
+    #region Boss
+    [Header("Boss 攻擊1(飛行攻擊)")]
+    public float bossAttack1_Damge;//Boss攻擊1_傷害
+    public int bossAttack1_RepelDirection;//Boss攻擊1_擊退方向(0:擊退 1:擊飛)
+    public float bossAttack1_RepelDistance;//Boss攻擊1_擊退/擊飛距離    
+    public string bossAttack1_Effect;//Boss攻擊1_效果(受擊者播放的動畫名稱)
+    public float bossAttack1_FloatSpeed;//Boss攻擊1_飛行速度
+    public float bossAttack1_LifeTime;//Boss攻擊1_生存時間
+    #endregion
+
     /// <summary>
     /// 建構子
     /// </summary>
@@ -353,11 +363,11 @@ public class GameData_NumericalValue
         //共通
         gravity = 6.8f;//重力
         criticalBonus = 1.3f;//報擊傷害加成
-        levelNames = new string[] { "第一章", "最終章"};//關卡名稱
+        levelNames = new string[] { "第一章", "最終章" };//關卡名稱
 
         //Buff增加數值
         buffAbleString = new string[] { "生命", "傷害", "防禦", "吸血", "移動", "回血" };//Buff增益文字
-        buffAbleValue = new float[] { 30, 25, 25, 20, 25, 1};//Buff增益數值(%)
+        buffAbleValue = new float[] { 30, 25, 25, 20, 25, 1 };//Buff增益數值(%)
 
         //攝影機
         distance = 2.6f;//與玩家距離        
@@ -421,7 +431,7 @@ public class GameData_NumericalValue
         warriorJumpAttack_Effect = "Pain";//戰士跳躍攻擊效果(受擊者播放的動畫名稱)
         warriorJumpAttack_ForwardDistance = 0.77f;//戰士普通攻擊3_攻擊範圍中心點距離物件前方
         warriorJumpAttack_attackRadius = 1.3f;//戰士普通攻擊3_攻擊半徑
-        warriorJumpAttack_IsAttackBehind = false;//戰士普通攻擊3_是否攻擊背後敵人
+        warriorJumpAttack_IsAttackBehind = true;//戰士普通攻擊3_是否攻擊背後敵人
 
         //戰士 技能攻擊1
         warriorSkillAttack_1_Damge = 50;//戰士技能攻擊2_傷害
@@ -442,13 +452,13 @@ public class GameData_NumericalValue
         warriorSkillAttack_2_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
 
         //戰士 技能攻擊3
-        warriorSkillAttack_3_Damge = new float[] { 16, 16, 35};//戰士技能攻擊3_傷害
-        warriorSkillAttack_3_RepelDirection = new int[] { 0, 0, 0};//戰士技能攻擊3_擊退方向(0:擊退 1:擊飛)
-        warriorSkillAttack_3_RepelDistance = new float[] { 50, 50, 90};//戰士技能攻擊3_擊退/擊飛距離    
+        warriorSkillAttack_3_Damge = new float[] { 16, 16, 35 };//戰士技能攻擊3_傷害
+        warriorSkillAttack_3_RepelDirection = new int[] { 0, 0, 0 };//戰士技能攻擊3_擊退方向(0:擊退 1:擊飛)
+        warriorSkillAttack_3_RepelDistance = new float[] { 50, 50, 90 };//戰士技能攻擊3_擊退/擊飛距離    
         warriorSkillAttack_3_Effect = new string[] { "Pain", "Pain", "Pain" };//戰士普技能攻擊3_效果(受擊者播放的動畫名稱)        
-        warriorSkillAttack_3_ForwardDistance = new float[] { 0.7f, 0.7f, 0};//戰士技能攻擊3_攻擊範圍中心點距離物件前方
-        warriorSkillAttack_3_attackRadius = new float[] { 1.4f, 1.4f, 4.5f};//戰士技能攻擊3_攻擊半徑
-        warriorSkillAttack_3_IsAttackBehind = new bool[] { false, false, true};//戰士技能攻擊3_是否攻擊背後敵人
+        warriorSkillAttack_3_ForwardDistance = new float[] { 0.7f, 0.7f, 0 };//戰士技能攻擊3_攻擊範圍中心點距離物件前方
+        warriorSkillAttack_3_attackRadius = new float[] { 1.4f, 1.4f, 4.5f };//戰士技能攻擊3_攻擊半徑
+        warriorSkillAttack_3_IsAttackBehind = new bool[] { false, false, true };//戰士技能攻擊3_是否攻擊背後敵人
         #endregion
 
         #region 弓箭手
@@ -457,8 +467,8 @@ public class GameData_NumericalValue
         archerNormalAttack_RepelDirection = new int[] { 0, 0, 0 };//弓箭手普通攻擊_擊退方向(0:擊退 1:擊飛)
         archerNormalAttack_RepelDistance = new float[] { 25, 25, 25 };//弓箭手普通攻擊_擊退/擊飛距離        
         archerNormalAttack_Effect = new string[] { "Pain", "Pain", "Pain" };//弓箭手普通攻擊_效果(受擊者播放的動畫名稱)     
-        archerNormalAttack_FloatSpeed = new float[] { 30, 30, 30};//弓箭手普通攻擊飛行速度
-        archerNormalAttack_LifeTime = new float[] { 0.6f, 0.6f, 0.6f};//弓箭手普通攻擊生存時間
+        archerNormalAttack_FloatSpeed = new float[] { 30, 30, 30 };//弓箭手普通攻擊飛行速度
+        archerNormalAttack_LifeTime = new float[] { 0.6f, 0.6f, 0.6f };//弓箭手普通攻擊生存時間
 
         //弓箭手 跳躍攻擊
         archerJumpAttack_Damage = 11;//弓箭手跳躍攻擊傷害
@@ -467,7 +477,7 @@ public class GameData_NumericalValue
         archerJumpAttack_Effect = "Pain";//弓箭手跳躍攻擊效果(受擊者播放的動畫名稱)
         archerJumpAttack_ForwardDistance = 0;//弓箭手跳躍攻擊_攻擊範圍中心點距離物件前方
         archerJumpAttack_attackRadius = 1.3f;//弓箭手跳躍攻擊_攻擊半徑
-        archerJumpAttack_IsAttackBehind = true;//弓箭手跳躍攻擊_是否攻擊背後敵人
+        archerJumpAttack_IsAttackBehind = false;//弓箭手跳躍攻擊_是否攻擊背後敵人
 
         //弓箭手 技能攻擊1
         archerSkillAttack_1_Damage = 11;//弓箭手技能攻擊1_傷害
@@ -554,7 +564,7 @@ public class GameData_NumericalValue
         magicianSkillAttack_2_Effect = "Pain";//法師技能攻擊2_效果(受擊者播放的動畫名稱)        
         magicianSkillAttack_2_ForwardDistance = 5;//法師技能攻擊2_攻擊範圍中心點距離物件前方
         magicianSkillAttack_2_attackRadius = 10.0f;//法師技能攻擊2_攻擊半徑
-        magicianSkillAttack_2_IsAttackBehind = true;//法師技能攻擊2_是否攻擊背後敵人
+        magicianSkillAttack_2_IsAttackBehind = false;//法師技能攻擊2_是否攻擊背後敵人
 
         //法師技能攻擊3
         magicianSkillAttack_3_Damge = 35;//法師技能攻擊3_傷害
@@ -687,6 +697,16 @@ public class GameData_NumericalValue
         guardBoss_Attack_4_ForwardDistance = 1.4f;//守衛Boss1_攻擊4_攻擊範圍中心點距離物件前方
         guardBoss_Attack_4_attackRadius = 1.3f;//守衛Boss_攻擊4_攻擊半徑
         guardBoss_Attack_4_IsAttackBehind = false;//守衛Boss_攻擊4_是否攻擊背後敵人
+        #endregion
+
+        #region Boss
+        //Boss 攻擊1(飛行攻擊)
+        bossAttack1_Damge = 70;//Boss攻擊1_傷害
+        bossAttack1_RepelDirection = 0;//Boss攻擊1_擊退方向(0:擊退 1:擊飛)
+        bossAttack1_RepelDistance = 50;//Boss攻擊1_擊退/擊飛距離    
+        bossAttack1_Effect = "Pain";//Boss攻擊1_效果(受擊者播放的動畫名稱)
+        bossAttack1_FloatSpeed = 0;//Boss攻擊1_攻擊飛行速度
+        bossAttack1_LifeTime = 1;//Boss攻擊1_生存時間
         #endregion
     }
 }

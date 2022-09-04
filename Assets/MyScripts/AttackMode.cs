@@ -155,10 +155,20 @@ public class AttackMode
     void OnShoot()
     {        
         lifeTime -= Time.deltaTime;//生存時間
-
+        
         //生存時間 || 碰撞牆壁
-        if (lifeTime <= 0 || Physics.CheckSphere(performObject.transform.position, performObject.GetComponent<SphereCollider>().radius, 1 << LayerMask.NameToLayer("StageObject")))
+        if (lifeTime <= 0)
         {
+            if (layer != "Boss")
+            {
+                if (Physics.CheckSphere(performObject.transform.position, performObject.GetComponent<SphereCollider>().radius, 1 << LayerMask.NameToLayer("StageObject")))
+                {
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
+                    performObject.SetActive(false);
+                    GameSceneManagement.Instance.AttackMode_List.Remove(this);
+                }
+            }
+
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
             performObject.SetActive(false);
             GameSceneManagement.Instance.AttackMode_List.Remove(this);
