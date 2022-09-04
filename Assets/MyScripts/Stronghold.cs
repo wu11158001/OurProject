@@ -72,9 +72,6 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 }
             }
         }
-
-        //測試
-        if (Input.GetKeyDown(KeyCode.K)) OnGetHit("Player", 1000);
     }
 
     /// <summary>
@@ -108,9 +105,9 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 GameSceneManagement.Instance.OnTaskText();//任務文字                
 
                 //連線
-                if (GameDataManagement.Instance.isConnect && PhotonNetwork.IsMasterClient)
+                if (GameDataManagement.Instance.isConnect)
                 {
-                    PhotonConnect.Instance.OnSendRenewTask();//更新任務
+                    PhotonConnect.Instance.OnSendRenewTask(builidName);//更新任務
                 }
 
                 //連線模式

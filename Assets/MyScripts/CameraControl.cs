@@ -57,7 +57,7 @@ public class CameraControl : MonoBehaviour
 
         //SmoothDamp
         velocity = Vector3.zero;
-        smoothTime = 0.35f;
+        smoothTime = 0.3f;
     }
 
     private void LateUpdate()

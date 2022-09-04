@@ -499,7 +499,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                         //連線
                         if (GameDataManagement.Instance.isConnect)
                         {
-                            PhotonConnect.Instance.OnSendRenewTask();//更新任務
+                            PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
                         }
 
                         GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字

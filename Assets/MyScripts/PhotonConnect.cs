@@ -320,16 +320,23 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <summary>
     /// 發送更新任務
     /// </summary>
-    public void OnSendRenewTask()
+    /// <param name="enemyName">擊倒物件名稱</param>
+    public void OnSendRenewTask(string enemyName)
     {
-        photonView.RPC("OnRenewTask", RpcTarget.Others);
+        photonView.RPC("OnRenewTask", RpcTarget.Others, enemyName);
     }
 
+    /// <summary>
+    /// 更新任務
+    /// </summary>
+    /// <param name="enemyName">擊倒物件名稱</param>
+    /// <param name="info">發送者資訊</param>
     [PunRPC]
-    void OnRenewTask(PhotonMessageInfo info)
+    void OnRenewTask(string enemyName, PhotonMessageInfo info)
     {
         //GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
         GameSceneManagement.Instance.OnTaskText();//任務文字
+        GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字
     }
 
     /// <summary>
