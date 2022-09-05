@@ -46,7 +46,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         flyAttackUpSpeed = 20;//飛行攻擊上升速度
         //攻擊
         maxAttackNumber = 2;//擁有的攻擊招式
-        attackDelayTime = new float[] { 0.5f, 8f};//攻擊延遲時間(最小值,最大值)
+        attackDelayTime = new float[] { 0.5f, 5f};//攻擊延遲時間(最小值,最大值)
         attackTime = 3;//攻擊時間
     }
      
@@ -116,10 +116,10 @@ public class BossAI : MonoBehaviourPunCallbacks
             OnRotateToTarget();//轉向至目標
         }
 
-        //行走狀態
-        if (info.IsTag("Walk"))
+        //咆嘯狀態
+        if (info.IsName("Roar"))
         {
-            transform.position = transform.position + transform.forward * walkSpeed * Time.deltaTime;
+            //transform.position = transform.position + transform.forward * walkSpeed * Time.deltaTime;
 
             //進行攻擊
             if (info.normalizedTime >= 1)
@@ -131,22 +131,12 @@ public class BossAI : MonoBehaviourPunCallbacks
 
         //飛行攻擊
         if(info.IsName("FlyAttack"))
-        {
-            /*//上升
-            if (info.normalizedTime < 0.65)
-            {                
-                transform.position = transform.position + transform.up * flyAttackUpSpeed * Time.deltaTime;
-                transform.position = transform.position - transform.forward * flyAttackSpeed * Time.deltaTime;
-            }
-            else transform.position = transform.position + transform.forward * flyAttackSpeed / 2 * Time.deltaTime;
-            */
+        {            
             transform.position = transform.position + transform.forward * flyAttackSpeed / 2 * Time.deltaTime;
-            //攻擊結束
-            if (info.normalizedTime >= 1)
-            {
-                OnChangeAnimation(animationName: "AttackNumber", animationType: 0);                
-            }
         }
+
+        //攻擊結束
+        if (info.IsTag("Attack") && info.normalizedTime >= 1) OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
     }
 
     /// <summary>
@@ -175,9 +165,9 @@ public class BossAI : MonoBehaviourPunCallbacks
         }
     }
 
-   /* private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + boxCenter + transform.forward * 0, 5);
-    }*/
+        Gizmos.DrawWireSphere(transform.position + boxCenter + transform.forward * 5, 3);
+    }
 }

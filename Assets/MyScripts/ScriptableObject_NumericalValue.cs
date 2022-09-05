@@ -353,6 +353,15 @@ public class GameData_NumericalValue
     public string bossAttack1_Effect;//Boss攻擊1_效果(受擊者播放的動畫名稱)
     public float bossAttack1_FloatSpeed;//Boss攻擊1_飛行速度
     public float bossAttack1_LifeTime;//Boss攻擊1_生存時間
+
+    [Header("Boss 攻擊2(頭攻擊)")]
+    public float bossAttack2_Damge;//Boss攻擊2_傷害
+    public int bossAttack2_RepelDirection;//Boss攻擊2_擊退方向(0:擊退 1:擊飛)
+    public float bossAttack2_RepelDistance;//Boss攻擊2_擊退/擊飛距離    
+    public string bossAttack2_Effect;//Boss攻擊2_效果(受擊者播放的動畫名稱)        
+    public float bossAttack2_ForwardDistance;//Boss攻擊2_攻擊範圍中心點距離物件前方
+    public float bossAttack2_attackRadius;//Boss攻擊2_攻擊半徑
+    public bool bossAttack2_IsAttackBehind;//Boss攻擊2_是否攻擊背後敵人
     #endregion
 
     /// <summary>
@@ -707,8 +716,17 @@ public class GameData_NumericalValue
         bossAttack1_Effect = "Pain";//Boss攻擊1_效果(受擊者播放的動畫名稱)
         bossAttack1_FloatSpeed = 0;//Boss攻擊1_攻擊飛行速度
         bossAttack1_LifeTime = 1;//Boss攻擊1_生存時間
+
+        //Boss 攻擊2(頭攻擊)
+        bossAttack2_Damge = 35;//Boss攻擊2_傷害
+        bossAttack2_RepelDirection = 0;//Boss攻擊2_擊退方向(0:擊退 1:擊飛)
+        bossAttack2_RepelDistance = 50;//Boss攻擊2_擊退/擊飛距離    
+        bossAttack2_Effect = "Pain";//Boss攻擊2_效果(受擊者播放的動畫名稱)        
+        bossAttack2_ForwardDistance = 5;//Boss攻擊2_攻擊範圍中心點距離物件前方
+        bossAttack2_attackRadius = 3;//Boss攻擊2_攻擊半徑
+        bossAttack2_IsAttackBehind = true;//Boss攻擊2_是否攻擊背後敵人
         #endregion
-    }
+}
 }
 
 /// <summary>
