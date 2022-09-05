@@ -81,7 +81,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //小地圖攝影機
         GameObject miniMap_Camera = GameObject.Find("MiniMap_Camera");
         miniMap_Camera.transform.SetParent(transform);
-        miniMap_Camera.transform.localPosition = new Vector3(0, 10, 0);
+        miniMap_Camera.transform.localPosition = new Vector3(0, 55, 0);
 
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
