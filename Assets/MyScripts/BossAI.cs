@@ -45,7 +45,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         flyAttackSpeed = 30;//飛行攻擊速度
         flyAttackUpSpeed = 20;//飛行攻擊上升速度
         //攻擊
-        maxAttackNumber = 1;//擁有的攻擊招式
+        maxAttackNumber = 2;//擁有的攻擊招式
         attackDelayTime = new float[] { 0.5f, 8f};//攻擊延遲時間(最小值,最大值)
         attackTime = 3;//攻擊時間
     }
@@ -132,14 +132,15 @@ public class BossAI : MonoBehaviourPunCallbacks
         //飛行攻擊
         if(info.IsName("FlyAttack"))
         {
-            //上升
+            /*//上升
             if (info.normalizedTime < 0.65)
             {                
                 transform.position = transform.position + transform.up * flyAttackUpSpeed * Time.deltaTime;
                 transform.position = transform.position - transform.forward * flyAttackSpeed * Time.deltaTime;
             }
             else transform.position = transform.position + transform.forward * flyAttackSpeed / 2 * Time.deltaTime;
-
+            */
+            transform.position = transform.position + transform.forward * flyAttackSpeed / 2 * Time.deltaTime;
             //攻擊結束
             if (info.normalizedTime >= 1)
             {

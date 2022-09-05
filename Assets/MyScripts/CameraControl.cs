@@ -121,8 +121,8 @@ public class CameraControl : MonoBehaviour
             }
             else//¤@¯ëª¬ºA
             {
-                //moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);                
-                moveTarget = Vector3.SmoothDamp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, ref velocity, smoothTime);
+                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);                
+                //moveTarget = Vector3.SmoothDamp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, ref velocity, smoothTime);
             }
         }
         

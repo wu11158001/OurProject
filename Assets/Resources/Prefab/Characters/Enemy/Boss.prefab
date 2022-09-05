@@ -91,7 +91,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 8306181483479418123}
-  sceneViewId: 2
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &8306181483479418123
@@ -212,15 +212,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52d5040b9744f6c46b7ac57489aa132c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.045
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52d5040b9744f6c46b7ac57489aa132c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.045
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52d5040b9744f6c46b7ac57489aa132c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.045
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52d5040b9744f6c46b7ac57489aa132c, type: 3}
       propertyPath: m_LocalPosition.x

@@ -264,6 +264,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         objectNumber_Dictionary.Add("boss", number);//添加至紀錄中
         GameObject AIObject = OnRequestOpenObject(OnGetObjectNumber("boss"), loadPath.boss);//開啟物件
         AIObject.transform.position = new Vector3(4.8f, 2.5f, -3f);//設定位置
+        //AIObject.transform.position = new Vector3(76f, -11f, -28f);//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = "Enemy";//設定Tag
         AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer
