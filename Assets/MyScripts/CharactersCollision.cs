@@ -363,13 +363,13 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         //閃躲
         if (info.IsName("Dodge") || info.IsName("Die")) return;
-
+        
         //判斷受擊對象
-        if (((gameObject.layer == LayerMask.NameToLayer("Player") || gameObject.layer == LayerMask.NameToLayer("Alliance")) && (layer == "Enemy" || layer == "Boss")) ||
-            ((gameObject.layer == LayerMask.NameToLayer("Enemy") || gameObject.layer == LayerMask.NameToLayer("Boss")) && (layer == "Player" || layer == "Alliance")))
+        if ((((gameObject.layer == LayerMask.NameToLayer("Player") || gameObject.layer == LayerMask.NameToLayer("Alliance")) && (layer == "Enemy" || layer == "Boss"))) ||
+            (((gameObject.layer == LayerMask.NameToLayer("Enemy") || gameObject.layer == LayerMask.NameToLayer("Boss")) && (layer == "Player" || layer == "Alliance"))))
         {
             float getDamge = (damage - (damage * (addDefence / 100))) < 0 ? 0 : (damage - (damage * (addDefence / 100)));//受到的方害
-
+            
             //判斷攻擊者是否有吸血效果
             if (attacker.TryGetComponent(out CharactersCollision attackerCollision))
             {
@@ -398,12 +398,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 transform.forward = attackerPosition - targetPosition;
             }*/
 
-            /*//產生文字            
+            //產生文字            
             HitNumber hitNumber = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.hitNumber)).GetComponent<HitNumber>();
             hitNumber.OnSetValue(target: transform,//受傷目標
                                  damage: getDamge,//受到傷害
                                  color: isCritical ? Color.yellow : Color.red,//文字顏色
-                                 isCritical: isCritical);//是否爆擊*/
+                                 isCritical: isCritical);//是否爆擊
 
             //命中特效
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -732,6 +732,35 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 碰撞框_Boss
+    /// </summary>
+    public void OnCollision_Boss()
+    {
+        LayerMask mask = LayerMask.GetMask("Boss");
+        RaycastHit hit;
+
+        //射線方向
+        Vector3[] rayDiration = new Vector3[] { transform.forward,
+                                                transform.forward - transform.right,
+                                                transform.right,
+                                                transform.right + transform.forward,
+                                               -transform.forward,
+                                               -transform.forward + transform.right,
+                                               -transform.right,
+                                               -transform.right -transform.forward };
+
+        float wallHight = boxCenter.y + wallCollisionHight;//牆壁高度多少碰撞
+                                                           //牆壁碰撞    
+        for (int i = 0; i < rayDiration.Length; i++)
+        {
+            if (Physics.BoxCast(transform.position + Vector3.up * wallHight, new Vector3(boxCollisionDistance, (boxSize.y / 2), boxCollisionDistance), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), boxCollisionDistance, mask))
+            {
+                transform.position = transform.position - rayDiration[i] * (Mathf.Abs(boxCollisionDistance - hit.distance));
+            }
+        }
+    }
+
+    /// <summary>
     /// 碰撞框_腳色
     /// </summary>    
     /// <returns></returns>
@@ -769,7 +798,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <returns></returns>
     public bool OnCollision_Wall()
     {
-        LayerMask mask = LayerMask.GetMask("StageObject", "Boss");
+        LayerMask mask = LayerMask.GetMask("StageObject");
         RaycastHit hit;
 
         //射線方向
@@ -816,12 +845,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <returns></returns>
     public bool OnCollision_Floor(out RaycastHit hit)
     {
-        LayerMask mask = LayerMask.GetMask("StageObject");
+        LayerMask mask = LayerMask.GetMask("StageObject");      
         if (Physics.BoxCast(transform.position + boxCenter + Vector3.up * heightFromGround, new Vector3(boxCollisionDistance - 0.1f, 0.01f, boxCollisionDistance - 0.1f), -transform.up, out hit, Quaternion.Euler(transform.localEulerAngles), boxSize.y / 2, mask))
         {
             return true;
         }
-
         return false;
     }
 
@@ -887,8 +915,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         {
             return false;
         }
-
-        Debug.DrawRay(transform.position + boxCenter, -transform.up * distance);
+                
         return true;
     }
 
@@ -897,6 +924,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// </summary>
     void OnFallBehavior()
     {
+        //Boss不播放動畫
+        if (gameObject.layer == LayerMask.NameToLayer("Boss")) return;
+
         isFall = true;
         animator.SetBool("Fall", isFall);
         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Fall", isFall);

@@ -24,7 +24,7 @@ public class HitNumber : MonoBehaviour
         canvas_Overlay = GameObject.Find("Canvas_Overlay").GetComponent<Canvas>();     
         transform.SetParent(canvas_Overlay.transform);
 
-        lifeTime = 1f;//生存時間                
+        lifeTime = 0.55f;//生存時間                
     }
 
     
@@ -45,8 +45,8 @@ public class HitNumber : MonoBehaviour
         if (thisText == null) thisText = GetComponent<Text>();
 
         //爆擊字放大
-        if (isCritical) thisText.fontSize = 75;
-        else thisText.fontSize = 60;
+        if (isCritical) thisText.fontSize = 45;
+        else thisText.fontSize = 30;
 
         //符號文字
         string symbolCritical = "";
@@ -60,8 +60,8 @@ public class HitNumber : MonoBehaviour
         this.target = target;//受傷目標
         thisText.text = symbol + Mathf.Round(damage).ToString();//受到傷害(四捨五入)        
         thisText.color = color;//文字顏色 
-        addSpeed = UnityEngine.Random.Range(10.5f, 12.5f); ;//增加的速度
-        randonLoseSpeed = UnityEngine.Random.Range(47.0f, 57.5f);//亂數減少速度   
+        addSpeed = UnityEngine.Random.Range(8.5f, 12.5f); ;//增加的速度
+        randonLoseSpeed = UnityEngine.Random.Range(40.0f, 57.5f);//亂數減少速度   
 
         playerControl = GameObject.FindObjectOfType<PlayerControl>();
 
@@ -93,7 +93,7 @@ public class HitNumber : MonoBehaviour
         //文字移動
         startPosition = target.position + target.transform.up * (1 + speed);
         //文字透明度
-        thisText.color = new Color(thisText.color.r, thisText.color.g, thisText.color.b, lifeTime);
+        thisText.color = new Color(thisText.color.r, thisText.color.g, thisText.color.b, lifeTime + 0.3f);
 
         Camera camera = canvas_Overlay.worldCamera;
         Vector3 position = Camera.main.WorldToScreenPoint(startPosition);        

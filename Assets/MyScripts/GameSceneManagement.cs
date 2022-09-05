@@ -79,7 +79,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
         objectNumber_Dictionary.Add("playerNumbering", number);//添加至紀錄中
         GameObject player = OnRequestOpenObject(OnGetObjectNumber("playerNumbering"), loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//開啟物件
-        //OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點           
+        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點           
         if (!GameDataManagement.Instance.isConnect)//未連線位置
         {
             if (GameDataManagement.Instance.selectLevelNumber == 11)//第1關
@@ -140,6 +140,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //敵人士兵2物件
         number = objectHandle.OnCreateObject(loadPath.enemySoldier2Attack_Arrow);//弓箭物件
         objectNumber_Dictionary.Add("enemySoldier2Attack_Arrow", number);//添加至紀錄中
+
+        //Boss物件
+        number = objectHandle.OnCreateObject(loadPath.bossAttack1);//攻擊1物件(飛行攻擊)
+        objectNumber_Dictionary.Add("bossAttack1", number);//添加至紀錄中
 
         #region 第1關
         if (GameDataManagement.Instance.selectLevelNumber == 11)
@@ -260,9 +264,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         objectNumber_Dictionary.Add("boss", number);//添加至紀錄中
         GameObject AIObject = OnRequestOpenObject(OnGetObjectNumber("boss"), loadPath.boss);//開啟物件
         AIObject.transform.position = new Vector3(4.8f, 2.5f, -3f);//設定位置
+        //AIObject.transform.position = new Vector3(76f, -11f, -28f);//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = "Enemy";//設定Tag
         AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer
+        OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
     }
 
     /// <summary>
@@ -314,7 +320,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Alliance");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化
-                                                                    //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
                         }
 
                         //產生敵人士兵1
@@ -327,7 +333,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化   
-                                                                    //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         //產生敵人士兵2                      
                         for (int i = 0; i < enemySoldiers2_Stage1Point.Length; i++)
@@ -339,7 +345,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化
-                                                                    //OnSetMiniMapPoint(enemy.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         break;
                     case 1://階段2                       
@@ -353,6 +359,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化    
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
                         }
                         break;
                     case 2://階段3 
@@ -621,13 +628,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         Vector3 itemBoxCenter = item.GetComponent<BoxCollider>().center;
         obj.transform.localPosition = new Vector3(itemBoxCenter.x, 0, itemBoxCenter.z);
 
-        //Size
+        /*//Size
         if (item.gameObject.layer != LayerMask.NameToLayer("Player") && item.gameObject.layer != LayerMask.NameToLayer("Enemy"))
         {
             Vector3 itemBoxSize = item.GetComponent<BoxCollider>().size;
             obj.transform.localScale = new Vector3(itemBoxSize.x, itemBoxSize.z, 1);
         }
-        else obj.transform.localScale = new Vector3(1, 1, 1);
+        else obj.transform.localScale = new Vector3(5, 5, 5);*/
+        obj.transform.localScale = new Vector3(5, 5, 5);
+
 
         //選轉
         obj.transform.localEulerAngles = new Vector3(90, 0, 0);
