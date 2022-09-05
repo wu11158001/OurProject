@@ -27,7 +27,7 @@ public class Effects : MonoBehaviour
 
     //法師特效脫離角色Transform影響
     Transform playerEffectstoWorld;        //角色的父物件
-    Transform magicNa2;              //要脫離的特效
+    Transform magicNa2;               //要脫離的特效
     Transform magicNa30;              //要脫離的特效
     Transform magicNa31;              //要脫離的特效
     Transform magicNa32;              //要脫離的特效
@@ -35,11 +35,6 @@ public class Effects : MonoBehaviour
     Transform magicNa34;              //要脫離的特效
     Transform magicNa35;              //要脫離的特效
     Transform magicBook;
-
-    //弓箭手特效脫離角色Transform影響
-    Transform arcSa1;
-
-
 
     void Start()
     {
@@ -69,13 +64,6 @@ public class Effects : MonoBehaviour
             magicBook = SkillAttack_1.transform.GetChild(3);                                     //魔法書
         }
 
-        if (anim.runtimeAnimatorController.name == "Archer")                        //name不一致，判定出問題來這裡改
-        {
-            arcSa1 = SkillAttack_1.transform.GetChild(2);                               //多重箭           
-        }
-
-
-
         //武器發光，戰士
         if (anim.runtimeAnimatorController.name == "1_Warrior")
         {
@@ -95,7 +83,6 @@ public class Effects : MonoBehaviour
 
     void Update()
     {
-        // effects.transform.localPosition = new Vector3(0.2075253f, 0.8239655f, 0.4717751f);   //防意外
         animInfo = anim.GetCurrentAnimatorStateInfo(0);                                      //節省廢話
         UpdaSnake();                                                                       //畫面震盪                                                                                            
         UpdaLensDistortion();
@@ -119,13 +106,13 @@ public class Effects : MonoBehaviour
             MagEffectsControl();   //魔法陣
         }
         if (anim.runtimeAnimatorController.name == "Archer")   //不一致，若判定出問題來這裡確認
-        {           
-            ArcSkillAttack1();                
+        {
+            ArcSkillAttack1();
         }
     }
 
 
-    float oSize = 0.2f;
+    //  float oSize = 0.2f;  //投影法陣
     float booksize = 0.01262763f;
     bool closeMagicBook = false;
     void MagEffectsControl()
@@ -200,20 +187,32 @@ public class Effects : MonoBehaviour
     {
         if (animInfo.IsName("Attack.SkillAttack_1") && animInfo.normalizedTime > 0.7 && animInfo.normalizedTime <= 0.75)
         {
-            SkillAttack_1.Play();
-            arcSa1.SetParent(playerEffectstoWorld);
-        }
-        if (arcSa1.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
-        {
-            //回到角色層級並恢復相關參數
-            arcSa1.SetParent(SkillAttack_1.transform);
-            arcSa1.transform.localPosition = SkillAttack_1.transform.GetChild(1).localPosition;
-            arcSa1.transform.localRotation = SkillAttack_1.transform.GetChild(1).localRotation;
-            arcSa1.transform.localScale = SkillAttack_1.transform.GetChild(1).localScale;
+            if (!SkillAttack_1.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
+            {
+                SkillAttack_1.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+            }
+            ArcSa1().transform.SetParent(SkillAttack_1.transform);
+            ArcSa1().transform.localPosition = SkillAttack_1.transform.GetChild(2).localPosition;
+            ArcSa1().transform.forward = SkillAttack_1.transform.forward;
+            ArcSa1().Play();
         }
     }
 
-
+    List<ParticleSystem> arcSa1List = new List<ParticleSystem>();
+    ParticleSystem ArcSa1Pool()
+    {
+        ParticleSystem hitPs = Instantiate(SkillAttack_1.transform.GetChild(3).GetComponent<ParticleSystem>());
+        arcSa1List.Add(hitPs);
+        return hitPs;
+    }
+    ParticleSystem ArcSa1()
+    {
+        foreach (var hl in arcSa1List)
+        {
+            if (!hl.isPlaying) return hl;
+        }
+        return ArcSa1Pool();
+    }
 
 
     void MagNormalAttack1()
@@ -231,12 +230,12 @@ public class Effects : MonoBehaviour
     ParticleSystem MagNa1Pool()
     {
         ParticleSystem hitPs = Instantiate(NormalAttack_1.transform.GetChild(0).GetComponent<ParticleSystem>());
-        hitList.Add(hitPs);
+        magNa1List.Add(hitPs);
         return hitPs;
     }
     ParticleSystem MagNa1()
     {
-        foreach (var hl in hitList)
+        foreach (var hl in magNa1List)
         {
             if (!hl.isPlaying) return hl;
         }
