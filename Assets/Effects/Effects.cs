@@ -26,7 +26,7 @@ public class Effects : MonoBehaviour
     bool lensDistortion = false;
 
     //法師特效脫離角色Transform影響
-    Transform magicNa2toWorld;        //角色的父物件
+    Transform playerEffectstoWorld;        //角色的父物件
     Transform magicNa2;              //要脫離的特效
     Transform magicNa30;              //要脫離的特效
     Transform magicNa31;              //要脫離的特效
@@ -36,7 +36,8 @@ public class Effects : MonoBehaviour
     Transform magicNa35;              //要脫離的特效
     Transform magicBook;
 
-
+    //弓箭手特效脫離角色Transform影響
+    Transform arcSa1;
 
 
 
@@ -54,7 +55,7 @@ public class Effects : MonoBehaviour
 
         postProcessProfile.GetSetting<LensDistortion>().intensity.value = 0f;                //小魚眼
 
-        magicNa2toWorld = gameObject.transform.parent;                                //角色的父物件，讓特效脫離角色Transform影響      
+        playerEffectstoWorld = gameObject.transform.parent;                                //角色的父物件，讓特效脫離角色Transform影響      
 
         if (anim.runtimeAnimatorController.name == "2_Magician")                        //要脫離的特效
         {
@@ -68,7 +69,14 @@ public class Effects : MonoBehaviour
             magicBook = SkillAttack_1.transform.GetChild(3);                                     //魔法書
         }
 
-        //武器發光，戰士弓箭手
+        if (anim.runtimeAnimatorController.name == "Archer")                        //name不一致，判定出問題來這裡改
+        {
+            arcSa1 = SkillAttack_1.transform.GetChild(2);                               //多重箭           
+        }
+
+
+
+        //武器發光，戰士
         if (anim.runtimeAnimatorController.name == "1_Warrior")
         {
             baseColor = weapon.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
@@ -110,6 +118,10 @@ public class Effects : MonoBehaviour
             MagSkillAttack3();
             MagEffectsControl();   //魔法陣
         }
+        if (anim.runtimeAnimatorController.name == "Archer")   //不一致，若判定出問題來這裡確認
+        {           
+            ArcSkillAttack1();                
+        }
     }
 
 
@@ -150,7 +162,7 @@ public class Effects : MonoBehaviour
             magicBook.localScale = new Vector3(booksize, booksize, booksize);
 
             magicBook.Rotate(Vector3.up, 50 * Time.deltaTime, Space.World);
-            magicBook.SetParent(magicNa2toWorld);
+            magicBook.SetParent(playerEffectstoWorld);
 
             magicBook.position = Vector3.Lerp(magicBook.position, gameObject.transform.position + (gameObject.transform.right * (0.5f) + gameObject.transform.forward * (0.3f) + gameObject.transform.up * 2f), Time.deltaTime);
             // 偏移量，避免重疊  gameObject.transform.right場景腳色的右邊,gameObject.transform.forward 前面 gameObject.transform.up上面
@@ -183,6 +195,26 @@ public class Effects : MonoBehaviour
 
 
     }
+
+    void ArcSkillAttack1()
+    {
+        if (animInfo.IsName("Attack.SkillAttack_1") && animInfo.normalizedTime > 0.7 && animInfo.normalizedTime <= 0.75)
+        {
+            SkillAttack_1.Play();
+            arcSa1.SetParent(playerEffectstoWorld);
+        }
+        if (arcSa1.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
+        {
+            //回到角色層級並恢復相關參數
+            arcSa1.SetParent(SkillAttack_1.transform);
+            arcSa1.transform.localPosition = SkillAttack_1.transform.GetChild(1).localPosition;
+            arcSa1.transform.localRotation = SkillAttack_1.transform.GetChild(1).localRotation;
+            arcSa1.transform.localScale = SkillAttack_1.transform.GetChild(1).localScale;
+        }
+    }
+
+
+
 
     void MagNormalAttack1()
     {
@@ -220,7 +252,7 @@ public class Effects : MonoBehaviour
         if (animInfo.IsName("Attack.NormalAttack_2"))
         {
             NormalAttack_2.Play();
-            magicNa2.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
+            magicNa2.SetParent(playerEffectstoWorld);            //特效播放之後脫離角色Transform影響
         }
         if (magicNa2.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
         {
@@ -237,12 +269,12 @@ public class Effects : MonoBehaviour
         if (animInfo.IsName("Attack.NormalAttack_3") && animInfo.normalizedTime <= 0.45)
         {
             NormalAttack_3.Play();
-            magicNa30.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
-            magicNa31.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
-            magicNa32.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
-            magicNa33.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
-            magicNa34.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
-            magicNa35.SetParent(magicNa2toWorld);            //特效播放之後脫離角色Transform影響
+            magicNa30.SetParent(playerEffectstoWorld);            //特效播放之後脫離角色Transform影響
+            magicNa31.SetParent(playerEffectstoWorld);            //特效播放之後脫離角色Transform影響
+            magicNa32.SetParent(playerEffectstoWorld);            //特效播放之後脫離角色Transform影響
+            magicNa33.SetParent(playerEffectstoWorld);            //特效播放之後脫離角色Transform影響
+            magicNa34.SetParent(playerEffectstoWorld);            //特效播放之後脫離角色Transform影響
+            magicNa35.SetParent(playerEffectstoWorld);            //特效播放之後脫離角色Transform影響
         }
         if (magicNa30.GetComponent<ParticleSystem>().isStopped)  //如果特效沒有撥放
         {
