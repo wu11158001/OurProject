@@ -85,7 +85,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
         {
             isGetHit = true;//是否受攻擊
 
-            hp -= damage;
+            hp -= damage;                        
 
             //連線
             if (GameDataManagement.Instance.isConnect)

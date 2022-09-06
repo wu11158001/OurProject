@@ -19,6 +19,7 @@ public class GameData_LoadPath
     public string miniMapMatirial_Object;//小地圖材質(物件)
     public string miniMapMatirial_Player;//小地圖材質(玩家)
     public string miniMapMatirial_OtherPlayer;//小地圖材質(其他玩家)
+    public string miniMapMatirial_TaskObject;//小地圖材質(任務物件)
     public string miniMapMatirial_Enemy;//小地圖材質(敵人)
     public string miniMapPoint;//小地圖(點)
 
@@ -45,6 +46,7 @@ public class GameData_LoadPath
     public string allianceSoldier_1;//同盟士兵1
 
     [Header("敵人角色")]
+    public string boss;//Boss
     public string enemySoldier_1;//敵人士兵1
     public string enemySoldier_2;//敵人士兵2
     public string enemySoldier_3;//敵人士兵3
@@ -55,6 +57,9 @@ public class GameData_LoadPath
 
     [Header("敵人士兵2物件")]
     public string enemySoldier2Attack_Arrow;//弓箭
+
+    [Header("Boss物件")]
+    public string bossAttack1;//Boss攻擊1物件(飛行攻擊)
 
     [Header("其他")]
     public string hitNumber;//擊中文字
@@ -74,6 +79,7 @@ public class GameData_LoadPath
         miniMapMatirial_Object = "Matirials/MiniMap/MiniMpa_Object";//小地圖材質(物件)
         miniMapMatirial_Player = "Matirials/MiniMap/MiniMap_Player";//小地圖材質(玩家)
         miniMapMatirial_OtherPlayer = "Matirials/MiniMap/MiniMap_OtherPlayer";//小地圖材質(其他玩家)
+        miniMapMatirial_TaskObject = "Matirials/MiniMap/MiniMapMatirial_TaskObject";//小地圖材質(任務物件)
         miniMapMatirial_Enemy = "Matirials/MiniMap/MiniMap_Enemy";//小地圖材質(敵人)
         miniMapPoint = "Prefab/UI/MiniMapPoint";//小地圖(點)
 
@@ -101,6 +107,7 @@ public class GameData_LoadPath
         allianceSoldier_1 = "Prefab/Characters/Alliance/AllianceSoldier_1"; ;//同盟士兵1
 
         //敵人角色
+        boss = "Prefab/Characters/Enemy/Boss";//Boss
         enemySoldier_1 = "Prefab/Characters/Enemy/EnemySoldier_1";//敵人士兵1
         enemySoldier_2 = "Prefab/Characters/Enemy/EnemySoldier_2";//敵人士兵2
         enemySoldier_3 = "Prefab/Characters/Enemy/EnemySoldier_3";//敵人士兵3
@@ -111,6 +118,9 @@ public class GameData_LoadPath
 
         //敵人士兵2物件
         enemySoldier2Attack_Arrow = "Prefab/ShootObject/EnemySoldier2/Attack_Arrow";//弓箭
+
+        //Boss物件
+        bossAttack1 = "Prefab/ShootObject/Boss/FlyAttack";//Boss攻擊1物件(飛行攻擊)
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字

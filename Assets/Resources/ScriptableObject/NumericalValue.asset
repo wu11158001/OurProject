@@ -43,6 +43,7 @@ MonoBehaviour:
     playerSelfHealTime: 5
     strongholdHp: 200
     allianceSoldier1_Hp: 40
+    boss_Hp: 2000
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
@@ -74,7 +75,7 @@ MonoBehaviour:
     warriorJumpAttack_Effect: Pain
     warriorJumpAttack_ForwardDistance: 0.77
     warriorJumpAttack_attackRadius: 1.3
-    warriorJumpAttack_IsAttackBehind: 0
+    warriorJumpAttack_IsAttackBehind: 1
     warriorSkillAttack_1_Damge: 50
     warriorSkillAttack_1_RepelDirection: 0
     warriorSkillAttack_1_RepelDistance: 70
@@ -138,7 +139,7 @@ MonoBehaviour:
     archerJumpAttack_Effect: Pain
     archerJumpAttack_ForwardDistance: 0
     archerJumpAttack_attackRadius: 1.3
-    archerJumpAttack_IsAttackBehind: 1
+    archerJumpAttack_IsAttackBehind: 0
     archerSkillAttack_1_Damage: 11
     archerSkillAttack_1_RepelDirection: 5
     archerSkillAttack_1_Repel: 13
@@ -196,7 +197,7 @@ MonoBehaviour:
     magicianSkillAttack_2_Effect: Pain
     magicianSkillAttack_2_ForwardDistance: 5
     magicianSkillAttack_2_attackRadius: 10
-    magicianSkillAttack_2_IsAttackBehind: 1
+    magicianSkillAttack_2_IsAttackBehind: 0
     magicianSkillAttack_3_Damge: 35
     magicianSkillAttack_3_RepelDirection: 0
     magicianSkillAttack_3_RepelDistance: 25
@@ -293,3 +294,16 @@ MonoBehaviour:
     guardBoss_Attack_4_ForwardDistance: 1.4
     guardBoss_Attack_4_attackRadius: 1.3
     guardBoss_Attack_4_IsAttackBehind: 0
+    bossAttack1_Damge: 70
+    bossAttack1_RepelDirection: 0
+    bossAttack1_RepelDistance: 50
+    bossAttack1_Effect: Pain
+    bossAttack1_FloatSpeed: 0
+    bossAttack1_LifeTime: 1
+    bossAttack2_Damge: 35
+    bossAttack2_RepelDirection: 0
+    bossAttack2_RepelDistance: 50
+    bossAttack2_Effect: Pain
+    bossAttack2_ForwardDistance: 5
+    bossAttack2_attackRadius: 3
+    bossAttack2_IsAttackBehind: 1
