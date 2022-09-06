@@ -11,70 +11,120 @@ public class BossAI : MonoBehaviourPunCallbacks
 
     GameObject[] allPlayer;//所有玩家 
 
+    [SerializeField] Dictionary<GameObject, float> playersDamage = new Dictionary<GameObject, float>();//記錄所有玩家傷害
+
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
 
-    [Header("移動")]
-    float walkSpeed;//行走速度
-    float flyAttackSpeed;//飛行攻擊速度
-    float flyAttackUpSpeed;//飛行攻擊上升速度
-
     [Header("攻擊")]
-    GameObject attackTarget;//攻擊對象
-    int maxAttackNumber;//擁有的攻擊招式
-    [SerializeField]int activeAttackNumber;//使用的攻擊招式
-    float[] attackDelayTime;//攻擊延遲時間(最小值,最大值)
-    [SerializeField] float attackTime;//攻擊時間
+    [SerializeField] float attackRadius;//攻擊半徑
+    [SerializeField] GameObject target;//攻擊目標
+
+    [Header("追擊")]
+    float chaseSpeed;//追擊速度
+
+    //尋找
+    float fineTargetTime;//尋找目標時間
+    float findTime;//尋找目標時間(計時器)
 
     void Start()
     {
         animator = GetComponent<Animator>();
 
-        allPlayer = GameObject.FindGameObjectsWithTag("Player");
-
-        //尋找最近玩家
-        OnFineClosestplayer();
-
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
         boxSize = GetComponent<BoxCollider>().size;
 
-        //移動
-        walkSpeed = 2;//行走速度
-        flyAttackSpeed = 30;//飛行攻擊速度
-        flyAttackUpSpeed = 20;//飛行攻擊上升速度
         //攻擊
-        maxAttackNumber = 2;//擁有的攻擊招式
-        attackDelayTime = new float[] { 0.5f, 5f};//攻擊延遲時間(最小值,最大值)
-        attackTime = 3;//攻擊時間
+        attackRadius = 5;//攻擊半徑
+
+        //追擊
+        chaseSpeed = 6.3f;//追擊速度
+
+        fineTargetTime = 5;//尋找玩家時間
     }
      
     void Update()
     {
         info = animator.GetCurrentAnimatorStateInfo(0);
+        Debug.LogError((transform.position - target.transform.position).magnitude);
+        //OnJudgeAnimation();//判斷動畫
 
-        OnJudgeAnimation();//判斷動畫
+        if(state == State.待機狀態)
+        {
+            OnStartDistance();
+        }
+        if(state == State.追擊狀態)
+        {
+            OnFindTargetTime();//尋找目標時間
+            OnRotateToTarget();//轉向至目標
+            OnChaseTarget();//追擊目標
+        }
+    }
+
+    public enum State
+    {
+        待機狀態,
+        追擊狀態,
+        攻擊狀態
+    }
+    State state;
+
+    /// <summary>
+    /// 開始戰鬥範圍
+    /// </summary>
+    void OnStartDistance()
+    {
+        if (Physics.CheckSphere(transform.position, 19, 1 << LayerMask.NameToLayer("Player")))
+        {
+            state = State.追擊狀態;
+            allPlayer = GameObject.FindGameObjectsWithTag("Player");
+
+            for (int i = 0; i < allPlayer.Length; i++)
+            {
+                playersDamage.Add(allPlayer[i], 0);
+            }
+            
+            OnChangeAnimation(animationName: "Roar", animationType: true);
+        }
+    } 
+
+    /// <summary>
+    /// 尋找目標時間
+    /// </summary>
+    void OnFindTargetTime()
+    {
+        findTime -= Time.deltaTime;
+
+        if(findTime <= 0)
+        {
+            findTime = fineTargetTime;
+            OnFindTarget();//尋找目標
+        }
     }
 
     /// <summary>
-    /// 尋找最近玩家
+    /// 尋找目標
     /// </summary>
-    void OnFineClosestplayer()
+    void OnFindTarget()
     {
-        float closest = 1000;
-        int target = 0;
-        for (int i = 0; i < allPlayer.Length; i++)
+        //傷害最高為目標
+        float number = -1;
+        int i = 0;
+        int bestDamage = 0;
+        foreach (var player in playersDamage)
         {
-            float dir = (transform.position - allPlayer[i].transform.position).magnitude;
-            if(dir < closest)
+            if (player.Value > number)
             {
-                closest = dir;
-                target = i;
+                number = player.Value;
+                bestDamage = i;
             }
+
+            i++;
         }
 
-        attackTarget = allPlayer[target];
+        target = allPlayer[bestDamage];
     }
 
     /// <summary>
@@ -82,25 +132,23 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnRotateToTarget()
     {
-        //轉向目標
-        transform.forward = Vector3.RotateTowards(transform.forward, attackTarget.transform.position - transform.position, 0.065f, 0.065f);
-        transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+        if (target != null || target.activeSelf)
+        {
+            //轉向目標
+            transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, 0.03f, 0.03f);
+            transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+        }
     }
 
     /// <summary>
-    /// 攻擊時間
+    /// 追擊目標
     /// </summary>
-    void OnAttackTime()
+    void OnChaseTarget()
     {
-        attackTime -= Time.deltaTime;//攻擊時間
-        if (attackTime <= 0)
+        //小大於攻擊範圍
+        if((transform.position - target.transform.position).magnitude > attackRadius && info.IsTag("Run"))
         {
-            attackTime = UnityEngine.Random.Range(attackDelayTime[0], attackDelayTime[1]);//攻擊時間
-            activeAttackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用的攻擊招式
-
-            //行走機率
-            if (UnityEngine.Random.Range(0, 100) < 50) OnChangeAnimation(animationName: "Walk", animationType: true);
-            else OnChangeAnimation(animationName: "AttackNumber", animationType: activeAttackNumber);
+            transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
         }
     }
 
@@ -109,34 +157,10 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJudgeAnimation()
     {
-        //待機狀態
-        if(info.IsTag("Idle"))
+        if(info.IsTag("Roar") && info.normalizedTime >= 1)
         {
-            OnAttackTime();//攻擊時間 
-            OnRotateToTarget();//轉向至目標
+
         }
-
-        //咆嘯狀態
-        if (info.IsName("Roar"))
-        {
-            //transform.position = transform.position + transform.forward * walkSpeed * Time.deltaTime;
-
-            //進行攻擊
-            if (info.normalizedTime >= 1)
-            {
-                OnChangeAnimation(animationName: "Walk", animationType: false);
-                OnChangeAnimation(animationName: "AttackNumber", animationType: activeAttackNumber);
-            }
-        }
-
-        //飛行攻擊
-        if(info.IsName("FlyAttack"))
-        {            
-            transform.position = transform.position + transform.forward * flyAttackSpeed / 2 * Time.deltaTime;
-        }
-
-        //攻擊結束
-        if (info.IsTag("Attack") && info.normalizedTime >= 1) OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
     }
 
     /// <summary>
@@ -168,6 +192,6 @@ public class BossAI : MonoBehaviourPunCallbacks
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + boxCenter + transform.forward * 5, 3);
+        Gizmos.DrawWireSphere(transform.position, 5);
     }
 }

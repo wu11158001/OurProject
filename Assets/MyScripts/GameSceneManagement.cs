@@ -246,7 +246,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         #endregion
 
         #region 第2關
-        if (GameDataManagement.Instance.selectLevelNumber == 11)
+        if (GameDataManagement.Instance.selectLevelNumber == 12)
         {
             //非連線 || 是房主
             if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
