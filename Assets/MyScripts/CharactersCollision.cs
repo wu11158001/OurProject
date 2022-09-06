@@ -470,8 +470,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                                                            attackerObjectID: attackerObject.GetPhotonView().ViewID);
 
 
+           /* //Boss
+            if (gameObject.layer == LayerMask.NameToLayer("Boss"))
+            {
+                gameObject.GetComponent<BossAI>().OnSetPlayDamage(attacker, getDamge);//紀錄玩家累積傷害
+            }*/
+
             //任務物件
-            if(isTaskObject)
+            if (isTaskObject)
             {
                 //設定生命條
                 GameSceneUI.Instance.OnSetEnemyLifeBarValue(enemyName, Hp / MaxHp);
@@ -517,10 +523,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
                 }
                 return;
-            }
-
-            //Boss不播放動畫
-            //if (gameObject.layer == LayerMask.NameToLayer("Boss")) return;
+            }            
             
             //判斷動畫是否mirror
             int isMirror = UnityEngine.Random.Range(0, 2);

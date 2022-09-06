@@ -66,6 +66,15 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     float playerGameTime;//笴栏丁
     public float accumulationDamage;//仓縩端甡
 
+    [Header("硈絬產")]
+    Transform connectUI;//Connect UI 北
+    Transform player1;//Player1 UI北
+    Transform player2;//Player2 UI北
+    Transform player3;//Player3 UI北
+    Text player1Name_Text;//產1际嘿
+    Text player2Name_Text;//產2际嘿
+    Text player3Name_Text;//產3际嘿
+
     void Awake()
     {
         if(gameSceneUI != null)
@@ -158,6 +167,42 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         maxKillNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "MaxKillNumber_Text");//程阑炳计ゅ
         maxCombolNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "MaxCombolNumber_Text");//程硈阑计ゅ
         accumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "AccumulationDamageNumber_Text");//仓縩端甡ゅ
+
+        //硈絬產
+        connectUI = ExtensionMethods.FindAnyChild<Transform>(transform, "ConnectUI");//ConnectUI 北
+        if (!GameDataManagement.Instance.isConnect) connectUI.gameObject.SetActive(false);
+        if (GameDataManagement.Instance.isConnect)
+        {
+            connectUI.gameObject.SetActive(true);
+
+            player1 = ExtensionMethods.FindAnyChild<Transform>(transform, "Player1");//Player1 UI北
+            player2 = ExtensionMethods.FindAnyChild<Transform>(transform, "Player2");//Player1 UI北
+            player3 = ExtensionMethods.FindAnyChild<Transform>(transform, "Player3");//Player1 UI北            
+            Transform[] allPlayerUI = new Transform[] { player1, player2, player3 };            
+            for (int i = PhotonNetwork.CurrentRoom.PlayerCount - 1; i < allPlayerUI.Length; i++)
+            {
+                allPlayerUI[i].gameObject.SetActive(false);
+            }
+
+            player1Name_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player1Name_Text");//產3际嘿
+            player2Name_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player2Name_Text");//產3际嘿
+            player3Name_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player3Name_Text");//產3际嘿
+            Text[] allPlayerNickName = new Text[] { player1Name_Text, player2Name_Text, player3Name_Text };
+            bool isTouchSelf = false;
+            for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; i++)
+            {
+                if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
+                {
+                    isTouchSelf = true;
+                    allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
+                    continue;
+                }
+
+                if (isTouchSelf) allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
+                else allPlayerNickName[i].text = PhotonNetwork.PlayerList[i].NickName;
+            }
+        }
+
     }
         
     void Update()
