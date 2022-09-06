@@ -62,7 +62,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnFineClosestplayer()
     {
-        float closest = 10000;
+        float closest = 1000;
         int target = 0;
         for (int i = 0; i < allPlayer.Length; i++)
         {
