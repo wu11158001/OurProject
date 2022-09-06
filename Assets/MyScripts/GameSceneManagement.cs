@@ -244,6 +244,17 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             strongholdStage3.SetActive(false);
         }
         #endregion
+
+        #region 第2關
+        if (GameDataManagement.Instance.selectLevelNumber == 11)
+        {
+            //非連線 || 是房主
+            if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
+            {
+                GameSceneManagement.Instance.OnCreateBoss();
+            }
+        }
+        #endregion
     }
 
     void Update()
