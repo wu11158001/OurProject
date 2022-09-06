@@ -22,7 +22,7 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &-1580930300634218736
+--- !u!114 &-466803519016612418
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -35,11 +35,11 @@ MonoBehaviour:
   m_Name: ControlPlayableAsset
   m_EditorClassIdentifier: 
   sourceGameObject:
-    exposedName: 04d5920460cf1c544869588c83e0d1ad
+    exposedName: 40b06b89e7536a64abd760a4bd7fd428
     defaultValue: {fileID: 0}
   prefabGameObject: {fileID: 0}
   updateParticle: 1
-  particleRandomSeed: 568
+  particleRandomSeed: 5487
   updateDirector: 1
   updateITimeControl: 1
   searchHierarchy: 0
@@ -89,9 +89,9 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 3.2
+    m_Start: 3.3666666666666667
     m_ClipIn: 0
-    m_Asset: {fileID: -1580930300634218736}
+    m_Asset: {fileID: -466803519016612418}
     m_Duration: 5
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1893735270885928970}
