@@ -16,7 +16,7 @@ public class Boss_Exclusive : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 攻擊1_Boss(飛行攻擊)
+    /// 攻擊1_Boss(飛行噴火)
     /// </summary>
     void OnAttack1_Boss()
     {
@@ -29,7 +29,7 @@ public class Boss_Exclusive : MonoBehaviourPunCallbacks
         AttackMode attack = AttackMode.Instance;
         attack.performCharacters = gameObject;//執行攻擊腳色
         attack.performObject = GameSceneManagement.Instance.OnRequestOpenObject(GameSceneManagement.Instance.OnGetObjectNumber("bossAttack1"), GameSceneManagement.Instance.loadPath.bossAttack1);//執行攻擊的物件(自身/射出物件)
-        attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
+        attack.layer = "Enemy";//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
         attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
@@ -42,8 +42,8 @@ public class Boss_Exclusive : MonoBehaviourPunCallbacks
         attack.lifeTime = NumericalValue.bossAttack1_LifeTime;//生存時間
         attack.flightDiration = transform.forward;//飛行方向        
 
-        attack.performObject.transform.SetParent(gameObject.transform);
-        attack.performObject.transform.localPosition = new Vector3(0, 5.5f, -1);
+        attack.performObject.transform.SetParent(gameObject.transform);        
+        attack.performObject.transform.localPosition = new Vector3(0, 0, 4);
 
         GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)       
     }

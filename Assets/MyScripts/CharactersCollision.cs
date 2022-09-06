@@ -520,8 +520,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             }
 
             //Boss不播放動畫
-            if (gameObject.layer == LayerMask.NameToLayer("Boss")) return;
-
+            //if (gameObject.layer == LayerMask.NameToLayer("Boss")) return;
+            
             //判斷動畫是否mirror
             int isMirror = UnityEngine.Random.Range(0, 2);
             if (isMirror == 0)

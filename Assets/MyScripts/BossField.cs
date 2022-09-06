@@ -19,11 +19,12 @@ public class BossField : MonoBehaviourPunCallbacks
                 //非連線 || 是房主
                 if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
                 {
-                    GameSceneManagement.Instance.OnCreateBoss();
+                    //GameSceneManagement.Instance.OnCreateBoss();
+                    GameObject.FindObjectOfType<BossAI>().OnActive();
                 }
                 else
                 {
-                    PhotonConnect.Instance.OnSendCreateBoss();
+                    PhotonConnect.Instance.OnSendBossActive();
                 }
             }
         }
@@ -32,6 +33,6 @@ public class BossField : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(5, 5, 20));
+        Gizmos.DrawWireCube(transform.position, new Vector3(5, 5, 40));
     }
 }

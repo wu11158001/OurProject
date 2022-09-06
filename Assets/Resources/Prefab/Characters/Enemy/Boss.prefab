@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101361399533615509}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101797261275784783}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101755287279739759}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101511268794671551}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon RightWingFlapNub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105276878108040607}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105618006740093259}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101548012992699527}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger3Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105650853216194997}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101421641945138251}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105638016997399303}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon JawTestNub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 105334052983524077}
   - component: {fileID: 72115816525147395}
   - component: {fileID: 84559960274581951}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101427718397487305}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Neck3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105794329784828227}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +460,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105519934816721665}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Pelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105325081719918711}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101628815595617849}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe1Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,7 +552,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101503223735285555}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger0Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -582,7 +582,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101400191884293707}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,7 +613,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105574140447261349}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -644,7 +644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101553684049773405}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L HorseLink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -675,7 +675,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105507025128858649}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -706,7 +706,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105550785103504139}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger42
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -737,7 +737,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101642595465071651}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -768,7 +768,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105688033510185561}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -802,7 +802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101402126701292825}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tail4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -833,7 +833,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101377729728416811}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -868,7 +868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101514354218368259}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Footsteps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -898,7 +898,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101821575207976517}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -929,7 +929,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105774630597485739}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -960,7 +960,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101777011206355079}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -991,7 +991,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101334598102560799}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon LeftWingFlapNub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1023,7 +1023,7 @@ GameObject:
   - component: {fileID: 101409465291032939}
   - component: {fileID: 72273036682308759}
   - component: {fileID: 84208464698543771}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1102,7 +1102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105465696832483275}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe0Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1132,7 +1132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105349661737474941}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1165,7 +1165,7 @@ GameObject:
   - component: {fileID: 101644314302802043}
   - component: {fileID: 268636332920384985}
   - component: {fileID: 269195690678543965}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: IgnitionFlame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5928,7 +5928,7 @@ GameObject:
   - component: {fileID: 105293311180343065}
   - component: {fileID: 268379903728098849}
   - component: {fileID: 269905698583188013}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FireEmbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10653,7 +10653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105542473334146807}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10684,7 +10684,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105762522847897365}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon LeftWingFlap02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10715,7 +10715,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101384902209348041}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon HeadNub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10746,7 +10746,7 @@ GameObject:
   m_Component:
   - component: {fileID: 101466388861094453}
   - component: {fileID: 44810879081079911}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DrogonEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10828,7 +10828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105353381143649663}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10859,7 +10859,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105689978612126603}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10890,7 +10890,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101634252373446735}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon TongueNub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10920,7 +10920,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105758284574875503}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tail3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10951,7 +10951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101660727869295137}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10989,7 +10989,7 @@ GameObject:
   - component: {fileID: 105606957394273725}
   - component: {fileID: 75749880017647727}
   - component: {fileID: 84648375664598823}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11069,7 +11069,7 @@ GameObject:
   m_Component:
   - component: {fileID: 105292051678010899}
   - component: {fileID: 63193290521260673}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Flames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11114,7 +11114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105799377865736017}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11147,7 +11147,7 @@ GameObject:
   - component: {fileID: 105644402753061833}
   - component: {fileID: 76090914317657653}
   - component: {fileID: 83935992425922245}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11226,7 +11226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101640891427486775}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger4Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11258,7 +11258,7 @@ GameObject:
   - component: {fileID: 101343061360136335}
   - component: {fileID: 72230180783888389}
   - component: {fileID: 84326409747673539}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11337,7 +11337,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101396425562018993}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11370,7 +11370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101337235105725931}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Neck2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11401,7 +11401,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101332497272261483}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11433,7 +11433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 105584627220628213}
   - component: {fileID: 12320618182260715}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FlameThrowerEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11486,7 +11486,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105745184578702431}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11518,7 +11518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 101885584549956157}
   - component: {fileID: 41054222206007751}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11690,7 +11690,7 @@ GameObject:
   - component: {fileID: 101422363213538235}
   - component: {fileID: 72307699784644051}
   - component: {fileID: 84182657258311541}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DrogonEyeClosed001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11771,7 +11771,7 @@ GameObject:
   - component: {fileID: 101675795688900447}
   - component: {fileID: 76369292300272307}
   - component: {fileID: 83960219541214295}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DragonEyeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11850,7 +11850,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105680889857883909}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11881,7 +11881,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101848718925157459}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tongue03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11912,7 +11912,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101351356111773125}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11943,7 +11943,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101645128776425823}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11974,7 +11974,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105363526833563769}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12005,7 +12005,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101558729927683773}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Neck1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12036,7 +12036,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105557985709597881}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12067,7 +12067,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105728871705242411}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12098,7 +12098,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105360440951149759}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon HeadTestNub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12129,7 +12129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105369955771037595}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12162,7 +12162,7 @@ GameObject:
   - component: {fileID: 105492216097506861}
   - component: {fileID: 44608586610342199}
   - component: {fileID: 67449611578506389}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Saddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12190,7 +12190,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107397325412086191}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12253,7 +12253,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107397325412086191}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28520010fbee5bb4da7ccf8ed27018b6, type: 3}
   m_Name: 
@@ -12269,7 +12269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105354446704459325}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12300,7 +12300,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101675493595929785}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12332,7 +12332,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101764981528446761}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tail2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12363,7 +12363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101873799932006997}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12396,7 +12396,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101657362220807429}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tail5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12429,16 +12429,15 @@ GameObject:
   - component: {fileID: 101607577337662691}
   - component: {fileID: 11841969921173705}
   - component: {fileID: 8121807717252484413}
-  - component: {fileID: 4183500646249090064}
   - component: {fileID: 8220918607781138224}
   - component: {fileID: 3228525942646171000}
   - component: {fileID: 131085575552098983}
   - component: {fileID: 3557535616911241661}
   - component: {fileID: 989587419392742217}
   - component: {fileID: 666345683248454621}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Boss
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12491,21 +12490,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.191889, y: 1.4265261, z: 1}
-  m_Center: {x: -0.013076066, y: 0.65693235, z: 0.000002205514}
---- !u!65 &4183500646249090064
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107428017339676385}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.249114, z: 8.229131}
-  m_Center: {x: 0.000010618664, y: 2.0786319, z: 0.12943971}
+  m_Size: {x: 4.0949836, y: 3.0976706, z: 7.2762275}
+  m_Center: {x: 0.048940662, y: 1.4925046, z: -0.5589721}
 --- !u!114 &8220918607781138224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12526,7 +12512,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3228525942646171000}
-  sceneViewId: 0
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &3228525942646171000
@@ -12571,6 +12557,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  attackIdleTime: 0
+  state: 0
 --- !u!114 &989587419392742217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12596,7 +12584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTaskObject: 1
-  enemyName: 
+  enemyName: "\u771F\u7D05\u773C\u9ED1\u9F8D"
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
   heightFromGround: 0
@@ -12630,7 +12618,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105610633767039331}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger2Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12660,7 +12648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105362057137820385}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12691,7 +12679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105703072316719469}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Calf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12722,7 +12710,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101581175896226237}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12753,7 +12741,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101678047507620603}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon RightWingFlap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12784,7 +12772,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101420964819251093}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe2Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12814,7 +12802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105471518726720097}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe2Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12844,7 +12832,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105782306374309461}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger1Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12876,7 +12864,7 @@ GameObject:
   - component: {fileID: 101400978240113147}
   - component: {fileID: 268566875573744771}
   - component: {fileID: 269422673829860107}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Flames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17512,7 +17500,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101443215018916739}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger2Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17542,7 +17530,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101362604367087379}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17574,7 +17562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101572478072151513}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger41
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17605,7 +17593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101782117989262549}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17636,7 +17624,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101784855603096075}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon RightWingFlap02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17667,7 +17655,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101509604645006683}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17698,7 +17686,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101331479251214383}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger1Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17728,7 +17716,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101624453548958511}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17759,7 +17747,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105811526515741777}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17790,7 +17778,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105566110714299221}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17821,7 +17809,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105821810358958863}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon JawTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17852,7 +17840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101496881144674005}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17883,7 +17871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101570491569383749}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon LeftWingFlap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17914,7 +17902,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105655989681725433}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17945,7 +17933,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101497564989597563}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger3Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17975,7 +17963,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101488684916813107}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18006,7 +17994,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101861755422909509}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe0Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18036,7 +18024,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105469331101384301}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18069,7 +18057,7 @@ GameObject:
   - component: {fileID: 101415129061423253}
   - component: {fileID: 75990940967005243}
   - component: {fileID: 84175428194828865}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18148,7 +18136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101636305443836689}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tongue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18179,7 +18167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105824817138505919}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger4Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18209,7 +18197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105745470253612211}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18242,7 +18230,7 @@ GameObject:
   - component: {fileID: 101485130973170921}
   - component: {fileID: 268713829896435733}
   - component: {fileID: 269188352169341425}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23115,7 +23103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105537978984946601}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tongue02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23146,7 +23134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105821682218115103}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23177,7 +23165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105729559872962647}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23208,7 +23196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105396627178025181}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe1Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23238,7 +23226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105822651787201621}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23270,7 +23258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101622715056002687}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23301,7 +23289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101640746284836857}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Clavicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23332,7 +23320,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105306418143748217}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger41
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23363,7 +23351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101439431629253927}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Tail1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23394,7 +23382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105542813080061071}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23425,7 +23413,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101675648927768801}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Finger12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23456,7 +23444,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101397723680154593}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Toe02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23487,7 +23475,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105487352586822387}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Calf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23518,7 +23506,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101845655211649005}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23549,7 +23537,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105784515446240871}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger42
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23580,7 +23568,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101475320402929709}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23615,7 +23603,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105623867428822125}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23646,7 +23634,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101796058117382047}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon TailNub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23676,7 +23664,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105786954754624263}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon HeadTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23711,7 +23699,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105679465046376539}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R Toe21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23742,7 +23730,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105720237306725935}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Clavicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23773,7 +23761,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105618360812195319}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23806,7 +23794,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105313662991003733}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon R HorseLink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23837,7 +23825,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 105497092508725913}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dragon L Finger0Nub
   m_TagString: Untagged
   m_Icon: {fileID: 0}

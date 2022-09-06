@@ -80,6 +80,15 @@ public class AttackMode
     }
 
     /// <summary>
+    /// 設定定點持續傷害
+    /// </summary>
+    public void OnSetContinuedFunction()
+    {
+        function = OnShoot;
+        function += OnContinuedCollision;
+    }
+
+    /// <summary>
     /// 治療
     /// </summary>
     void OnHeal()
@@ -227,6 +236,30 @@ public class AttackMode
             }
         }
     }
+
+    /// <summary>
+    /// 碰撞偵測_定點持續攻擊
+    /// </summary>
+    void OnContinuedCollision()
+    {
+        BoxCollider box = performObject.GetComponent<BoxCollider>();
+        Collider[] hits = Physics.OverlapBox(performObject.transform.position, new Vector3(box.size.x, box.size.y , box.size.z ), Quaternion.Euler(0, 90, 0));
+        foreach (var hit in hits)
+        {
+            for (int i = 0; i < record.Count; i++)
+            {
+                //不重複擊中
+                if (record[i] == hit.transform) return;
+            }
+
+            CharactersCollision collision = hit.GetComponent<CharactersCollision>();
+            if (collision != null)
+            {
+                OnSetAttackNumbericalValue(collision);
+                record.Add(hit.transform);//紀錄以擊中物件                
+            }
+        }
+    }     
 
     /// <summary>
     /// 設定攻擊數值

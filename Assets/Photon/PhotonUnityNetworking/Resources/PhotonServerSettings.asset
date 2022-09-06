@@ -66,6 +66,7 @@ MonoBehaviour:
   - OnRenewTask
   - OnStrongholdGetHit
   - OnCreateBoss
+  - OnBossActive
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

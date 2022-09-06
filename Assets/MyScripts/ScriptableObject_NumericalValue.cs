@@ -709,18 +709,18 @@ public class GameData_NumericalValue
         #endregion
 
         #region Boss
-        //Boss 攻擊1(飛行攻擊)
-        bossAttack1_Damge = 70;//Boss攻擊1_傷害
+        //Boss 攻擊1(飛 噴火)
+        bossAttack1_Damge = 35;//Boss攻擊1_傷害
         bossAttack1_RepelDirection = 0;//Boss攻擊1_擊退方向(0:擊退 1:擊飛)
-        bossAttack1_RepelDistance = 50;//Boss攻擊1_擊退/擊飛距離    
+        bossAttack1_RepelDistance = 0;//Boss攻擊1_擊退/擊飛距離    
         bossAttack1_Effect = "Pain";//Boss攻擊1_效果(受擊者播放的動畫名稱)
-        bossAttack1_FloatSpeed = 0;//Boss攻擊1_攻擊飛行速度
-        bossAttack1_LifeTime = 1;//Boss攻擊1_生存時間
+        bossAttack1_FloatSpeed = 15;//Boss攻擊1_攻擊飛行速度
+        bossAttack1_LifeTime = 0.5f;//Boss攻擊1_生存時間
 
         //Boss 攻擊2(頭攻擊)
         bossAttack2_Damge = 35;//Boss攻擊2_傷害
         bossAttack2_RepelDirection = 0;//Boss攻擊2_擊退方向(0:擊退 1:擊飛)
-        bossAttack2_RepelDistance = 50;//Boss攻擊2_擊退/擊飛距離    
+        bossAttack2_RepelDistance = 0;//Boss攻擊2_擊退/擊飛距離    
         bossAttack2_Effect = "Pain";//Boss攻擊2_效果(受擊者播放的動畫名稱)        
         bossAttack2_ForwardDistance = 5;//Boss攻擊2_攻擊範圍中心點距離物件前方
         bossAttack2_attackRadius = 3;//Boss攻擊2_攻擊半徑

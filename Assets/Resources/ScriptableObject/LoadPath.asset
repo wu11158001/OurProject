@@ -20,6 +20,7 @@ MonoBehaviour:
     miniMapMatirial_Object: Matirials/MiniMap/MiniMpa_Object
     miniMapMatirial_Player: Matirials/MiniMap/MiniMap_Player
     miniMapMatirial_OtherPlayer: Matirials/MiniMap/MiniMap_OtherPlayer
+    miniMapMatirial_TaskObject: Matirials/MiniMap/MiniMapMatirial_TaskObject
     miniMapMatirial_Enemy: Matirials/MiniMap/MiniMap_Enemy
     miniMapPoint: Prefab/UI/MiniMapPoint
     Warrior: Prefab/Characters/Player/1_Warrior
@@ -47,6 +48,6 @@ MonoBehaviour:
     guardBoss: Prefab/Characters/Enemy/GuardBoss
     guardBossAttack_1: Prefab/ShootObject/GuardBoss/Attack1_GuardBoss
     enemySoldier2Attack_Arrow: Prefab/ShootObject/EnemySoldier2/Attack_Arrow
-    bossAttack1: Prefab/ShootObject/Boss/FlyAttack
+    bossAttack1: Prefab/ShootObject/Boss/Attack1
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar

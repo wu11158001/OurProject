@@ -18,8 +18,17 @@ public class BossAI : MonoBehaviourPunCallbacks
     Vector3 boxSize;
 
     [Header("攻擊")]
-    [SerializeField] float attackRadius;//攻擊半徑
+    float longAttackRadius;//攻擊半徑(遠距離)
+    float closeAttackRadius;//攻擊半徑(近距離)
     [SerializeField] GameObject target;//攻擊目標
+    float[] attackRandomTime;//攻擊亂數時間(最小,最大)
+    float attackTime;//攻擊時間(計時器)
+    int maxAttackNumber;//擁有攻擊招式
+    int attackNumber;//使用攻擊招式
+
+    [Header("攻擊待機")]
+    [SerializeField] float attackIdleTime;//攻擊待機時間(計時器)
+    float maxAttackIdleTime;//最大攻擊待機時間    
 
     [Header("追擊")]
     float chaseSpeed;//追擊速度
@@ -37,57 +46,64 @@ public class BossAI : MonoBehaviourPunCallbacks
         boxSize = GetComponent<BoxCollider>().size;
 
         //攻擊
-        attackRadius = 5;//攻擊半徑
+        longAttackRadius = 10;//攻擊半徑(遠距離)
+        attackRandomTime = new float[] { 0.5f, 3.0f};//攻擊亂數時間(最小,最大)
+        maxAttackNumber = 1;//擁有攻擊招式
+
+        //攻擊待機
+        maxAttackIdleTime = 3;//最大攻擊待機時間
 
         //追擊
         chaseSpeed = 6.3f;//追擊速度
 
         fineTargetTime = 5;//尋找玩家時間
+
+        state = State.待機狀態;
     }
      
     void Update()
     {
         info = animator.GetCurrentAnimatorStateInfo(0);
-        Debug.LogError((transform.position - target.transform.position).magnitude);
-        //OnJudgeAnimation();//判斷動畫
+        
+        OnJudgeAnimation();//判斷動畫
 
-        if(state == State.待機狀態)
-        {
-            OnStartDistance();
-        }
         if(state == State.追擊狀態)
         {
             OnFindTargetTime();//尋找目標時間
-            OnRotateToTarget();//轉向至目標
+            OnRotateToTarget(0.03f);//轉向至目標
             OnChaseTarget();//追擊目標
+        }
+
+        if(state == State.攻擊狀態)
+        {
+            OnAttaclIdleTime();//攻擊待機時間
         }
     }
 
+    
     public enum State
     {
         待機狀態,
         追擊狀態,
         攻擊狀態
     }
-    State state;
+    [Header("狀態")]
+    public State state;
 
     /// <summary>
-    /// 開始戰鬥範圍
+    /// 激活行動
     /// </summary>
-    void OnStartDistance()
+    public void OnActive()
     {
-        if (Physics.CheckSphere(transform.position, 19, 1 << LayerMask.NameToLayer("Player")))
-        {
-            state = State.追擊狀態;
-            allPlayer = GameObject.FindGameObjectsWithTag("Player");
+        state = State.追擊狀態;
+        allPlayer = GameObject.FindGameObjectsWithTag("Player");
 
-            for (int i = 0; i < allPlayer.Length; i++)
-            {
-                playersDamage.Add(allPlayer[i], 0);
-            }
-            
-            OnChangeAnimation(animationName: "Roar", animationType: true);
+        for (int i = 0; i < allPlayer.Length; i++)
+        {
+            playersDamage.Add(allPlayer[i], 0);
         }
+
+        OnChangeAnimation(animationName: "Roar", animationType: true);
     } 
 
     /// <summary>
@@ -130,12 +146,13 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// <summary>
     /// 轉向至目標
     /// </summary>
-    void OnRotateToTarget()
+    /// <param name="speed">轉向速度</param>
+    void OnRotateToTarget(float speed)
     {
         if (target != null || target.activeSelf)
-        {
+        {            
             //轉向目標
-            transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, 0.03f, 0.03f);
+            transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, speed, speed);
             transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
         }
     }
@@ -146,9 +163,87 @@ public class BossAI : MonoBehaviourPunCallbacks
     void OnChaseTarget()
     {
         //小大於攻擊範圍
-        if((transform.position - target.transform.position).magnitude > attackRadius && info.IsTag("Run"))
+        if ((transform.position - target.transform.position).magnitude > longAttackRadius)
         {
-            transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
+            if (info.IsTag("Run"))
+            {
+                transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
+            }
+        }
+        else
+        {
+            //追擊後第一次攻擊
+            if (state != State.攻擊狀態)
+            {
+                state = State.攻擊狀態;
+
+                attackNumber = 1;//UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用攻擊招式
+                OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
+                OnChangeAnimation(animationName: "Run", animationType: false);
+
+                OnChangeAnimation(animationName: "TurnLeft", animationType: false);
+                OnChangeAnimation(animationName: "TurnRight", animationType: false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 攻擊待機時間
+    /// </summary>
+    void OnAttaclIdleTime()
+    {
+        if(attackIdleTime > 0 && !info.IsTag("Attack"))
+        {
+            attackIdleTime -= Time.deltaTime;
+
+          
+            if (attackIdleTime <= 0)
+            {
+                float dir = Vector3.Dot(transform.forward, Vector3.Cross(Vector3.up, target.transform.position - transform.position));
+                if (dir < 0)
+                {
+                    if (!info.IsTag("Turn_Right")) OnChangeAnimation(animationName: "TurnRight", animationType: true);
+                }
+                else
+                {                    
+                    if (!info.IsTag("Turn_Lift")) OnChangeAnimation(animationName: "TurnLeft", animationType: true);
+                }                     
+            }
+        }
+
+        if(attackIdleTime <= 0)
+        {
+            if(info.IsTag("Turn_Lift") || info.IsTag("Turn_Right")) OnRotateToTarget(0.02f);//轉向至目標
+            
+            float dir = Vector3.Dot(transform.forward, Vector3.Cross(Vector3.up, target.transform.position - transform.position));
+            
+            //已轉向至目標
+            if (dir > -1 && dir < 1)
+            {
+                //大於攻擊範圍
+                if ((transform.position - target.transform.position).magnitude > longAttackRadius)
+                {
+                    if (!info.IsTag("Run"))
+                    {                        
+                        state = State.追擊狀態;
+                        OnChangeAnimation(animationName: "Run", animationType: true);
+                    }
+                }
+                else
+                {
+                    if (state != State.攻擊狀態) state = State.攻擊狀態;
+
+                    if (!info.IsTag("Attack"))
+                    {
+                        attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用攻擊招式
+                        OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
+                        OnChangeAnimation(animationName: "Run", animationType: false);
+                        OnChangeAnimation(animationName: "TurnLeft", animationType: false);
+                        OnChangeAnimation(animationName: "TurnRight", animationType: false);
+                        OnChangeAnimation(animationName: "Pain", animationType: false);
+                    }
+                }
+            }
         }
     }
 
@@ -157,9 +252,35 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnJudgeAnimation()
     {
+        //咆嘯完畢
         if(info.IsTag("Roar") && info.normalizedTime >= 1)
         {
+            OnChangeAnimation(animationName: "Roar", animationType: false);
+            OnChangeAnimation(animationName: "Run", animationType: true);
+        }     
+        
+       /* //攻擊1(飛 噴火)
+        if(info.IsName("Attack1") && info.normalizedTime < 0.95f)
+        {            
+            transform.position = transform.position + Vector3.up * 11 * Time.deltaTime;
+        } */              
 
+        //攻擊完成
+        if(info.IsTag("Attack") && info.normalizedTime >= 1)
+        {
+            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
+
+            attackIdleTime = UnityEngine.Random.Range(1, maxAttackIdleTime);//攻擊待機時間(計時器)
+        }
+
+        //待機狀態
+        if(info.IsTag("Idle") && state != State.待機狀態)
+        {
+            if (target != null && target.activeSelf)
+            {
+                
+                //OnRotateToTarget();//轉向至目標
+            }
         }
     }
 
@@ -191,7 +312,7 @@ public class BossAI : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 5);
+       /* Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 18);*/
     }
 }

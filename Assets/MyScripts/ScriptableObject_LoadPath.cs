@@ -120,7 +120,7 @@ public class GameData_LoadPath
         enemySoldier2Attack_Arrow = "Prefab/ShootObject/EnemySoldier2/Attack_Arrow";//弓箭
 
         //Boss物件
-        bossAttack1 = "Prefab/ShootObject/Boss/FlyAttack";//Boss攻擊1物件(飛行攻擊)
+        bossAttack1 = "Prefab/ShootObject/Boss/Attack1";//Boss攻擊1物件(飛行攻擊)
 
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字

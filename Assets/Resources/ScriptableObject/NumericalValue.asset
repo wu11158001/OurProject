@@ -294,15 +294,15 @@ MonoBehaviour:
     guardBoss_Attack_4_ForwardDistance: 1.4
     guardBoss_Attack_4_attackRadius: 1.3
     guardBoss_Attack_4_IsAttackBehind: 0
-    bossAttack1_Damge: 70
+    bossAttack1_Damge: 35
     bossAttack1_RepelDirection: 0
-    bossAttack1_RepelDistance: 50
+    bossAttack1_RepelDistance: 0
     bossAttack1_Effect: Pain
-    bossAttack1_FloatSpeed: 0
-    bossAttack1_LifeTime: 1
+    bossAttack1_FloatSpeed: 15
+    bossAttack1_LifeTime: 0.5
     bossAttack2_Damge: 35
     bossAttack2_RepelDirection: 0
-    bossAttack2_RepelDistance: 50
+    bossAttack2_RepelDistance: 0
     bossAttack2_Effect: Pain
     bossAttack2_ForwardDistance: 5
     bossAttack2_attackRadius: 3

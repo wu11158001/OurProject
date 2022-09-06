@@ -568,25 +568,24 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// 發送創建Boss訊息
+    /// 發送創建Boss激活
     /// </summary>
-    public void OnSendCreateBoss()
+    public void OnSendBossActive()
     {
-        photonView.RPC("OnCreateBoss", RpcTarget.Others);
+        photonView.RPC("OnBossActive", RpcTarget.Others);
     }
 
     /// <summary>
     /// 創建Boss
     /// </summary>
     [PunRPC]
-    void OnCreateBoss()
+    void OnBossActive()
     {
         GameSceneManagement.Instance.isCreateBoss = true;
-
         //是房主
         if (PhotonNetwork.IsMasterClient)
         {
-            GameSceneManagement.Instance.OnCreateBoss();
+            GameObject.FindObjectOfType<BossAI>().OnActive();
         }        
     }
     #endregion
