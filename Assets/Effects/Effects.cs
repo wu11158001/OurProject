@@ -108,6 +108,7 @@ public class Effects : MonoBehaviour
         if (anim.runtimeAnimatorController.name == "3_Archer")   //不一致，若判定出問題來這裡確認
         {
             ArcSkillAttack1();
+            ArcSkillAttack3();
         }
     }
 
@@ -214,6 +215,22 @@ public class Effects : MonoBehaviour
         return ArcSa1Pool();
     }
 
+    void ArcSkillAttack3()
+    {
+        var idelName = "Attack.SkillAttack_3";
+        var effect = SkillAttack_3;
+        if (animInfo.IsName(idelName) && !effect.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying) 
+                                          effect.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.5 
+                                      && animInfo.normalizedTime <= 0.55
+                                      && !effect.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
+                                          effect.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+    }
+
+
+
+
+    #region 法師
 
     void MagNormalAttack1()
     {
@@ -379,6 +396,7 @@ public class Effects : MonoBehaviour
         if (animInfo.IsName(idelName) && animInfo.normalizedTime >= 0.1 && animInfo.IsName(idelName) && animInfo.normalizedTime <= 0.15) lensDistortion = true;
     }
 
+    #endregion
 
     #region 戰士
 
