@@ -105,7 +105,7 @@ public class Effects : MonoBehaviour
             MagSkillAttack3();
             MagEffectsControl();   //魔法陣
         }
-        if (anim.runtimeAnimatorController.name == "Archer")   //不一致，若判定出問題來這裡確認
+        if (anim.runtimeAnimatorController.name == "3_Archer")   //不一致，若判定出問題來這裡確認
         {
             ArcSkillAttack1();
         }
