@@ -427,7 +427,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             }
 
             //設定連擊數
-            if (gameObject.layer == LayerMask.NameToLayer("Enemy") && attacker.GetComponent<PlayerControl>()) GameSceneUI.Instance.OnSetComboNumber();
+            if ((gameObject.layer == LayerMask.NameToLayer("Enemy")|| gameObject.layer == LayerMask.NameToLayer("Boss")) && attacker.GetComponent<PlayerControl>()) GameSceneUI.Instance.OnSetComboNumber();
 
 
             //不是連線 || 房主
@@ -493,7 +493,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (Hp <= 0)
             {
                 //設定擊殺數
-                if (gameObject.layer == LayerMask.NameToLayer("Enemy") && layer == "Player") GameSceneUI.Instance.OnSetKillNumber();
+                if ((gameObject.layer == LayerMask.NameToLayer("Enemy") || gameObject.layer == LayerMask.NameToLayer("Boss")) && layer == "Player") GameSceneUI.Instance.OnSetKillNumber();
 
                 isDie = true;
                 animator.SetTrigger("Die");
@@ -506,17 +506,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 {
                     if (GameSceneManagement.Instance.taskStage == 1)//第2階段
                     {
-                        GameSceneManagement.Instance.OnTaskText();//任務文字
-
-                        //連線
-                        if (GameDataManagement.Instance.isConnect)
-                        {
-                            PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
-                        }
-
                         GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字
-                        GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條                        
                     }
+
+                    GameSceneManagement.Instance.OnTaskText();//任務文字
+
+                    //連線
+                    if (GameDataManagement.Instance.isConnect)
+                    {
+                        PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
+                    }
+                    
+                    GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條        
                 }
 
                 //非連線 && 玩家死亡

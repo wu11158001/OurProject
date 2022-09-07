@@ -12584,7 +12584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTaskObject: 1
-  enemyName: "\u771F\u7D05\u773C\u9ED1\u9F8D"
+  enemyName: "\u706B\u9F8D"
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
   heightFromGround: 0
