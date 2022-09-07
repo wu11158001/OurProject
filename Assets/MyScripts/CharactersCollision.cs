@@ -381,10 +381,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
             if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)            
             if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled)
-            {
-                Debug.LogError(PhotonNetwork.NickName);
-                GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)                       
-                PhotonConnect.Instance.OnSendOtherPlayerLifeBar(PhotonNetwork.NickName, Hp / MaxHp);
+            {                
+                GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
+                if(GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendOtherPlayerLifeBar(PhotonNetwork.NickName, Hp / MaxHp);
             }
 
             //累積傷害
