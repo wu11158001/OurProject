@@ -495,7 +495,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         GameObject AIObject = null;
         AIObject = OnRequestOpenObject(OnGetObjectNumber(soldierName), soldierPath);//開啟物件
         //AIObject.transform.position = createPoint.position + createPoint.forward * (10 + (number * 2f));//設定位置
-        AIObject.transform.position = (createPoint.position + createPoint.forward * 10) + (createPoint.right * (number * 1.5f));//設定位置
+        //AIObject.transform.position = (createPoint.position + createPoint.forward * 10) + (createPoint.right * (number * 1.5f));//設定位置
+        AIObject.transform.position = (createPoint.position + Vector3.up * 1) + (createPoint.right * (number * 1.5f));//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = objTag;//設定Tag
         AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer         
