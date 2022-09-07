@@ -14,7 +14,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Image enemyLifeBarFront_Image;//生命條(前)
     Text enemyLifeBarName_Text;//敵人名稱
 
-    [Header("玩家生命條")]        
+    [Header("玩家生命條")]
+    Sprite[] allPlayerHeadStickers;//所有玩家頭像
+    Image headStickers_Image;//玩家頭像
     Image playerLifeBarFront_Image;//生命條(前)
     Image playerLifeBarMid_Image;//生命條(中)
     float playerHpProportion;
@@ -98,6 +100,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         enemyLifeBar.gameObject.SetActive(false);
 
         //玩家生命條
+        allPlayerHeadStickers = Resources.LoadAll<Sprite>("Sprites/PlayerHeadStickers");//所有玩家頭像
+        headStickers_Image = ExtensionMethods.FindAnyChild<Image>(transform, "HeadStickers_Image");//玩家頭像
+        headStickers_Image.sprite = allPlayerHeadStickers[GameDataManagement.Instance.selectRoleNumber];
         playerHpProportion = 1;
         playerLifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerLifeBarFront_Image");//生命條(前)
         playerLifeBarFront_Image.fillAmount = playerHpProportion;

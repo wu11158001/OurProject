@@ -61,7 +61,7 @@ public class GameData_LoadPath
     [Header("Boss物件")]
     public string bossAttack1;//Boss攻擊1物件(飛行攻擊)
 
-    [Header("其他")]
+    [Header("其他")]    
     public string hitNumber;//擊中文字
     public string lifeBar;//生命條
 
