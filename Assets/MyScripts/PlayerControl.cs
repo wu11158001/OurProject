@@ -15,6 +15,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     CharactersCollision charactersCollision;
     GameData_NumericalValue NumericalValue;
 
+    GameObject miniMap_Camera;
+
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
@@ -79,8 +81,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         CameraControl.SetLookPoint = ExtensionMethods.FindAnyChild<Transform>(transform, "CameraLookPoint");
 
         //小地圖攝影機
-        GameObject miniMap_Camera = GameObject.Find("MiniMap_Camera");
-        miniMap_Camera.transform.SetParent(transform);
+        miniMap_Camera = GameObject.Find("MiniMap_Camera");
+        //miniMap_Camera.transform.SetParent(transform);
         miniMap_Camera.transform.localPosition = new Vector3(0, 55, 0);
 
         //碰撞框
@@ -169,7 +171,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         OnJumpHehavior();
         OnInput();
-
+        OnMiniMap();
         if (isJumpAttackMove) OnJumpAttackMove();
 
         /* if (Input.GetKeyDown(KeyCode.P))        
@@ -183,6 +185,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
              }
 
          }*/
+    }
+
+    /// <summary>
+    /// 小地圖
+    /// </summary>
+    void OnMiniMap()
+    {
+        miniMap_Camera.transform.position = new Vector3(transform.position.x, miniMap_Camera.transform.position.y, transform.position.z);
     }
 
     /// <summary>

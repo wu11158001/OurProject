@@ -41,33 +41,33 @@ MonoBehaviour:
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
-    strongholdHp: 200
+    strongholdHp: 700
     allianceSoldier1_Hp: 40
     boss_Hp: 10
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
-    guardBoss_Hp: 300
+    guardBoss_Hp: 600
     warriorNormalAttack_1_Damge: 30
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 37
     warriorNormalAttack_1_Effect: Pain
     warriorNormalAttack_1_ForwardDistance: 1.3
-    warriorNormalAttack_1_attackRadius: 1.2
+    warriorNormalAttack_1_attackRadius: 1.4
     warriorNormalAttack_1_IsAttackBehind: 0
     warriorNormalAttack_2_Damge: 33
     warriorNormalAttack_2_RepelDirection: 0
     warriorNormalAttack_2_RepelDistance: 37
     warriorNormalAttack_2_Effect: Pain
     warriorNormalAttack_2_ForwardDistance: 1.3
-    warriorNormalAttack_2_attackRadius: 1.2
+    warriorNormalAttack_2_attackRadius: 1.4
     warriorNormalAttack_2_IsAttackBehind: 0
     warriorNormalAttack_3_Damge: 36
     warriorNormalAttack_3_RepelDirection: 0
     warriorNormalAttack_3_RepelDistance: 45
     warriorNormalAttack_3_Effect: Pain
     warriorNormalAttack_3_ForwardDistance: 0
-    warriorNormalAttack_3_attackRadius: 3
+    warriorNormalAttack_3_attackRadius: 3.3
     warriorNormalAttack_3_IsAttackBehind: 1
     warriorJumpAttack_Damage: 37
     warriorJumpAttack_RepelDirection: 0
@@ -88,7 +88,7 @@ MonoBehaviour:
     warriorSkillAttack_2_RepelDistance: 45
     warriorSkillAttack_2_Effect: Pain
     warriorSkillAttack_2_ForwardDistance: 1.3
-    warriorSkillAttack_2_attackRadius: 1.4
+    warriorSkillAttack_2_attackRadius: 1.45
     warriorSkillAttack_2_IsAttackBehind: 0
     warriorSkillAttack_3_Damge:
     - 16
@@ -108,8 +108,8 @@ MonoBehaviour:
     - 0.7
     - 0
     warriorSkillAttack_3_attackRadius:
-    - 1.4
-    - 1.4
+    - 1.45
+    - 1.45
     - 4.5
     warriorSkillAttack_3_IsAttackBehind: 000001
     archerNormalAttack_Damge:
@@ -133,27 +133,27 @@ MonoBehaviour:
     - 0.6
     - 0.6
     - 0.6
-    archerJumpAttack_Damage: 11
+    archerJumpAttack_Damage: 36
     archerJumpAttack_RepelDirection: 0
     archerJumpAttack_RepelDistance: 25
     archerJumpAttack_Effect: Pain
     archerJumpAttack_ForwardDistance: 0
-    archerJumpAttack_attackRadius: 1.3
+    archerJumpAttack_attackRadius: 1.4
     archerJumpAttack_IsAttackBehind: 0
-    archerSkillAttack_1_Damage: 11
+    archerSkillAttack_1_Damage: 12
     archerSkillAttack_1_RepelDirection: 5
     archerSkillAttack_1_Repel: 13
     archerSkillAttack_1_Effect: Pain
     archerSkillAttack_1_FlightSpeed: 30
     archerSkillAttack_1_LifeTime: 0.4
-    archerSkillAttack_2_Damge: 11
+    archerSkillAttack_2_Damge: 35
     archerSkillAttack_2_RepelDirection: 0
     archerSkillAttack_2_RepelDistance: 30
     archerSkillAttack_2_Effect: Pain
     archerSkillAttack_2_ForwardDistance: 1.3
-    archerSkillAttack_2_attackRadius: 1.2
+    archerSkillAttack_2_attackRadius: 1.4
     archerSkillAttack_2_IsAttackBehind: 0
-    archerSkillAttack_3_Damge: 5
+    archerSkillAttack_3_Damge: 13
     archerSkillAttack_3_RepelDirection: 1
     archerSkillAttack_3_RepelDistance: 0
     archerSkillAttack_3_Effect: Pain
@@ -187,7 +187,7 @@ MonoBehaviour:
     magicianJumpAttack_ForwardDistance: 0
     magicianJumpAttack_attackRadius: 1.3
     magicianJumpAttack_IsAttackBehind: 1
-    magicianSkillAttack_1_HealValue: 10
+    magicianSkillAttack_1_HealValue: 4
     magicianSkillAttack_1_ForwardDistance: 0
     magicianSkillAttack_1_attackRange: 5
     magicianSkillAttack_1_IsAttackBehind: 1

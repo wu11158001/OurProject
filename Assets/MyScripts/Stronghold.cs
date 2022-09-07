@@ -53,7 +53,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
         hp = maxHp;
 
         //產生士兵時間
-        createSoldierTime = 15;//產生士兵時間
+        createSoldierTime = 10;//產生士兵時間
         //createTime = createSoldierTime;//產生士兵時間(計時器)
     }
 
@@ -66,23 +66,14 @@ public class Stronghold : MonoBehaviourPunCallbacks
             {
                 createTime -= Time.deltaTime;//產生士兵時間(計時器)
 
-                if (gameObject.tag == "Enemy" && stage == GameSceneManagement.Instance.taskStage)
+                if (stage <= GameSceneManagement.Instance.taskStage)
                 {
                     if (createTime <= 0)
                     {
                         GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
                         createTime = createSoldierTime;
                     }
-                }
-
-                if (gameObject.tag == "Alliance")
-                {
-                    if (createTime <= 0)
-                    {
-                        GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
-                        createTime = createSoldierTime;
-                    }
-                }
+                }               
             }
         }
     }
@@ -93,7 +84,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
     /// <param name="attackerLayer">攻擊者layer</param>
     /// <param name="damage">受到傷害</param>
     public void OnGetHit(string attackerLayer, float damage)
-    {
+    {        
         if (gameObject.tag == "Enemy" && attackerLayer == "Player")
         {
             isGetHit = true;//是否受攻擊
@@ -112,7 +103,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
             if (hp <= 0)
             {
-                hp = 0;
+                hp = 0;                                
 
                 //任務
                 GameSceneManagement.Instance.OnTaskText();//任務文字                
@@ -129,10 +120,13 @@ public class Stronghold : MonoBehaviourPunCallbacks
                     PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
                 }
 
-                GameSceneUI.Instance.OnSetTip($"{builidName}已擊破", 5);//設定提示文字
+                if (GameSceneManagement.Instance.taskStage < GameSceneManagement.Instance.taskText.Length)
+                {
+                    GameSceneUI.Instance.OnSetTip($"{builidName}已擊破", 5);//設定提示文字
+                }
                 GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
 
-                gameObject.SetActive(false);//關閉物件                
+                gameObject.SetActive(false);//關閉物件
             }
         }
     }
@@ -145,5 +139,9 @@ public class Stronghold : MonoBehaviourPunCallbacks
     {
         hp -= damage;
         if (hp <= 0) hp = 0;
+
+        //設定生命條
+        GameSceneUI.Instance.OnSetEnemyLifeBarValue(builidName, hp / maxHp);
+        GameSceneUI.Instance.SetEnemyLifeBarActive = true;
     }
 }

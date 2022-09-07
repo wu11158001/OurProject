@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1300291449526545629}
   - component: {fileID: 2175151941894768387}
   - component: {fileID: 7162958028766846933}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: arrow3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4877,7 +4877,7 @@ GameObject:
   - component: {fileID: 4059978631469624420}
   - component: {fileID: 8319346692349687119}
   - component: {fileID: 7490213045660634153}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ArcherNormalAttack_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5026,7 +5026,7 @@ GameObject:
   - component: {fileID: 4802421111207058974}
   - component: {fileID: 4617590968266542132}
   - component: {fileID: 4641355273371611028}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: arrowEmbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9716,7 +9716,7 @@ GameObject:
   - component: {fileID: 4080434786016208506}
   - component: {fileID: 1661744527051618296}
   - component: {fileID: 7975371878447569582}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: arrow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14521,7 +14521,7 @@ GameObject:
   - component: {fileID: 4015552194340355838}
   - component: {fileID: 515041546321834203}
   - component: {fileID: 6490335226249387442}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

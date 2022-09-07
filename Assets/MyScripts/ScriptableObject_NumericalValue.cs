@@ -393,7 +393,7 @@ public class GameData_NumericalValue
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         //據點
-        strongholdHp = 200;//據點HP
+        strongholdHp = 700;//據點HP
 
         //同盟士兵HP
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
@@ -403,7 +403,7 @@ public class GameData_NumericalValue
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值
-        guardBoss_Hp = 300;//城門守衛Boss_生命值
+        guardBoss_Hp = 600;//城門守衛Boss_生命值
 
         #region 戰士
         //戰士 普通攻擊1
@@ -412,7 +412,7 @@ public class GameData_NumericalValue
         warriorNormalAttack_1_RepelDistance = 37;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_1_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_1_ForwardDistance = 1.3f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
-        warriorNormalAttack_1_attackRadius = 1.2f;//戰士普通攻擊1_攻擊半徑    
+        warriorNormalAttack_1_attackRadius = 1.4f;//戰士普通攻擊1_攻擊半徑    
         warriorNormalAttack_1_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 普通攻擊2
@@ -421,7 +421,7 @@ public class GameData_NumericalValue
         warriorNormalAttack_2_RepelDistance = 37;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_2_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_2_ForwardDistance = 1.3f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
-        warriorNormalAttack_2_attackRadius = 1.2f;//戰士普通攻擊1_攻擊半徑    
+        warriorNormalAttack_2_attackRadius = 1.4f;//戰士普通攻擊1_攻擊半徑    
         warriorNormalAttack_2_IsAttackBehind = false;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 普通攻擊3
@@ -430,7 +430,7 @@ public class GameData_NumericalValue
         warriorNormalAttack_3_RepelDistance = 45;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_3_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
         warriorNormalAttack_3_ForwardDistance = 0.0f;//戰士普通攻擊1_攻擊範圍中心點距離物件前方
-        warriorNormalAttack_3_attackRadius = 3.0f;//戰士普通攻擊1_攻擊半徑    
+        warriorNormalAttack_3_attackRadius = 3.3f;//戰士普通攻擊1_攻擊半徑    
         warriorNormalAttack_3_IsAttackBehind = true;//戰士普通攻擊1_是否攻擊背後敵人
 
         //戰士 跳躍攻擊
@@ -457,7 +457,7 @@ public class GameData_NumericalValue
         warriorSkillAttack_2_RepelDistance = 45;//戰士技能攻擊2_擊退/擊飛距離    
         warriorSkillAttack_2_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
         warriorSkillAttack_2_ForwardDistance = 1.3f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
-        warriorSkillAttack_2_attackRadius = 1.4f;//戰士技能攻擊2_攻擊半徑
+        warriorSkillAttack_2_attackRadius = 1.45f;//戰士技能攻擊2_攻擊半徑
         warriorSkillAttack_2_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
 
         //戰士 技能攻擊3
@@ -466,7 +466,7 @@ public class GameData_NumericalValue
         warriorSkillAttack_3_RepelDistance = new float[] { 50, 50, 90 };//戰士技能攻擊3_擊退/擊飛距離    
         warriorSkillAttack_3_Effect = new string[] { "Pain", "Pain", "Pain" };//戰士普技能攻擊3_效果(受擊者播放的動畫名稱)        
         warriorSkillAttack_3_ForwardDistance = new float[] { 0.7f, 0.7f, 0 };//戰士技能攻擊3_攻擊範圍中心點距離物件前方
-        warriorSkillAttack_3_attackRadius = new float[] { 1.4f, 1.4f, 4.5f };//戰士技能攻擊3_攻擊半徑
+        warriorSkillAttack_3_attackRadius = new float[] { 1.45f, 1.45f, 4.5f };//戰士技能攻擊3_攻擊半徑
         warriorSkillAttack_3_IsAttackBehind = new bool[] { false, false, true };//戰士技能攻擊3_是否攻擊背後敵人
         #endregion
 
@@ -480,16 +480,16 @@ public class GameData_NumericalValue
         archerNormalAttack_LifeTime = new float[] { 0.6f, 0.6f, 0.6f };//弓箭手普通攻擊生存時間
 
         //弓箭手 跳躍攻擊
-        archerJumpAttack_Damage = 11;//弓箭手跳躍攻擊傷害
+        archerJumpAttack_Damage = 36;//弓箭手跳躍攻擊傷害
         archerJumpAttack_RepelDirection = 0;//弓箭手跳躍攻擊擊退方向(0:擊退 1:擊飛)
         archerJumpAttack_RepelDistance = 25;//弓箭手跳躍攻擊 擊退距離
         archerJumpAttack_Effect = "Pain";//弓箭手跳躍攻擊效果(受擊者播放的動畫名稱)
         archerJumpAttack_ForwardDistance = 0;//弓箭手跳躍攻擊_攻擊範圍中心點距離物件前方
-        archerJumpAttack_attackRadius = 1.3f;//弓箭手跳躍攻擊_攻擊半徑
+        archerJumpAttack_attackRadius = 1.4f;//弓箭手跳躍攻擊_攻擊半徑
         archerJumpAttack_IsAttackBehind = false;//弓箭手跳躍攻擊_是否攻擊背後敵人
 
         //弓箭手 技能攻擊1
-        archerSkillAttack_1_Damage = 11;//弓箭手技能攻擊1_傷害
+        archerSkillAttack_1_Damage = 12;//弓箭手技能攻擊1_傷害
         archerSkillAttack_1_RepelDirection = 5;//弓箭手技能攻擊1_擊退方向(0:擊退 1:擊飛)
         archerSkillAttack_1_Repel = 13;//弓箭手技能攻擊1_擊退距離        
         archerSkillAttack_1_Effect = "Pain";//弓箭手技能攻擊1_效果(受擊者播放的動畫名稱)
@@ -497,16 +497,16 @@ public class GameData_NumericalValue
         archerSkillAttack_1_LifeTime = 0.4f;//弓箭手技能攻擊1_生存時間
 
         //弓箭手 技能攻擊2
-        archerSkillAttack_2_Damge = 11;//弓箭手技能攻擊2_傷害
+        archerSkillAttack_2_Damge = 35;//弓箭手技能攻擊2_傷害
         archerSkillAttack_2_RepelDirection = 0;//弓箭手技能攻擊2_擊退方向(0:擊退 1:擊飛)
         archerSkillAttack_2_RepelDistance = 30;//弓箭手技能攻擊2_擊退/擊飛距離    
         archerSkillAttack_2_Effect = "Pain";//弓箭手技能攻擊2_效果(受擊者播放的動畫名稱)        
         archerSkillAttack_2_ForwardDistance = 1.3f;//弓箭手技能攻擊2_攻擊範圍中心點距離物件前方
-        archerSkillAttack_2_attackRadius = 1.2f;//弓箭手技能攻擊2_攻擊半徑
+        archerSkillAttack_2_attackRadius = 1.4f;//弓箭手技能攻擊2_攻擊半徑
         archerSkillAttack_2_IsAttackBehind = false;//弓箭手技能攻擊2_是否攻擊背後敵人
 
         //弓箭手 技能攻擊3
-        archerSkillAttack_3_Damge = 5;//弓箭手技能攻擊3_傷害
+        archerSkillAttack_3_Damge = 13;//弓箭手技能攻擊3_傷害
         archerSkillAttack_3_RepelDirection = 1;//弓箭手技能攻擊3_擊退方向(0:擊退 1:擊飛)
         archerSkillAttack_3_RepelDistance = 0;//弓箭手技能攻擊3_擊退/擊飛距離    
         archerSkillAttack_3_Effect = "Pain";//弓箭手技能攻擊3_效果(受擊者播放的動畫名稱)        
@@ -552,7 +552,7 @@ public class GameData_NumericalValue
         magicianJumpAttack_IsAttackBehind = true;//法師跳躍攻擊_是否攻擊背後敵人
 
         //法師技能攻擊1
-        magicianSkillAttack_1_HealValue = 10;//法師普通攻擊1_治療量(%)    
+        magicianSkillAttack_1_HealValue = 4;//法師普通攻擊1_治療量(%)    
         magicianSkillAttack_1_ForwardDistance = 0;//法師普通攻擊1_治療範圍中心點距離物件前方
         magicianSkillAttack_1_attackRange = 5;//法師普通攻擊1_治療半徑
         magicianSkillAttack_1_IsAttackBehind = true;//法師普通攻擊1_是否治療背後盟友

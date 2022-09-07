@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7365363422196920724}
   - component: {fileID: 8696390240007977424}
   - component: {fileID: -4713707265298498595}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WarriorSkillAttack_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

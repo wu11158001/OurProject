@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1948374443667696615}
   - component: {fileID: 1863303968533825821}
   - component: {fileID: 1862444847093438449}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4827,7 +4827,7 @@ GameObject:
   - component: {fileID: 1951353007318227415}
   - component: {fileID: 1847692255365224071}
   - component: {fileID: 1863985134935528563}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Magic fire 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9646,7 +9646,7 @@ GameObject:
   - component: {fileID: 1948836648210524069}
   - component: {fileID: 1863107008763421231}
   - component: {fileID: 1863905184842152067}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14462,7 +14462,7 @@ GameObject:
   - component: {fileID: 1951279820465537473}
   - component: {fileID: 1863172983439161219}
   - component: {fileID: 1864043850219145529}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19282,7 +19282,7 @@ GameObject:
   - component: {fileID: -7365363422196920724}
   - component: {fileID: 8696390240007977424}
   - component: {fileID: -4713707265298498595}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MagicianNormalAttack_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19430,7 +19430,7 @@ GameObject:
   - component: {fileID: 6973320102721005841}
   - component: {fileID: 6973320102706850903}
   - component: {fileID: 6973320102706877943}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ErekiSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24243,7 +24243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6973320102721005845}
   - component: {fileID: 6973320102714570773}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24337,7 +24337,7 @@ GameObject:
   - component: {fileID: 6973320102721005847}
   - component: {fileID: 6973320102706850901}
   - component: {fileID: 6973320102706877941}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ErekiBall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

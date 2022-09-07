@@ -15,6 +15,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Text enemyLifeBarName_Text;//敵人名稱
 
     [Header("玩家生命條")]
+    Text playerNickName;//玩家暱稱
     Sprite[] allPlayerHeadStickers;//所有玩家頭像
     Image headStickers_Image;//玩家頭像
     Image playerLifeBarFront_Image;//生命條(前)
@@ -104,6 +105,12 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         enemyLifeBar.gameObject.SetActive(false);
 
         //玩家生命條
+        playerNickName = ExtensionMethods.FindAnyChild<Text>(transform, "PlayerNickName");//玩家暱稱
+        if (GameDataManagement.Instance.isConnect)
+        {
+            playerNickName.text = PhotonNetwork.NickName;
+        }
+        else playerNickName.enabled = false;
         allPlayerHeadStickers = Resources.LoadAll<Sprite>("Sprites/PlayerHeadStickers");//所有玩家頭像
         headStickers_Image = ExtensionMethods.FindAnyChild<Image>(transform, "HeadStickers_Image");//玩家頭像
         headStickers_Image.sprite = allPlayerHeadStickers[GameDataManagement.Instance.selectRoleNumber];

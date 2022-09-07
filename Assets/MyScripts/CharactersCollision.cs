@@ -303,9 +303,15 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  color: isCritical ? Color.green : Color.green,//文字顏色
                                  isCritical: isCritical);//是否爆擊
 
+            
             //連線
             if (GameDataManagement.Instance.isConnect)
             {
+                if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled)
+                {
+                    PhotonConnect.Instance.OnSendOtherPlayerLifeBar(PhotonNetwork.NickName, Hp / MaxHp);
+                }
+
                 PhotonConnect.Instance.OnSendGetHeal(photonView.ViewID, heal, isCritical);
 
                 //自己
@@ -341,6 +347,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                              damage: MaxHp * (heal / 100),//受到治療
                              color: isCritical ? Color.green : Color.green,//文字顏色
                              isCritical: isCritical);//是否爆擊
+
+        if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled)
+        {                     
+            PhotonConnect.Instance.OnSendOtherPlayerLifeBar(PhotonNetwork.NickName, Hp / MaxHp);
+        }
 
         if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
         if (gameObject.layer == LayerMask.NameToLayer("Player") && photonView.IsMine) GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
@@ -618,8 +629,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         }
 
         if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled)
-        {            
-            Debug.LogError(PhotonNetwork.NickName);
+        {                       
             GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)                       
             PhotonConnect.Instance.OnSendOtherPlayerLifeBar(PhotonNetwork.NickName, Hp / MaxHp);
         }

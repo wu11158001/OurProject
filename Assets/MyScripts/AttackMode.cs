@@ -153,6 +153,10 @@ public class AttackMode
                 if (!isAttackBehind && Vector3.Dot(performObject.transform.forward, hit.transform.position - performObject.transform.position) <= 0) continue;
                 OnSetAttackNumbericalValue(collision);
             }
+
+            //據點受擊
+            Stronghold stronghold = hit.GetComponent<Stronghold>();
+            if (stronghold != null) stronghold.OnGetHit(layer, damage);
         }
 
         GameSceneManagement.Instance.AttackMode_List.Remove(this);
@@ -210,7 +214,15 @@ public class AttackMode
             {
                 OnSetAttackNumbericalValue(collision);               
                 record.Add(hit.transform);//紀錄以擊中物件                
-            }            
+            }
+
+            //據點受擊
+            Stronghold stronghold = hit.GetComponent<Stronghold>();
+            if (stronghold != null)
+            {
+                stronghold.OnGetHit(layer, damage);
+                record.Add(hit.transform);//紀錄以擊中物件
+            }
         }
     }
 
@@ -234,6 +246,10 @@ public class AttackMode
                 GameSceneManagement.Instance.AttackMode_List.Remove(this);
                 return;
             }
+
+            //據點受擊
+            Stronghold stronghold = hit.GetComponent<Stronghold>();
+            if (stronghold != null) stronghold.OnGetHit(layer, damage);
         }
     }
 
@@ -258,6 +274,10 @@ public class AttackMode
                 OnSetAttackNumbericalValue(collision);
                 record.Add(hit.transform);//紀錄以擊中物件                
             }
+
+            //據點受擊
+            Stronghold stronghold = hit.GetComponent<Stronghold>();
+            if (stronghold != null) stronghold.OnGetHit(layer, damage);
         }
     }     
 

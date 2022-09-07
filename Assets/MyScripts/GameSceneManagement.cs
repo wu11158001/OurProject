@@ -32,7 +32,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     Transform[] allianceSoldier1_Stage4Point;//我方士兵1_階段4出生點
 
     //任務
-    string[] taskText;//各階段任務文字
+    public string[] taskText;//各階段任務文字
+    public string[] tipTaskText;//提示任務文字
     public int taskStage;//目前任務階段
     public int[] taskNeedNumber;//各階段任務所需數量
     public int taskNumber;//已完成任務數量
@@ -85,7 +86,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         {
             if (GameDataManagement.Instance.selectLevelNumber == 11)//第1關
             {
-                player.transform.position = new Vector3(300f, -24f, -29f);
+                player.transform.position = new Vector3(300f, -23.9f, -29f);
                 player.transform.rotation = Quaternion.Euler(0, -85, 0);//設定選轉
             }
             if (GameDataManagement.Instance.selectLevelNumber == 12)//第2關
@@ -102,8 +103,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                     {
-                        player.transform.position = new Vector3(317f, -23.9f, -29f + (i * 2.5f));
-                        player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
+                        player.transform.position = new Vector3(300, -23.9f, -29f + (i * 2.5f));
+                        player.transform.rotation = Quaternion.Euler(0, -85, 0);//設定選轉
                     }
                 }
             }
@@ -234,12 +235,13 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             //任務
             taskNumber = -1;//已完成任務數量
+            tipTaskText = new string[] { "擊破該區域所有據點", "擊倒城門守衛", "擊破湖中城門機關", "擊破城內所有據點" };//提示任務文字
             taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破湖中\n城門機關 :", "擊破城內\n所有據點 :" };//個階段任務文字
-                                                                                     //各階段任務所需擊殺數
+            //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 2,//階段1
                                      guardBoss_Stage2Point.Length,//階段2
                                      1,//階段3
-                                     1};//階段4
+                                     3};//階段4
 
          /*   //任務提示
             StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
@@ -270,7 +272,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         #endregion
 
         //任務提示
-        StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
+        StartCoroutine(OnTaskTipText(taskTipValue: tipTaskText[taskStage].ToString()));
 
         //任務文字
         OnTaskText();
@@ -503,14 +505,19 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     if (objTag == "Enemy")
                     {
                         //產生敵人士兵1
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 2; i++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
                         //產生敵人士兵2
-                        for (int j = 3; j < 4; j++)
+                        for (int j = 2; j < 3; j++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
+                        }
+                        //產生敵人士兵3
+                        for (int k = 3; k < 4; k++)
+                        {
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_3", loadPath.enemySoldier_3, createPoint, objTag, k, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
                     }
                     #endregion       
@@ -619,7 +626,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             else//進入下階段
             {
                 taskNumber = 0;//已完成任務數量                                
-                StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage]));//任務提示   
+                StartCoroutine(OnTaskTipText(taskTipValue: tipTaskText[taskStage]));//任務提示   
                 GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n" + taskNumber + " / " + taskNeedNumber[taskStage]);
 
                 //初始階段創建敵人
@@ -712,7 +719,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             obj.transform.localScale = new Vector3(itemBoxSize.x, itemBoxSize.z, 1);
         }
         else obj.transform.localScale = new Vector3(5, 5, 5);*/
-        obj.transform.localScale = new Vector3(5, 5, 5);
+        obj.transform.localScale = new Vector3(8, 8, 8);
 
 
         //選轉
