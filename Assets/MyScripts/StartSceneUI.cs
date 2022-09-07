@@ -843,6 +843,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
             if(i == number)
             {
                 // roomPlayerList[i].GetComponent<Image>().sprite = roleSelect_Sprite[characters];
+                GameDataManagement.Instance.allCinnectPlayerSelectRole[i] = characters;//所有連線玩家所選角色
                 roomPlayerList[i].GetComponent<RawImage>().texture = roleSelect_Sprite[characters];
                 roomPlayerList[i].sizeDelta = new Vector2(2000, 2000);
                 continue;

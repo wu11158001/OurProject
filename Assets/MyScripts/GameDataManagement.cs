@@ -27,6 +27,7 @@ public class GameDataManagement : MonoBehaviour
     public int selectRoleNumber;//選擇的腳色編號
     public int selectLevelNumber;//選擇的關卡編號
     public int[] equipBuff;//裝備的Buff
+    public int[] allCinnectPlayerSelectRole = new int[] { 0, 0, 0, 0};//所有連線玩家所選角色
 
     void Awake()
     {

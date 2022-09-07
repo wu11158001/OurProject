@@ -80,6 +80,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Image player2LifeBarFront_Image;//玩家2血條
     Image player3LifeBarFront_Image;//玩家3血條
     Image[] allPlayerLifeBar;//所有玩家血條
+    Image player1Head_Image;//玩家1頭像
+    Image player2Head_Image;//玩家2頭像
+    Image player3Head_Image;//玩家3頭像
+    Image[] allPlayer3Head_Image;//所有玩家頭像
 
     void Awake()
     {
@@ -201,21 +205,35 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             player2LifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player2LifeBarFront_Image");//玩家2血條
             player3LifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player3LifeBarFront_Image");//玩家3血條
             allPlayerLifeBar = new Image[] { player1LifeBarFront_Image, player2LifeBarFront_Image, player3LifeBarFront_Image };
+            player1Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player1Head_Image");//玩家1頭像
+            player2Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player2Head_Image");//玩家2頭像
+            player3Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player3Head_Image");//玩家3頭像
+            allPlayer3Head_Image = new Image[] { player1Head_Image, player2Head_Image, player3Head_Image };//所有玩家頭像
             bool isTouchSelf = false;
             for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; i++)
             {
                 allPlayerLifeBar[i].fillAmount = 1;
+                
 
                 if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                 {
                     isTouchSelf = true;
                     allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
+                    allPlayer3Head_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allCinnectPlayerSelectRole[i + 1]];
                     continue;
                 }
 
-                if (isTouchSelf) allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
-                else allPlayerNickName[i].text = PhotonNetwork.PlayerList[i].NickName;                
-            }            
+                if (isTouchSelf)
+                {
+                    allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
+                    allPlayer3Head_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allCinnectPlayerSelectRole[i + 1]];
+                }
+                else
+                {
+                    allPlayerNickName[i].text = PhotonNetwork.PlayerList[i].NickName;
+                    allPlayer3Head_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allCinnectPlayerSelectRole[i]];
+                }
+            }           
         }
 
     }
