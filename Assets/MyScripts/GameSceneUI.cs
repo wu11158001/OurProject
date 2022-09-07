@@ -74,6 +74,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Text player1Name_Text;//玩家1暱稱
     Text player2Name_Text;//玩家2暱稱
     Text player3Name_Text;//玩家3暱稱
+    Image player1LifeBarFront_Image;//玩家1血條
+    Image player2LifeBarFront_Image;//玩家2血條
+    Image player3LifeBarFront_Image;//玩家3血條
+    Image[] allPlayerLifeBar;//所有玩家血條
 
     void Awake()
     {
@@ -188,9 +192,15 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             player2Name_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player2Name_Text");//玩家3暱稱
             player3Name_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player3Name_Text");//玩家3暱稱
             Text[] allPlayerNickName = new Text[] { player1Name_Text, player2Name_Text, player3Name_Text };
+            player1LifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player1LifeBarFront_Image");//玩家1血條
+            player2LifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player2LifeBarFront_Image");//玩家2血條
+            player3LifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player3LifeBarFront_Image");//玩家3血條
+            allPlayerLifeBar = new Image[] { player1LifeBarFront_Image, player2LifeBarFront_Image, player3LifeBarFront_Image };
             bool isTouchSelf = false;
             for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; i++)
             {
+                allPlayerLifeBar[i].fillAmount = 1;
+
                 if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                 {
                     isTouchSelf = true;
@@ -199,8 +209,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
                 }
 
                 if (isTouchSelf) allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
-                else allPlayerNickName[i].text = PhotonNetwork.PlayerList[i].NickName;
-            }
+                else allPlayerNickName[i].text = PhotonNetwork.PlayerList[i].NickName;                
+            }            
         }
 
     }
@@ -212,6 +222,29 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         OnTipText();//提示文字
         OnComboLifeTime();//連擊數生存時間
         OnPlayGameTime();//遊戲時間
+    }
+
+    /// <summary>
+    /// 設定其他玩家生命條
+    /// </summary>
+    /// <param name="nickName">玩家暱稱</param>
+    /// <param name="hpProportion">生命比例</param>
+    public void OnSetOtherPlayerLifeBar(string nickName, float hpProportion)
+    {        
+        int number = 0;
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        {
+            if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
+            {                
+                continue;
+            }
+            if (PhotonNetwork.PlayerList[i].NickName == nickName)
+            {
+                allPlayerLifeBar[number].fillAmount = hpProportion;
+                return;
+            }
+            number++;
+        }
     }
 
     /// <summary>

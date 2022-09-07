@@ -588,5 +588,26 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
             GameObject.FindObjectOfType<BossAI>().OnActive();
         }        
     }
+
+    /// <summary>
+    /// 發送其他玩家生命條
+    /// </summary>
+    /// <param name="nickName">玩家暱稱</param>
+    /// <param name="hpProportion">生命比例</param>
+    public void OnSendOtherPlayerLifeBar(string nickName, float hpProportion)
+    {
+        photonView.RPC("OnOtherPlayerLifeBare", RpcTarget.Others, nickName, hpProportion);
+    }
+
+    /// <summary>
+    /// 其他玩家生命條
+    /// </summary>
+    /// <param name="nickName">玩家暱稱</param>
+    /// <param name="hpProportion">生命比例</param>
+    [PunRPC]
+    void OnOtherPlayerLifeBare(string nickName, float hpProportion)
+    {
+        GameSceneUI.Instance.OnSetOtherPlayerLifeBar(nickName, hpProportion);
+    }
     #endregion
 }
