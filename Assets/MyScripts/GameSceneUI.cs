@@ -296,22 +296,22 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
 
         //結果文字
-        if (clearance) gameOverResult_Text.text = "勝利總結";
-        else gameOverResult_Text.text = "失敗總結";
+        if (clearance) gameOverResult_Text.text = " 勝 利 總 結 ";
+        else gameOverResult_Text.text = " 失 敗 總 結 ";
 
         //遊戲時間
         int minute = (int)playerGameTime / 60;
         int second = (int)playerGameTime % 60;
-        playGameTime_Text.text = $"遊戲時間: {minute}分{second}秒";
+        playGameTime_Text.text = $"遊戲時間 : {minute}分{second}秒";
 
         //最大擊殺數
-        maxKillNumber_Text.text = $"最大擊殺數: {killNumber}";
+        maxKillNumber_Text.text = $"最大擊殺數 : {killNumber}";
 
         //最大連擊數
-        maxCombolNumber_Text.text = $"最大連擊數: {MaxCombo}";
+        maxCombolNumber_Text.text = $"最大連擊數 : {MaxCombo}";
 
         //累積傷害
-        accumulationDamageNumber_Text.text = $"累積傷害: {((int)accumulationDamage).ToString()}";
+        accumulationDamageNumber_Text.text = $"累積傷害 : {((int)accumulationDamage).ToString()}";
     }
 
     /// <summary>
@@ -368,7 +368,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetKillNumber()
     {
         killNumber++;//擊殺數
-        killNumber_Text.text = "擊殺數: " + killNumber;
+        killNumber_Text.text = "擊殺數 : " + killNumber;
     }
 
     /// <summary>
@@ -441,9 +441,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.IsMasterClient)
             {               
-                PhotonConnect.Instance.OnSendGameTip("室長: " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束...》");
+                PhotonConnect.Instance.OnSendGameTip("室長 : " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束...》");
             }
-            else PhotonConnect.Instance.OnSendGameTip("玩家: " + PhotonNetwork.NickName + " 離開遊戲");
+            else PhotonConnect.Instance.OnSendGameTip("玩家 : " + PhotonNetwork.NickName + " 離開遊戲");
         }
         
         StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));        
