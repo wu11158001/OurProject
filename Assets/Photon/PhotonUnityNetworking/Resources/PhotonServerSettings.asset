@@ -68,6 +68,7 @@ MonoBehaviour:
   - OnCreateBoss
   - OnBossActive
   - OnOtherPlayerLifeBare
+  - OnGameScoring
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

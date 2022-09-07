@@ -54,9 +54,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
     [Header("分數")]
     Text killNumber_Text;//擊殺數文字
-    int killNumber;//擊殺數
+    public int killNumber;//擊殺數
     Text comboNumber_Text;//連擊數文字
-    int comboNumber;//連擊數
+    public int comboNumber;//連擊數
     float comboLifeTime;//連擊數文字時間
     Image comboBackground_Image;//連擊數文字背景
 
@@ -65,7 +65,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Text maxKillNumber_Text;//最大擊殺數文字
     Text maxCombolNumber_Text;//最大連擊數文字
     Text accumulationDamageNumber_Text;//累積傷害
-    int MaxCombo;//最大連擊數
+    public int MaxCombo;//最大連擊數
     float playerGameTime;//遊戲時間
     public float accumulationDamage;//累積傷害
 
@@ -84,7 +84,39 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Image player1Head_Image;//玩家1頭像
     Image player2Head_Image;//玩家2頭像
     Image player3Head_Image;//玩家3頭像
-    Image[] allPlayer3Head_Image;//所有玩家頭像
+    Image[] allPlayerHead_Image;//所有玩家頭像
+
+    [Header("連線記分板")]
+    Transform connectGameOver;//ConnectGameOver UI控制
+    Transform player1_Over;//Player1_Over UI控制
+    Transform player2_Over;//Player2_Over UI控制
+    Transform player3_Over;//Player3_Over UI控制
+    Transform player4_Over;//Player4_Over UI控制
+    Image player1_OverHead;//Player1頭像
+    Image player2_OverHead;//Player2頭像
+    Image player3_OverHead;//Player3頭像
+    Image player4_OverHead;//Player4頭像
+    Image[] allPlayer1_OverHead;
+    Text player1_OverNickName;//Player1暱稱
+    Text player2_OverNickName;//Player2暱稱
+    Text player3_OverNickName;//Player3暱稱
+    Text player4_OverNickName;//Player4暱稱
+    Text[] allPlayer4_OverNickName;
+    Text player1_MaxKillNumber_Text;//Player1擊殺數
+    Text player2_MaxKillNumber_Text;//Player2擊殺數
+    Text player3_MaxKillNumber_Text;//Player3擊殺數
+    Text player4_MaxKillNumber_Text;//Player4擊殺數
+    Text[] allPlayer_MaxKillNumber_Text;
+    Text player1_MaxCombolNumber_Text;//Player1最大連擊數
+    Text player2_MaxCombolNumber_Text;//Player2最大連擊數
+    Text player3_MaxCombolNumber_Text;//Player3最大連擊數
+    Text player4_MaxCombolNumber_Text;//Player4最大連擊數
+    Text[] allPlayer4_MaxCombolNumber_Text;
+    Text player1_AccumulationDamageNumber_Text;//Player1累積傷害
+    Text player2_AccumulationDamageNumber_Text;//Player2累積傷害
+    Text player3_AccumulationDamageNumber_Text;//Player3累積傷害
+    Text player4_AccumulationDamageNumber_Text;//Player4累積傷害
+    Text[] allPlayer_AccumulationDamageNumber_Text;
 
     void Awake()
     {
@@ -188,6 +220,47 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         maxCombolNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "MaxCombolNumber_Text");//最大連擊數文字
         accumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "AccumulationDamageNumber_Text");//累積傷害文字
 
+        //連線記分板
+        connectGameOver = ExtensionMethods.FindAnyChild<Transform>(transform, "ConnectGameOver");//ConnectGameOver UI控制
+        connectGameOver.gameObject.SetActive(false);
+        player1_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player1_Over");//Player1_Over UI控制
+        player2_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player2_Over");//Player2_Over UI控制
+        player3_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player3_Over");//Player3_Over UI控制
+        player4_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player4_Over");//Player4_Over UI控制
+        Transform[] allPlayerOver = new Transform[] { player1_Over, player2_Over, player3_Over, player4_Over };
+        if (GameDataManagement.Instance.isConnect)
+        {
+            for (int i = PhotonNetwork.CurrentRoom.PlayerCount; i < allPlayerOver.Length; i++)
+            {
+                allPlayerOver[i].gameObject.SetActive(false);
+            }
+        }
+        player1_OverHead = ExtensionMethods.FindAnyChild<Image>(transform, "Player1_OverHead");//Player1頭像
+        player2_OverHead = ExtensionMethods.FindAnyChild<Image>(transform, "Player2_OverHead");//Player2頭像
+        player3_OverHead = ExtensionMethods.FindAnyChild<Image>(transform, "Player3_OverHead");//Player3頭像
+        player4_OverHead = ExtensionMethods.FindAnyChild<Image>(transform, "Player4_OverHead");//Player4頭像
+        allPlayer1_OverHead = new Image[] { player1_OverHead, player2_OverHead, player3_OverHead, player4_OverHead };
+        player1_OverNickName = ExtensionMethods.FindAnyChild<Text>(transform, "Player1_OverNickName");//Player1暱稱
+        player2_OverNickName = ExtensionMethods.FindAnyChild<Text>(transform, "Player2_OverNickName");//Player2暱稱
+        player3_OverNickName = ExtensionMethods.FindAnyChild<Text>(transform, "Player3_OverNickName");//Player3暱稱
+        player4_OverNickName = ExtensionMethods.FindAnyChild<Text>(transform, "Player4_OverNickName");//Player4暱稱
+        allPlayer4_OverNickName = new Text[] { player1_OverNickName, player2_OverNickName, player3_OverNickName, player4_OverNickName };
+        player1_MaxKillNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player1_MaxKillNumber_Text");//Player1擊殺數
+        player2_MaxKillNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player2_MaxKillNumber_Text");//Player2擊殺數
+        player3_MaxKillNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player3_MaxKillNumber_Text");//Player3擊殺數
+        player4_MaxKillNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player4_MaxKillNumber_Text");//Player4擊殺數
+        allPlayer_MaxKillNumber_Text = new Text[] { player1_MaxKillNumber_Text, player2_MaxKillNumber_Text, player3_MaxKillNumber_Text, player4_MaxKillNumber_Text };
+        player1_MaxCombolNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player1_MaxCombolNumber_Text");//Player1最大連擊數
+        player2_MaxCombolNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player2_MaxCombolNumber_Text");//Player2最大連擊數
+        player3_MaxCombolNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player3_MaxCombolNumber_Text");//Player3最大連擊數
+        player4_MaxCombolNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player4_MaxCombolNumber_Text");//Player4最大連擊數
+        allPlayer4_MaxCombolNumber_Text = new Text[] { player1_MaxCombolNumber_Text, player2_MaxCombolNumber_Text, player3_MaxCombolNumber_Text, player4_MaxCombolNumber_Text };
+        player1_AccumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player1_AccumulationDamageNumber_Text");//Player1累積傷害
+        player2_AccumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player2_AccumulationDamageNumber_Text");//Player2累積傷害
+        player3_AccumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player3_AccumulationDamageNumber_Text");//Player3累積傷害
+        player4_AccumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player4_AccumulationDamageNumber_Text");//Player4累積傷害
+        allPlayer_AccumulationDamageNumber_Text = new Text[] { player1_AccumulationDamageNumber_Text, player2_AccumulationDamageNumber_Text, player3_AccumulationDamageNumber_Text, player4_AccumulationDamageNumber_Text };
+
         //連線玩家
         connectUI = ExtensionMethods.FindAnyChild<Transform>(transform, "ConnectUI");//ConnectUI 控制
         if (!GameDataManagement.Instance.isConnect) connectUI.gameObject.SetActive(false);
@@ -215,34 +288,32 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             player1Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player1Head_Image");//玩家1頭像
             player2Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player2Head_Image");//玩家2頭像
             player3Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player3Head_Image");//玩家3頭像
-            allPlayer3Head_Image = new Image[] { player1Head_Image, player2Head_Image, player3Head_Image };//所有玩家頭像
+            allPlayerHead_Image = new Image[] { player1Head_Image, player2Head_Image, player3Head_Image };//所有玩家頭像
             bool isTouchSelf = false;
             for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; i++)
             {
-                allPlayerLifeBar[i].fillAmount = 1;
-                
+                allPlayerLifeBar[i].fillAmount = 1;                
 
                 if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                 {
                     isTouchSelf = true;
-                    allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
-                    allPlayer3Head_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allCinnectPlayerSelectRole[i + 1]];
+                    allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;                    
+                    allPlayerHead_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i + 1]];                    
                     continue;
                 }
 
                 if (isTouchSelf)
                 {
                     allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
-                    allPlayer3Head_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allCinnectPlayerSelectRole[i + 1]];
+                    allPlayerHead_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i + 1]];                    
                 }
                 else
                 {
                     allPlayerNickName[i].text = PhotonNetwork.PlayerList[i].NickName;
-                    allPlayer3Head_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allCinnectPlayerSelectRole[i]];
+                    allPlayerHead_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i]];                    
                 }
             }           
-        }
-
+        }        
     }
         
     void Update()
@@ -316,10 +387,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         {
             isOptions = false;
             options.gameObject.SetActive(isOptions);
-        }
-
-        //開啟遊戲結束UI
-        gameOver.gameObject.SetActive(isGameOver);
+        }        
 
         //顯示滑鼠
         Cursor.visible = true;
@@ -342,6 +410,39 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
         //累積傷害
         accumulationDamageNumber_Text.text = $"累 積 傷 害 : {((int)accumulationDamage).ToString()}";
+
+        //開啟遊戲結束UI
+        if(GameDataManagement.Instance.isConnect)
+        {
+            connectGameOver.gameObject.SetActive(true);
+            //遊戲時間
+            Text playGameTimeOver_Text = ExtensionMethods.FindAnyChild<Text>(transform, "PlayGameTimeOver_Text");//遊戲時間
+            playGameTimeOver_Text.text = $"遊 戲 時 間 : {minute} 分 {second} 秒";            
+        }
+        else gameOver.gameObject.SetActive(isGameOver);
+    }
+
+    /// <summary>
+    /// 連線遊戲結束
+    /// </summary>
+    /// <param name="playerList">玩家列表</param>
+    /// <param name="nickName">暱稱</param>
+    /// <param name="MaxCombo">最大連擊</param>
+    /// <param name="killNumber">擊殺數</param>
+    /// <param name="accumulationDamage">累積傷害</param>
+    public void OnConnectGameOver(List<string> playerList, string nickName, int MaxCombo, int killNumber, float accumulationDamage)
+    {
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        {                      
+            if(nickName == playerList[i])
+            {
+                allPlayer1_OverHead[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i]];
+                allPlayer4_OverNickName[i].text = playerList[i];
+                allPlayer_MaxKillNumber_Text[i].text = $"最 大 擊 殺 數 : {killNumber}";
+                allPlayer4_MaxCombolNumber_Text[i].text = $"最 大 連 擊 數 : {MaxCombo}";
+                allPlayer_AccumulationDamageNumber_Text[i].text = $"累 積 傷 害 : {((int)accumulationDamage).ToString()}";
+            }
+        }
     }
 
     /// <summary>

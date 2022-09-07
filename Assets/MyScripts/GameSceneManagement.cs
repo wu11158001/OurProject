@@ -243,11 +243,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                                      1,//階段3
                                      3};//階段4
 
-         /*   //任務提示
+            //任務提示
             StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
 
             //任務文字
-            OnTaskText();*/
+            OnTaskText();
 
             //任務物件
             strongholdStage3 = GameObject.Find("Stronghold_Enemy3");//第3階段據點
@@ -265,17 +265,20 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             }
 
             taskNumber = -1;//已完成任務數量
+            tipTaskText = new string[] { "擊 殺 火 龍" };//提示任務文字
             taskText = new string[] { "擊 殺 火 龍" };//個階段任務文字
             //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 1 };//階段1
+
+            //任務提示
+            StartCoroutine(OnTaskTipText(taskTipValue: tipTaskText[taskStage].ToString()));
+
+            //任務文字
+            OnTaskText();
         }
         #endregion
 
-        //任務提示
-        StartCoroutine(OnTaskTipText(taskTipValue: tipTaskText[taskStage].ToString()));
-
-        //任務文字
-        OnTaskText();
+        
     }
 
     void Update()
@@ -594,7 +597,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="taskValue">任務文字</param>
     public void OnTaskText()
-    {
+    {        
         taskNumber++;//已完成任務數量
 
         //任務判定
@@ -644,6 +647,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {
         //遊戲結束關閉物件
         GameSceneUI.Instance.OnGameOverCloseObject();
+
+        //連線
+        if(GameDataManagement.Instance.isConnect)
+        {
+            PhotonConnect.Instance.OnSendGameScoring(PhotonNetwork.NickName, GameSceneUI.Instance.MaxCombo, GameSceneUI.Instance.killNumber, GameSceneUI.Instance.accumulationDamage);
+        }
 
         yield return new WaitForSeconds(3);
         GameSceneUI.Instance.OnSetGameResult(false, "");

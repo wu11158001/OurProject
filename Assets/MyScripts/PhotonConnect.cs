@@ -609,5 +609,39 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         GameSceneUI.Instance.OnSetOtherPlayerLifeBar(nickName, hpProportion);
     }
+
+    /// <summary>
+    /// 發送遊戲分數
+    /// </summary>
+    /// <param name="nickName">暱稱</param>
+    /// <param name="MaxCombo">最大連擊</param>
+    /// <param name="killNumber">擊殺數</param>
+    /// <param name="accumulationDamage">累積傷害</param>
+    public void OnSendGameScoring(string nickName, int MaxCombo, int killNumber, float accumulationDamage)
+    {
+        photonView.RPC("OnGameScoring", RpcTarget.All, nickName, MaxCombo, killNumber, accumulationDamage);
+    }
+
+    /// <summary>
+    /// 遊戲分數
+    /// </summary>
+    /// <param name="nickName">暱稱</param>
+    /// <param name="MaxCombo">最大連擊</param>
+    /// <param name="killNumber">擊殺數</param>
+    /// <param name="accumulationDamage">累積傷害</param>
+    [PunRPC]
+    void OnGameScoring(string nickName, int MaxCombo, int killNumber, float accumulationDamage)
+    {
+        //清空List
+        List<string> playerList = new List<string>();
+
+        //紀錄玩家暱稱
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            playerList.Add(PhotonNetwork.PlayerList[i].NickName);
+        }
+
+        GameSceneUI.Instance.OnConnectGameOver(playerList, nickName, MaxCombo, killNumber, accumulationDamage);
+    }
     #endregion
 }
