@@ -382,8 +382,8 @@ public class Effects : MonoBehaviour
     void MagSkillAttack2()
     {
         //客製化，解決連續animator造成無法連續施法
-        if (animInfo.IsName("Attack.SkillAttack_2") && animInfo.normalizedTime <= 0.1) SkillAttack_2.Stop();
-        if (animInfo.IsName("Attack.SkillAttack_2") && animInfo.normalizedTime > 0.1 && animInfo.normalizedTime <= 0.15) SkillAttack_2.Play();
+        if (animInfo.IsName("Attack.SkillAttack_2") && animInfo.normalizedTime <= 0.001) SkillAttack_2.Stop();
+        if (animInfo.IsName("Attack.SkillAttack_2") && animInfo.normalizedTime > 0.05 && animInfo.normalizedTime <= 0.1) SkillAttack_2.Play();
     }
 
 
