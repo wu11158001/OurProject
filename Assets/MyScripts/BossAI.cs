@@ -167,7 +167,7 @@ public class BossAI : MonoBehaviourPunCallbacks
                 }
             }
         }
-        Debug.LogError(chaseNumber);
+        
         target = allPlayer[chaseNumber];
     }
 
