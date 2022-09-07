@@ -55380,7 +55380,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 10
-      minScalar: 5
+      minScalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -55811,7 +55811,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 10000
+    maxNumParticles: 100000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -56129,7 +56129,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -65720,7 +65720,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 100000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -66038,7 +66038,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -104639,7 +104639,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 10
-      minScalar: 5
+      minScalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -105070,7 +105070,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 100000
     size3D: 1
     rotation3D: 0
     gravityModifier:
@@ -105130,14 +105130,14 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 60
+    angle: 40
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 0.7, y: 0.2, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -105445,7 +105445,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 40
+        scalar: 60
         minScalar: 30
         maxCurve:
           serializedVersion: 2
