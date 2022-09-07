@@ -52,7 +52,7 @@ public class HitNumber : MonoBehaviour
         string symbolCritical = "";
         string symbol = "";
         if (isCritical) symbolCritical = "√z¿ª";
-        if (color == Color.red || color == Color.yellow) symbol = "-";
+        if (color == Color.red) symbol = "-";
         if (color == Color.green) symbol = "+";
         symbol = symbolCritical + symbol;
 

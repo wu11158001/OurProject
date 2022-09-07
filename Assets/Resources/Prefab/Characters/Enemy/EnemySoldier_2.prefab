@@ -992,7 +992,7 @@ MonoBehaviour:
   enemyName: 
   boxCenter: {x: 0, y: 0, z: 0}
   boxSize: {x: 0, y: 0, z: 0}
-  heightFromGround: -0.063
+  heightFromGround: -0.1
   wallCollisionDistance: 0
   wallCollisionHight: 0
   collisionSize_Character: 0

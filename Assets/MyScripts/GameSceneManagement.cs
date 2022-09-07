@@ -23,12 +23,13 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     Transform[] enemySoldiers1_Stage1Point;//敵人士兵1_階段1出生點
     Transform[] enemySoldiers2_Stage1Point;//敵人士兵2_階段1出生點
     Transform[] guardBoss_Stage2Point;//城門首衛Boss_階段2出生點
-    Transform[] enemySoldiers1_Stage3Point;//敵人士兵1_階段3出生點
-    Transform[] enemySoldiers2_Stage3Point;//敵人士兵2_階段3出生點
-    Transform[] enemySoldiers3_Stage3Point;//敵人士兵3_階段3出生點
+    Transform[] enemySoldiers1_Stage4Point;//敵人士兵1_階段3出生點
+    Transform[] enemySoldiers2_Stage4Point;//敵人士兵2_階段3出生點
+    Transform[] enemySoldiers3_Stage4Point;//敵人士兵3_階段3出生點
 
     //我方出生點
     Transform[] allianceSoldier1_Stage1Point;//我方士兵1_階段1出生點
+    Transform[] allianceSoldier1_Stage4Point;//我方士兵1_階段4出生點
 
     //任務
     string[] taskText;//各階段任務文字
@@ -191,25 +192,32 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             {
                 guardBoss_Stage2Point[i] = GameObject.Find("GuardBoss_Stage2Point").transform.GetChild(i);
             }
-            //敵人士兵1_階段3出生點
-            enemySoldiers1_Stage3Point = new Transform[GameObject.Find("EnemySoldiers1_Stage3Point").transform.childCount];
-            for (int i = 0; i < GameObject.Find("EnemySoldiers1_Stage3Point").transform.childCount; i++)
+            //敵人士兵1_階段4出生點
+            enemySoldiers1_Stage4Point = new Transform[GameObject.Find("EnemySoldiers1_Stage4Point").transform.childCount];
+            for (int i = 0; i < GameObject.Find("EnemySoldiers1_Stage4Point").transform.childCount; i++)
             {
-                enemySoldiers1_Stage3Point[i] = GameObject.Find("EnemySoldiers1_Stage3Point").transform.GetChild(i);
+                enemySoldiers1_Stage4Point[i] = GameObject.Find("EnemySoldiers1_Stage4Point").transform.GetChild(i);
             }
 
-            //敵人士兵2_階段3出生點
-            enemySoldiers2_Stage3Point = new Transform[GameObject.Find("EnemySoldiers2_Stage3Point").transform.childCount];
-            for (int i = 0; i < GameObject.Find("EnemySoldiers2_Stage3Point").transform.childCount; i++)
+            //敵人士兵2_階段4出生點
+            enemySoldiers2_Stage4Point = new Transform[GameObject.Find("EnemySoldiers2_Stage4Point").transform.childCount];
+            for (int i = 0; i < GameObject.Find("EnemySoldiers2_Stage4Point").transform.childCount; i++)
             {
-                enemySoldiers2_Stage3Point[i] = GameObject.Find("EnemySoldiers2_Stage3Point").transform.GetChild(i);
+                enemySoldiers2_Stage4Point[i] = GameObject.Find("EnemySoldiers2_Stage4Point").transform.GetChild(i);
             }
 
             //敵人士兵3_階段3出生點
-            enemySoldiers3_Stage3Point = new Transform[GameObject.Find("EnemySoldiers3_Stage3Point").transform.childCount];
-            for (int i = 0; i < GameObject.Find("EnemySoldiers3_Stage3Point").transform.childCount; i++)
+            enemySoldiers3_Stage4Point = new Transform[GameObject.Find("EnemySoldiers3_Stage4Point").transform.childCount];
+            for (int i = 0; i < GameObject.Find("EnemySoldiers3_Stage4Point").transform.childCount; i++)
             {
-                enemySoldiers3_Stage3Point[i] = GameObject.Find("EnemySoldiers3_Stage3Point").transform.GetChild(i);
+                enemySoldiers3_Stage4Point[i] = GameObject.Find("EnemySoldiers3_Stage4Point").transform.GetChild(i);
+            }
+
+            //我方士兵1_階段4出生點
+            allianceSoldier1_Stage4Point = new Transform[GameObject.Find("AllianceSoldier1_Stage4Point").transform.childCount];
+            for (int i = 0; i < GameObject.Find("AllianceSoldier1_Stage4Point").transform.childCount; i++)
+            {
+                allianceSoldier1_Stage4Point[i] = GameObject.Find("AllianceSoldier1_Stage4Point").transform.GetChild(i);
             }
             #endregion
 
@@ -332,7 +340,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 switch (taskStage)
                 {
                     case 0://階段1
-                           // 產生同盟士兵1                       
+                        // 產生同盟士兵1                       
                         for (int i = 0; i < allianceSoldier1_Stage1Point.Length; i++)
                         {
                             AIObject = OnRequestOpenObject(OnGetObjectNumber("allianceSoldier_1"), loadPath.allianceSoldier_1);//開啟物件
@@ -344,7 +352,6 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.GetComponent<AI>().OnInitial();//初始化
                             OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
                         }
-
                         //產生敵人士兵1
                         for (int i = 0; i < enemySoldiers1_Stage1Point.Length; i++)
                         {
@@ -360,7 +367,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         //產生敵人士兵2                      
                         for (int i = 0; i < enemySoldiers2_Stage1Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_1);//開啟物件
+                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
                             AIObject.transform.position = enemySoldiers2_Stage1Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
@@ -390,7 +397,54 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(strongholdStage3, true);
                         break;
                     case 3://階段4
-
+                        // 產生同盟士兵1                       
+                        for (int i = 0; i < allianceSoldier1_Stage4Point.Length; i++)
+                        {
+                            AIObject = OnRequestOpenObject(OnGetObjectNumber("allianceSoldier_1"), loadPath.allianceSoldier_1);//開啟物件
+                            AIObject.transform.position = allianceSoldier1_Stage4Point[i].position;//設定位置
+                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            AIObject.tag = "Alliance";//設定Tag
+                            AIObject.layer = LayerMask.NameToLayer("Alliance");//設定Layer
+                            AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+                        }
+                        //產生敵人士兵1
+                        for (int i = 0; i < enemySoldiers1_Stage4Point.Length; i++)
+                        {
+                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
+                            AIObject.transform.position = enemySoldiers1_Stage4Point[i].position;//設定位置
+                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            AIObject.tag = "Enemy";//設定Tag
+                            AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
+                            AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化   
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                        }
+                        //產生敵人士兵2                      
+                        for (int i = 0; i < enemySoldiers2_Stage4Point.Length; i++)
+                        {
+                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
+                            AIObject.transform.position = enemySoldiers2_Stage4Point[i].position;//設定位置
+                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            AIObject.tag = "Enemy";//設定Tag
+                            AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
+                            AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                        }
+                        //產生敵人士兵3                      
+                        for (int i = 0; i < enemySoldiers3_Stage4Point.Length; i++)
+                        {
+                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_3"), loadPath.enemySoldier_3);//開啟物件
+                            AIObject.transform.position = enemySoldiers3_Stage4Point[i].position;//設定位置
+                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            AIObject.tag = "Enemy";//設定Tag
+                            AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
+                            AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                        }
                         break;
                 }
             }
@@ -481,7 +535,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         GameObject AIObject = null;
         AIObject = OnRequestOpenObject(OnGetObjectNumber(soldierName), soldierPath);//開啟物件
-        AIObject.transform.position = createPoint.position + createPoint.forward * (-2 + (number * 2f));//設定位置
+        AIObject.transform.position = createPoint.position + createPoint.forward * (-2 + (number * 1.5f));//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = objTag;//設定Tag
         AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer         
@@ -507,7 +561,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         AIObject = OnRequestOpenObject(OnGetObjectNumber(soldierName), soldierPath);//開啟物件
         //AIObject.transform.position = createPoint.position + createPoint.forward * (10 + (number * 2f));//設定位置
         //AIObject.transform.position = (createPoint.position + createPoint.forward * 10) + (createPoint.right * (number * 1.5f));//設定位置
-        AIObject.transform.position = (createPoint.position + Vector3.up * 1) + (createPoint.right * (number * 1.5f));//設定位置
+        AIObject.transform.position = (createPoint.position + createPoint.forward * 10 ) + (createPoint.right * (number * -1.5f)) + (Vector3.up * 1);//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = objTag;//設定Tag
         AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer         

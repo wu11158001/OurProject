@@ -18,8 +18,8 @@ public class Stronghold : MonoBehaviourPunCallbacks
     public string builidName;
 
     //生命值
-   public float maxHp;
-   public float hp;
+    public float maxHp;
+    public float hp;
 
     //產生士兵時間
     float createSoldierTime;//產生士兵時間
@@ -53,7 +53,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
         hp = maxHp;
 
         //產生士兵時間
-        createSoldierTime = 30;//產生士兵時間
+        createSoldierTime = 15;//產生士兵時間
         //createTime = createSoldierTime;//產生士兵時間(計時器)
     }
 
@@ -62,13 +62,26 @@ public class Stronghold : MonoBehaviourPunCallbacks
         //非連線 || 是房主
         if (!PhotonNetwork.IsConnected || PhotonNetwork.IsMasterClient)
         {
-            if (hp > 0 && stage == GameSceneManagement.Instance.taskStage)
+            if (hp > 0)
             {
                 createTime -= Time.deltaTime;//產生士兵時間(計時器)
-                if (createTime <= 0)
+
+                if (gameObject.tag == "Enemy" && stage == GameSceneManagement.Instance.taskStage)
                 {
-                    GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
-                    createTime = createSoldierTime;
+                    if (createTime <= 0)
+                    {
+                        GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
+                        createTime = createSoldierTime;
+                    }
+                }
+
+                if (gameObject.tag == "Alliance")
+                {
+                    if (createTime <= 0)
+                    {
+                        GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
+                        createTime = createSoldierTime;
+                    }
                 }
             }
         }
@@ -85,7 +98,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
         {
             isGetHit = true;//是否受攻擊
 
-            hp -= damage;                        
+            hp -= damage;
 
             //連線
             if (GameDataManagement.Instance.isConnect)
@@ -112,7 +125,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
                 //連線模式
                 if (GameDataManagement.Instance.isConnect)
-                {                    
+                {
                     PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
                 }
 
@@ -120,7 +133,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
 
                 gameObject.SetActive(false);//關閉物件                
-            }            
+            }
         }
     }
 

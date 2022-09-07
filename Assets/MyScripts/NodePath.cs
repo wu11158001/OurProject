@@ -20,8 +20,8 @@ public class NodePath : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.black;
-        Gizmos.DrawSphere(transform.position, radius);
+        /*Gizmos.color = Color.black;
+        Gizmos.DrawSphere(transform.position, radius);*/
 
         for (int i = 0; i < neighborNode.Length; i++)
         {
