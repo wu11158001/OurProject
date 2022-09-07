@@ -566,6 +566,7 @@ MonoBehaviour:
   selectRoleNumber: 0
   selectLevelNumber: 0
   equipBuff: 
+  allCinnectPlayerSelectRole: 00000000000000000000000000000000
 --- !u!4 &470314199
 Transform:
   m_ObjectHideFlags: 0
