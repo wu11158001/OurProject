@@ -137,51 +137,6 @@ public class Effects : MonoBehaviour
         {
             NormalAttack_3.Stop();
         }
-
-        //魔法書
-        if (magicBook.gameObject.activeInHierarchy)  //當魔法書啟動時
-        {
-            if (!closeMagicBook)
-            {
-                booksize += booksize * 15f * Time.deltaTime;   //開始放大                
-                if (booksize >= 0.01262763f) booksize = 0.01262763f;
-            }
-
-            magicBook.localScale = new Vector3(booksize, booksize, booksize);
-
-            magicBook.Rotate(Vector3.up, 50 * Time.deltaTime, Space.World);
-            magicBook.SetParent(playerEffectstoWorld);
-
-            magicBook.position = Vector3.Lerp(magicBook.position, gameObject.transform.position + (gameObject.transform.right * (0.5f) + gameObject.transform.forward * (0.3f) + gameObject.transform.up * 2f), Time.deltaTime);
-            // 偏移量，避免重疊  gameObject.transform.right場景腳色的右邊,gameObject.transform.forward 前面 gameObject.transform.up上面
-
-        }
-        else
-        {
-            magicBook.SetParent(SkillAttack_1.transform);
-            magicBook.gameObject.SetActive(false);
-            magicBook.GetChild(1).GetComponent<ParticleSystem>().Stop();   //關閉魔法書時關閉金光特效
-        }
-        if (animInfo.IsName("Pain"))
-        {
-            closeMagicBook = true;
-        }
-        if (closeMagicBook)
-        {
-            booksize -= booksize * 45f * Time.deltaTime;   //跟前面魔法陣啟動時放大有相反作用，所以值要大
-            if (booksize <= 0f)
-            {
-                magicBook.SetParent(SkillAttack_1.transform);
-                magicBook.gameObject.SetActive(false);
-                magicBook.GetChild(1).GetComponent<ParticleSystem>().Stop();   //關閉魔法書時關閉金光特效
-                booksize = 0.008676398f;
-                closeMagicBook = false;
-            }
-            magicBook.localScale = new Vector3(booksize, booksize, booksize);
-        }
-
-
-
     }
 
     void ArcSkillAttack1()
@@ -219,12 +174,12 @@ public class Effects : MonoBehaviour
     {
         var idelName = "Attack.SkillAttack_3";
         var effect = SkillAttack_3;
-        if (animInfo.IsName(idelName) && !effect.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying) 
-                                          effect.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.5 
+        if (animInfo.IsName(idelName) && !effect.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
+            effect.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.5
                                       && animInfo.normalizedTime <= 0.55
                                       && !effect.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
-                                          effect.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+            effect.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
     }
 
 
@@ -347,23 +302,76 @@ public class Effects : MonoBehaviour
     {
         var idelName = "Attack.SkillAttack_1";
 
-        //魔法書
-        if (animInfo.IsName(idelName))
-        {
-            //if (animInfo.normalizedTime > 0.001f && !magicBook.gameObject.activeInHierarchy) //當魔法書沒有啟動，就縮到很小，不能為0
-            if (!magicBook.gameObject.activeInHierarchy)
-            {
-                booksize = 0.000000011f;
-                magicBook.gameObject.SetActive(true);  //打開魔法書，腳本銜接法陣管理          
-            }
-        }
-
-
         var SkillAttack_10 = SkillAttack_1.transform.GetChild(0).GetComponent<ParticleSystem>();
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.2f) SkillAttack_10.Play();
 
         var SkillAttack_11 = SkillAttack_1.transform.GetChild(1).GetComponent<ParticleSystem>();
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.2f && !SkillAttack_11.isPlaying) SkillAttack_11.Play();
+
+        //魔法書
+        if (!magicBook.gameObject.activeInHierarchy)  //當魔法書未啟動
+        {
+            booksize = 0.000000011f;                  //縮到最小
+            magicBook.SetParent(SkillAttack_1.transform);     //回到層級            
+            magicBook.GetChild(1).GetComponent<ParticleSystem>().Stop();   //關閉魔法書時關閉金光特效
+        }
+
+        if (animInfo.IsName(idelName)) magicBook.gameObject.SetActive(true);    //啟動魔法書
+
+        //魔法書
+        if (magicBook.gameObject.activeInHierarchy)  //當魔法書啟動時
+        {
+            if (!closeMagicBook)
+            {
+                booksize += booksize * 15f * Time.deltaTime;   //開始放大                
+                if (booksize >= 0.01262763f) booksize = 0.01262763f;
+            }
+
+            //移動到角色旁旋轉
+            magicBook.SetParent(playerEffectstoWorld);
+
+            magicBook.position = Vector3.Lerp(magicBook.position, weapon.transform.position
+                + (gameObject.transform.right * 0.35f + gameObject.transform.forward * 0.55f + gameObject.transform.up * 0.25f), Time.deltaTime);
+            // 偏移量，避免重疊  gameObject.transform.right場景腳色的右邊,gameObject.transform.forward 前面 gameObject.transform.up上面
+            magicBook.forward = gameObject.transform.GetChild(0).position - magicBook.position;  //書本朝player
+            magicBook.Rotate(0, 0, -90);     //轉正book
+        }
+
+        if (animInfo.IsName("Pain"))
+        {
+            closeMagicBook = true;
+        }
+        if (closeMagicBook)
+        {
+            booksize -= booksize * 45f * Time.deltaTime;
+            if (booksize <= 0f)
+            {
+                closeMagicBook = false;
+                magicBook.gameObject.SetActive(false);
+            }
+        }
+        magicBook.localScale = new Vector3(booksize, booksize, booksize);       //魔法書大小
+
+        //限制兩個物體之間的距離
+        if (Vector3.Distance(magicBook.position, effects.transform.position) < 1)    //閃過身體
+        {
+            //獲得兩個物體之間的單位向量
+            Vector3 pos = (magicBook.position - effects.transform.position).normalized;
+            //單位向量乘以最遠的距離係數
+            pos *= 1;
+            //物體A的坐標加上距離向量
+            magicBook.position = pos + effects.transform.position;
+        }
+        if (Vector3.Distance(magicBook.position, gameObject.transform.GetChild(0).position) < 1)   //閃過頭髮
+        {
+            //獲得兩個物體之間的單位向量
+            Vector3 pos = (magicBook.position - gameObject.transform.GetChild(0).position).normalized;
+            //單位向量乘以最遠的距離係數
+            pos *= 1;
+            //物體A的坐標加上距離向量
+            magicBook.position = pos + gameObject.transform.GetChild(0).position;
+        }
+
 
 
         //投影法陣
