@@ -233,11 +233,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                                      1,//階段3
                                      1};//階段4
 
-            //任務提示
+         /*   //任務提示
             StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
 
             //任務文字
-            OnTaskText();
+            OnTaskText();*/
 
             //任務物件
             strongholdStage3 = GameObject.Find("Stronghold_Enemy3");//第3階段據點
@@ -253,8 +253,19 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             {
                 GameSceneManagement.Instance.OnCreateBoss();
             }
+
+            taskNumber = -1;//已完成任務數量
+            taskText = new string[] { "擊殺火龍" };//個階段任務文字
+            //各階段任務所需擊殺數
+            taskNeedNumber = new int[] { 1 };//階段1
         }
         #endregion
+
+        //任務提示
+        StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
+
+        //任務文字
+        OnTaskText();
     }
 
     void Update()

@@ -43,7 +43,7 @@ MonoBehaviour:
     playerSelfHealTime: 5
     strongholdHp: 200
     allianceSoldier1_Hp: 40
-    boss_Hp: 2000
+    boss_Hp: 10
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
