@@ -34,7 +34,7 @@ public class Effects : MonoBehaviour
     Transform magicNa33;              //要脫離的特效
     Transform magicNa34;              //要脫離的特效
     Transform magicNa35;              //要脫離的特效
-    Transform magicBook;
+    Transform magicBook;              //魔法書
 
     void Start()
     {
@@ -113,31 +113,6 @@ public class Effects : MonoBehaviour
     }
 
 
-    //  float oSize = 0.2f;  //投影法陣
-    float booksize = 0.01262763f;
-    bool closeMagicBook = false;
-    void MagEffectsControl()
-    {
-        //投影法陣，消失
-        //var effect = SkillAttack_1;
-        //if (!animInfo.IsName("Attack.SkillAttack_1"))  //如果不在補血狀態
-        //{
-        //    oSize -= oSize * 10 * Time.deltaTime;
-        //    if (oSize <= 0.2f)
-        //    {
-        //        effect.transform.GetChild(2).gameObject.SetActive(false);
-        //        oSize = 0.2f;
-        //    }
-        //    effect.transform.GetChild(2).GetComponent<Projector>().orthographicSize = oSize;
-        //    effect.transform.GetChild(2).gameObject.transform.Rotate(0, 0, 0.5f);
-        //}
-
-        //藍色法陣在Idle時停止        
-        if (animInfo.IsName("Idle") || animInfo.IsName("Attack.NormalAttack_1"))
-        {
-            NormalAttack_3.Stop();
-        }
-    }
 
     void ArcSkillAttack1()
     {
@@ -176,16 +151,58 @@ public class Effects : MonoBehaviour
         var effect = SkillAttack_3;
         if (animInfo.IsName(idelName) && !effect.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
             effect.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.5
                                       && animInfo.normalizedTime <= 0.55
                                       && !effect.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
             effect.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+
+        if (animInfo.IsName(idelName)) effect.transform.GetChild(2).position = weapon.transform.parent.position;
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime <= 0.05
+                                      && !effect.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)                                      
+            effect.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.6
+                                    && animInfo.normalizedTime <= 65
+                                    && !effect.transform.GetChild(3).GetComponent<ParticleSystem>().isPlaying)
+            effect.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
+
+
     }
 
 
 
 
     #region 法師
+
+    //  float oSize = 0.2f;  //投影法陣
+    float booksize = 0.01262763f;
+    bool closeMagicBook = false;
+    void MagEffectsControl()
+    {
+        //投影法陣，消失
+        //var effect = SkillAttack_1;
+        //if (!animInfo.IsName("Attack.SkillAttack_1"))  //如果不在補血狀態
+        //{
+        //    oSize -= oSize * 10 * Time.deltaTime;
+        //    if (oSize <= 0.2f)
+        //    {
+        //        effect.transform.GetChild(2).gameObject.SetActive(false);
+        //        oSize = 0.2f;
+        //    }
+        //    effect.transform.GetChild(2).GetComponent<Projector>().orthographicSize = oSize;
+        //    effect.transform.GetChild(2).gameObject.transform.Rotate(0, 0, 0.5f);
+        //}
+
+        //藍色法陣在Idle時停止        
+        if (animInfo.IsName("Idle") || animInfo.IsName("Attack.NormalAttack_1"))
+        {
+            NormalAttack_3.Stop();
+        }
+    }
+
+
+
 
     void MagNormalAttack1()
     {
