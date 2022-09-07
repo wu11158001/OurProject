@@ -524,7 +524,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 if(!GameDataManagement.Instance.isConnect && gameObject.layer == LayerMask.NameToLayer("Player"))
                 {
                     //遊戲結果文字
-                    GameSceneUI.Instance.OnSetGameResult(true, "失敗");
+                    GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
                     //設定遊戲結束
                     StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
                 }

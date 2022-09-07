@@ -160,7 +160,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
         //分數
         killNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "KillNumber_Text");//擊殺數文字
-        killNumber_Text.text = "擊殺數: " + killNumber;
+        killNumber_Text.text = "擊 殺 數 : " + killNumber;
         comboNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ComboNumber_Text");//連擊數文字
         comboNumber_Text.enabled = false;        
         comboBackground_Image = ExtensionMethods.FindAnyChild<Image>(transform, "ComboBackground_Image");//連擊數文字背景
@@ -302,16 +302,16 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //遊戲時間
         int minute = (int)playerGameTime / 60;
         int second = (int)playerGameTime % 60;
-        playGameTime_Text.text = $"遊戲時間 : {minute}分{second}秒";
+        playGameTime_Text.text = $"遊 戲 時 間 : {minute} 分 {second} 秒";
 
         //最大擊殺數
-        maxKillNumber_Text.text = $"最大擊殺數 : {killNumber}";
+        maxKillNumber_Text.text = $"最 大 擊 殺 數 : {killNumber}";
 
         //最大連擊數
-        maxCombolNumber_Text.text = $"最大連擊數 : {MaxCombo}";
+        maxCombolNumber_Text.text = $"最 大 連 擊 數 : {MaxCombo}";
 
         //累積傷害
-        accumulationDamageNumber_Text.text = $"累積傷害 : {((int)accumulationDamage).ToString()}";
+        accumulationDamageNumber_Text.text = $"累 積 傷 害 : {((int)accumulationDamage).ToString()}";
     }
 
     /// <summary>
@@ -351,7 +351,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //文字
         comboLifeTime = 3;
         comboNumber++;//擊殺數
-        comboNumber_Text.text = "連擊: " + comboNumber;
+        comboNumber_Text.text = "連擊 : " + comboNumber;
         comboNumber_Text.enabled = true;
         comboNumber_Text.fontSize = 80;
 
@@ -368,7 +368,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetKillNumber()
     {
         killNumber++;//擊殺數
-        killNumber_Text.text = "擊殺數 : " + killNumber;
+        killNumber_Text.text = "擊 殺 數 : " + killNumber;
     }
 
     /// <summary>

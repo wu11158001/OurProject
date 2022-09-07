@@ -226,7 +226,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             //任務
             taskNumber = -1;//已完成任務數量
-            taskText = new string[] { "擊破該區所有據點", "擊倒城門守衛", "擊破湖中城門機關", "擊破城內所有據點" };//個階段任務文字
+            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破湖中\n城門機關 :", "擊破城內\n所有據點 :" };//個階段任務文字
                                                                                      //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 2,//階段1
                                      guardBoss_Stage2Point.Length,//階段2
@@ -255,7 +255,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             }
 
             taskNumber = -1;//已完成任務數量
-            taskText = new string[] { "擊殺火龍" };//個階段任務文字
+            taskText = new string[] { "擊 殺 火 龍" };//個階段任務文字
             //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 1 };//階段1
         }
@@ -542,7 +542,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //設定任務文字
         if (taskStage < taskNeedNumber.Length)//未過關
         {
-            GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n目標: " + taskNumber + " / " + taskNeedNumber[taskStage]);
+            GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n" + taskNumber + " / " + taskNeedNumber[taskStage]);
         }
     }
 
@@ -559,14 +559,14 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (taskStage >= taskNeedNumber.Length)//過關
             {
                 //StartCoroutine(OnTaskTipText(taskTipValue: "勝利"));//任務提示                  
-                GameSceneUI.Instance.OnSetGameResult(true, "勝利");
+                GameSceneUI.Instance.OnSetGameResult(true, "勝 利");
                 StartCoroutine(OnSetGameOver(true));//設定遊戲結束
             }
             else//進入下階段
             {
                 taskNumber = 0;//已完成任務數量                                
                 StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage]));//任務提示   
-                GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n目標: " + taskNumber + " / " + taskNeedNumber[taskStage]);
+                GameSceneUI.Instance.OnSetTaskText(taskValue: taskText[taskStage] + "\n" + taskNumber + " / " + taskNeedNumber[taskStage]);
 
                 //初始階段創建敵人
                 OnInitialCreateEnemy();
