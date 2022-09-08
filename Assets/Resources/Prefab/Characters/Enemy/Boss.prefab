@@ -12556,6 +12556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4477f0907437aa140b57a40c47f94333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allPlayer: []
   target: {fileID: 0}
   attackIdleTime: 0
   state: 0
