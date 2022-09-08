@@ -10813,7 +10813,8 @@ SkinnedMeshRenderer:
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4300002, guid: 75141afbde5f8ee4ab998a5de6f4b35a, type: 3}
   m_Bones: []
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: -0.3759315, z: 0.2748978}
@@ -12435,6 +12436,7 @@ GameObject:
   - component: {fileID: 3557535616911241661}
   - component: {fileID: 989587419392742217}
   - component: {fileID: 666345683248454621}
+  - component: {fileID: 9045667537890458173}
   m_Layer: 11
   m_Name: Boss
   m_TagString: Enemy
@@ -12609,6 +12611,19 @@ MonoBehaviour:
   isSelfHeal: 0
   acceleration: 0
   isDie: 0
+--- !u!114 &9045667537890458173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107428017339676385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d39c360b6b7923419bd3c0b141d439c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ragonTongue02: {fileID: 107637649356220271}
 --- !u!1 &107437462720545183
 GameObject:
   m_ObjectHideFlags: 0
