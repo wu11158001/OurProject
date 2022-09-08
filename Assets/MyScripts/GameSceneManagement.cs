@@ -654,7 +654,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             PhotonConnect.Instance.OnSendGameScoring(PhotonNetwork.NickName, GameSceneUI.Instance.MaxCombo, GameSceneUI.Instance.killNumber, GameSceneUI.Instance.accumulationDamage);
         }
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
         GameSceneUI.Instance.OnSetGameResult(false, "");
 
         //設定遊戲結束UI
