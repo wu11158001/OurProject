@@ -58,7 +58,7 @@ public class BossAI : MonoBehaviourPunCallbacks
 
         //攻擊
         longAttackRadius = 10;//攻擊半徑(遠距離)
-        attackRandomTime = new float[] { 0.5f, 3.0f };//攻擊亂數時間(最小,最大)
+        attackRandomTime = new float[] { 0.5f, 2.0f };//攻擊亂數時間(最小,最大)
         maxAttackNumber = 1;//擁有攻擊招式
 
         //攻擊待機
