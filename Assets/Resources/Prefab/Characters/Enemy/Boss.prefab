@@ -23875,6 +23875,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: FirePos
       objectReference: {fileID: 0}
+    - target: {fileID: 1898876471918570527, guid: 17e4ae70a4947dd40999cd0c7ba04d18, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1898876471918570527, guid: 17e4ae70a4947dd40999cd0c7ba04d18, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2027856306837949164, guid: 17e4ae70a4947dd40999cd0c7ba04d18, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
