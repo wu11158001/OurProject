@@ -11,8 +11,6 @@ public class BossAI : MonoBehaviourPunCallbacks
 
     GameObject[] allPlayer;//所有玩家 
 
-    [SerializeField] Dictionary<Transform, float> playersDamage = new Dictionary<Transform, float>();//記錄所有玩家傷害
-
     //碰撞框
     Vector3 boxCenter;
     Vector3 boxSize;
@@ -60,14 +58,14 @@ public class BossAI : MonoBehaviourPunCallbacks
 
         //攻擊
         longAttackRadius = 10;//攻擊半徑(遠距離)
-        attackRandomTime = new float[] { 0.5f, 3.0f };//攻擊亂數時間(最小,最大)
+        attackRandomTime = new float[] { 0.5f, 2.0f };//攻擊亂數時間(最小,最大)
         maxAttackNumber = 1;//擁有攻擊招式
 
         //攻擊待機
         maxAttackIdleTime = 3;//最大攻擊待機時間
 
         //追擊
-        chaseSpeed = 6.3f;//追擊速度
+        chaseSpeed = 5.3f;//追擊速度
 
         fineTargetTime = 5;//尋找玩家時間
 
@@ -110,13 +108,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     public void OnActive()
     {
         state = State.追擊狀態;
-        allPlayer = GameObject.FindGameObjectsWithTag("Player");
-
-        /*  for (int i = 0; i < allPlayer.Length - 1; i++)
-          {
-              Debug.LogError(allPlayer[i]);
-              playersDamage.Add(allPlayer[i].transform, 0);
-          }*/
+        allPlayer = GameObject.FindGameObjectsWithTag("Player");      
 
         OnChangeAnimation(animationName: "Roar", animationType: true);
     }
@@ -193,7 +185,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //小大於攻擊範圍
         if ((transform.position - target.transform.position).magnitude > longAttackRadius)
         {
-            if (info.IsTag("Run"))
+            if (info.IsTag("Fly"))
             {
                 transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
             }
@@ -205,12 +197,9 @@ public class BossAI : MonoBehaviourPunCallbacks
             {
                 state = State.攻擊狀態;
 
-                attackNumber = 1;//UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用攻擊招式
+                attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用攻擊招式
                 OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
-                OnChangeAnimation(animationName: "Run", animationType: false);
-
-                OnChangeAnimation(animationName: "TurnLeft", animationType: false);
-                OnChangeAnimation(animationName: "TurnRight", animationType: false);
+                OnChangeAnimation(animationName: "Fly", animationType: false);              
             }
         }
     }
@@ -220,58 +209,41 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnAttaclIdleTime()
     {
-        if (attackIdleTime > 0 && !info.IsTag("Attack"))
+        if (attackIdleTime > 0)
         {
-            attackIdleTime -= Time.deltaTime;
-
+            if(!info.IsTag("Attack")) attackIdleTime -= Time.deltaTime;
 
             if (attackIdleTime <= 0)
             {
-                float dir = Vector3.Dot(transform.forward, Vector3.Cross(Vector3.up, target.transform.position - transform.position));
-                if (dir < 0)
+                //大於攻擊範圍
+                if ((transform.position - target.transform.position).magnitude > longAttackRadius)
                 {
-                    if (!info.IsTag("Turn_Right")) OnChangeAnimation(animationName: "TurnRight", animationType: true);
-                }
-                else
-                {
-                    if (!info.IsTag("Turn_Lift")) OnChangeAnimation(animationName: "TurnLeft", animationType: true);
-                }
+                    state = State.追擊狀態;
+                    OnChangeAnimation(animationName: "Fly", animationType: true);
+                    return;
+                }         
             }
         }
 
         if (attackIdleTime <= 0)
         {
-            if (info.IsTag("Turn_Lift") || info.IsTag("Turn_Right")) OnRotateToTarget(0.02f);//轉向至目標
-
             float dir = Vector3.Dot(transform.forward, Vector3.Cross(Vector3.up, target.transform.position - transform.position));
 
             //已轉向至目標
             if (dir > -1 && dir < 1)
             {
-                //大於攻擊範圍
-                if ((transform.position - target.transform.position).magnitude > longAttackRadius)
+                if (!info.IsTag("Attack"))
                 {
-                    if (!info.IsTag("Run"))
-                    {
-                        state = State.追擊狀態;
-                        OnChangeAnimation(animationName: "Run", animationType: true);
-                    }
-                }
-                else
-                {
-                    if (state != State.攻擊狀態) state = State.攻擊狀態;
-
-                    if (!info.IsTag("Attack"))
-                    {
-                        attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用攻擊招式
-                        OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
-                        OnChangeAnimation(animationName: "Run", animationType: false);
-                        OnChangeAnimation(animationName: "TurnLeft", animationType: false);
-                        OnChangeAnimation(animationName: "TurnRight", animationType: false);
-                        OnChangeAnimation(animationName: "Pain", animationType: false);
-                    }
+                    attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用攻擊招式
+                    OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
+                    OnChangeAnimation(animationName: "Fly", animationType: false);
+                    OnChangeAnimation(animationName: "Pain", animationType: false);
                 }
             }
+            else
+            {
+                if (!info.IsTag("Attack")) OnRotateToTarget(0.03f);//轉向至目標
+            }           
         }
     }
 
@@ -284,7 +256,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         if (info.IsTag("Roar") && info.normalizedTime >= 1)
         {
             OnChangeAnimation(animationName: "Roar", animationType: false);
-            OnChangeAnimation(animationName: "Run", animationType: true);
+            OnChangeAnimation(animationName: "Fly", animationType: true);
         }
 
         /* //攻擊1(飛 噴火)
