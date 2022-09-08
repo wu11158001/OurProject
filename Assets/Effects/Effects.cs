@@ -159,7 +159,7 @@ public class Effects : MonoBehaviour
 
         if (animInfo.IsName(idelName)) effect.transform.GetChild(2).position = weapon.transform.parent.position;
         if (animInfo.IsName(idelName) && animInfo.normalizedTime <= 0.05
-                                      && !effect.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)                                      
+                                      && !effect.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
             effect.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
 
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.6
@@ -735,9 +735,18 @@ public class Effects : MonoBehaviour
             star = Camera.main.ScreenToWorldPoint(star);
             dir = hitPos.transform.GetChild(0).position - star;
         }
-        Physics.Raycast(star, dir, out RaycastHit pos, Mathf.Infinity, LayerMask.GetMask("Enemy"));
-        GetHitPs().transform.position = pos.point;
-        GetHitPs().Play();
+        if (hitPos.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            Physics.Raycast(star, dir, out RaycastHit pos, Mathf.Infinity, LayerMask.GetMask("Enemy"));
+            GetHitPs().transform.position = pos.point;
+            GetHitPs().Play();
+        }
+        if (hitPos.gameObject.layer == LayerMask.NameToLayer("Boss"))
+        {
+            Physics.Raycast(star, dir, out RaycastHit pos, Mathf.Infinity, LayerMask.GetMask("Boss"));
+            GetHitPs().transform.position = pos.point;
+            GetHitPs().Play();
+        }
         //  isshakeCamera = true;          //µe­±¾_Àú
     }
     List<ParticleSystem> hitList = new List<ParticleSystem>();
