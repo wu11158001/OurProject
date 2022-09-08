@@ -565,6 +565,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         selectRoleScreen.gameObject.SetActive(false);
         modeLeaveGame_Button.gameObject.SetActive(true);
         modeVolume.gameObject.SetActive(true);
+
+        GameDataManagement.Instance.equipBuff = new int[2] { -1, -1 };//¸Ë³ÆªºBuff
     }
 
     /// <summary>
