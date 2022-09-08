@@ -410,9 +410,10 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="knockDirection">À»°h¤è¦V</param>
     /// <param name="repel">À»°h¶ZÂ÷</param>
     /// <param name="attackerObjectID">§ðÀ»ªÌª«¥óID</param>
-    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage,bool isCritical, int knockDirection, float repel, int attackerObjectID)
+    /// <param name="attackerID">§ðÀ»ªÌID</param>
+    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage,bool isCritical, int knockDirection, float repel, int attackerObjectID, int attackerID)
     {
-        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID);
+        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID, attackerID);
     }
 
     /// <summary>
@@ -426,10 +427,11 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="knockDirection">À»°h¤è¦V</param>
     /// <param name="repel">À»°h¶ZÂ÷</param>
     /// <param name="attackerObjectID">§ðÀ»ªÌª«¥óID</param>
+    /// <param name="attackerID">§ðÀ»ªÌID</param>
     [PunRPC]
-    void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID)
+    void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID, int attackerID)
     {
-        GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID);
+        GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID, attackerID);
     }
 
     /// <summary>
