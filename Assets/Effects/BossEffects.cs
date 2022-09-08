@@ -15,11 +15,12 @@ public class BossEffects : MonoBehaviour
         Attack1 = firePos.transform.GetChild(0).GetComponent<ParticleSystem>();    //獲得特效組件;
     }
 
-    
+
     void Update()
     {
-        firePos.transform.position = ragonTongue02.transform.position;
-        firePos.transform.forward = ragonTongue02.transform.forward;
+        animInfo = anim.GetCurrentAnimatorStateInfo(0);
+      //  firePos.transform.position = ragonTongue02.transform.position;
+     //   firePos.transform.forward = ragonTongue02.transform.forward;
         Fire();
     }
 
@@ -27,9 +28,13 @@ public class BossEffects : MonoBehaviour
     {
         var idelName = "Attack.Attack1";
         var effect = Attack1;
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.4
-                                     && animInfo.normalizedTime <=0.45 
-                                     && !effect.GetComponent<ParticleSystem>().isPlaying)
-            effect.transform.GetComponent<ParticleSystem>().Play();
+        if (animInfo.IsName(idelName)// && animInfo.normalizedTime > 0.3
+                                      && animInfo.normalizedTime <= 0.4
+                                     && !effect.isPlaying)
+        {
+            effect.transform.position = ragonTongue02.transform.position;
+            effect.transform.forward = gameObject.transform.forward;
+            effect.Play();
+        }
     }
 }
