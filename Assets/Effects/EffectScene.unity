@@ -53288,19 +53288,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf07bd4d8e774eb48e7273353252009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lighting: 1
-  lightPower: {fileID: 0}
-  flashFlg: 0
-  flashTimer: 0.3
-  revOnTime: 0
-  keepOnTime: 0
-  keepTime: 0
-  flashingFlg: 0
-  minLight: 0
-  maxLight: 1
-  flashingOff: 0
-  flashingOffPower: 0
-  flashingOffIntensity: 1
 --- !u!1 &766284647554198469
 GameObject:
   m_ObjectHideFlags: 0
@@ -63396,6 +63383,10 @@ PrefabInstance:
     - target: {fileID: 107428017339676385, guid: 9c2e71e48191b8b47a1fbd06996e3d9b, type: 3}
       propertyPath: m_Name
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220918607781138224, guid: 9c2e71e48191b8b47a1fbd06996e3d9b, type: 3}
+      propertyPath: sceneViewId
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c2e71e48191b8b47a1fbd06996e3d9b, type: 3}
