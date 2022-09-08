@@ -17,7 +17,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
     public List<AttackMode> AttackMode_List = new List<AttackMode>();//紀錄所有攻擊行為    
 
-    Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
+    public  Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
 
     //敵人出生點
     Transform[] enemySoldiers1_Stage1Point;//敵人士兵1_階段1出生點
@@ -91,7 +91,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             }
             if (GameDataManagement.Instance.selectLevelNumber == 12)//第2關
             {
-                player.transform.position = new Vector3(32, -4f, -15f);
+                player.transform.position = new Vector3(36, -4.25f, -14f);
                 player.transform.rotation = Quaternion.Euler(0, 270, 0);//設定選轉
             }
         }
@@ -114,7 +114,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                     {
-                        player.transform.position = new Vector3(32, -4f, -15f + (i * 1.5f));
+                        player.transform.position = new Vector3(36, -4.25f, -14f + (i * 1.5f));
                         player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
                     }
                 }
@@ -654,7 +654,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             PhotonConnect.Instance.OnSendGameScoring(PhotonNetwork.NickName, GameSceneUI.Instance.MaxCombo, GameSceneUI.Instance.killNumber, GameSceneUI.Instance.accumulationDamage);
         }
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(5);
         GameSceneUI.Instance.OnSetGameResult(false, "");
 
         //設定遊戲結束UI
@@ -807,13 +807,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="knockDirection">擊退方向</param>
     /// <param name="repel">擊退距離</param>
     /// <param name="attackerObjectID">攻擊者物件ID</param>
-    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID)
+    /// <param name="attackerID">攻擊者ID</param>
+    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID, int attackerID)
     {
         CharactersCollision collision = connectObject_Dictionary[targetID].GetComponent<CharactersCollision>();
         if (collision != null)
         {
             GameObject attackObj = connectObject_Dictionary[attackerObjectID].gameObject;
-            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical, knockDirection, repel, attackObj);
+            GameObject attacker = connectObject_Dictionary[attackerID].gameObject;
+            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical, knockDirection, repel, attackObj, attacker);
         }
     }
 

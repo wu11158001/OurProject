@@ -9,7 +9,9 @@ public class BossAI : MonoBehaviourPunCallbacks
     Animator animator;
     AnimatorStateInfo info;
 
-    GameObject[] allPlayer;//所有玩家 
+    [SerializeField] GameObject[] allPlayer;//所有玩家 
+    
+    [SerializeField]Dictionary<int, float> allPlayerDamage = new Dictionary<int, float>();//紀錄所有玩家傷害
 
     //碰撞框
     Vector3 boxCenter;
@@ -107,10 +109,21 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnActive()
     {
-        state = State.追擊狀態;
-        allPlayer = GameObject.FindGameObjectsWithTag("Player");      
+        if (state != State.追擊狀態)
+        {
+            state = State.追擊狀態;
+            allPlayer = GameObject.FindGameObjectsWithTag("Player");
+            
+            if (GameDataManagement.Instance.isConnect)
+            {
+                for (int i = 0; i < allPlayer.Length; i++)
+                {                    
+                    allPlayerDamage.Add(allPlayer[i].GetComponent<PhotonView>().ViewID, 0);
+                }
+            }
 
-        OnChangeAnimation(animationName: "Roar", animationType: true);
+            OnChangeAnimation(animationName: "Roar", animationType: true);
+        }
     }
 
     /// <summary>
@@ -123,21 +136,43 @@ public class BossAI : MonoBehaviourPunCallbacks
         if (findTime <= 0)
         {
             findTime = fineTargetTime;
-            OnFindTarget();//尋找目標
+            if (!GameDataManagement.Instance.isConnect) OnFindTarget();//尋找目標
+            else OnFindTarget_Connect();//尋找目標_連線
         }
     }
 
-    /* /// <summary>
-     /// 設定玩家傷害
-     /// </summary>
-     /// <param name="attacker">攻擊者</param>
-     /// <param name="damage">傷害</param>
-     public void OnSetPlayDamage(GameObject attacker, float damage)
-     {
-         playersDamage.Remove(attacker.transform);
-         playersDamage.Add(attacker.transform, damage);
-     }*/
+    /// <summary>
+    /// 紀錄傷害
+    /// </summary>
+    /// <param name="id">玩家ID</param>
+    /// <param name="damage">傷害</param>
+    public void OnSetRecordDamage(int id, float damage)
+    {
+        allPlayerDamage[id] += damage;        
+    }
 
+    /// <summary>
+    /// 尋找目標_連線
+    /// </summary>
+    void OnFindTarget_Connect()
+    {
+        float bestDamage = 0;
+        int number = 0;
+        int targetNumber = 0;
+        foreach (var player in allPlayerDamage)
+        {
+            if (player.Value > bestDamage)
+            {                
+                bestDamage = player.Value;
+                targetNumber = number;
+                
+            }
+            number++;
+        }
+        
+        target = allPlayer[targetNumber];
+    }
+    
     /// <summary>
     /// 尋找目標
     /// </summary>
@@ -171,9 +206,12 @@ public class BossAI : MonoBehaviourPunCallbacks
     {
         if (target != null || target.activeSelf)
         {
-            //轉向目標
-            transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, speed, speed);
-            transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+            if (!info.IsTag("Die"))
+            {
+                //轉向目標
+                transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, speed, speed);
+                transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+            }
         }
     }
 
@@ -185,7 +223,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //小大於攻擊範圍
         if ((transform.position - target.transform.position).magnitude > longAttackRadius)
         {
-            if (info.IsTag("Fly"))
+            if (info.IsName("Fly"))
             {
                 transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
             }
