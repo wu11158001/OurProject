@@ -44,7 +44,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //連線 && 不是自己的
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
         {
-            //GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
             this.enabled = false;
             return;
         }

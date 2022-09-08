@@ -14,7 +14,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     GameData_NumericalValue NumericalValue;
 
     [Header("任務設定")]
-    [SerializeField] bool isTaskObject;//是否為任務物件
+    [SerializeField] public bool isTaskObject;//是否為任務物件
     [SerializeField] string enemyName;//敵人名稱
 
     //碰撞框
@@ -889,12 +889,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             return true;
         }
 
-        //避免失誤塞進物件
+       /* //避免失誤塞進物件
         if (Physics.CheckBox(transform.position + Vector3.up * 0.5f, new Vector3(0.22f, 0.22f, 0.22f), Quaternion.Euler(transform.localEulerAngles), mask))
         {
             Debug.LogError("s");
             transform.position = transform.position - Vector3.up * 5 * Time.deltaTime;
-        }
+        }*/
 
         return false;
     }

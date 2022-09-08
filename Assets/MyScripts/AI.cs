@@ -111,10 +111,17 @@ public class AI : MonoBehaviourPunCallbacks
     {
         animator = GetComponent<Animator>();
 
+        charactersCollision = GetComponent<CharactersCollision>();
+
         //連線 && 不是自己的
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
-        {
-            //GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+        {            
+            if (charactersCollision.isTaskObject) GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
+            if (gameObject.tag == "Enemy") GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            if (gameObject.tag == "Alliance")
+            {               
+                GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+            }
             this.enabled = false;
             return;
         }
@@ -125,10 +132,10 @@ public class AI : MonoBehaviourPunCallbacks
         if (gameObject.layer == LayerMask.NameToLayer("Alliance")) mask = LayerMask.GetMask("Enemy");//攻擊對象Layer
 
         aStart.initial();
-        charactersCollision = GetComponent<CharactersCollision>();
+
 
         //判斷角色
-         switch(role)
+        switch (role)
          {
              case Role.同盟士兵1://同盟士兵
                  isMelee = true;//近戰腳色
@@ -292,6 +299,13 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnInitial()
     {
+        if (charactersCollision.isTaskObject) GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
+        if (gameObject.tag == "Enemy") GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+        if (gameObject.tag == "Alliance")
+        {
+            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+        }
+
         if (isAttackIdle)
         {
             isAttackIdle = false;
