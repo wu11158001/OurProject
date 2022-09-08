@@ -117,6 +117,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Text player3_AccumulationDamageNumber_Text;//Player3累積傷害
     Text player4_AccumulationDamageNumber_Text;//Player4累積傷害
     Text[] allPlayer_AccumulationDamageNumber_Text;
+    Button backToStartOver_Button;//回到start場景按鈕
 
     void Awake()
     {
@@ -194,7 +195,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         backToStart_Button.onClick.AddListener(OnLeaveGame);
         gameResult = ExtensionMethods.FindAnyChild<Transform>(transform, "GameResult");//GameResult UI控制
         gameResult_Text = ExtensionMethods.FindAnyChild<Text>(transform, "GameResult_Text"); ;//遊戲結果文字
-        gameResult.gameObject.SetActive(false);
+        gameResult.gameObject.SetActive(false);        
 
         //其他
         tipBackground_Image = ExtensionMethods.FindAnyChild<Image>(transform, "TipBackground_Image");//提示文字背景
@@ -260,6 +261,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         player3_AccumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player3_AccumulationDamageNumber_Text");//Player3累積傷害
         player4_AccumulationDamageNumber_Text = ExtensionMethods.FindAnyChild<Text>(transform, "Player4_AccumulationDamageNumber_Text");//Player4累積傷害
         allPlayer_AccumulationDamageNumber_Text = new Text[] { player1_AccumulationDamageNumber_Text, player2_AccumulationDamageNumber_Text, player3_AccumulationDamageNumber_Text, player4_AccumulationDamageNumber_Text };
+        backToStartOver_Button = ExtensionMethods.FindAnyChild<Button>(transform, "BackToStartOver_Button");//回到start場景按鈕
+        backToStartOver_Button.onClick.AddListener(OnLeaveGame);
 
         //連線玩家
         connectUI = ExtensionMethods.FindAnyChild<Transform>(transform, "ConnectUI");//ConnectUI 控制
@@ -566,7 +569,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         isOptions = false;
         options.gameObject.SetActive(isOptions);
         Time.timeScale = 1;
-
+        Debug.LogError("s");
         //連線
         if (GameDataManagement.Instance.isConnect)
         {

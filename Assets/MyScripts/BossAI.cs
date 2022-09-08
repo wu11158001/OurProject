@@ -148,8 +148,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// <param name="damage">傷害</param>
     public void OnSetRecordDamage(int id, float damage)
     {
-        allPlayerDamage[id] += damage;
-        Debug.LogError("id:" + id + " damage:" + allPlayerDamage[id]);
+        allPlayerDamage[id] += damage;        
     }
 
     /// <summary>
@@ -207,9 +206,12 @@ public class BossAI : MonoBehaviourPunCallbacks
     {
         if (target != null || target.activeSelf)
         {
-            //轉向目標
-            transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, speed, speed);
-            transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+            if (!info.IsTag("Die"))
+            {
+                //轉向目標
+                transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, speed, speed);
+                transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
+            }
         }
     }
 
@@ -221,7 +223,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //小大於攻擊範圍
         if ((transform.position - target.transform.position).magnitude > longAttackRadius)
         {
-            if (info.IsTag("Fly"))
+            if (info.IsName("Fly"))
             {
                 transform.position = transform.position + transform.forward * chaseSpeed * Time.deltaTime;
             }
