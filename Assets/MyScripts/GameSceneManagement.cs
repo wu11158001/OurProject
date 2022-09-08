@@ -91,7 +91,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             }
             if (GameDataManagement.Instance.selectLevelNumber == 12)//第2關
             {
-                player.transform.position = new Vector3(36, -4.25f, -14f);
+                player.transform.position = new Vector3(17, -0.5f, -15f);
                 player.transform.rotation = Quaternion.Euler(0, 270, 0);//設定選轉
             }
         }
@@ -114,7 +114,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                     {
-                        player.transform.position = new Vector3(36, -4.25f, -14f + (i * 1.5f));
+                        player.transform.position = new Vector3(17, -0.5f, -15 + (i * 1.5f));
                         player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
                     }
                 }
