@@ -83,7 +83,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //小地圖攝影機
         miniMap_Camera = GameObject.Find("MiniMap_Camera");
         //miniMap_Camera.transform.SetParent(transform);
-        miniMap_Camera.transform.localPosition = new Vector3(0, 55, 0);
+        miniMap_Camera.transform.localPosition = new Vector3(210, 55, -9f);        
 
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
@@ -192,7 +192,11 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnMiniMap()
     {
-        miniMap_Camera.transform.position = new Vector3(transform.position.x, miniMap_Camera.transform.position.y, transform.position.z);
+        float posX = transform.position.x;
+        if (posX >= 210) posX = 210;
+        if (posX <= 31) posX = 31;
+
+        miniMap_Camera.transform.position = new Vector3(posX, miniMap_Camera.transform.position.y, miniMap_Camera.transform.position.z);
     }
 
     /// <summary>

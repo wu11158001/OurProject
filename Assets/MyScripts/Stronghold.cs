@@ -53,7 +53,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
         hp = maxHp;
 
         //產生士兵時間
-        createSoldierTime = 10;//產生士兵時間
+        createSoldierTime = 30;//產生士兵時間
         //createTime = createSoldierTime;//產生士兵時間(計時器)
     }
 

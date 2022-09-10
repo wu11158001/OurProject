@@ -476,7 +476,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (objTag == "Alliance")
             {
                 //產生敵人士兵1
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     StartCoroutine(OnDelayCreateSoldier_Alliance("allianceSoldier_1", loadPath.allianceSoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));
                 }
@@ -597,8 +597,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="taskValue">任務文字</param>
     public void OnTaskText()
-    {
-        Debug.Log("s");
+    {        
         taskNumber++;//已完成任務數量
 
         //任務判定
@@ -729,7 +728,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             obj.transform.localScale = new Vector3(itemBoxSize.x, itemBoxSize.z, 1);
         }
         else obj.transform.localScale = new Vector3(5, 5, 5);*/
-        obj.transform.localScale = new Vector3(8, 8, 8);
+
+        if(item.gameObject.layer == LayerMask.NameToLayer("Player")) obj.transform.localScale = new Vector3(12,12,12);//玩家
+        else if(item.GetComponent<CharactersCollision>().isTaskObject) obj.transform.localScale = new Vector3(15, 15, 15);//任務
+        else obj.transform.localScale = new Vector3(8, 8, 8);
 
 
         //選轉

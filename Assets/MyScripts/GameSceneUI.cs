@@ -9,6 +9,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     static GameSceneUI gameSceneUI;
     public static GameSceneUI Instance => gameSceneUI;
 
+    [Header("MiniMap")]
+    Transform miniMap;//小地圖
+
     [Header("敵人生命條")]
     Transform enemyLifeBar;//EnemyLifeBar UI控制
     Image enemyLifeBarFront_Image;//生命條(前)
@@ -131,6 +134,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        //小地圖
+        miniMap = ExtensionMethods.FindAnyChild<Transform>(transform, "MiniMap");//小地圖
+        if (GameDataManagement.Instance.selectLevelNumber == 12) miniMap.gameObject.SetActive(false);
+
         //敵人生命條        
         enemyLifeBarName_Text = ExtensionMethods.FindAnyChild<Text>(transform, "EnemyLifeBarName_Text");//敵人名稱
         enemyLifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "EnemyLifeBarFront_Image");//生命條(前)
@@ -569,7 +576,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         isOptions = false;
         options.gameObject.SetActive(isOptions);
         Time.timeScale = 1;
-        Debug.LogError("s");
+        
         //連線
         if (GameDataManagement.Instance.isConnect)
         {
