@@ -70,6 +70,9 @@ MonoBehaviour:
   - OnOtherPlayerLifeBare
   - OnGameScoring
   - OnPlayerDie
+  - OnTime
+  - OnIntoNexttLevel
+  - OnIntoNextLevel
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
