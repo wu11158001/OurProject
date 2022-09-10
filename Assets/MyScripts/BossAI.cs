@@ -15,7 +15,7 @@ public class BossAI : MonoBehaviourPunCallbacks
 
     //碰撞框
     Vector3 boxCenter;
-    Vector3 boxSize;
+    Vector3 boxSize;       
 
     [Header("攻擊")]
     float longAttackRadius;//攻擊半徑(遠距離)
@@ -32,7 +32,6 @@ public class BossAI : MonoBehaviourPunCallbacks
 
     [Header("追擊")]
     float chaseSpeed;//追擊速度
-
     //尋找
     float fineTargetTime;//尋找目標時間
     float findTime;//尋找目標時間(計時器)
@@ -69,7 +68,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //追擊
         chaseSpeed = 5.3f;//追擊速度
 
-        fineTargetTime = 5;//尋找玩家時間
+        fineTargetTime = 3;//尋找玩家時間        
 
         state = State.待機狀態;
     }
@@ -83,7 +82,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         if (state == State.追擊狀態)
         {
             OnFindTargetTime();//尋找目標時間
-            OnRotateToTarget(0.03f);//轉向至目標
+            OnRotateToTarget();//轉向至目標
             OnChaseTarget();//追擊目標
         }
 
@@ -162,15 +161,19 @@ public class BossAI : MonoBehaviourPunCallbacks
         foreach (var player in allPlayerDamage)
         {
             if (player.Value > bestDamage)
-            {                
-                bestDamage = player.Value;
-                targetNumber = number;
+            {
+                if (allPlayer[targetNumber].activeSelf)
+                {
+                    bestDamage = player.Value;
+                    targetNumber = number;
+                }
                 
             }
             number++;
         }
-        
-        target = allPlayer[targetNumber];
+
+        if (bestDamage != 0 && allPlayer[targetNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[targetNumber];     
+        else OnFindTarget();
     }
     
     /// <summary>
@@ -183,8 +186,8 @@ public class BossAI : MonoBehaviourPunCallbacks
         float distance;//其他玩家距離
         int chaseNumber = 0;//追擊編號
         for (int i = 0; i < allPlayer.Length; i++)
-        {
-            if (allPlayer[i].activeSelf != false)
+        {            
+            if (allPlayer[i].GetComponent<CharactersCollision>().Hp > 0)
             {
                 distance = (allPlayer[i].transform.position - transform.position).magnitude;
                 if (distance < closestPlayerDistance)
@@ -194,22 +197,34 @@ public class BossAI : MonoBehaviourPunCallbacks
                 }
             }
         }
-        
-        target = allPlayer[chaseNumber];
+
+        if(allPlayer[chaseNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[chaseNumber];
+        else
+        {
+            for (int i = 0; i < allPlayer.Length; i++)
+            {
+                if (allPlayer[i].GetComponent<CharactersCollision>().Hp > 0)
+                {
+                    target = allPlayer[i];
+                    return;
+                }
+            }
+        }
     }
 
     /// <summary>
     /// 轉向至目標
     /// </summary>
     /// <param name="speed">轉向速度</param>
-    void OnRotateToTarget(float speed)
+    void OnRotateToTarget()
     {
+        float speed = 1f;
         if (target != null || target.activeSelf)
         {
             if (!info.IsTag("Die"))
             {
                 //轉向目標
-                transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, speed, speed);
+                transform.forward = Vector3.RotateTowards(transform.forward, target.transform.position - transform.position, speed * Time.deltaTime, speed * Time.deltaTime);
                 transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
             }
         }
@@ -249,7 +264,11 @@ public class BossAI : MonoBehaviourPunCallbacks
     {
         if (attackIdleTime > 0)
         {
-            if(!info.IsTag("Attack")) attackIdleTime -= Time.deltaTime;
+            if (!info.IsTag("Attack"))
+            {
+                OnRotateToTarget();
+                attackIdleTime -= Time.deltaTime;
+            }
 
             if (attackIdleTime <= 0)
             {
@@ -264,11 +283,10 @@ public class BossAI : MonoBehaviourPunCallbacks
         }
 
         if (attackIdleTime <= 0)
-        {
+        {            
             float dir = Vector3.Dot(transform.forward, Vector3.Cross(Vector3.up, target.transform.position - transform.position));
-
             //已轉向至目標
-            if (dir > -1 && dir < 1)
+            if (Vector3.Dot(transform.forward, target.transform.position - transform.position) > 0 && dir > -1 && dir < 1)
             {
                 if (!info.IsTag("Attack"))
                 {
@@ -280,8 +298,8 @@ public class BossAI : MonoBehaviourPunCallbacks
             }
             else
             {
-                if (!info.IsTag("Attack")) OnRotateToTarget(0.03f);//轉向至目標
-            }           
+                if (!info.IsTag("Attack")) OnRotateToTarget();//轉向至目標
+            }
         }
     }
 

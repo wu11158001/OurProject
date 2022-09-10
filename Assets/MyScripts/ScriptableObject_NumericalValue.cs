@@ -386,20 +386,20 @@ public class GameData_NumericalValue
 
         //玩家
         playerHp = 850;//玩家生命值850
-        playerMoveSpeed = 6.3f;//玩家移動速度        
+        playerMoveSpeed = 6.5f;//玩家移動速度      
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         //據點
-        strongholdHp = 100;//據點HP
+        strongholdHp = 300;//據點HP
 
         //同盟士兵HP
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
-        boss_Hp = 2000;//Boss_生命值
+        boss_Hp = 1700;//Boss_生命值
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值
@@ -445,7 +445,7 @@ public class GameData_NumericalValue
         //戰士 技能攻擊1
         warriorSkillAttack_1_Damge = 50;//戰士技能攻擊2_傷害
         warriorSkillAttack_1_RepelDirection = 0;//戰士技能攻擊2_擊退方向(0:擊退 1:擊飛)
-        warriorSkillAttack_1_RepelDistance = 70;//戰士技能攻擊2_擊退/擊飛距離    
+        warriorSkillAttack_1_RepelDistance = 45;//戰士技能攻擊2_擊退/擊飛距離    
         warriorSkillAttack_1_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
         warriorSkillAttack_1_ForwardDistance = 1.6f;//戰士技能攻擊2_攻擊範圍中心點距離物件前方
         warriorSkillAttack_1_attackRadius = 1.65f;//戰士技能攻擊2_攻擊半徑

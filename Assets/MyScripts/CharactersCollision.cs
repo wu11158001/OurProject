@@ -516,6 +516,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
                 GetComponent<BoxCollider>().enabled = false;//關閉碰撞框               
 
+                //Boss死亡
+                if(gameObject.layer == LayerMask.NameToLayer("Boss"))
+                {
+                    boxSize = new Vector3(boxSize.x, 1.3f, boxSize.z);
+                }
+
                 //任務物件
                 if (isTaskObject)
                 {
@@ -543,6 +549,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     //設定遊戲結束
                     StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
                 }
+                //連線 && 玩家死亡
+                if (GameDataManagement.Instance.isConnect && gameObject.layer == LayerMask.NameToLayer("Player"))
+                {
+                    PhotonConnect.Instance.OnSendPlayerDie();
+                }
+
                 return;
             }
 
@@ -623,9 +635,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //任務物件
         if (isTaskObject)
         {
-            //設定生命條
+            /*//設定生命條
             GameSceneUI.Instance.OnSetEnemyLifeBarValue(enemyName, Hp / MaxHp);
-            GameSceneUI.Instance.SetEnemyLifeBarActive = true;
+            GameSceneUI.Instance.SetEnemyLifeBarActive = true;*/
         }
 
         //Boss && 連線

@@ -645,5 +645,56 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
 
         GameSceneUI.Instance.OnConnectGameOver(playerList, nickName, MaxCombo, killNumber, accumulationDamage);
     }
+
+    /// <summary>
+    /// 發送玩家死亡訊息
+    /// </summary>
+    public void OnSendPlayerDie()
+    {
+        photonView.RPC("OnPlayerDie", RpcTarget.All);
+    }
+
+    /// <summary>
+    /// 玩家死亡訊息
+    /// </summary>
+    [PunRPC]
+    void OnPlayerDie()
+    {
+        GameSceneManagement.Instance.lifePlayerNumber--;
+
+        if(GameSceneManagement.Instance.lifePlayerNumber <= 0)
+        {
+            //遊戲結果文字
+            GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
+            GameSceneManagement.Instance.OnSetGameOver(false);
+            GameSceneUI.Instance.connectGameOverResult_Text.text = " 失 敗 總 結 ";
+            //設定遊戲結束
+            StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
+        }
+    }
+
+    /// <summary>
+    /// 發送進入下一關
+    /// </summary>
+    public void OnSendIntoNexttLevel()
+    {
+        photonView.RPC("OnIntoNextLevel", RpcTarget.All);
+    }
+
+    /// <summary>
+    /// 進入下一關
+    /// </summary>
+    [PunRPC]
+    void OnIntoNextLevel()
+    {
+        Time.timeScale = 1;
+        
+        if (PhotonNetwork.IsMasterClient)
+        {                      
+            if(GameDataManagement.Instance.selectLevelNumber == 11) PhotonNetwork.LoadLevel("LevelScene" + 12);
+            if (GameDataManagement.Instance.selectLevelNumber == 12) PhotonNetwork.LoadLevel("StartScene");
+        }
+        GameDataManagement.Instance.selectLevelNumber = 12;
+    }
     #endregion
 }

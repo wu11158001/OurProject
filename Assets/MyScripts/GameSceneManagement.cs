@@ -32,6 +32,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     Transform[] allianceSoldier1_Stage4Point;//我方士兵1_階段4出生點
 
     //任務
+    public bool isVictory;//是否過關
     public string[] taskText;//各階段任務文字
     public string[] tipTaskText;//提示任務文字
     public int taskStage;//目前任務階段
@@ -39,6 +40,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public int taskNumber;//已完成任務數量
     GameObject strongholdStage3;//第3階段據點    
     public bool isCreateBoss;//是否已創建Boss
+    public int lifePlayerNumber;//生存的玩家數量
+    
 
     //可控制城門
     float gateSpeed;//城門移動速度
@@ -47,6 +50,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        Time.timeScale = 1;
+
         if (gameSceneManagement != null)
         {
             Destroy(this);
@@ -97,6 +102,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         }
         else//連線位置
         {
+            lifePlayerNumber = PhotonNetwork.CurrentRoom.PlayerCount;//生存的玩家數量
+
             if (GameDataManagement.Instance.selectLevelNumber == 11)//第1關
             {
                 for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
@@ -235,7 +242,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             //任務
             taskNumber = -1;//已完成任務數量
-            tipTaskText = new string[] { "擊破該區域所有據點", "擊倒城門守衛", "擊破機關\n打開城門", "擊破城內所有據點" };//提示任務文字
+            tipTaskText = new string[] { "擊破該區域\n所有據點", "擊倒城門守衛", "擊破機關\n打開城門", "擊破城內\n所有據點" };//提示任務文字
             taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破機關\n打開城門 :", "擊破城內\n所有據點 :" };//個階段任務文字
             //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 2,//階段1
@@ -244,7 +251,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                                      3};//階段4
 
             //任務提示
-            StartCoroutine(OnTaskTipText(taskTipValue: taskText[taskStage].ToString()));
+            StartCoroutine(OnTaskTipText(taskTipValue: tipTaskText[taskStage].ToString()));
 
             //任務文字
             OnTaskText();
@@ -313,6 +320,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {
         if (taskStage == 3)//第3階段過關
         {
+            //if (stage1_Gate.GetComponent<BoxCollider>().enabled) stage1_Gate.GetComponent<BoxCollider>().enabled = false;
             if (stage1_Gate.transform.position.y < -12)
             {
                 //玩家在範圍內
@@ -622,7 +630,13 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             if (taskStage >= taskNeedNumber.Length)//過關
             {
-                //StartCoroutine(OnTaskTipText(taskTipValue: "勝利"));//任務提示                  
+                //StartCoroutine(OnTaskTipText(taskTipValue: "勝利"));//任務提示
+                AI[] ais = GameObject.FindObjectsOfType<AI>();
+                for (int i = 0; i < ais.Length; i++)
+                {
+                    ais[i].gameObject.SetActive(false);
+                }
+                
                 GameSceneUI.Instance.OnSetGameResult(true, "勝 利");
                 StartCoroutine(OnSetGameOver(true));//設定遊戲結束
             }
@@ -654,7 +668,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             PhotonConnect.Instance.OnSendGameScoring(PhotonNetwork.NickName, GameSceneUI.Instance.MaxCombo, GameSceneUI.Instance.killNumber, GameSceneUI.Instance.accumulationDamage);
         }
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
+        isVictory = true;//是否過關
         GameSceneUI.Instance.OnSetGameResult(false, "");
 
         //設定遊戲結束UI
@@ -777,24 +792,27 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="anmationName">動畫更換目標ID</param>
     /// <param name="animationType">動畫Type</param>
     public void OnConnectAnimationSetting<T>(int targetID, string anmationName, T animationType)
-    {
-        Animator animator = connectObject_Dictionary[targetID].GetComponent<Animator>();
-        if (animator != null)
+    {        
+        if (connectObject_Dictionary[targetID] != null)
         {
-            switch (animationType.GetType().Name)
+            Animator animator = connectObject_Dictionary[targetID].GetComponent<Animator>();
+            if (animator != null)
             {
-                case "Boolean":
-                    animator.SetBool(anmationName, Convert.ToBoolean(animationType));
-                    break;
-                case "Single":
-                    animator.SetFloat(anmationName, Convert.ToSingle(animationType));
-                    break;
-                case "Int32":
-                    animator.SetInteger(anmationName, Convert.ToInt32(animationType));
-                    break;
-                case "String":
-                    animator.SetTrigger(anmationName);
-                    break;
+                switch (animationType.GetType().Name)
+                {
+                    case "Boolean":
+                        animator.SetBool(anmationName, Convert.ToBoolean(animationType));
+                        break;
+                    case "Single":
+                        animator.SetFloat(anmationName, Convert.ToSingle(animationType));
+                        break;
+                    case "Int32":
+                        animator.SetInteger(anmationName, Convert.ToInt32(animationType));
+                        break;
+                    case "String":
+                        animator.SetTrigger(anmationName);
+                        break;
+                }
             }
         }
     }

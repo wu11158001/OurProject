@@ -91,6 +91,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
     [Header("連線記分板")]
     Transform connectGameOver;//ConnectGameOver UI控制
+    public Text connectGameOverResult_Text;//連線遊戲結果
     Transform player1_Over;//Player1_Over UI控制
     Transform player2_Over;//Player2_Over UI控制
     Transform player3_Over;//Player3_Over UI控制
@@ -231,6 +232,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //連線記分板
         connectGameOver = ExtensionMethods.FindAnyChild<Transform>(transform, "ConnectGameOver");//ConnectGameOver UI控制
         connectGameOver.gameObject.SetActive(false);
+        connectGameOverResult_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ConnectGameOverResult_Text");//連線遊戲結果
+        connectGameOverResult_Text.text = " 勝 利 總 結 ";
         player1_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player1_Over");//Player1_Over UI控制
         player2_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player2_Over");//Player2_Over UI控制
         player3_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player3_Over");//Player3_Over UI控制
@@ -390,7 +393,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetGameOverUI(bool clearance)
     {
         isGameOver = true;//遊戲結束
-        Time.timeScale = 0;
+        if(!clearance) Time.timeScale = 0;
 
         //開啟選項
         if (isOptions)
@@ -442,6 +445,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// <param name="accumulationDamage">累積傷害</param>
     public void OnConnectGameOver(List<string> playerList, string nickName, int MaxCombo, int killNumber, float accumulationDamage)
     {
+        if (!PhotonNetwork.IsMasterClient) backToStartOver_Button.gameObject.SetActive(false);
+
         for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {                      
             if(nickName == playerList[i])
@@ -460,7 +465,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnPlayGameTime()
     {
-        playerGameTime += Time.deltaTime;//遊戲時間
+        playerGameTime = Time.realtimeSinceStartup;//遊戲時間
     }
 
     /// <summary>
@@ -544,6 +549,12 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
             if (isOptions)
             {
+                HitNumber[] hitNumbers = GameObject.FindObjectsOfType<HitNumber>();
+                for (int i = 0; i < hitNumbers.Length; i++)
+                {
+                    Destroy(hitNumbers[i].gameObject);
+                }
+
                 if (!GameDataManagement.Instance.isConnect) Time.timeScale = 0;              
 
                 //顯示滑鼠                
@@ -574,6 +585,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     void OnLeaveGame()
     {
         isOptions = false;
+        backToStartOver_Button.enabled = false;//關閉按鈕(避免連按)
         options.gameObject.SetActive(isOptions);
         Time.timeScale = 1;
         
@@ -586,8 +598,14 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             }
             else PhotonConnect.Instance.OnSendGameTip("玩家 : " + PhotonNetwork.NickName + " 離開遊戲");
         }
-        
-        StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));        
+
+        //判定是否過關
+        if (GameDataManagement.Instance.isConnect && GameSceneManagement.Instance.isVictory)
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonConnect.Instance.OnSendIntoNexttLevel();
+        }
+        else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
     }
 
     /// <summary>
