@@ -645,5 +645,31 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
 
         GameSceneUI.Instance.OnConnectGameOver(playerList, nickName, MaxCombo, killNumber, accumulationDamage);
     }
+
+    /// <summary>
+    /// 發送玩家死亡訊息
+    /// </summary>
+    public void OnSendPlayerDie()
+    {
+        photonView.RPC("OnPlayerDie", RpcTarget.All);
+    }
+
+
+    /// <summary>
+    /// 玩家死亡訊息
+    /// </summary>
+    [PunRPC]
+    void OnPlayerDie()
+    {
+        GameSceneManagement.Instance.lifePlayerNumber--;
+
+        if(GameSceneManagement.Instance.lifePlayerNumber <= 0)
+        {
+            //遊戲結果文字
+            GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
+            //設定遊戲結束
+            StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
+        }
+    }
     #endregion
 }

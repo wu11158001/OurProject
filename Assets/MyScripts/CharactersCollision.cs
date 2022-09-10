@@ -543,6 +543,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     //設定遊戲結束
                     StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
                 }
+                //連線 && 玩家死亡
+                if (GameDataManagement.Instance.isConnect && gameObject.layer == LayerMask.NameToLayer("Player"))
+                {
+                    PhotonConnect.Instance.OnSendPlayerDie();
+                }
+
                 return;
             }
 

@@ -282,7 +282,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!charactersCollision.isDie)
+        if (!charactersCollision.isDie && GameDataManagement.Instance.selectLevelNumber == 11 && !GameSceneManagement.Instance.isVictory)
         {
             //OnCollision();//碰撞框
 
@@ -291,6 +291,8 @@ public class AI : MonoBehaviourPunCallbacks
 
             OnGetAllPlayers();//獲取所有玩家
             OnCheckClosestPlayer();//檢查最近玩家
+
+            charactersCollision.OnCollision_Wall();
         }
     }
 
@@ -706,17 +708,17 @@ public class AI : MonoBehaviourPunCallbacks
         if (OnCheckCompanionBox(diretion: transform.forward) && !isExecuteAStart)
         {
             chaseSlowDownSpeed -= loseSpeed * Time.deltaTime;//追擊減速速度            
-            if (chaseSlowDownSpeed <= 0f)
+            if (chaseSlowDownSpeed <= 0.1f)
             {
-                chaseSlowDownSpeed = 0f;
+                chaseSlowDownSpeed = 0.1f;
                 
-                if (!isPauseChase)
+               /* if (!isPauseChase)
                 {
                     isPauseChase = true;//暫停追擊
 
                     OnChangeAnimation(animationName: "Run", animationType: false);
                     OnChangeAnimation(animationName: "AttackIdle", animationType: true);
-                }
+                }*/
             }
 
             changeDiretionTime_Forward -= Time.deltaTime;//更換方向時間

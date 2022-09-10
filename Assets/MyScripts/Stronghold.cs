@@ -140,8 +140,8 @@ public class Stronghold : MonoBehaviourPunCallbacks
         hp -= damage;
         if (hp <= 0) hp = 0;
 
-        //設定生命條
+        /*//設定生命條
         GameSceneUI.Instance.OnSetEnemyLifeBarValue(builidName, hp / maxHp);
-        GameSceneUI.Instance.SetEnemyLifeBarActive = true;
+        GameSceneUI.Instance.SetEnemyLifeBarActive = true*/
     }
 }
