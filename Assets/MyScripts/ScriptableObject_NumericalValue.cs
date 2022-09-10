@@ -385,15 +385,15 @@ public class GameData_NumericalValue
         //cameraAngle = 20;//攝影機角度
 
         //玩家
-        playerHp = 50;//玩家生命值850
-        playerMoveSpeed = 6.3f;//玩家移動速度      
+        playerHp = 850;//玩家生命值850
+        playerMoveSpeed = 6.5f;//玩家移動速度      
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         //據點
-        strongholdHp = 100;//據點HP
+        strongholdHp = 300;//據點HP
 
         //同盟士兵HP
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值

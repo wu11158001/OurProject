@@ -172,7 +172,7 @@ public class BossAI : MonoBehaviourPunCallbacks
             number++;
         }
 
-        if (bestDamage != 0) target = allPlayer[targetNumber];
+        if (bestDamage != 0 && allPlayer[targetNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[targetNumber];     
         else OnFindTarget();
     }
     
@@ -186,8 +186,8 @@ public class BossAI : MonoBehaviourPunCallbacks
         float distance;//其他玩家距離
         int chaseNumber = 0;//追擊編號
         for (int i = 0; i < allPlayer.Length; i++)
-        {
-            if (allPlayer[i].activeSelf != false)
+        {            
+            if (allPlayer[i].GetComponent<CharactersCollision>().Hp > 0)
             {
                 distance = (allPlayer[i].transform.position - transform.position).magnitude;
                 if (distance < closestPlayerDistance)
@@ -197,8 +197,19 @@ public class BossAI : MonoBehaviourPunCallbacks
                 }
             }
         }
-        
-        target = allPlayer[chaseNumber];
+
+        if(allPlayer[chaseNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[chaseNumber];
+        else
+        {
+            for (int i = 0; i < allPlayer.Length; i++)
+            {
+                if (allPlayer[i].GetComponent<CharactersCollision>().Hp > 0)
+                {
+                    target = allPlayer[i];
+                    return;
+                }
+            }
+        }
     }
 
     /// <summary>

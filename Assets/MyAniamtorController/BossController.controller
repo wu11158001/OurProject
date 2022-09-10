@@ -177,7 +177,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 48bf3eedf13b2a944b565f76c1b003e2, type: 3}
+  m_Motion: {fileID: 7400000, guid: 3e6addf1088a54149b9c9733990e267f, type: 3}
   m_Tag: Roar
   m_SpeedParameter: 
   m_MirrorParameter: 
