@@ -64,7 +64,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         maxAttackNumber = 1;//擁有攻擊招式
 
         //攻擊待機
-        maxAttackIdleTime = 3;//最大攻擊待機時間
+        maxAttackIdleTime = 1.5f;//最大攻擊待機時間
 
         //追擊
         chaseSpeed = 5.3f;//追擊速度
