@@ -35,7 +35,7 @@ MonoBehaviour:
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 13
-    playerHp: 850
+    playerHp: 50
     playerMoveSpeed: 6.3
     playerJumpForce: 11.05
     playerCriticalRate: 15
@@ -43,7 +43,7 @@ MonoBehaviour:
     playerSelfHealTime: 5
     strongholdHp: 100
     allianceSoldier1_Hp: 40
-    boss_Hp: 2000
+    boss_Hp: 1700
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
@@ -78,7 +78,7 @@ MonoBehaviour:
     warriorJumpAttack_IsAttackBehind: 1
     warriorSkillAttack_1_Damge: 50
     warriorSkillAttack_1_RepelDirection: 0
-    warriorSkillAttack_1_RepelDistance: 70
+    warriorSkillAttack_1_RepelDistance: 45
     warriorSkillAttack_1_Effect: Pain
     warriorSkillAttack_1_ForwardDistance: 1.6
     warriorSkillAttack_1_attackRadius: 1.65

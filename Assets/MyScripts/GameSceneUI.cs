@@ -544,6 +544,12 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
             if (isOptions)
             {
+                HitNumber[] hitNumbers = GameObject.FindObjectsOfType<HitNumber>();
+                for (int i = 0; i < hitNumbers.Length; i++)
+                {
+                    Destroy(hitNumbers[i].gameObject);
+                }
+
                 if (!GameDataManagement.Instance.isConnect) Time.timeScale = 0;              
 
                 //顯示滑鼠                
@@ -586,8 +592,14 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             }
             else PhotonConnect.Instance.OnSendGameTip("玩家 : " + PhotonNetwork.NickName + " 離開遊戲");
         }
-        
-        StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));        
+
+        //判定是否過關
+        if (GameSceneManagement.Instance.isVictory && GameDataManagement.Instance.selectLevelNumber == 11)
+        {
+            GameDataManagement.Instance.selectLevelNumber = 12;
+            StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene12"));
+        }
+        else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
     }
 
     /// <summary>
