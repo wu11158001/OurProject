@@ -12,12 +12,6 @@ EditorBuildSettings:
     path: Assets/MyScenes/ImportantScenes/StartScene.unity
     guid: 27e98f26583ceb14495ed785aa2162a8
   - enabled: 1
-    path: Assets/MyScenes/LevelScene1.unity
-    guid: 829e4ee948d5ba542921519c83d76d91
-  - enabled: 1
-    path: Assets/MyScenes/LevelScene2.unity
-    guid: 9d8aa46bfbecc5e4db0d1b81176192e7
-  - enabled: 1
     path: Assets/MyScenes/LevelScene11.unity
     guid: 064d87fc1be83c04f8e22420cb6ab611
   - enabled: 1

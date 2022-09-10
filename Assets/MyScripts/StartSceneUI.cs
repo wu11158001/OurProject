@@ -565,6 +565,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         selectRoleScreen.gameObject.SetActive(false);
         modeLeaveGame_Button.gameObject.SetActive(true);
         modeVolume.gameObject.SetActive(true);
+
+        GameDataManagement.Instance.equipBuff = new int[2] { -1, -1 };//裝備的Buff
     }
 
     /// <summary>
@@ -806,7 +808,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         //重製
         for (int j = 0; j < roomPlayerList.Count; j++)
         {
-            ExtensionMethods.FindAnyChild<Text>(roomPlayerTransformList[j], "ID_Text").text = "玩家";
+            ExtensionMethods.FindAnyChild<Text>(roomPlayerTransformList[j], "ID_Text").text = "";
             ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[j], "Left_Button").gameObject.SetActive(false);//更換腳色(左)
             ExtensionMethods.FindAnyChild<Button>(roomPlayerTransformList[j], "Right_Button").gameObject.SetActive(false);//更換腳色(右)
             roomPlayerList[j].GetComponent<RawImage>().texture = connectRoomRoleBackground;

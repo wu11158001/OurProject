@@ -91,7 +91,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             }
             if (GameDataManagement.Instance.selectLevelNumber == 12)//第2關
             {
-                player.transform.position = new Vector3(36, -4.25f, -14f);
+                player.transform.position = new Vector3(17, -0.5f, -15f);
                 player.transform.rotation = Quaternion.Euler(0, 270, 0);//設定選轉
             }
         }
@@ -114,7 +114,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                     {
-                        player.transform.position = new Vector3(36, -4.25f, -14f + (i * 1.5f));
+                        player.transform.position = new Vector3(17, -0.5f, -15 + (i * 1.5f));
                         player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
                     }
                 }
@@ -235,8 +235,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             //任務
             taskNumber = -1;//已完成任務數量
-            tipTaskText = new string[] { "擊破該區域所有據點", "擊倒城門守衛", "擊破湖中城門機關", "擊破城內所有據點" };//提示任務文字
-            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破湖中\n城門機關 :", "擊破城內\n所有據點 :" };//個階段任務文字
+            tipTaskText = new string[] { "擊破該區域所有據點", "擊倒城門守衛", "擊破機關\n打開城門", "擊破城內所有據點" };//提示任務文字
+            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破機關\n打開城門 :", "擊破城內\n所有據點 :" };//個階段任務文字
             //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 2,//階段1
                                      guardBoss_Stage2Point.Length,//階段2
@@ -597,7 +597,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="taskValue">任務文字</param>
     public void OnTaskText()
-    {        
+    {
+        Debug.Log("s");
         taskNumber++;//已完成任務數量
 
         //任務判定

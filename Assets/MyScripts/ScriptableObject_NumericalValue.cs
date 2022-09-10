@@ -393,7 +393,7 @@ public class GameData_NumericalValue
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         //據點
-        strongholdHp = 700;//據點HP
+        strongholdHp = 100;//據點HP
 
         //同盟士兵HP
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
@@ -710,7 +710,7 @@ public class GameData_NumericalValue
 
         #region Boss
         //Boss 攻擊1(飛 噴火)
-        bossAttack1_Damge = 35;//Boss攻擊1_傷害
+        bossAttack1_Damge = 25;//Boss攻擊1_傷害
         bossAttack1_RepelDirection = 0;//Boss攻擊1_擊退方向(0:擊退 1:擊飛)
         bossAttack1_RepelDistance = 0;//Boss攻擊1_擊退/擊飛距離    
         bossAttack1_Effect = "Pain";//Boss攻擊1_效果(受擊者播放的動畫名稱)
