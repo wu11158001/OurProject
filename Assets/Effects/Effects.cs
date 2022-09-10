@@ -163,14 +163,31 @@ public class Effects : MonoBehaviour
             effect.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
 
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.6
-                                    && animInfo.normalizedTime <= 65
-                                    && !effect.transform.GetChild(3).GetComponent<ParticleSystem>().isPlaying)
-            effect.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
-
-
+                                    && animInfo.normalizedTime <= 0.65)
+        {          
+            ArcSa3().transform.SetParent(SkillAttack_3.transform);
+            ArcSa3().transform.localPosition = SkillAttack_3.transform.GetChild(3).localPosition;
+            ArcSa3().transform.localScale = SkillAttack_3.transform.GetChild(3).localScale;
+            //   ArcSa3().transform.forward = SkillAttack_3.transform.forward;
+            ArcSa3().Play();
+        }
     }
 
-
+    List<ParticleSystem> arcSa3List = new List<ParticleSystem>();
+    ParticleSystem ArcSa3Pool()
+    {
+        ParticleSystem hitPs = Instantiate(SkillAttack_3.transform.GetChild(4).GetComponent<ParticleSystem>());
+        arcSa3List.Add(hitPs);
+        return hitPs;
+    }
+    ParticleSystem ArcSa3()
+    {
+        foreach (var hl in arcSa3List)
+        {
+            if (!hl.isPlaying) return hl;
+        }
+        return ArcSa3Pool();
+    }
 
 
     #region ªk®v

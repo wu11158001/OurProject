@@ -565,7 +565,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 10000
+    maxNumParticles: 1000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -10095,7 +10095,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 10000
+    maxNumParticles: 1000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -14259,7 +14259,7 @@ GameObject:
   - component: {fileID: 3881463226138908546}
   - component: {fileID: 8887382790203429843}
   - component: {fileID: 1537843738561737855}
-  - component: {fileID: 718637927243148911}
+  - component: {fileID: 6061322142222401820}
   m_Layer: 0
   m_Name: GuardBossNA3
   m_TagString: Untagged
@@ -14851,7 +14851,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 0
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -19055,7 +19055,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &718637927243148911
+--- !u!114 &6061322142222401820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19064,6 +19064,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8434727708695118268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59ab69455c56a824094ba2693b8d1049, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f5deecde110eec4e8c6190d4b0f42ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
