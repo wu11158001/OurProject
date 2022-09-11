@@ -91,7 +91,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         {
             if (GameDataManagement.Instance.selectLevelNumber == 11)//第1關
             {
-                player.transform.position = new Vector3(300f, -23.9f, -29f);
+                player.transform.position = new Vector3(348f, -23.8f, -25f);
                 player.transform.rotation = Quaternion.Euler(0, -85, 0);//設定選轉
             }
             if (GameDataManagement.Instance.selectLevelNumber == 12)//第2關
