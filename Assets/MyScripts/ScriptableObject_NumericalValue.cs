@@ -386,7 +386,7 @@ public class GameData_NumericalValue
 
         //玩家
         playerHp = 850;//玩家生命值850
-        playerMoveSpeed = 6.5f;//玩家移動速度      
+        playerMoveSpeed = 8.5f;//玩家移動速度   6.5   
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
@@ -399,11 +399,11 @@ public class GameData_NumericalValue
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
-        boss_Hp = 1700;//Boss_生命值
+        boss_Hp = 100;//Boss_生命值1700
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值
-        guardBoss_Hp = 600;//城門守衛Boss_生命值
+        guardBoss_Hp = 100;//城門守衛Boss_生命值600
 
         #region 戰士
         //戰士 普通攻擊1
@@ -489,7 +489,7 @@ public class GameData_NumericalValue
         archerJumpAttack_IsAttackBehind = false;//弓箭手跳躍攻擊_是否攻擊背後敵人
 
         //弓箭手 技能攻擊1
-        archerSkillAttack_1_Damage = 12;//弓箭手技能攻擊1_傷害
+        archerSkillAttack_1_Damage = 11;//弓箭手技能攻擊1_傷害
         archerSkillAttack_1_RepelDirection = 5;//弓箭手技能攻擊1_擊退方向(0:擊退 1:擊飛)
         archerSkillAttack_1_Repel = 13;//弓箭手技能攻擊1_擊退距離        
         archerSkillAttack_1_Effect = "Pain";//弓箭手技能攻擊1_效果(受擊者播放的動畫名稱)
@@ -517,7 +517,7 @@ public class GameData_NumericalValue
 
         #region 法師
         //法師普通攻擊1
-        magicianNormalAttack_1_Damage = 7;//法師普通攻擊1_傷害
+        magicianNormalAttack_1_Damage = 9;//法師普通攻擊1_傷害
         magicianNormalAttack_1_RepelDirection = 0;//法師普通攻擊1_擊退方向(0:擊退 1:擊飛)
         magicianNormalAttack_1_Repel = 5;//法師普通攻擊1_擊退距離        
         magicianNormalAttack_1_Effect = "Pain";//法師普通攻擊1_效果(受擊者播放的動畫名稱)
@@ -525,7 +525,7 @@ public class GameData_NumericalValue
         magicianNormalAttack_1_LifeTime = 1f;//法師普通攻擊1_生存時間
 
         //法師普通攻擊2
-        magicianNormalAttack_2_Damge = 5;//法師普通攻擊2_傷害
+        magicianNormalAttack_2_Damge = 7;//法師普通攻擊2_傷害
         magicianNormalAttack_2_RepelDirection = 0;//法師普通攻擊2_擊退方向(0:擊退 1:擊飛)
         magicianNormalAttack_2_RepelDistance = 7;//法師普通攻擊2_擊退/擊飛距離    
         magicianNormalAttack_2_Effect = "Pain";//法師普通攻擊2_效果(受擊者播放的動畫名稱)        
@@ -552,7 +552,7 @@ public class GameData_NumericalValue
         magicianJumpAttack_IsAttackBehind = true;//法師跳躍攻擊_是否攻擊背後敵人
 
         //法師技能攻擊1
-        magicianSkillAttack_1_HealValue = 4;//法師普通攻擊1_治療量(%)    
+        magicianSkillAttack_1_HealValue = 5;//法師普通攻擊1_治療量(%)    
         magicianSkillAttack_1_ForwardDistance = 0;//法師普通攻擊1_治療範圍中心點距離物件前方
         magicianSkillAttack_1_attackRange = 5;//法師普通攻擊1_治療半徑
         magicianSkillAttack_1_IsAttackBehind = true;//法師普通攻擊1_是否治療背後盟友
@@ -715,7 +715,7 @@ public class GameData_NumericalValue
         bossAttack1_RepelDistance = 0;//Boss攻擊1_擊退/擊飛距離    
         bossAttack1_Effect = "Pain";//Boss攻擊1_效果(受擊者播放的動畫名稱)
         bossAttack1_FloatSpeed = 15;//Boss攻擊1_攻擊飛行速度
-        bossAttack1_LifeTime = 0.5f;//Boss攻擊1_生存時間
+        bossAttack1_LifeTime = 1f;//Boss攻擊1_生存時間
 
         //Boss 攻擊2(頭攻擊)
         bossAttack2_Damge = 35;//Boss攻擊2_傷害

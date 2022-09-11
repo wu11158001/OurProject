@@ -56,6 +56,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //¸I¼²®Ø
         boxCenter = GetComponent<BoxCollider>().center;
         boxSize = GetComponent<BoxCollider>().size;
+        GetComponent<BoxCollider>().enabled = false;
 
         //§ðÀ»
         longAttackRadius = 10;//§ðÀ»¥b®|(»·¶ZÂ÷)
@@ -218,7 +219,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// <param name="speed">Âà¦V³t«×</param>
     void OnRotateToTarget()
     {
-        float speed = 1f;
+        float speed = 2.1f;
         if (target != null || target.activeSelf)
         {
             if (!info.IsTag("Die"))

@@ -64,12 +64,12 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Image comboBackground_Image;//連擊數文字背景
 
     [Header("計分板")]
+    public float playerGameTime;//遊戲時間
     Text playGameTime_Text;//遊戲時間文字
     Text maxKillNumber_Text;//最大擊殺數文字
     Text maxCombolNumber_Text;//最大連擊數文字
     Text accumulationDamageNumber_Text;//累積傷害
-    public int MaxCombo;//最大連擊數
-    float playerGameTime;//遊戲時間
+    public int MaxCombo;//最大連擊數    
     public float accumulationDamage;//累積傷害
 
     [Header("連線玩家")]
@@ -92,6 +92,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     [Header("連線記分板")]
     Transform connectGameOver;//ConnectGameOver UI控制
     public Text connectGameOverResult_Text;//連線遊戲結果
+    public Text playGameTimeOver_Text;//遊戲時間
     Transform player1_Over;//Player1_Over UI控制
     Transform player2_Over;//Player2_Over UI控制
     Transform player3_Over;//Player3_Over UI控制
@@ -238,6 +239,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         player2_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player2_Over");//Player2_Over UI控制
         player3_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player3_Over");//Player3_Over UI控制
         player4_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player4_Over");//Player4_Over UI控制
+        playGameTimeOver_Text = ExtensionMethods.FindAnyChild<Text>(transform, "PlayGameTimeOver_Text");//遊戲時間
         Transform[] allPlayerOver = new Transform[] { player1_Over, player2_Over, player3_Over, player4_Over };
         if (GameDataManagement.Instance.isConnect)
         {
@@ -428,9 +430,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         if(GameDataManagement.Instance.isConnect)
         {
             connectGameOver.gameObject.SetActive(true);
-            //遊戲時間
+            /*//遊戲時間
             Text playGameTimeOver_Text = ExtensionMethods.FindAnyChild<Text>(transform, "PlayGameTimeOver_Text");//遊戲時間
-            playGameTimeOver_Text.text = $"遊 戲 時 間 : {minute} 分 {second} 秒";            
+            playGameTimeOver_Text.text = $"遊 戲 時 間 : {minute} 分 {second} 秒";     */       
         }
         else gameOver.gameObject.SetActive(isGameOver);
     }
@@ -445,7 +447,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// <param name="accumulationDamage">累積傷害</param>
     public void OnConnectGameOver(List<string> playerList, string nickName, int MaxCombo, int killNumber, float accumulationDamage)
     {
-        if (!PhotonNetwork.IsMasterClient) backToStartOver_Button.gameObject.SetActive(false);
+        if (!PhotonNetwork.IsMasterClient) backToStartOver_Button.gameObject.SetActive(false);        
 
         for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {                      
@@ -465,7 +467,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnPlayGameTime()
     {
-        playerGameTime = Time.realtimeSinceStartup;//遊戲時間
+        playerGameTime += Time.deltaTime;//遊戲時間
     }
 
     /// <summary>
@@ -600,12 +602,25 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         }
 
         //判定是否過關
-        if (GameDataManagement.Instance.isConnect && GameSceneManagement.Instance.isVictory)
+        if (GameDataManagement.Instance.isConnect)
         {
-            PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonConnect.Instance.OnSendIntoNexttLevel();
+            if (GameSceneManagement.Instance.isVictory)
+            {
+                PhotonNetwork.AutomaticallySyncScene = true;
+                PhotonConnect.Instance.OnSendIntoNexttLevel();
+            }
+            else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
+
         }
-        else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
+        else
+        {
+            if(GameDataManagement.Instance.selectLevelNumber == 11)
+            {
+                GameDataManagement.Instance.selectLevelNumber = 12;
+                StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene12"));
+            }
+            else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
+        }
     }
 
     /// <summary>

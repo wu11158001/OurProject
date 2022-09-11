@@ -38,7 +38,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public int taskStage;//目前任務階段
     public int[] taskNeedNumber;//各階段任務所需數量
     public int taskNumber;//已完成任務數量
-    GameObject strongholdStage3;//第3階段據點    
+    GameObject strongholdStage3;//第3階段據點
+    public GameObject[] strongholdStage4;//第4階段據點
+    GameObject strongholdStage5;//第5階段據點
+                                
     public bool isCreateBoss;//是否已創建Boss
     public int lifePlayerNumber;//生存的玩家數量
     
@@ -86,7 +89,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//產生至物件池
         objectNumber_Dictionary.Add("playerNumbering", number);//添加至紀錄中
         GameObject player = OnRequestOpenObject(OnGetObjectNumber("playerNumbering"), loadPath.allPlayerCharacters[GameDataManagement.Instance.selectRoleNumber]);//開啟物件
-        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點           
+        OnSetMiniMapPoint(player.transform, loadPath.miniMapMatirial_Player);//設定小地圖點點
+        
         if (!GameDataManagement.Instance.isConnect)//未連線位置
         {
             if (GameDataManagement.Instance.selectLevelNumber == 11)//第1關
@@ -110,7 +114,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                     {
-                        player.transform.position = new Vector3(300, -23.9f, -29f + (i * 2.5f));
+                        player.transform.position = new Vector3(345, -23.9f, -28.5f + (i * 2.5f));
                         player.transform.rotation = Quaternion.Euler(0, -85, 0);//設定選轉
                     }
                 }
@@ -242,13 +246,14 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             //任務
             taskNumber = -1;//已完成任務數量
-            tipTaskText = new string[] { "擊破該區域\n所有據點", "擊倒城門守衛", "擊破機關\n打開城門", "擊破城內\n所有據點" };//提示任務文字
-            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破機關\n打開城門 :", "擊破城內\n所有據點 :" };//個階段任務文字
+            tipTaskText = new string[] { "擊破該區域\n所有據點", "擊倒城門守衛", "擊破機關\n打開城門", "擊破城內\n所有據點", "擊破龍族水晶" };//提示任務文字
+            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破機關\n打開城門 :", "擊破城內\n所有據點 :", "擊破龍族水晶 : " };//個階段任務文字
             //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 2,//階段1
                                      guardBoss_Stage2Point.Length,//階段2
                                      1,//階段3
-                                     3};//階段4
+                                     3,//階段4
+                                     1};//階段5
 
             //任務提示
             StartCoroutine(OnTaskTipText(taskTipValue: tipTaskText[taskStage].ToString()));
@@ -259,6 +264,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             //任務物件
             strongholdStage3 = GameObject.Find("Stronghold_Enemy3");//第3階段據點
             strongholdStage3.SetActive(false);
+            for (int i = 0; i < strongholdStage4.Length; i++)//第4階段據點
+            {
+                strongholdStage4[i].SetActive(false);
+            }
+            strongholdStage5 = GameObject.Find("Stronghold_Enemy7");//第5階段據點
+            strongholdStage5.SetActive(false);
         }
         #endregion
 
@@ -401,7 +412,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化    
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
+                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點                            
                         }
                         break;
                     case 2://階段3 
@@ -410,6 +421,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(strongholdStage3, true);
                         break;
                     case 3://階段4
+                        for (int i = 0; i < strongholdStage4.Length; i++)//第4階段據點
+                        {
+                            strongholdStage4[i].SetActive(true);
+                        }
                         // 產生同盟士兵1                       
                         for (int i = 0; i < allianceSoldier1_Stage4Point.Length; i++)
                         {
@@ -458,6 +473,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.GetComponent<AI>().OnInitial();//初始化
                             OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
+                        break;
+                    case 4://階段5 
+                        //擊破水晶
+                        strongholdStage5.SetActive(true);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(strongholdStage5, true);
                         break;
                 }
             }
@@ -666,6 +686,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         if(GameDataManagement.Instance.isConnect)
         {
             PhotonConnect.Instance.OnSendGameScoring(PhotonNetwork.NickName, GameSceneUI.Instance.MaxCombo, GameSceneUI.Instance.killNumber, GameSceneUI.Instance.accumulationDamage);
+            if (PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTime(GameSceneUI.Instance.playerGameTime);
         }
 
         yield return new WaitForSeconds(3);

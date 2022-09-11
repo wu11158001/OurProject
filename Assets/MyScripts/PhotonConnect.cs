@@ -301,9 +301,10 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
             isStartGame = true;
-                        
-            PhotonNetwork.LoadLevel("LevelScene" + level);
-            PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間
+            
+            photonView.RPC("OnLoadScene", RpcTarget.All, level);
+            /*PhotonNetwork.LoadLevel("LevelScene" + level);
+            PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間*/
         }
         else isStartGame = false;
 
@@ -312,6 +313,21 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     #endregion
 
     #region 遊戲中
+    /// <summary>
+    /// 載入場景
+    /// </summary>
+    /// <param name="level">場景編號</param>
+    [PunRPC]
+    void OnLoadScene(int level)
+    {
+        StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(level));
+    }
+
+    void OnStartIntoGame(int level)
+    {
+        PhotonNetwork.LoadLevel("LevelScene" + level);
+        PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間
+    }
     /// <summary>
     /// 房主交換觸發
     /// </summary>
@@ -613,12 +629,36 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 發送遊戲時間
+    /// </summary>
+    /// <param name="gameTime">遊戲時間</param>
+    public void OnSendGameTime(float gameTime)
+    {
+        photonView.RPC("OnGameTime", RpcTarget.All, gameTime);
+    }
+
+    /// <summary>
+    /// 遊戲時間
+    /// </summary>
+    /// <param name="gameTime">遊戲時間</param>
+    [PunRPC]
+    void OnGameTime(float gameTime)
+    {
+        //遊戲時間
+        int minute = (int)gameTime / 60;
+        int second = (int)gameTime % 60;
+        
+        GameSceneUI.Instance.playGameTimeOver_Text.text = $"遊 戲 時 間 : {minute} 分 {second} 秒"; 
+    }
+
+    /// <summary>
     /// 發送遊戲分數
     /// </summary>
     /// <param name="nickName">暱稱</param>
     /// <param name="MaxCombo">最大連擊</param>
     /// <param name="killNumber">擊殺數</param>
     /// <param name="accumulationDamage">累積傷害</param>
+    /// <param name="gameTime">遊戲時間</param>
     public void OnSendGameScoring(string nickName, int MaxCombo, int killNumber, float accumulationDamage)
     {
         photonView.RPC("OnGameScoring", RpcTarget.All, nickName, MaxCombo, killNumber, accumulationDamage);
@@ -630,7 +670,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="nickName">暱稱</param>
     /// <param name="MaxCombo">最大連擊</param>
     /// <param name="killNumber">擊殺數</param>
-    /// <param name="accumulationDamage">累積傷害</param>
+    /// <param name="accumulationDamage">累積傷害</param>    
     [PunRPC]
     void OnGameScoring(string nickName, int MaxCombo, int killNumber, float accumulationDamage)
     {
@@ -688,13 +728,20 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnIntoNextLevel()
     {
         Time.timeScale = 1;
-        
-        if (PhotonNetwork.IsMasterClient)
-        {                      
-            if(GameDataManagement.Instance.selectLevelNumber == 11) PhotonNetwork.LoadLevel("LevelScene" + 12);
-            if (GameDataManagement.Instance.selectLevelNumber == 12) PhotonNetwork.LoadLevel("StartScene");
+
+        /* if (PhotonNetwork.IsMasterClient)
+         {                      
+             if(GameDataManagement.Instance.selectLevelNumber == 11) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(12));
+             if (GameDataManagement.Instance.selectLevelNumber == 12) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
+         }*/
+
+        if (GameDataManagement.Instance.selectLevelNumber == 11)
+        {
+            GameDataManagement.Instance.selectLevelNumber = 12;
+            StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(12));
         }
-        GameDataManagement.Instance.selectLevelNumber = 12;
+        if (GameDataManagement.Instance.selectLevelNumber == 12) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
+
     }
     #endregion
 }

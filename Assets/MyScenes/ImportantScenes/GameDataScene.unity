@@ -560,6 +560,9 @@ MonoBehaviour:
     bossAttack1: Prefab/ShootObject/Boss/FlyAttack
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
+    headLifeBar_Enemy: Prefab/HeadLifeBar/HeadLifeBar_Enemy
+    headLifeBar_Alliance: Prefab/HeadLifeBar/HeadLifeBar_Alliance
+    objectName: Prefab/UI/ObjectName_Text
   musicVolume: 0
   isConnect: 0
   isNotFirstIntoGame: 0

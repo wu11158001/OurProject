@@ -36,18 +36,18 @@ MonoBehaviour:
     limitUpAngle: 35
     limitDownAngle: 13
     playerHp: 850
-    playerMoveSpeed: 6.5
+    playerMoveSpeed: 8.5
     playerJumpForce: 11.05
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
     strongholdHp: 300
     allianceSoldier1_Hp: 40
-    boss_Hp: 1700
+    boss_Hp: 100
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
-    guardBoss_Hp: 600
+    guardBoss_Hp: 100
     warriorNormalAttack_1_Damge: 30
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 37
@@ -140,7 +140,7 @@ MonoBehaviour:
     archerJumpAttack_ForwardDistance: 0
     archerJumpAttack_attackRadius: 1.4
     archerJumpAttack_IsAttackBehind: 0
-    archerSkillAttack_1_Damage: 12
+    archerSkillAttack_1_Damage: 11
     archerSkillAttack_1_RepelDirection: 5
     archerSkillAttack_1_Repel: 13
     archerSkillAttack_1_Effect: Pain
@@ -160,13 +160,13 @@ MonoBehaviour:
     archerSkillAttack_3_ForwardDistance: 0
     archerSkillAttack_3_attackRadius: 5
     archerSkillAttack_3_IsAttackBehind: 1
-    magicianNormalAttack_1_Damage: 7
+    magicianNormalAttack_1_Damage: 9
     magicianNormalAttack_1_RepelDirection: 0
     magicianNormalAttack_1_Repel: 5
     magicianNormalAttack_1_Effect: Pain
     magicianNormalAttack_1_FlightSpeed: 40
     magicianNormalAttack_1_LifeTime: 1
-    magicianNormalAttack_2_Damge: 5
+    magicianNormalAttack_2_Damge: 7
     magicianNormalAttack_2_RepelDirection: 0
     magicianNormalAttack_2_RepelDistance: 7
     magicianNormalAttack_2_Effect: Pain
@@ -187,7 +187,7 @@ MonoBehaviour:
     magicianJumpAttack_ForwardDistance: 0
     magicianJumpAttack_attackRadius: 1.3
     magicianJumpAttack_IsAttackBehind: 1
-    magicianSkillAttack_1_HealValue: 4
+    magicianSkillAttack_1_HealValue: 5
     magicianSkillAttack_1_ForwardDistance: 0
     magicianSkillAttack_1_attackRange: 5
     magicianSkillAttack_1_IsAttackBehind: 1
@@ -299,7 +299,7 @@ MonoBehaviour:
     bossAttack1_RepelDistance: 0
     bossAttack1_Effect: Pain
     bossAttack1_FloatSpeed: 15
-    bossAttack1_LifeTime: 0.5
+    bossAttack1_LifeTime: 1
     bossAttack2_Damge: 35
     bossAttack2_RepelDirection: 0
     bossAttack2_RepelDistance: 0

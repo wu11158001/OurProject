@@ -47,6 +47,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
     public List<CharactersFloating> floating_List = new List<CharactersFloating>();//浮空/跳躍List
 
+    [Header("頭頂生命條")]
+    Transform headLifeBar;//頭頂生命條
+    float headLifeBarMaxX;//頭頂生命條初始XSize
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -55,6 +59,17 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     void Start()
     {
         NumericalValue = GameDataManagement.Instance.numericalValue;
+
+        //名稱物件
+        if (isTaskObject)
+        {
+            ObjectName objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//物件名稱        
+            objectName.OnSetName(transform, enemyName, Color.red);
+        }
+
+        //頭頂生命條
+        headLifeBar = ExtensionMethods.FindAnyChild<Transform>(transform, "HeadLifeBar");//頭頂生命條
+        if (headLifeBar) headLifeBarMaxX = headLifeBar.localScale.x;//頭頂生命條初始XSize
 
         //碰撞框
         if (GetComponent<BoxCollider>() != null)
@@ -143,6 +158,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             OnAnimationOver();
         }
 
+        OnHeadLifeBar();//頭頂生命條        
+
         //測試用
         if (Input.GetKeyDown(KeyCode.K)) OnGetHit(gameObject, gameObject, "Player", 1000, "Pain", 0, 1, false);
     }
@@ -161,11 +178,25 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             animator.SetBool("Pain", false);
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", false);
         }
+                
+        if (headLifeBar) headLifeBar.localScale = new Vector3(headLifeBarMaxX, headLifeBar.localScale.y, headLifeBar.localScale.z);//頭頂生命條初始
 
         //生命條(頭頂)
         if (lifeBar != null)
         {
             lifeBar.SetValue = Hp / MaxHp;
+        }
+    }
+
+    /// <summary>
+    /// 頭頂生命條
+    /// </summary>
+    void OnHeadLifeBar()
+    {
+        if (headLifeBar)
+        {
+            headLifeBar.forward = Camera.main.transform.position - transform.position;
+            headLifeBar.localEulerAngles = new Vector3(90, headLifeBar.localEulerAngles.y, 0);
         }
     }
 
@@ -396,6 +427,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 GameSceneUI.Instance.SetPlayerHpProportion = Hp / MaxHp;//設定玩家生命條比例(玩家的)
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendOtherPlayerLifeBar(PhotonNetwork.NickName, Hp / MaxHp);
             }
+
+            //頭頂生命條
+            if (headLifeBar != null)
+            {
+                headLifeBar.localScale = new Vector3(headLifeBarMaxX * (Hp / MaxHp), headLifeBar.localScale.y, headLifeBar.localScale.z);
+                headLifeBar.localPosition = new Vector3((1 - (Hp / MaxHp)) * 0.1f, headLifeBar.localPosition.y, headLifeBar.localPosition.z);                
+            }
+
 
             //累積傷害
             if (layer == "Player")

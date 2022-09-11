@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 載入場景
 /// </summary>
-public class LoadScene : MonoBehaviour
+public class LoadScene : MonoBehaviourPunCallbacks
 {
     static LoadScene loadScene;
     public static LoadScene Instance => loadScene;
@@ -94,11 +95,9 @@ public class LoadScene : MonoBehaviour
         loadBack_Image.enabled = true;
         loadFront_Image.enabled = true;
 
-        ao = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);//載入場景
-        //if (ao == null) yield break;//沒場景以下不做
-
+        ao = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);//載入場景    
         ao.allowSceneActivation = false;//載入完成自動切換
-        
+
         while (!ao.isDone)//載入未完成
         {
             loadValue = 0.5f;
@@ -106,19 +105,55 @@ public class LoadScene : MonoBehaviour
             {
                 loadValue = 0.7f;
                 yield return new WaitForSeconds(0.3f);
-                
+
                 loadValue = 0.85f;
                 yield return new WaitForSeconds(0.3f);
 
                 loadValue = 1.0f;
-                yield return new WaitForSeconds(0.3f);                                
+                yield return new WaitForSeconds(0.3f);
 
                 //進入場景
                 ao.allowSceneActivation = true;
-                StartCoroutine(OnWaitInto());                                            
+                StartCoroutine(OnWaitInto());
             }
             yield return 0;
         }
+
+        yield return 0;
+    }
+
+    /// <summary>
+    /// 載入場景_連線
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
+    public IEnumerator OnLoadScene_Connect(int level)
+    {
+        loadFront_Image.fillAmount = 0;//初始數值
+       
+        //開啟UI
+        background.enabled = true;
+        loadBack_Image.enabled = true;
+        loadFront_Image.enabled = true;
+
+        loadValue = 0.5f;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (level == 11 || level == 12)
+            {
+                PhotonNetwork.LoadLevel("LevelScene" + level);
+                PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間
+            }
+            else PhotonNetwork.LoadLevel("StartScene");
+        }
+
+        yield return new WaitForSeconds(1.2f);
+        loadValue = 0.85f;
+        yield return new WaitForSeconds(1.2f);
+        loadValue = 1.0f;
+        yield return new WaitForSeconds(1.2f);
+
+        StartCoroutine(OnWaitInto());
         yield return 0;
     }
 
@@ -128,7 +163,7 @@ public class LoadScene : MonoBehaviour
     /// <returns></returns>
     IEnumerator OnWaitInto()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(3.5f);
 
         //關閉UI
         background.enabled = false;

@@ -45,8 +45,8 @@ public class HitNumber : MonoBehaviour
         if (thisText == null) thisText = GetComponent<Text>();
 
         //爆擊字放大
-        if (isCritical) thisText.fontSize = 45;
-        else thisText.fontSize = 30;
+        if (isCritical) thisText.fontSize = 35;
+        else thisText.fontSize = 25;
 
         //符號文字
         string symbolCritical = "";
@@ -116,12 +116,12 @@ public class HitNumber : MonoBehaviour
             Destroy(gameObject);
         }
         
-        /*
+        
         //與玩家之間有障礙物
         if (Physics.Linecast(target.position + Vector3.up * 1, playerControl.transform.position + Vector3.up * 1, 1 << LayerMask.NameToLayer("StageObject")))
         {            
             Destroy(gameObject);
-        }*/
+        }
 
         //遊戲結束
         if (GameSceneUI.Instance.isGameOver) Destroy(gameObject);

@@ -64,6 +64,9 @@ public class GameData_LoadPath
     [Header("其他")]    
     public string hitNumber;//擊中文字
     public string lifeBar;//生命條
+    public string headLifeBar_Enemy;//頭頂生命條_敵人
+    public string headLifeBar_Alliance;//頭頂生命條_同盟
+    public string objectName;//物件名稱
 
     private GameData_LoadPath()
     {
@@ -125,6 +128,9 @@ public class GameData_LoadPath
         //其他
         hitNumber = "Prefab/UI/HitNumber_Text";//擊中文字
         lifeBar = "Prefab/UI/LifeBar";//生命條
+        headLifeBar_Enemy = "Prefab/HeadLifeBar/HeadLifeBar_Enemy";//頭頂生命條_敵人
+        headLifeBar_Alliance = "Prefab/HeadLifeBar/HeadLifeBar_Alliance";//頭頂生命條_同盟
+        objectName = "Prefab/UI/ObjectName_Text";//物件名稱
     }
 }
 

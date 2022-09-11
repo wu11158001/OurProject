@@ -54,11 +54,6 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
         gameObject.tag = "Player";//設定Tag
 
-        animator = GetComponent<Animator>();
-
-        //if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
-        charactersCollision = GetComponent<CharactersCollision>();
-
         //連線 && 不是自己的
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
         {
@@ -66,6 +61,11 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             this.enabled = false;
             return;
         }
+
+        animator = GetComponent<Animator>();
+
+        //if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
+        charactersCollision = GetComponent<CharactersCollision>();
     }
     void Start()
     {
@@ -193,7 +193,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     void OnMiniMap()
     {
         float posX = transform.position.x;
-        if (posX >= 210) posX = 210;
+        if (posX >= 235) posX = 235;
         if (posX <= 31) posX = 31;
 
         miniMap_Camera.transform.position = new Vector3(posX, miniMap_Camera.transform.position.y, miniMap_Camera.transform.position.z);

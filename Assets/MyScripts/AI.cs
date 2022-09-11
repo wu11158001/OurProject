@@ -107,6 +107,7 @@ public class AI : MonoBehaviourPunCallbacks
     [Header("是否為近戰")]
     [SerializeField] bool isMelee;
 
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -132,7 +133,6 @@ public class AI : MonoBehaviourPunCallbacks
         if (gameObject.layer == LayerMask.NameToLayer("Alliance")) mask = LayerMask.GetMask("Enemy");//攻擊對象Layer
 
         aStart.initial();
-
 
         //判斷角色
         switch (role)
@@ -292,7 +292,7 @@ public class AI : MonoBehaviourPunCallbacks
             OnGetAllPlayers();//獲取所有玩家
             OnCheckClosestPlayer();//檢查最近玩家
 
-            charactersCollision.OnCollision_Wall();
+            charactersCollision.OnCollision_Wall();            
         }
     }
 
