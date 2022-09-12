@@ -425,6 +425,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         for (int i = 0; i < strongholdStage4.Length; i++)//第4階段據點
                         {
                             strongholdStage4[i].SetActive(true);
+                            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(strongholdStage4[i], true);
                         }
                         // 產生同盟士兵1                       
                         for (int i = 0; i < allianceSoldier1_Stage4Point.Length; i++)

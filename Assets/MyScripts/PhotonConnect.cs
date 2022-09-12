@@ -355,6 +355,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnRenewTask(string enemyName, PhotonMessageInfo info)
     {
         //GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
+        GameSceneUI.Instance.SetEnemyLifeBarActive = false;
         GameSceneManagement.Instance.OnTaskText();//任務文字
         GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字
     }
