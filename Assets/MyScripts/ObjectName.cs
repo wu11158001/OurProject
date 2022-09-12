@@ -12,6 +12,7 @@ public class ObjectName : MonoBehaviour
 
     Transform theTarget;//目標   
     Vector3 startPosition;//初始位置
+    float postitionHight;//高度
 
     void Start()
     {
@@ -31,14 +32,18 @@ public class ObjectName : MonoBehaviour
     /// <summary>
     /// 設定名稱
     /// </summary>
-    /// <param name="thisName"></param>
-    public void OnSetName(Transform target, string thisName, Color thisColor)
+    /// <param name="target">目標物件</param>
+    /// <param name="thisName">名稱</param>
+    /// <param name="thisColor">顏色</param>
+    /// <param name="hight">高度</param>
+    public void OnSetName(Transform target, string thisName, Color thisColor, float hight )
     {
         if (thisText == null) thisText = GetComponent<Text>();
 
         theTarget = target;
         thisText.text = thisName;
         thisText.color = thisColor;
+        postitionHight = hight;//高度
 
         PlayerControl[] PC = GameObject.FindObjectsOfType<PlayerControl>();
 
@@ -63,7 +68,7 @@ public class ObjectName : MonoBehaviour
         Camera camera = canvas_Overlay.worldCamera;
         Vector3 position = Camera.main.WorldToScreenPoint(startPosition);
 
-        startPosition = theTarget.position + theTarget.transform.up * 2.2f;
+        startPosition = theTarget.position + theTarget.transform.up * postitionHight;
         int size = (int)(300 / (theTarget.position - playerControl.transform.position).magnitude);
         if (size >= 38) size = 38;
         thisText.fontSize = size;
