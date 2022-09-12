@@ -386,7 +386,7 @@ public class GameData_NumericalValue
 
         //玩家
         playerHp = 850;//玩家生命值850
-        playerMoveSpeed = 8.5f;//玩家移動速度   6.5   
+        playerMoveSpeed = 6.5f;//玩家移動速度   
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
@@ -399,11 +399,11 @@ public class GameData_NumericalValue
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
-        boss_Hp = 100;//Boss_生命值1700
+        boss_Hp = 1700;//Boss_生命值
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值
-        guardBoss_Hp = 100;//城門守衛Boss_生命值600
+        guardBoss_Hp = 600;//城門守衛Boss_生命值
 
         #region 戰士
         //戰士 普通攻擊1
