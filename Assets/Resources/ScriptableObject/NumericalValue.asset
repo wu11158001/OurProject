@@ -41,7 +41,7 @@ MonoBehaviour:
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
-    strongholdHp: 300
+    strongholdHp: 350
     allianceSoldier1_Hp: 40
     boss_Hp: 1700
     enemySoldier1_Hp: 80

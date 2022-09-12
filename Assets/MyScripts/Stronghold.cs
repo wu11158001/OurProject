@@ -65,12 +65,14 @@ public class Stronghold : MonoBehaviourPunCallbacks
             if (hp > 0)
             {
                 createTime -= Time.deltaTime;//產生士兵時間(計時器)
-
-                if (stage <= GameSceneManagement.Instance.taskStage)
+                
+                if (stage <= GameSceneManagement.Instance.taskStage )
                 {
+                    
                     if (createTime <= 0)
                     {
-                        GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
+                        int aiNumber = GameObject.FindObjectsOfType<AI>().Length;                        
+                        if(aiNumber < 50) GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
                         createTime = createSoldierTime;
                     }
                 }               

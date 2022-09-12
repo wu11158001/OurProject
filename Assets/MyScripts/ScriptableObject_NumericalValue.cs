@@ -393,7 +393,7 @@ public class GameData_NumericalValue
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         //據點
-        strongholdHp = 300;//據點HP
+        strongholdHp = 350;//據點HP
 
         //同盟士兵HP
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
