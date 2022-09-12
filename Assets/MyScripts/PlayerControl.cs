@@ -54,12 +54,20 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
         gameObject.tag = "Player";//設定Tag
 
-        //連線 && 不是自己的
-        if (PhotonNetwork.IsConnected && !photonView.IsMine)
-        {
-            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
-            this.enabled = false;
-            return;
+        //連線
+        if (PhotonNetwork.IsConnected)
+        {            
+            //不是自己的
+            if (!photonView.IsMine)
+            {
+                GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+                this.enabled = false;
+                return;
+            }
+            else
+            {
+                PhotonConnect.Instance.OnSendPlayerNickNmaeAndID(PhotonNetwork.NickName, GetComponent<PhotonView>().ViewID);
+            }
         }
 
         animator = GetComponent<Animator>();
@@ -83,7 +91,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //小地圖攝影機
         miniMap_Camera = GameObject.Find("MiniMap_Camera");
         //miniMap_Camera.transform.SetParent(transform);
-        miniMap_Camera.transform.localPosition = new Vector3(210, 55, -9f);        
+        miniMap_Camera.transform.localPosition = new Vector3(210, 55, -9f);
 
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;

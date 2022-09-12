@@ -890,5 +890,17 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             collision.OnConnectOtherGetHeal(heal, isCritical);
         }
     }
+
+    /// <summary>
+    /// 創建玩家名稱物件
+    /// </summary>
+    /// <param name="nickName">名稱</param>
+    /// <param name="id">ID</param>
+    public void OnCreatePlayerNameObject(string nickName, int id)
+    {
+        //名稱物件
+        ObjectName objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//名稱物件
+        objectName.OnSetName(connectObject_Dictionary[id].transform, nickName, Color.blue, 1.85f);        
+    }
     #endregion
 }

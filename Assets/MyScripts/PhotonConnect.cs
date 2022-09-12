@@ -743,5 +743,26 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.selectLevelNumber == 12) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
 
     }
+
+    /// <summary>
+    /// 發送玩家暱稱與ID
+    /// </summary>
+    /// <param name="nickName">暱稱</param>
+    /// <param name="id">ID</param>
+    public void OnSendPlayerNickNmaeAndID(string nickName, int id)
+    {
+        photonView.RPC("OnPlayerNickNameAndId", RpcTarget.All, nickName, id);
+    }
+
+    /// <summary>
+    /// 玩家暱稱與ID
+    /// </summary>
+    /// <param name="nickName"></param>
+    /// <param name="id"></param>
+    [PunRPC]
+    void OnPlayerNickNameAndId(string nickName, int id)
+    {
+        GameSceneManagement.Instance.OnCreatePlayerNameObject(nickName, id);
+    }
     #endregion
 }
