@@ -141,6 +141,8 @@ public class LoadScene : MonoBehaviourPunCallbacks
         {
             if (level == 11 || level == 12)
             {
+                PhotonNetwork.AutomaticallySyncScene = true;//關閉自動同步場景
+
                 PhotonNetwork.LoadLevel("LevelScene" + level);
                 PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間
             }

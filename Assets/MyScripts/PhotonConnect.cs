@@ -728,8 +728,6 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     [PunRPC]
     void OnIntoNextLevel()
     {
-        Time.timeScale = 1;
-
         /* if (PhotonNetwork.IsMasterClient)
          {                      
              if(GameDataManagement.Instance.selectLevelNumber == 11) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(12));
@@ -740,6 +738,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         {
             GameDataManagement.Instance.selectLevelNumber = 12;
             StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(12));
+            return;
         }
         if (GameDataManagement.Instance.selectLevelNumber == 12) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
 

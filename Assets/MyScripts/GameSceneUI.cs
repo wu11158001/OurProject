@@ -631,12 +631,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //判定是否過關
         if (GameDataManagement.Instance.isConnect)
         {
-            if (GameSceneManagement.Instance.isVictory)
+            PhotonConnect.Instance.OnSendIntoNexttLevel();
+            /*if (GameSceneManagement.Instance.isVictory)
             {
                 PhotonNetwork.AutomaticallySyncScene = true;
                 PhotonConnect.Instance.OnSendIntoNexttLevel();
             }
-            else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
+            else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));*/
 
         }
         else
