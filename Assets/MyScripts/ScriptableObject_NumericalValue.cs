@@ -372,7 +372,7 @@ public class GameData_NumericalValue
         //共通
         gravity = 6.8f;//重力
         criticalBonus = 1.3f;//報擊傷害加成
-        levelNames = new string[] { "第一章", "最終章" };//關卡名稱
+        levelNames = new string[] { "第一章 : 橫掃千軍", "最終章 : 屠龍者" };//關卡名稱
 
         //Buff增加數值
         buffAbleString = new string[] { "生命", "傷害", "防禦", "吸血", "移動", "回血" };//Buff增益文字
