@@ -355,6 +355,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnRenewTask(string enemyName, PhotonMessageInfo info)
     {
         //GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
+        GameSceneUI.Instance.SetEnemyLifeBarActive = false;
         GameSceneManagement.Instance.OnTaskText();//任務文字
         GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字
     }
@@ -743,5 +744,26 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.selectLevelNumber == 12) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
 
     }
+
+    /// <summary>
+    /// 發送玩家暱稱與ID
+    /// </summary>
+    /// <param name="nickName">暱稱</param>
+    /// <param name="id">ID</param>
+    public void OnSendPlayerNickNmaeAndID(string nickName, int id)
+    {
+        photonView.RPC("OnPlayerNickNameAndId", RpcTarget.All, nickName, id);
+    }
+
+    /// <summary>
+    /// 玩家暱稱與ID
+    /// </summary>
+    /// <param name="nickName"></param>
+    /// <param name="id"></param>
+    [PunRPC]
+    void OnPlayerNickNameAndId(string nickName, int id)
+    {
+        GameSceneManagement.Instance.OnCreatePlayerNameObject(nickName, id);
+    }    
     #endregion
 }

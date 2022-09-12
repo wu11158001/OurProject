@@ -372,7 +372,7 @@ public class GameData_NumericalValue
         //共通
         gravity = 6.8f;//重力
         criticalBonus = 1.3f;//報擊傷害加成
-        levelNames = new string[] { "第一章", "最終章" };//關卡名稱
+        levelNames = new string[] { "第一章 : 橫掃千軍", "最終章 : 屠龍者" };//關卡名稱
 
         //Buff增加數值
         buffAbleString = new string[] { "生命", "傷害", "防禦", "吸血", "移動", "回血" };//Buff增益文字
@@ -386,24 +386,24 @@ public class GameData_NumericalValue
 
         //玩家
         playerHp = 850;//玩家生命值850
-        playerMoveSpeed = 8.5f;//玩家移動速度   6.5   
+        playerMoveSpeed = 6.5f;//玩家移動速度  
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         //據點
-        strongholdHp = 300;//據點HP
+        strongholdHp = 350;//據點HP
 
         //同盟士兵HP
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
-        boss_Hp = 100;//Boss_生命值1700
+        boss_Hp = 1700;//Boss_生命值
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值
-        guardBoss_Hp = 100;//城門守衛Boss_生命值600
+        guardBoss_Hp = 600;//城門守衛Boss_生命值
 
         #region 戰士
         //戰士 普通攻擊1

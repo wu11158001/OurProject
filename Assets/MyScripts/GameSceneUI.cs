@@ -20,7 +20,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     [Header("玩家生命條")]
     Text playerNickName;//玩家暱稱
     Sprite[] allPlayerHeadStickers;//所有玩家頭像
-    Image headStickers_Image;//玩家頭像
+    public Button headStickers_Image;//玩家頭像
     Image playerLifeBarFront_Image;//生命條(前)
     Image playerLifeBarMid_Image;//生命條(中)
     float playerHpProportion;
@@ -84,10 +84,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     Image player2LifeBarFront_Image;//玩家2血條
     Image player3LifeBarFront_Image;//玩家3血條
     Image[] allPlayerLifeBar;//所有玩家血條
-    Image player1Head_Image;//玩家1頭像
-    Image player2Head_Image;//玩家2頭像
-    Image player3Head_Image;//玩家3頭像
-    Image[] allPlayerHead_Image;//所有玩家頭像
+    public Button player1Head_Image;//玩家1頭像
+    public Button player2Head_Image;//玩家2頭像
+    public Button player3Head_Image;//玩家3頭像
+    Button[] allPlayerHead_Image;//所有玩家頭像
 
     [Header("連線記分板")]
     Transform connectGameOver;//ConnectGameOver UI控制
@@ -154,8 +154,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         }
         else playerNickName.enabled = false;
         allPlayerHeadStickers = Resources.LoadAll<Sprite>("Sprites/PlayerHeadStickers");//所有玩家頭像
-        headStickers_Image = ExtensionMethods.FindAnyChild<Image>(transform, "HeadStickers_Image");//玩家頭像
-        headStickers_Image.sprite = allPlayerHeadStickers[GameDataManagement.Instance.selectRoleNumber];
+        headStickers_Image = ExtensionMethods.FindAnyChild<Button>(transform, "HeadStickers_Image");//玩家頭像
+        headStickers_Image.image.sprite = allPlayerHeadStickers[GameDataManagement.Instance.selectRoleNumber];
+        headStickers_Image.onClick.AddListener(OnCameraBackSelf);
+        headStickers_Image.enabled = false;
         playerHpProportion = 1;
         playerLifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "PlayerLifeBarFront_Image");//生命條(前)
         playerLifeBarFront_Image.fillAmount = playerHpProportion;
@@ -284,8 +286,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             connectUI.gameObject.SetActive(true);
 
             player1 = ExtensionMethods.FindAnyChild<Transform>(transform, "Player1");//Player1 UI控制
-            player2 = ExtensionMethods.FindAnyChild<Transform>(transform, "Player2");//Player1 UI控制
-            player3 = ExtensionMethods.FindAnyChild<Transform>(transform, "Player3");//Player1 UI控制            
+            player2 = ExtensionMethods.FindAnyChild<Transform>(transform, "Player2");//Player2 UI控制
+            player3 = ExtensionMethods.FindAnyChild<Transform>(transform, "Player3");//Player3 UI控制            
             Transform[] allPlayerUI = new Transform[] { player1, player2, player3 };            
             for (int i = PhotonNetwork.CurrentRoom.PlayerCount - 1; i < allPlayerUI.Length; i++)
             {
@@ -300,34 +302,40 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             player2LifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player2LifeBarFront_Image");//玩家2血條
             player3LifeBarFront_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player3LifeBarFront_Image");//玩家3血條
             allPlayerLifeBar = new Image[] { player1LifeBarFront_Image, player2LifeBarFront_Image, player3LifeBarFront_Image };
-            player1Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player1Head_Image");//玩家1頭像
-            player2Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player2Head_Image");//玩家2頭像
-            player3Head_Image = ExtensionMethods.FindAnyChild<Image>(transform, "Player3Head_Image");//玩家3頭像
-            allPlayerHead_Image = new Image[] { player1Head_Image, player2Head_Image, player3Head_Image };//所有玩家頭像
+            player1Head_Image = ExtensionMethods.FindAnyChild<Button>(transform, "Player1Head_Image");//玩家1頭像
+            player1Head_Image.onClick.AddListener(delegate { OnCameraToTarget(0); });
+            player1Head_Image.enabled = false;
+            player2Head_Image = ExtensionMethods.FindAnyChild<Button>(transform, "Player2Head_Image");//玩家2頭像
+            player2Head_Image.onClick.AddListener(delegate { OnCameraToTarget(1); });
+            player2Head_Image.enabled = false;
+            player3Head_Image = ExtensionMethods.FindAnyChild<Button>(transform, "Player3Head_Image");//玩家3頭像
+            player3Head_Image.onClick.AddListener(delegate { OnCameraToTarget(2); });
+            player3Head_Image.enabled = false;
+            allPlayerHead_Image = new Button[] { player1Head_Image, player2Head_Image, player3Head_Image };//所有玩家頭像
             bool isTouchSelf = false;
             for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; i++)
             {
                 allPlayerLifeBar[i].fillAmount = 1;                
-
+                
                 if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                 {
                     isTouchSelf = true;
                     allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;                    
-                    allPlayerHead_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i + 1]];                    
+                    allPlayerHead_Image[i].image.sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i + 1]];                    
                     continue;
                 }
 
                 if (isTouchSelf)
                 {
                     allPlayerNickName[i].text = PhotonNetwork.PlayerList[i + 1].NickName;
-                    allPlayerHead_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i + 1]];                    
+                    allPlayerHead_Image[i].image.sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i + 1]];                   
                 }
                 else
                 {
                     allPlayerNickName[i].text = PhotonNetwork.PlayerList[i].NickName;
-                    allPlayerHead_Image[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i]];                    
+                    allPlayerHead_Image[i].image.sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i]];
                 }
-            }           
+            }            
         }        
     }
         
@@ -338,6 +346,25 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         OnTipText();//提示文字
         OnComboLifeTime();//連擊數生存時間
         OnPlayGameTime();//遊戲時間
+    }
+
+    /// <summary>
+    /// 攝影機到目標
+    /// </summary>
+    /// <param name="number">按鈕編號</param>
+    void OnCameraToTarget(int number)
+    {       
+        GameSceneManagement.Instance.AllPlayerID_List.Sort();        
+        GameObject obj = GameSceneManagement.Instance.connectObject_Dictionary[GameSceneManagement.Instance.AllPlayerID_List[number]];
+        CameraControl.SetLookPoint = ExtensionMethods.FindAnyChild<Transform>(obj.transform, "CameraLookPoint");
+    }
+
+    /// <summary>
+    /// 攝影機回到自己
+    /// </summary>
+    void OnCameraBackSelf()
+    {       
+        CameraControl.SetLookPoint = ExtensionMethods.FindAnyChild<Transform>(GameSceneManagement.Instance.thisPlayerObject.transform, "CameraLookPoint");
     }
 
     /// <summary>
@@ -409,22 +436,22 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
 
         //結果文字
-        if (clearance) gameOverResult_Text.text = " 勝 利 總 結 ";
-        else gameOverResult_Text.text = " 失 敗 總 結 ";
+        if (clearance) gameOverResult_Text.text = " 勝利總結 ";
+        else gameOverResult_Text.text = " 失敗總結 ";
 
         //遊戲時間
         int minute = (int)playerGameTime / 60;
         int second = (int)playerGameTime % 60;
-        playGameTime_Text.text = $"遊 戲 時 間 : {minute} 分 {second} 秒";
+        playGameTime_Text.text = $"遊戲時間 : {minute} 分 {second} 秒";
 
         //最大擊殺數
-        maxKillNumber_Text.text = $"最 大 擊 殺 數 : {killNumber}";
+        maxKillNumber_Text.text = $"擊 殺 : {killNumber}";
 
         //最大連擊數
-        maxCombolNumber_Text.text = $"最 大 連 擊 數 : {MaxCombo}";
+        maxCombolNumber_Text.text = $"最 高 連 擊 : {MaxCombo}";
 
         //累積傷害
-        accumulationDamageNumber_Text.text = $"累 積 傷 害 : {((int)accumulationDamage).ToString()}";
+        accumulationDamageNumber_Text.text = $"傷 害 總 和 : {((int)accumulationDamage).ToString()}";
 
         //開啟遊戲結束UI
         if(GameDataManagement.Instance.isConnect)
@@ -455,9 +482,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             {
                 allPlayer1_OverHead[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i]];
                 allPlayer4_OverNickName[i].text = playerList[i];
-                allPlayer_MaxKillNumber_Text[i].text = $"最 大 擊 殺 數 : {killNumber}";
-                allPlayer4_MaxCombolNumber_Text[i].text = $"最 大 連 擊 數 : {MaxCombo}";
-                allPlayer_AccumulationDamageNumber_Text[i].text = $"累 積 傷 害 : {((int)accumulationDamage).ToString()}";
+                allPlayer_MaxKillNumber_Text[i].text = $"擊 殺 : {killNumber}";
+                allPlayer4_MaxCombolNumber_Text[i].text = $"最 高 連 擊 : {MaxCombo}";
+                allPlayer_AccumulationDamageNumber_Text[i].text = $"傷 害 總 和 : {((int)accumulationDamage).ToString()}";
             }
         }
     }
@@ -499,7 +526,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //文字
         comboLifeTime = 3;
         comboNumber++;//擊殺數
-        comboNumber_Text.text = "連擊 : " + comboNumber;
+        comboNumber_Text.text = "連擊" + comboNumber;
         comboNumber_Text.enabled = true;
         comboNumber_Text.fontSize = 80;
 
@@ -516,7 +543,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetKillNumber()
     {
         killNumber++;//擊殺數
-        killNumber_Text.text = "擊 殺 數 : " + killNumber;
+        killNumber_Text.text = "擊 殺 : " + killNumber;
     }
 
     /// <summary>
@@ -614,7 +641,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         }
         else
         {
-            if(GameDataManagement.Instance.selectLevelNumber == 11)
+            if(GameDataManagement.Instance.selectLevelNumber == 11 && GameSceneManagement.Instance.isVictory)
             {
                 GameDataManagement.Instance.selectLevelNumber = 12;
                 StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene12"));

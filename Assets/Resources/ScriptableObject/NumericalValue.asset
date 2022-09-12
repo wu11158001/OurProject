@@ -16,8 +16,8 @@ MonoBehaviour:
     gravity: 6.8
     criticalBonus: 1.3
     levelNames:
-    - "\u7B2C\u4E00\u7AE0"
-    - "\u6700\u7D42\u7AE0"
+    - "\u7B2C\u4E00\u7AE0 : \u6A6B\u6383\u5343\u8ECD"
+    - "\u6700\u7D42\u7AE0 : \u5C60\u9F8D\u8005"
     buffAbleString:
     - "\u751F\u547D"
     - "\u50B7\u5BB3"
@@ -36,18 +36,18 @@ MonoBehaviour:
     limitUpAngle: 35
     limitDownAngle: 13
     playerHp: 850
-    playerMoveSpeed: 8.5
+    playerMoveSpeed: 6.5
     playerJumpForce: 11.05
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
-    strongholdHp: 300
+    strongholdHp: 350
     allianceSoldier1_Hp: 40
-    boss_Hp: 100
+    boss_Hp: 1700
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
-    guardBoss_Hp: 100
+    guardBoss_Hp: 600
     warriorNormalAttack_1_Damge: 30
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 37

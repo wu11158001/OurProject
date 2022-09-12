@@ -54,12 +54,22 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
         gameObject.tag = "Player";//設定Tag
 
-        //連線 && 不是自己的
-        if (PhotonNetwork.IsConnected && !photonView.IsMine)
+        //連線
+        if (PhotonNetwork.IsConnected)
         {
-            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
-            this.enabled = false;
-            return;
+            //不是自己的
+            if (!photonView.IsMine)
+            {
+                GameSceneManagement.Instance.OnRecordConnectPlayer(GetComponent<PhotonView>().ViewID);
+                GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+                this.enabled = false;
+                return;
+            }
+            else
+            {
+                GameSceneManagement.Instance.thisPlayerObject = gameObject;//本地玩家物件
+                PhotonConnect.Instance.OnSendPlayerNickNmaeAndID(PhotonNetwork.NickName, GetComponent<PhotonView>().ViewID);
+            }
         }
 
         animator = GetComponent<Animator>();
@@ -83,7 +93,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         //小地圖攝影機
         miniMap_Camera = GameObject.Find("MiniMap_Camera");
         //miniMap_Camera.transform.SetParent(transform);
-        miniMap_Camera.transform.localPosition = new Vector3(210, 55, -9f);        
+        miniMap_Camera.transform.localPosition = new Vector3(210, 55, -9f);
 
         //碰撞框
         boxCenter = GetComponent<BoxCollider>().center;
@@ -193,7 +203,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     void OnMiniMap()
     {
         float posX = transform.position.x;
-        if (posX >= 235) posX = 235;
+        if (posX >= 290) posX = 295;
         if (posX <= 31) posX = 31;
 
         miniMap_Camera.transform.position = new Vector3(posX, miniMap_Camera.transform.position.y, miniMap_Camera.transform.position.z);

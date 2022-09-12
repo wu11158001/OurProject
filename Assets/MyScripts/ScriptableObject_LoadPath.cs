@@ -19,7 +19,7 @@ public class GameData_LoadPath
     public string miniMapMatirial_Object;//小地圖材質(物件)
     public string miniMapMatirial_Player;//小地圖材質(玩家)
     public string miniMapMatirial_OtherPlayer;//小地圖材質(其他玩家)
-    public string miniMapMatirial_TaskObject;//小地圖材質(任務物件)
+    public string miniMapMatirial_TaskObject;//小地圖材質(任務物件)    
     public string miniMapMatirial_Enemy;//小地圖材質(敵人)
     public string miniMapPoint;//小地圖(點)
 

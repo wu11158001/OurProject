@@ -13,11 +13,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public static GameSceneManagement Instance => gameSceneManagement;
     ObjectHandle objectHandle = new ObjectHandle();
     public GameData_LoadPath loadPath;
-
-    Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
+    
+    Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號   
+    public Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
     public List<AttackMode> AttackMode_List = new List<AttackMode>();//紀錄所有攻擊行為    
-
-    public  Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
+    public List<int> AllPlayerID_List = new List<int>();//紀錄連線玩家ID
+    public GameObject thisPlayerObject;//本地玩家物件
 
     //敵人出生點
     Transform[] enemySoldiers1_Stage1Point;//敵人士兵1_階段1出生點
@@ -246,8 +247,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             //任務
             taskNumber = -1;//已完成任務數量
-            tipTaskText = new string[] { "擊破該區域\n所有據點", "擊倒城門守衛", "擊破機關\n打開城門", "擊破城內\n所有據點", "擊破龍族水晶" };//提示任務文字
-            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破機關\n打開城門 :", "擊破城內\n所有據點 :", "擊破龍族水晶 : " };//個階段任務文字
+            tipTaskText = new string[] { "擊破該區域\n所有據點", "擊倒城門守衛", "擊破戰場中央\n城門機關", "進入城內\n擊破所有據點", "前往上方城堡區\n擊破龍族水晶" };//提示任務文字
+            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破戰場中央\n城門機關:", "進入城內\n擊破所有據點 :", "前往上方城堡區\n擊破龍族水晶" };//個階段任務文字
             //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 2,//階段1
                                      guardBoss_Stage2Point.Length,//階段2
@@ -321,7 +322,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = "Enemy";//設定Tag
         AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer
-        OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+        OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點 
     }
 
     /// <summary>
@@ -412,7 +413,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化    
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點                            
+                            //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點                            
                         }
                         break;
                     case 2://階段3 
@@ -424,6 +425,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         for (int i = 0; i < strongholdStage4.Length; i++)//第4階段據點
                         {
                             strongholdStage4[i].SetActive(true);
+                            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(strongholdStage4[i], true);
                         }
                         // 產生同盟士兵1                       
                         for (int i = 0; i < allianceSoldier1_Stage4Point.Length; i++)
@@ -766,8 +768,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         else obj.transform.localScale = new Vector3(5, 5, 5);*/
 
         if(item.gameObject.layer == LayerMask.NameToLayer("Player")) obj.transform.localScale = new Vector3(12,12,12);//玩家
-        else if(item.GetComponent<CharactersCollision>().isTaskObject) obj.transform.localScale = new Vector3(15, 15, 15);//任務
-        else obj.transform.localScale = new Vector3(8, 8, 8);
+        else if(item.GetComponent<CharactersCollision>().isTaskObject) obj.transform.localScale = new Vector3(25, 25, 25);//任務
+        else obj.transform.localScale = new Vector3(10, 10, 10);
 
 
         //選轉
@@ -780,6 +782,14 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
     #region 連線
     /// <summary>
+    /// 紀錄所有連線玩家
+    /// </summary>
+    /// <param name="id">物件ID</param>
+    public void OnRecordConnectPlayer(int id)
+    {
+        AllPlayerID_List.Add(id);        
+    }
+    /// <summary>
     /// 紀錄連線物件
     /// </summary>
     /// <param name="id">物件ID</param>
@@ -788,7 +798,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {
         connectObject_Dictionary.Add(id, obj);
     }
-
+    
     /// <summary>
     /// 連線物件激活狀態
     /// </summary>
@@ -889,6 +899,18 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         {
             collision.OnConnectOtherGetHeal(heal, isCritical);
         }
+    }
+
+    /// <summary>
+    /// 創建玩家名稱物件
+    /// </summary>
+    /// <param name="nickName">名稱</param>
+    /// <param name="id">ID</param>
+    public void OnCreatePlayerNameObject(string nickName, int id)
+    {
+        //名稱物件
+        ObjectName objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//名稱物件
+        objectName.OnSetName(connectObject_Dictionary[id].transform, nickName, Color.blue, 1.85f);        
     }
     #endregion
 }

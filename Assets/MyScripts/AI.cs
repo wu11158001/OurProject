@@ -116,9 +116,17 @@ public class AI : MonoBehaviourPunCallbacks
 
         //連線 && 不是自己的
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
-        {            
-            if (charactersCollision.isTaskObject) GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
-            if (gameObject.tag == "Enemy") GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+        {
+            if (charactersCollision.isTaskObject)
+            {
+                GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
+                return;
+            }
+            if (gameObject.tag == "Enemy")
+            {
+                GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                return;
+            }
             if (gameObject.tag == "Alliance")
             {               
                 GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
@@ -301,13 +309,6 @@ public class AI : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnInitial()
     {
-        if (charactersCollision.isTaskObject) GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
-        if (gameObject.tag == "Enemy") GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
-        if (gameObject.tag == "Alliance")
-        {
-            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
-        }
-
         if (isAttackIdle)
         {
             isAttackIdle = false;
@@ -322,6 +323,21 @@ public class AI : MonoBehaviourPunCallbacks
         isHowling = true;
         OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
         isExecuteAStart = false;//是否執行AStart
+
+        if (charactersCollision.isTaskObject)
+        {
+            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
+            return;
+        }
+        if (gameObject.tag == "Enemy")
+        {
+            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            return;
+        }
+        if (gameObject.tag == "Alliance")
+        {
+            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+        }
     }
 
     /// <summary>

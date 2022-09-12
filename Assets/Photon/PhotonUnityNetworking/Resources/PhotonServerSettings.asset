@@ -75,6 +75,7 @@ MonoBehaviour:
   - OnIntoNextLevel
   - OnLoadScene
   - OnGameTime
+  - OnPlayerNickNameAndId
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
