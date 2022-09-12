@@ -112,7 +112,7 @@ public class Effects : MonoBehaviour
         }
     }
 
-
+    #region 弓箭手
 
     void ArcSkillAttack1()
     {
@@ -164,7 +164,7 @@ public class Effects : MonoBehaviour
 
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.6
                                     && animInfo.normalizedTime <= 0.65)
-        {          
+        {
             ArcSa3().transform.SetParent(SkillAttack_3.transform);
             ArcSa3().transform.localPosition = SkillAttack_3.transform.GetChild(3).localPosition;
             ArcSa3().transform.localScale = SkillAttack_3.transform.GetChild(3).localScale;
@@ -189,6 +189,7 @@ public class Effects : MonoBehaviour
         return ArcSa3Pool();
     }
 
+    #endregion 
 
     #region 法師
 
@@ -470,27 +471,43 @@ public class Effects : MonoBehaviour
         var idelName = "Attack.NormalAttack_3";         //動作名稱      
         var effect = NormalAttack_3;                    //特效名稱
 
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.01f
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.01
                                       && !effect.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
         {
             effect.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         }
-        //if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35f
-        //                              && animInfo.normalizedTime <= 0.4f
-        //                              && !effect.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
-        //{
-        //    effect.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
-        //}
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35f
-                                     && animInfo.normalizedTime <= 0.37f) effect.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
 
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.45
+                                      && animInfo.normalizedTime <= 0.5
+                                      && !effect.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
+        {
+            effect.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+        }
 
-        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35f
-                                     && animInfo.normalizedTime <= 0.4f
-                                     && !effect.transform.GetChild(3).GetComponent<ParticleSystem>().isPlaying)
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.45
+                                     && animInfo.normalizedTime <= 0.5
+                                     && !effect.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
+        {
+            effect.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+        }
+
+        if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35
+                                      && animInfo.normalizedTime <= 0.37)
         {
             effect.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
         }
+
+        //if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35
+        //                              && animInfo.normalizedTime <= 0.37)
+        //{
+        //    effect.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
+        //}
+        //if (animInfo.IsName(idelName) && animInfo.normalizedTime > 0.35
+        //                              && animInfo.normalizedTime <= 0.37)
+        //{
+        //    effect.transform.GetChild(4).GetComponent<ParticleSystem>().Play();
+        //}
+
 
         //DoEffects(idelName, 0.35f, effect.transform.GetChild(1).GetComponent<ParticleSystem>());
         //DoEffects(idelName, 0.35f, effect.transform.GetChild(2).GetComponent<ParticleSystem>());
