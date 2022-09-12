@@ -641,7 +641,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         }
         else
         {
-            if(GameDataManagement.Instance.selectLevelNumber == 11)
+            if(GameDataManagement.Instance.selectLevelNumber == 11 && GameSceneManagement.Instance.isVictory)
             {
                 GameDataManagement.Instance.selectLevelNumber = 12;
                 StartCoroutine(LoadScene.Instance.OnLoadScene("LevelScene12"));

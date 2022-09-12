@@ -571,6 +571,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     GameSceneUI.Instance.player1Head_Image.enabled = true;
                     GameSceneUI.Instance.player2Head_Image.enabled = true;
                     GameSceneUI.Instance.player3Head_Image.enabled = true;
+
+                    //鼠標
+                    Cursor.visible = true;//鼠標隱藏
+                    Cursor.lockState = CursorLockMode.None;//鎖定中央
                 }
 
                 //Boss死亡
