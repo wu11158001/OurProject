@@ -66,7 +66,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (gameObject.layer == LayerMask.NameToLayer("Boss"))
             {
                 ObjectName objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//ª«¥ó¦WºÙ        
-                objectName.OnSetName(transform, enemyName, Color.red, 6f);
+                objectName.OnSetName(transform, enemyName, Color.red, 6.5f);
             }
             else
             {

@@ -67,10 +67,12 @@ public class ObjectName : MonoBehaviour
 
         Camera camera = canvas_Overlay.worldCamera;
         Vector3 position = Camera.main.WorldToScreenPoint(startPosition);
+        int maxSize = 33;
 
         startPosition = theTarget.position + theTarget.transform.up * postitionHight;
-        int size = (int)(300 / (theTarget.position - playerControl.transform.position).magnitude);
-        if (size >= 38) size = 38;
+        int size = (int)(400 / (theTarget.position - playerControl.transform.position).magnitude);
+        if (size <= 0) size = maxSize;
+        if (size >= maxSize) size = maxSize;
         thisText.fontSize = size;
 
         //§PÂ_CanvasªºRenderMode
