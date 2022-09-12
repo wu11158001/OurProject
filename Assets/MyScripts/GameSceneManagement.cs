@@ -692,7 +692,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         }
 
         yield return new WaitForSeconds(3);
-        isVictory = true;//是否過關
+        isVictory = result;//是否過關
         GameSceneUI.Instance.OnSetGameResult(false, "");
 
         //設定遊戲結束UI

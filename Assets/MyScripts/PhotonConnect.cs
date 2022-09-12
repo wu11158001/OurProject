@@ -708,7 +708,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
             //遊戲結果文字
             GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
             GameSceneManagement.Instance.OnSetGameOver(false);
-            GameSceneUI.Instance.connectGameOverResult_Text.text = " 失 敗 總 結 ";
+            //GameSceneUI.Instance.connectGameOverResult_Text.text = " 失 敗 總 結 ";
             //設定遊戲結束
             StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
         }

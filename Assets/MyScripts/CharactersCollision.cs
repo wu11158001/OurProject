@@ -566,11 +566,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 //玩家死亡
                 if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled)
                 {
-                    //開啟頭像按鈕
-                    GameSceneUI.Instance.headStickers_Image.enabled = true;
-                    GameSceneUI.Instance.player1Head_Image.enabled = true;
-                    GameSceneUI.Instance.player2Head_Image.enabled = true;
-                    GameSceneUI.Instance.player3Head_Image.enabled = true;
+                    if (GameDataManagement.Instance.isConnect)
+                    {
+                        //開啟頭像按鈕
+                        GameSceneUI.Instance.headStickers_Image.enabled = true;
+                        GameSceneUI.Instance.player1Head_Image.enabled = true;
+                        GameSceneUI.Instance.player2Head_Image.enabled = true;
+                        GameSceneUI.Instance.player3Head_Image.enabled = true;
+                    }
 
                     //鼠標
                     Cursor.visible = true;//鼠標隱藏

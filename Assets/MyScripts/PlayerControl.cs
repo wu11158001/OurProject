@@ -202,11 +202,15 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     void OnMiniMap()
     {
-        float posX = transform.position.x;
-        if (posX >= 290) posX = 295;
-        if (posX <= 31) posX = 31;
+        float posX = transform.position.x;       
+        if (posX >= 285) posX = 285;
+        if (posX <= 25) posX = 25;
 
-        miniMap_Camera.transform.position = new Vector3(posX, miniMap_Camera.transform.position.y, miniMap_Camera.transform.position.z);
+        float posZ = transform.position.z;
+        if (posZ >= 40) posZ = 40;
+        if (posZ <= -36) posZ = -36;
+
+        miniMap_Camera.transform.position = new Vector3(posX, miniMap_Camera.transform.position.y, posZ );
     }
 
     /// <summary>
