@@ -16,8 +16,8 @@ MonoBehaviour:
     gravity: 6.8
     criticalBonus: 1.3
     levelNames:
-    - "\u7B2C\u4E00\u7AE0"
-    - "\u6700\u7D42\u7AE0"
+    - "\u7B2C\u4E00\u7AE0 : \u6A6B\u6383\u5343\u8ECD"
+    - "\u6700\u7D42\u7AE0 : \u5C60\u9F8D\u8005"
     buffAbleString:
     - "\u751F\u547D"
     - "\u50B7\u5BB3"

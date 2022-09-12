@@ -436,22 +436,22 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
 
         //結果文字
-        if (clearance) gameOverResult_Text.text = " 勝 利 總 結 ";
-        else gameOverResult_Text.text = " 失 敗 總 結 ";
+        if (clearance) gameOverResult_Text.text = " 勝利總結 ";
+        else gameOverResult_Text.text = " 失敗總結 ";
 
         //遊戲時間
         int minute = (int)playerGameTime / 60;
         int second = (int)playerGameTime % 60;
-        playGameTime_Text.text = $"遊 戲 時 間 : {minute} 分 {second} 秒";
+        playGameTime_Text.text = $"遊戲時間 : {minute} 分 {second} 秒";
 
         //最大擊殺數
-        maxKillNumber_Text.text = $"最 大 擊 殺 數 : {killNumber}";
+        maxKillNumber_Text.text = $"擊 殺 : {killNumber}";
 
         //最大連擊數
-        maxCombolNumber_Text.text = $"最 大 連 擊 數 : {MaxCombo}";
+        maxCombolNumber_Text.text = $"最 高 連 擊 : {MaxCombo}";
 
         //累積傷害
-        accumulationDamageNumber_Text.text = $"累 積 傷 害 : {((int)accumulationDamage).ToString()}";
+        accumulationDamageNumber_Text.text = $"傷 害 總 和 : {((int)accumulationDamage).ToString()}";
 
         //開啟遊戲結束UI
         if(GameDataManagement.Instance.isConnect)
@@ -482,9 +482,9 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             {
                 allPlayer1_OverHead[i].sprite = allPlayerHeadStickers[GameDataManagement.Instance.allConnectPlayerSelectRole[i]];
                 allPlayer4_OverNickName[i].text = playerList[i];
-                allPlayer_MaxKillNumber_Text[i].text = $"最 大 擊 殺 數 : {killNumber}";
-                allPlayer4_MaxCombolNumber_Text[i].text = $"最 大 連 擊 數 : {MaxCombo}";
-                allPlayer_AccumulationDamageNumber_Text[i].text = $"累 積 傷 害 : {((int)accumulationDamage).ToString()}";
+                allPlayer_MaxKillNumber_Text[i].text = $"擊 殺 : {killNumber}";
+                allPlayer4_MaxCombolNumber_Text[i].text = $"最 高 連 擊 : {MaxCombo}";
+                allPlayer_AccumulationDamageNumber_Text[i].text = $"傷 害 總 和 : {((int)accumulationDamage).ToString()}";
             }
         }
     }
@@ -526,7 +526,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //文字
         comboLifeTime = 3;
         comboNumber++;//擊殺數
-        comboNumber_Text.text = "連擊 : " + comboNumber;
+        comboNumber_Text.text = "連擊" + comboNumber;
         comboNumber_Text.enabled = true;
         comboNumber_Text.fontSize = 80;
 
@@ -543,7 +543,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetKillNumber()
     {
         killNumber++;//擊殺數
-        killNumber_Text.text = "擊 殺 數 : " + killNumber;
+        killNumber_Text.text = "擊 殺 : " + killNumber;
     }
 
     /// <summary>
