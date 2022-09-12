@@ -186,7 +186,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             animator.SetBool("Pain", false);
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", false);
         }
-                
+
         if (headLifeBar) headLifeBar.localScale = new Vector3(headLifeBarMaxX, headLifeBar.localScale.y, headLifeBar.localScale.z);//頭頂生命條初始
 
         //生命條(頭頂)
@@ -440,7 +440,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (headLifeBar != null)
             {
                 headLifeBar.localScale = new Vector3(headLifeBarMaxX * (Hp / MaxHp), headLifeBar.localScale.y, headLifeBar.localScale.z);
-                headLifeBar.localPosition = new Vector3((1 - (Hp / MaxHp)) * 0.1f, headLifeBar.localPosition.y, headLifeBar.localPosition.z);                
+                headLifeBar.localPosition = new Vector3((1 - (Hp / MaxHp)) * 0.1f, headLifeBar.localPosition.y, headLifeBar.localPosition.z);
             }
 
 
@@ -563,8 +563,18 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
                 GetComponent<BoxCollider>().enabled = false;//關閉碰撞框               
 
+                //玩家死亡
+                if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled)
+                {
+                    //開啟頭像按鈕
+                    GameSceneUI.Instance.headStickers_Image.enabled = true;
+                    GameSceneUI.Instance.player1Head_Image.enabled = true;
+                    GameSceneUI.Instance.player2Head_Image.enabled = true;
+                    GameSceneUI.Instance.player3Head_Image.enabled = true;
+                }
+
                 //Boss死亡
-                if(gameObject.layer == LayerMask.NameToLayer("Boss"))
+                if (gameObject.layer == LayerMask.NameToLayer("Boss"))
                 {
                     boxSize = new Vector3(boxSize.x, 1.3f, boxSize.z);
                 }
@@ -948,12 +958,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             return true;
         }
 
-       /* //避免失誤塞進物件
-        if (Physics.CheckBox(transform.position + Vector3.up * 0.5f, new Vector3(0.22f, 0.22f, 0.22f), Quaternion.Euler(transform.localEulerAngles), mask))
-        {
-            Debug.LogError("s");
-            transform.position = transform.position - Vector3.up * 5 * Time.deltaTime;
-        }*/
+        /* //避免失誤塞進物件
+         if (Physics.CheckBox(transform.position + Vector3.up * 0.5f, new Vector3(0.22f, 0.22f, 0.22f), Quaternion.Euler(transform.localEulerAngles), mask))
+         {
+             Debug.LogError("s");
+             transform.position = transform.position - Vector3.up * 5 * Time.deltaTime;
+         }*/
 
         return false;
     }

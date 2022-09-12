@@ -763,6 +763,6 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     void OnPlayerNickNameAndId(string nickName, int id)
     {
         GameSceneManagement.Instance.OnCreatePlayerNameObject(nickName, id);
-    }
+    }    
     #endregion
 }

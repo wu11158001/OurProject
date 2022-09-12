@@ -13,11 +13,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     public static GameSceneManagement Instance => gameSceneManagement;
     ObjectHandle objectHandle = new ObjectHandle();
     public GameData_LoadPath loadPath;
-
-    Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號
+    
+    Dictionary<string, int> objectNumber_Dictionary = new Dictionary<string, int>();//記錄所有物件編號   
+    public Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
     public List<AttackMode> AttackMode_List = new List<AttackMode>();//紀錄所有攻擊行為    
-
-    public  Dictionary<int, GameObject> connectObject_Dictionary = new Dictionary<int, GameObject>();//記錄所有連線物件
+    public List<int> AllPlayerID_List = new List<int>();//紀錄連線玩家ID
+    public GameObject thisPlayerObject;//本地玩家物件
 
     //敵人出生點
     Transform[] enemySoldiers1_Stage1Point;//敵人士兵1_階段1出生點
@@ -321,7 +322,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = "Enemy";//設定Tag
         AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer
-        OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+        OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點 
     }
 
     /// <summary>
@@ -767,7 +768,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         if(item.gameObject.layer == LayerMask.NameToLayer("Player")) obj.transform.localScale = new Vector3(12,12,12);//玩家
         else if(item.GetComponent<CharactersCollision>().isTaskObject) obj.transform.localScale = new Vector3(15, 15, 15);//任務
-        else obj.transform.localScale = new Vector3(8, 8, 8);
+        else obj.transform.localScale = new Vector3(5, 5, 5);
 
 
         //選轉
@@ -780,6 +781,14 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
     #region 連線
     /// <summary>
+    /// 紀錄所有連線玩家
+    /// </summary>
+    /// <param name="id">物件ID</param>
+    public void OnRecordConnectPlayer(int id)
+    {
+        AllPlayerID_List.Add(id);        
+    }
+    /// <summary>
     /// 紀錄連線物件
     /// </summary>
     /// <param name="id">物件ID</param>
@@ -788,7 +797,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {
         connectObject_Dictionary.Add(id, obj);
     }
-
+    
     /// <summary>
     /// 連線物件激活狀態
     /// </summary>

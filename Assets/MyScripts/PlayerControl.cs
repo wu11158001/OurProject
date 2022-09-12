@@ -56,16 +56,18 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
         //連線
         if (PhotonNetwork.IsConnected)
-        {            
+        {
             //不是自己的
             if (!photonView.IsMine)
             {
+                GameSceneManagement.Instance.OnRecordConnectPlayer(GetComponent<PhotonView>().ViewID);
                 GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
                 this.enabled = false;
                 return;
             }
             else
             {
+                GameSceneManagement.Instance.thisPlayerObject = gameObject;//本地玩家物件
                 PhotonConnect.Instance.OnSendPlayerNickNmaeAndID(PhotonNetwork.NickName, GetComponent<PhotonView>().ViewID);
             }
         }
