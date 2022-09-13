@@ -35,6 +35,7 @@ public class Effects : MonoBehaviour
     Transform magicNa34;              //要脫離的特效
     Transform magicNa35;              //要脫離的特效
     Transform magicBook;              //魔法書
+  //  Transform warNa2;             //要脫離的特效
 
     void Start()
     {
@@ -64,6 +65,13 @@ public class Effects : MonoBehaviour
             magicBook = SkillAttack_1.transform.GetChild(3);                                     //魔法書
         }
 
+        ////特效脫離
+        //if (anim.runtimeAnimatorController.name == "1_Warrior")
+        //{
+        //    warNa2 = NormalAttack_2.transform.GetChild(1);
+        //}
+
+
         //武器發光，戰士
         if (anim.runtimeAnimatorController.name == "1_Warrior")
         {
@@ -89,11 +97,13 @@ public class Effects : MonoBehaviour
         if (anim.runtimeAnimatorController.name == "1_Warrior")
         {
             WarNormalAttack1();
+            WarNormalAttack2();
             WarNormalAttack3();
             WarSkillAttack1();
             WarSkillAttack2();
             WarSkillAttack3();
             WeaponTrailControl();  //武器拖曳刀光
+            WarResWeaponColor();
         }
         if (anim.runtimeAnimatorController.name == "2_Magician")
         {
@@ -443,6 +453,17 @@ public class Effects : MonoBehaviour
 
     #region 戰士
 
+    void WarResWeaponColor()
+    {
+        if (animInfo.IsName("Idle"))
+        {
+                intensity -= intensity * 50f * Time.deltaTime;
+                if (intensity <= 1f) intensity = 1f;          
+        }
+        weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
+    }
+
+
     void WarNormalAttack1()
     {
         var idelName = "Attack.NormalAttack_1";
@@ -464,6 +485,48 @@ public class Effects : MonoBehaviour
         //var effect = NormalAttack_1;                    //特效名稱
         //DoEffects(idelName, delay, effect);
     }
+
+    void WarNormalAttack2()
+    {
+        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.4 && animInfo.normalizedTime <= 0.45)
+        {
+            WarNa2().transform.SetParent(NormalAttack_2.transform);
+            WarNa2().transform.localPosition = NormalAttack_2.transform.GetChild(2).localPosition;
+            WarNa2().transform.forward = NormalAttack_2.transform.forward;
+            WarNa2().Play();
+        }
+
+        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.63
+                                     && animInfo.normalizedTime <= 0.65
+                                     && !NormalAttack_2.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
+        {
+            NormalAttack_2.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.85
+                                     && animInfo.normalizedTime <= 0.9
+                                     && !NormalAttack_2.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
+        {
+            NormalAttack_2.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+        }
+    }
+
+    List<ParticleSystem> warNa2List = new List<ParticleSystem>();
+    ParticleSystem WarNa2Pool()
+    {
+        ParticleSystem hitPs = Instantiate(NormalAttack_2.transform.GetChild(3).GetComponent<ParticleSystem>());
+        warNa2List.Add(hitPs);
+        return hitPs;
+    }
+    ParticleSystem WarNa2()
+    {
+        foreach (var hl in warNa2List)
+        {
+            if (!hl.isPlaying) return hl;
+        }
+        return WarNa2Pool();
+    }
+
+
 
     float wNa3ScaleY = 1.5f;
     void WarNormalAttack3()
@@ -706,9 +769,6 @@ public class Effects : MonoBehaviour
             skill.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
             isshakeCamera = true;          //畫面震盪
         }
-
-
-
     }
 
     void WeaponTrailControl()
