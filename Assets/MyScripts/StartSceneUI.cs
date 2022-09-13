@@ -21,6 +21,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     double videoTime;//影片長度
     AudioSource audioSource;
 
+    [Header("音樂")]
+    public AudioClip[] audioClips;
+
     [Header("開始畫面")]
     Image background_Image;//背景
     Transform startScreen;//startScreen UI控制        
@@ -148,13 +151,18 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         for (int i = 0; i < GameDataManagement.Instance.equipBuff.Length; i++)
         {
             GameDataManagement.Instance.equipBuff[i] = -1;//裝備的Buff
-        }        
+        }
 
         //第一次進入遊戲
         if (!GameDataManagement.Instance.isNotFirstIntoGame)
         {
             if(videoPlayer.clip != null) videoPlayer.Play();//播放影片
             GameDataManagement.Instance.isNotFirstIntoGame = true;
+
+            //播放背景音樂
+            audioSource.clip = audioClips[0];
+            audioSource.volume = GameDataManagement.Instance.musicVolume;
+            audioSource.Play();
         }
         else
         {
@@ -163,8 +171,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
 
             //播放背景音樂
             if (audioSource.clip != null)
-            {
-                audioSource.volume = GameDataManagement.Instance.musicVolume;                
+            {                
+                audioSource.clip = audioClips[1];
+                audioSource.volume = GameDataManagement.Instance.musicVolume;
                 audioSource.Play();
             }
 
@@ -429,6 +438,10 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnOpenSelectModeScreen()
     {
+        audioSource.clip = audioClips[1];
+        audioSource.volume = GameDataManagement.Instance.musicVolume;
+        audioSource.Play();
+
         background_Image.gameObject.SetActive(true);
         selectModeScreen.gameObject.SetActive(true);
         startScreen.gameObject.SetActive(false);
