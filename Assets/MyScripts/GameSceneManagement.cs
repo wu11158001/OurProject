@@ -322,7 +322,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = "Enemy";//設定Tag
         AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer
-        OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點 
+        //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點 
     }
 
     /// <summary>
@@ -375,7 +375,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Alliance");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+                            //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
                         }
                         //產生敵人士兵1
                         for (int i = 0; i < enemySoldiers1_Stage1Point.Length; i++)
@@ -387,7 +387,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化   
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                            //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         //產生敵人士兵2                      
                         for (int i = 0; i < enemySoldiers2_Stage1Point.Length; i++)
@@ -399,7 +399,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                           // OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         break;
                     case 1://階段2                       
@@ -437,7 +437,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Alliance");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+                           // OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
                         }
                         //產生敵人士兵1
                         for (int i = 0; i < enemySoldiers1_Stage4Point.Length; i++)
@@ -449,7 +449,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化   
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                            //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         //產生敵人士兵2                      
                         for (int i = 0; i < enemySoldiers2_Stage4Point.Length; i++)
@@ -461,7 +461,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                            //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         //產生敵人士兵3                      
                         for (int i = 0; i < enemySoldiers3_Stage4Point.Length; i++)
@@ -473,7 +473,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
                             AIObject.GetComponent<AI>().OnInitial();//初始化
-                            OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+                           // OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         break;
                     case 4://階段5 
@@ -767,9 +767,21 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         }
         else obj.transform.localScale = new Vector3(5, 5, 5);*/
 
-        if(item.gameObject.layer == LayerMask.NameToLayer("Player")) obj.transform.localScale = new Vector3(12,12,12);//玩家
-        else if(item.GetComponent<CharactersCollision>().isTaskObject) obj.transform.localScale = new Vector3(25, 25, 25);//任務
-        else obj.transform.localScale = new Vector3(10, 10, 10);
+        if (item.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            obj.transform.localScale = new Vector3(12, 12, 12);//玩家
+            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, 1, obj.transform.localPosition.z);
+        }
+        else if (item.GetComponent<CharactersCollision>().isTaskObject)
+        {
+            obj.transform.localScale = new Vector3(25, 25, 25);//任務
+            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, -1, obj.transform.localPosition.z);
+        }
+        else
+        {
+            obj.transform.localScale = new Vector3(10, 10, 10);
+            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, -2, obj.transform.localPosition.z);
+        }
 
 
         //選轉

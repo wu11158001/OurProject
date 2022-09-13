@@ -286,6 +286,22 @@ public class AI : MonoBehaviourPunCallbacks
         OnGetAllPlayers();//獲取所有玩家
         isHowling = true;
         OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
+
+        //小地圖點點
+        if (charactersCollision.isTaskObject)
+        {
+            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
+            return;
+        }
+        if (gameObject.tag == "Enemy")
+        {
+            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
+            return;
+        }
+        if (gameObject.tag == "Alliance")
+        {
+            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
+        }
     }
 
     void Update()
@@ -322,22 +338,7 @@ public class AI : MonoBehaviourPunCallbacks
 
         isHowling = true;
         OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
-        isExecuteAStart = false;//是否執行AStart
-
-        if (charactersCollision.isTaskObject)
-        {
-            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_TaskObject);//設定小地圖點點
-            return;
-        }
-        if (gameObject.tag == "Enemy")
-        {
-            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_Enemy);//設定小地圖點點
-            return;
-        }
-        if (gameObject.tag == "Alliance")
-        {
-            GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
-        }
+        isExecuteAStart = false;//是否執行AStart 
     }
 
     /// <summary>

@@ -578,6 +578,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
 
             if (isOptions)
             {
+                //音樂暫停
+                AudioSource[] audios = GameObject.FindObjectsOfType<AudioSource>();
+                foreach (var audio in audios)
+                {
+                    audio.Pause();
+                }
+
                 HitNumber[] hitNumbers = GameObject.FindObjectsOfType<HitNumber>();
                 for (int i = 0; i < hitNumbers.Length; i++)
                 {
@@ -591,6 +598,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
             }
             else
             {
+                //音樂暫繼續
+                AudioSource[] audios = GameObject.FindObjectsOfType<AudioSource>();
+                foreach (var audio in audios)
+                {
+                    audio.Play();
+                }
+
                 Time.timeScale = 1;
                 
                 //顯示滑鼠                
@@ -656,6 +670,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnContinueGame()
     {
+        //音樂暫繼續
+        AudioSource[] audios = GameObject.FindObjectsOfType<AudioSource>();
+        foreach (var audio in audios)
+        {
+            audio.Play();
+        }
+
         isOptions = false;
         options.gameObject.SetActive(isOptions);
         
