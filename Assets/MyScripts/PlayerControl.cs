@@ -180,7 +180,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
 
         OnJumpHehavior();
-        OnInput();
+        if(!GameSceneUI.Instance.isOptions) OnInput();
         OnMiniMap();
         if (isJumpAttackMove) OnJumpAttackMove();
 
@@ -203,12 +203,12 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     void OnMiniMap()
     {
         float posX = transform.position.x;       
-        if (posX >= 285) posX = 285;
-        if (posX <= 25) posX = 25;
+        if (posX >= 295) posX = 295;
+        if (posX <= 10) posX = 10;
 
         float posZ = transform.position.z;
-        if (posZ >= 40) posZ = 40;
-        if (posZ <= -36) posZ = -36;
+        if (posZ >= 9) posZ = 9;
+        if (posZ <= -30) posZ = -30;
 
         miniMap_Camera.transform.position = new Vector3(posX, miniMap_Camera.transform.position.y, posZ );
     }
