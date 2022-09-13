@@ -62,7 +62,7 @@ public class CameraControl : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (lookPoint != null) OnCameraControl();
+        if (lookPoint != null && !GameSceneUI.Instance.isOptions) OnCameraControl();
     }
 
     /// <summary>
