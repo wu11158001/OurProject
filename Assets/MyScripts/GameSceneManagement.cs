@@ -27,6 +27,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     Transform[] enemySoldiers1_Stage4Point;//敵人士兵1_階段3出生點
     Transform[] enemySoldiers2_Stage4Point;//敵人士兵2_階段3出生點
     Transform[] enemySoldiers3_Stage4Point;//敵人士兵3_階段3出生點
+    Transform[] enemySoldiers2_Stage5Point;//敵人士兵2_階段4出生點
+    Transform[] enemySoldiers3_Stage5Point;//敵人士兵3_階段4出生點
 
     //我方出生點
     Transform[] allianceSoldier1_Stage1Point;//我方士兵1_階段1出生點
@@ -231,6 +233,20 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             for (int i = 0; i < GameObject.Find("AllianceSoldier1_Stage4Point").transform.childCount; i++)
             {
                 allianceSoldier1_Stage4Point[i] = GameObject.Find("AllianceSoldier1_Stage4Point").transform.GetChild(i);
+            }
+
+            //敵人士兵2_階段4出生點
+            enemySoldiers2_Stage5Point = new Transform[GameObject.Find("EnemySoldiers2_Stage5Point").transform.childCount];
+            for (int i = 0; i < GameObject.Find("EnemySoldiers2_Stage5Point").transform.childCount; i++)
+            {
+                enemySoldiers2_Stage5Point[i] = GameObject.Find("EnemySoldiers2_Stage5Point").transform.GetChild(i);
+            }
+
+            //敵人士兵3_階段4出生點
+            enemySoldiers3_Stage5Point = new Transform[GameObject.Find("EnemySoldiers3_Stage5Point").transform.childCount];
+            for (int i = 0; i < GameObject.Find("EnemySoldiers3_Stage5Point").transform.childCount; i++)
+            {
+                enemySoldiers3_Stage5Point[i] = GameObject.Find("EnemySoldiers3_Stage5Point").transform.GetChild(i);
             }
             #endregion
 
@@ -480,6 +496,30 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         //擊破水晶
                         strongholdStage5.SetActive(true);
                         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(strongholdStage5, true);
+
+                        //產生敵人士兵2                      
+                        for (int i = 0; i < enemySoldiers2_Stage5Point.Length; i++)
+                        {
+                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
+                            AIObject.transform.position = enemySoldiers2_Stage5Point[i].position;//設定位置
+                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            AIObject.tag = "Enemy";//設定Tag
+                            AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
+                            AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化                                                   
+                        }
+
+                        //產生敵人士兵3                      
+                        for (int i = 0; i < enemySoldiers3_Stage5Point.Length; i++)
+                        {
+                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_3"), loadPath.enemySoldier_3);//開啟物件
+                            AIObject.transform.position = enemySoldiers3_Stage5Point[i].position;//設定位置
+                            AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                            AIObject.tag = "Enemy";//設定Tag
+                            AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
+                            AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化                                                   
+                        }
                         break;
                 }
             }
@@ -549,6 +589,28 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         }
                         //產生敵人士兵3
                         for (int k = 3; k < 4; k++)
+                        {
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_3", loadPath.enemySoldier_3, createPoint, objTag, k, UnityEngine.Random.Range(0.0f, 1.5f)));
+                        }
+                    }
+                    #endregion       
+                    break;
+                case 4://階段5
+                    #region 敵人據點
+                    if (objTag == "Enemy")
+                    {
+                        //產生敵人士兵1
+                        for (int i = 0; i < 1; i++)
+                        {
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));
+                        }
+                        //產生敵人士兵2
+                        for (int j = 1; j < 2; j++)
+                        {
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
+                        }
+                        //產生敵人士兵3
+                        for (int k = 2; k < 6; k++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_3", loadPath.enemySoldier_3, createPoint, objTag, k, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
