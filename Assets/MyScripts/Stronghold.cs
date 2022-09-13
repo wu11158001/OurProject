@@ -23,6 +23,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
     //產生士兵時間
     float createSoldierTime;//產生士兵時間
+    int maxSoldierNumber;//最大士兵數量
     float createTime;//產生士兵時間(計時器)
 
     //判斷
@@ -54,6 +55,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
         //產生士兵時間
         createSoldierTime = 30;//產生士兵時間
+        maxSoldierNumber = 50;//最大士兵數量
         //createTime = createSoldierTime;//產生士兵時間(計時器)
     }
 
@@ -72,7 +74,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
                     if (createTime <= 0)
                     {
                         int aiNumber = GameObject.FindObjectsOfType<AI>().Length;                        
-                        if(aiNumber < 50) GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
+                        if(aiNumber < maxSoldierNumber) GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
                         createTime = createSoldierTime;
                     }
                 }               

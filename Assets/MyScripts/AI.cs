@@ -16,7 +16,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     [Header("腳色")]
     public Role role;
-    public enum Role 
+    public enum Role
     {
         同盟士兵1,
         石頭人,
@@ -51,7 +51,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     [Header("咆嘯狀態")]
     bool isRotateToPlayer;//是否轉向至玩家
-    [SerializeField]bool isHowling;//是否咆嘯
+    [SerializeField] bool isHowling;//是否咆嘯
 
     [Header("追擊狀態")]
     [SerializeField] float chaseSpeed;//追擊速度
@@ -128,7 +128,7 @@ public class AI : MonoBehaviourPunCallbacks
                 return;
             }
             if (gameObject.tag == "Alliance")
-            {               
+            {
                 GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
             }
             this.enabled = false;
@@ -144,117 +144,117 @@ public class AI : MonoBehaviourPunCallbacks
 
         //判斷角色
         switch (role)
-         {
-             case Role.同盟士兵1://同盟士兵
-                 isMelee = true;//近戰腳色
+        {
+            case Role.同盟士兵1://同盟士兵
+                isMelee = true;//近戰腳色
 
-                 //偵測範圍
-                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                 alertRadius = 12;//警戒範圍
-                 chaseRadius = 8;//追擊範圍
-                 attackRadius = 3.0f;//攻擊範圍
+                //偵測範圍
+                normalStateMoveRadius = 2.5f;//一般狀態移動範圍
+                alertRadius = 12;//警戒範圍
+                chaseRadius = 8;//追擊範圍
+                attackRadius = 3.0f;//攻擊範圍
 
-                 //追擊狀態
-                 chaseSpeed = 5.3f;//追擊速度
-                 readyChaseRandomTime = new float[] { 0.5f, 3.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+                //追擊狀態
+                chaseSpeed = 5.3f;//追擊速度
+                readyChaseRandomTime = new float[] { 0.5f, 3.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
-                 //攻擊狀態
-                 attackFrequency = new float[2] { 0.5f, 3.5f };//攻擊頻率(亂數最小值, 最大值)  
-                 maxAttackNumber = 3;//可使用攻擊招式
-                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
+                //攻擊狀態
+                attackFrequency = new float[2] { 0.5f, 3.5f };//攻擊頻率(亂數最小值, 最大值)  
+                maxAttackNumber = 3;//可使用攻擊招式
+                meleeAttackDistance = 1.8f;//近距離招式攻擊距離
 
-                 //攻擊待機
-                 attackIdleMoveSpeed = 1;//攻擊待機移動速度
-                 backMoveDistance = 2.0f;//距離玩家多近向後走
-                 break;
-             case Role.石頭人://石頭人
-                 isMelee = true;//近戰腳色
+                //攻擊待機
+                attackIdleMoveSpeed = 1;//攻擊待機移動速度
+                backMoveDistance = 2.0f;//距離玩家多近向後走
+                break;
+            case Role.石頭人://石頭人
+                isMelee = true;//近戰腳色
 
-                 //偵測範圍
-                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                 alertRadius = 12;//警戒範圍
-                 chaseRadius = 8;//追擊範圍
-                 attackRadius = 3.0f;//攻擊範圍
+                //偵測範圍
+                normalStateMoveRadius = 2.5f;//一般狀態移動範圍
+                alertRadius = 12;//警戒範圍
+                chaseRadius = 8;//追擊範圍
+                attackRadius = 3.0f;//攻擊範圍
 
-                 //追擊狀態
-                 chaseSpeed = 5.3f;//追擊速度
-                 readyChaseRandomTime = new float[] { 0.5f, 3.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+                //追擊狀態
+                chaseSpeed = 5.3f;//追擊速度
+                readyChaseRandomTime = new float[] { 0.5f, 3.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
-                 //攻擊狀態
-                 attackFrequency = new float[2] { 0.5f, 3.5f };//攻擊頻率(亂數最小值, 最大值)  
-                 maxAttackNumber = 3;//可使用攻擊招式
+                //攻擊狀態
+                attackFrequency = new float[2] { 0.5f, 3.5f };//攻擊頻率(亂數最小值, 最大值)  
+                maxAttackNumber = 3;//可使用攻擊招式
 
-                 //攻擊待機
-                 attackIdleMoveSpeed = 1;//攻擊待機移動速度
-                 backMoveDistance = 2.0f;//距離玩家多近向後走
-                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
-                 break;
-             case Role.弓箭手://弓箭手
-                 isMelee = false;//非近戰腳色
+                //攻擊待機
+                attackIdleMoveSpeed = 1;//攻擊待機移動速度
+                backMoveDistance = 2.0f;//距離玩家多近向後走
+                meleeAttackDistance = 1.8f;//近距離招式攻擊距離
+                break;
+            case Role.弓箭手://弓箭手
+                isMelee = false;//非近戰腳色
 
-                 //偵測範圍
-                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                 alertRadius = 14.0f;//警戒範圍
-                 chaseRadius = 13.0f;//追擊範圍
-                 attackRadius = 11.0f;//攻擊範圍
+                //偵測範圍
+                normalStateMoveRadius = 2.5f;//一般狀態移動範圍
+                alertRadius = 14.0f;//警戒範圍
+                chaseRadius = 13.0f;//追擊範圍
+                attackRadius = 11.0f;//攻擊範圍
 
-                 //追擊狀態
-                 chaseSpeed = 5.3f;//追擊速度
-                 readyChaseRandomTime = new float[] { 1.0f, 4.0f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+                //追擊狀態
+                chaseSpeed = 5.3f;//追擊速度
+                readyChaseRandomTime = new float[] { 1.0f, 4.0f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
-                 //攻擊狀態
-                 attackFrequency = new float[2] { 1.0f, 5.0f };//攻擊頻率(亂數最小值, 最大值)  
-                 maxAttackNumber = 3;//可使用攻擊招式
+                //攻擊狀態
+                attackFrequency = new float[2] { 1.0f, 5.0f };//攻擊頻率(亂數最小值, 最大值)  
+                maxAttackNumber = 3;//可使用攻擊招式
 
-                 //攻擊待機
-                 attackIdleMoveSpeed = 2;//攻擊待機移動速度
-                 backMoveDistance = 5.0f;//距離玩家多近向後走
-                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
-                 break;
-             case Role.斧頭人://斧頭人
-                 isMelee = true;//近戰腳色
+                //攻擊待機
+                attackIdleMoveSpeed = 2;//攻擊待機移動速度
+                backMoveDistance = 5.0f;//距離玩家多近向後走
+                meleeAttackDistance = 1.8f;//近距離招式攻擊距離
+                break;
+            case Role.斧頭人://斧頭人
+                isMelee = true;//近戰腳色
 
-                 //偵測範圍
-                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                 alertRadius = 12;//警戒範圍
-                 chaseRadius = 8;//追擊範圍
-                 attackRadius = 3.0f;//攻擊範圍
+                //偵測範圍
+                normalStateMoveRadius = 2.5f;//一般狀態移動範圍
+                alertRadius = 12;//警戒範圍
+                chaseRadius = 8;//追擊範圍
+                attackRadius = 3.0f;//攻擊範圍
 
-                 //追擊狀態
-                 chaseSpeed = 5.3f;//追擊速度
-                 readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+                //追擊狀態
+                chaseSpeed = 5.3f;//追擊速度
+                readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
-                 //攻擊狀態
-                 attackFrequency = new float[2] { 0.5f, 2.75f };//攻擊頻率(亂數最小值, 最大值)  
-                 maxAttackNumber = 3;//可使用攻擊招式
+                //攻擊狀態
+                attackFrequency = new float[2] { 0.5f, 2.75f };//攻擊頻率(亂數最小值, 最大值)  
+                maxAttackNumber = 3;//可使用攻擊招式
 
-                 //攻擊待機
-                 attackIdleMoveSpeed = 1;//攻擊待機移動速度
-                 backMoveDistance = 2.0f;//距離玩家多近向後走
-                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
-                 break;
-             case Role.小Boss:
-                 isMelee = true;//近戰腳色
-                 //偵測範圍
-                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                 alertRadius = 35;//警戒範圍
-                 chaseRadius = 30;//追擊範圍
-                 attackRadius = 3.0f;//攻擊範圍
+                //攻擊待機
+                attackIdleMoveSpeed = 1;//攻擊待機移動速度
+                backMoveDistance = 2.0f;//距離玩家多近向後走
+                meleeAttackDistance = 1.8f;//近距離招式攻擊距離
+                break;
+            case Role.小Boss:
+                isMelee = true;//近戰腳色
+                               //偵測範圍
+                normalStateMoveRadius = 2.5f;//一般狀態移動範圍
+                alertRadius = 35;//警戒範圍
+                chaseRadius = 30;//追擊範圍
+                attackRadius = 3.0f;//攻擊範圍
 
-                 //追擊狀態
-                 chaseSpeed = 6.3f;//追擊速度
-                 readyChaseRandomTime = new float[] { 0.5f, 1.0f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
+                //追擊狀態
+                chaseSpeed = 6.3f;//追擊速度
+                readyChaseRandomTime = new float[] { 0.5f, 1.0f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
-                 //攻擊狀態
-                 attackFrequency = new float[2] { 0.5f, 1.0f };//攻擊頻率(亂數最小值, 最大值)  
-                 maxAttackNumber = 4;//可使用攻擊招式
+                //攻擊狀態
+                attackFrequency = new float[2] { 0.5f, 1.0f };//攻擊頻率(亂數最小值, 最大值)  
+                maxAttackNumber = 4;//可使用攻擊招式
 
-                 //攻擊待機
-                 attackIdleMoveSpeed = 2;//攻擊待機移動速度
-                 backMoveDistance = 2.3f;//距離玩家多近向後走
-                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
-                 break;
-         }    
+                //攻擊待機
+                attackIdleMoveSpeed = 2;//攻擊待機移動速度
+                backMoveDistance = 2.3f;//距離玩家多近向後走
+                meleeAttackDistance = 1.8f;//近距離招式攻擊距離
+                break;
+        }
 
         //一般狀態
         originalPosition = transform.position;//初始位置
@@ -271,17 +271,17 @@ public class AI : MonoBehaviourPunCallbacks
         leaveAlertTime = leaveAlertRadiusAlertTime;//離開警戒範圍警戒時間(計時器)
 
         //檢查同伴
-        isCheckNearCompanion = new bool[2] { false, false};//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
+        isCheckNearCompanion = new bool[2] { false, false };//檢查附近同伴(0 = 右方有碰撞, 1 = 左方有碰撞)
 
         //追擊狀態
         maxRadiansDelta = 0.065f;//轉向角度        
         changeDiretionTime = 0.5f;//更換方向時間
-        delayAttackTime = new float[] { 0.5f, 1};//延遲攻擊時間(亂數最小值, 最大值)
+        delayAttackTime = new float[] { 0.5f, 1 };//延遲攻擊時間(亂數最小值, 最大值)
         loseSpeed = 0.35f;//減少的速度比例
         readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
         //尋路
-        aStarCheckPointNumber = 2;//AStar至少經過多少點
+        aStarCheckPointNumber = 1;//AStar至少經過多少點
 
         OnGetAllPlayers();//獲取所有玩家
         isHowling = true;
@@ -316,7 +316,7 @@ public class AI : MonoBehaviourPunCallbacks
             OnGetAllPlayers();//獲取所有玩家
             OnCheckClosestPlayer();//檢查最近玩家
 
-            charactersCollision.OnCollision_Wall();            
+            charactersCollision.OnCollision_Wall();
         }
     }
 
@@ -355,39 +355,39 @@ public class AI : MonoBehaviourPunCallbacks
     [SerializeField] AIState aiState = AIState.一般狀態;
 
 
-   /* /// <summary>
-    /// 碰撞框
-    /// </summary>    
-    /// <returns></returns>
-    public void OnCollision()
-    {
-        info = animator.GetCurrentAnimatorStateInfo(0);
+    /* /// <summary>
+     /// 碰撞框
+     /// </summary>    
+     /// <returns></returns>
+     public void OnCollision()
+     {
+         info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (!info.IsTag("Attack") && !isExecuteAStart)//攻擊&&執行AStart不碰撞
-        {
-            LayerMask mask = LayerMask.GetMask("Enemy");
-            RaycastHit hit;
+         if (!info.IsTag("Attack") && !isExecuteAStart)//攻擊&&執行AStart不碰撞
+         {
+             LayerMask mask = LayerMask.GetMask("Enemy");
+             RaycastHit hit;
 
-            //射線方向
-            Vector3[] rayDiration = new Vector3[] { transform.forward,
-                                                transform.forward - transform.right,
-                                                transform.right,
-                                                transform.forward + transform.right,
-                                                -transform.right };
+             //射線方向
+             Vector3[] rayDiration = new Vector3[] { transform.forward,
+                                                 transform.forward - transform.right,
+                                                 transform.right,
+                                                 transform.forward + transform.right,
+                                                 -transform.right };
 
-            float boxSize = 0.4f;//碰撞框大小
-                                 //腳色碰撞    
-            for (int i = 0; i < rayDiration.Length; i++)
-            {
-                if (Physics.BoxCast(transform.position + charactersCollision.boxCenter, new Vector3(charactersCollision.boxCollisionDistance * boxSize, charactersCollision.boxSize.y / 2, charactersCollision.boxCollisionDistance * boxSize), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), charactersCollision.boxCollisionDistance * boxSize, mask))
-                {
-                    //碰撞
-                    transform.position = transform.position - rayDiration[i] * (Mathf.Abs((charactersCollision.boxCollisionDistance * boxSize) - hit.distance));
-                }
-            }
-        }
-    }*/
-    
+             float boxSize = 0.4f;//碰撞框大小
+                                  //腳色碰撞    
+             for (int i = 0; i < rayDiration.Length; i++)
+             {
+                 if (Physics.BoxCast(transform.position + charactersCollision.boxCenter, new Vector3(charactersCollision.boxCollisionDistance * boxSize, charactersCollision.boxSize.y / 2, charactersCollision.boxCollisionDistance * boxSize), rayDiration[i], out hit, Quaternion.Euler(transform.localEulerAngles), charactersCollision.boxCollisionDistance * boxSize, mask))
+                 {
+                     //碰撞
+                     transform.position = transform.position - rayDiration[i] * (Mathf.Abs((charactersCollision.boxCollisionDistance * boxSize) - hit.distance));
+                 }
+             }
+         }
+     }*/
+
     /// <summary>
     /// 狀態行為
     /// </summary>
@@ -407,7 +407,7 @@ public class AI : MonoBehaviourPunCallbacks
                 OnChaseBehavior();
                 break;
             case AIState.攻擊狀態:
-                OnAttackBehavior();                
+                OnAttackBehavior();
                 break;
         }
     }
@@ -431,7 +431,7 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //選轉
                 if ((transform.position - originalPosition).magnitude > normalStateMoveRadius)//離開一般狀態移動範圍
-                {                    
+                {
                     forwardVector = originalPosition - transform.position;//移動目標向量
                 }
                 else//一般狀態移動範圍內
@@ -451,18 +451,18 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //檢查前方同伴 && 非執行AStart
                 if (OnCheckCompanionBox(diretion: transform.forward) && !isExecuteAStart)
-                {                    
+                {
                     maxRadiansDelta = 0.065f;//轉向角度                    
                     forwardVector = -transform.forward - transform.right;//轉向方向                    
                 }
-        
+
                 //移動 && 轉向                
                 transform.forward = Vector3.RotateTowards(transform.forward, forwardVector, maxRadiansDelta, maxRadiansDelta);
                 transform.position = transform.position + transform.forward * normalStateMoveSpeed * Time.deltaTime;
                 transform.rotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
             }
             else//待機
-            {                
+            {
                 isNormalMove = false;
                 normalStateTime = UnityEngine.Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//一般狀態亂數移動時間
 
@@ -470,9 +470,9 @@ public class AI : MonoBehaviourPunCallbacks
                 OnChangeAnimation(animationName: "Walk", animationType: false);
             }
         }
-                
+
         OnAlertRangeCheck();//警戒範圍偵測
-    }    
+    }
 
     /// <summary>
     /// 警戒範圍偵測
@@ -537,7 +537,7 @@ public class AI : MonoBehaviourPunCallbacks
         isGetHit = true;//被攻擊(判定"Pain"動畫是否觸發)
 
         if (aiState == AIState.追擊狀態 || aiState == AIState.攻擊狀態) return;
-        
+
         //關閉動畫
         if (aiState == AIState.警戒狀態) OnChangeAnimation(animationName: "Alert", animationType: false);
         if (aiState == AIState.一般狀態)
@@ -592,7 +592,7 @@ public class AI : MonoBehaviourPunCallbacks
     {
         //選轉至目標方向
         if (isRotateToPlayer)
-        {            
+        {
             Vector3 targetDiration = chaseObject.transform.position - transform.position;//allPlayers[chaseNumber].transform.position - transform.position;
             transform.forward = Vector3.RotateTowards(transform.forward, targetDiration, maxRadiansDelta, maxRadiansDelta);
         }
@@ -605,7 +605,7 @@ public class AI : MonoBehaviourPunCallbacks
     IEnumerator OnWaitChase()
     {
         isRotateToPlayer = true;//轉向至玩家                
-        
+
         yield return new WaitForSeconds(0.55f);
 
         isRotateToPlayer = false;
@@ -634,7 +634,7 @@ public class AI : MonoBehaviourPunCallbacks
                 OnChangeState(state: AIState.追擊狀態, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
             }
         }
-    }   
+    }
 
     /// <summary>
     /// 追擊行為
@@ -643,7 +643,7 @@ public class AI : MonoBehaviourPunCallbacks
     {
         info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if(isHowling && !info.IsName("Howling"))
+        if (isHowling && !info.IsName("Howling"))
         {
             OnChangeAnimation(animationName: "Howling", animationType: true);
         }
@@ -654,7 +654,7 @@ public class AI : MonoBehaviourPunCallbacks
             //回一般狀態事前設定
             isNormalMove = false;//是否一般狀態已經移動
             normalStateTime = UnityEngine.Random.Range(normalStateMoveTime[0], normalStateMoveTime[1]);//重製一般狀態亂數移動時間
-            
+
             //追擊
             isStartChase = true;//開始追擊                        
 
@@ -678,7 +678,7 @@ public class AI : MonoBehaviourPunCallbacks
             OnCheckExecuteAStart();//偵測是否執行AStart
             //OnCheckClosestPlayer();//檢查最近玩家            
             OnCheckForwardCompanion();//檢查前方同伴
-            
+
 
             //朝玩家移動
             if (info.IsName("Run")) OnMoveBehavior();
@@ -709,11 +709,11 @@ public class AI : MonoBehaviourPunCallbacks
 
         //碰到同伴
         if (Physics.CheckBox(transform.position + charactersCollision.boxCenter + diretion * (charactersCollision.boxSize.x + (chechSize / 2)), new Vector3(chechSize * 1.1f, 0.1f, chechSize), Quaternion.Euler(transform.localEulerAngles), mask))
-        {            
-            return true;            
+        {
+            return true;
         }
 
-        return false;        
+        return false;
     }
 
     /// <summary>
@@ -728,14 +728,14 @@ public class AI : MonoBehaviourPunCallbacks
             if (chaseSlowDownSpeed <= 0.1f)
             {
                 chaseSlowDownSpeed = 0.1f;
-                
-               /* if (!isPauseChase)
-                {
-                    isPauseChase = true;//暫停追擊
 
-                    OnChangeAnimation(animationName: "Run", animationType: false);
-                    OnChangeAnimation(animationName: "AttackIdle", animationType: true);
-                }*/
+                /* if (!isPauseChase)
+                 {
+                     isPauseChase = true;//暫停追擊
+
+                     OnChangeAnimation(animationName: "Run", animationType: false);
+                     OnChangeAnimation(animationName: "AttackIdle", animationType: true);
+                 }*/
             }
 
             changeDiretionTime_Forward -= Time.deltaTime;//更換方向時間
@@ -807,7 +807,7 @@ public class AI : MonoBehaviourPunCallbacks
     /// 移動行為
     /// </summary>
     void OnMoveBehavior()
-    {        
+    {
         //追擊方向(0 = 前方, 1 = 右方, 2 = 左方)
         switch (chaseDiretion)
         {
@@ -822,7 +822,7 @@ public class AI : MonoBehaviourPunCallbacks
         //移動(判斷是否有轉彎)
         if (chaseDiretion == 0) transform.position = transform.position + transform.forward * chaseSpeed * chaseSlowDownSpeed * Time.deltaTime;
         else transform.position = transform.position + transform.forward * (chaseSpeed / 2) * chaseSlowDownSpeed * Time.deltaTime;
-    }    
+    }
 
     /// <summary>
     /// 攻擊範圍偵測
@@ -837,15 +837,15 @@ public class AI : MonoBehaviourPunCallbacks
             delayAttackRandomTime -= Time.deltaTime;//延遲攻擊亂數時間(計時器)
 
             if (isReadChase) isReadChase = false;//是否準備追擊
-            
+
             if (aiState != AIState.攻擊狀態 && delayAttackRandomTime <= 0)
             {
                 delayAttackRandomTime = UnityEngine.Random.Range(delayAttackTime[0], delayAttackTime[1]);//延遲攻擊時間
-                
+
                 //等待轉向去攻擊
-                StartCoroutine(OnWaitTurnToAttack());             
+                StartCoroutine(OnWaitTurnToAttack());
             }
-        } 
+        }
         else
         {
             isReadChase = true;//準備追擊
@@ -882,7 +882,7 @@ public class AI : MonoBehaviourPunCallbacks
             }
 
             if (startChaseTime <= 0)
-            {                
+            {
                 //"待機中動畫"中沒關閉"攻擊中"狀態
                 if (info.IsName("AttackIdle") && isAttacking) isAttacking = false;
 
@@ -890,7 +890,7 @@ public class AI : MonoBehaviourPunCallbacks
                 if (isAttackIdle && !isAttacking)
                 {
                     if (aiState != AIState.追擊狀態)
-                    {                           
+                    {
                         OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
                         OnChangeState(state: AIState.追擊狀態, openAnimationName: "Run", closeAnimationName: "AttackIdle", animationType: true);
                     }
@@ -911,10 +911,10 @@ public class AI : MonoBehaviourPunCallbacks
                     {
                         if (isAttacking)//攻擊中
                         {
-                            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);                            
+                            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
                             OnChangeAnimation(animationName: "AttackIdle", animationType: true);
                         }
-                        
+
                     }
                 }
             }
@@ -946,19 +946,20 @@ public class AI : MonoBehaviourPunCallbacks
             OnChangeAnimation(animationName: "Howling", animationType: false);
         }
 
-         //攻擊招式
-         if ((transform.position - chaseObject.transform.position).magnitude < meleeAttackDistance)//近身攻擊
-         {
-             attackNumber = maxAttackNumber;
-         }        
-         else//一般攻擊
-         {
-             if (!isMelee) attackNumber = UnityEngine.Random.Range(1, 3);//遠程
-             else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
-         }
 
-        attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
-        yield return new WaitForSeconds(0.3f);               
+        //攻擊招式
+        attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);//預防
+        if ((transform.position - chaseObject.transform.position).magnitude < meleeAttackDistance)//近身攻擊
+        {
+            attackNumber = maxAttackNumber;
+        }
+        else//一般攻擊
+        {
+            if (!isMelee) attackNumber = UnityEngine.Random.Range(1, 3);//遠程
+            else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
+        }
+
+        yield return new WaitForSeconds(0.3f);
 
         OnChangeState(state: AIState.攻擊狀態, openAnimationName: "AttackNumber", closeAnimationName: "Run", animationType: attackNumber);
 
@@ -970,7 +971,7 @@ public class AI : MonoBehaviourPunCallbacks
     /// 攻擊狀態行為
     /// </summary>
     void OnAttackBehavior()
-    {        
+    {
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         OnAttackRangeCheck();//攻擊範圍偵測
@@ -983,7 +984,7 @@ public class AI : MonoBehaviourPunCallbacks
 
         //移除尋路
         if (pathsList.Count > 0)
-        {            
+        {
             isExecuteAStart = false;//非執行AStart
             point = 0;//尋路節點編號
             pathsList.Clear();
@@ -993,40 +994,40 @@ public class AI : MonoBehaviourPunCallbacks
         if (info.IsTag("Attack") && info.normalizedTime >= 1)
         {
             if (!isAttackIdle)//是否攻擊待機
-            {                
+            {
                 isAttackIdle = true;
                 isAttacking = false;
-             
+
                 OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
 
                 if (OnDetectionRange(radius: attackRadius))//攻擊範圍內
                 {
                     OnChangeAnimation(animationName: "AttackIdle", animationType: true);
-                }               
-                
+                }
+
                 attackIdleMoveDiretion = UnityEngine.Random.Range(1, 3);//攻擊待機移動方向(0 = 不移動, 1 = 右, 2 = 左)
                 waitAttackTime = UnityEngine.Random.Range(attackFrequency[0], attackFrequency[1]);//亂數攻擊待機時間
                 attackIdleMoveRandomTime = UnityEngine.Random.Range(1, waitAttackTime); ;//攻擊待機移動亂數時間(計時器)
 
                 waitAttackTime = waitAttackTime + attackIdleMoveRandomTime;//攻擊待機時間 + 攻擊待機移動時間
-            } 
+            }
         }
 
         //攻擊中曾被攻擊過關閉"受擊"動畫
         if (info.IsTag("Attack") && isGetHit)
-        {            
+        {
             OnChangeAnimation(animationName: "Pain", animationType: false);
             isGetHit = false;
         }
 
         if (isHowling)//是否咆嘯
         {
-            isHowling = false;                
+            isHowling = false;
             OnChangeAnimation(animationName: "Howling", animationType: false);
         }
 
         if (!isReadChase) OnWaitAttackBehavior();//等待攻擊行為
-    }    
+    }
 
     /// <summary>
     /// 等待攻擊行為
@@ -1042,7 +1043,7 @@ public class AI : MonoBehaviourPunCallbacks
                 waitAttackTime -= Time.deltaTime;//亂數攻擊待機時間
                 attackIdleMoveRandomTime -= Time.deltaTime;//攻擊待機移動亂數時間(計時器)
             }
-            
+
             OnAttackIdleMove();//攻擊待機移動            
 
             if (waitAttackTime <= 0)//攻擊待機時間
@@ -1054,8 +1055,8 @@ public class AI : MonoBehaviourPunCallbacks
                 if (isAttackIdleMove)
                 {
                     isAttackIdleMove = false;//是否攻擊待機移動
-                                  
-                    if(!isMelee) OnChangeAnimation(animationName: "Backflip", animationType: false);
+
+                    if (!isMelee) OnChangeAnimation(animationName: "Backflip", animationType: false);
                     OnChangeAnimation(animationName: "AttackIdleMove", animationType: false);
                 }
 
@@ -1066,10 +1067,10 @@ public class AI : MonoBehaviourPunCallbacks
                     attackNumber = maxAttackNumber;
                 }
                 else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber);
-                OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);                
+                OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
             }
-        }  
-    }   
+        }
+    }
 
     /// <summary>
     /// 攻擊待機移動
@@ -1080,10 +1081,10 @@ public class AI : MonoBehaviourPunCallbacks
 
         //攻擊待機移動時間 && 非攻擊待機移動 && 攻擊待機移動方向!=前方
         if (attackIdleMoveRandomTime <= 0 && !isAttackIdleMove && attackIdleMoveDiretion != 0)
-        {            
+        {
             OnAttackIdleMoveExecution();//執行攻擊移動動畫            
         }
-        
+
         //攻擊待機移動
         if (isAttackIdleMove)
         {
@@ -1133,7 +1134,7 @@ public class AI : MonoBehaviourPunCallbacks
                     //向後走
                     transform.position = transform.position - transform.forward * attackIdleMoveSpeed * Time.deltaTime;
                 }
-            }            
+            }
         }
 
         if (info.IsName("Backflip"))//遠距離逃跑
@@ -1153,7 +1154,7 @@ public class AI : MonoBehaviourPunCallbacks
     /// 執行攻擊移動動畫
     /// </summary>
     void OnAttackIdleMoveExecution()
-    {        
+    {
         isAttackIdleMove = true;//是否攻擊待機移動
 
         //鏡像動畫Boolen
@@ -1164,7 +1165,7 @@ public class AI : MonoBehaviourPunCallbacks
         if (!isMelee && (transform.position - chaseObject.transform.position).magnitude < backMoveDistance)
         {
             OnChangeAnimation(animationName: "AttackIdle", animationType: false);
-            OnChangeAnimation(animationName: "Backflip", animationType: true);                     
+            OnChangeAnimation(animationName: "Backflip", animationType: true);
 
             return;
         }
@@ -1172,7 +1173,7 @@ public class AI : MonoBehaviourPunCallbacks
         OnChangeAnimation(animationName: "AttackIdle", animationType: false);
         OnChangeAnimation(animationName: "AttackIdleMove", animationType: true);
     }
-  
+
     /// <summary>
     /// 偵測範圍
     /// </summary>
@@ -1183,13 +1184,13 @@ public class AI : MonoBehaviourPunCallbacks
         {
             //OnGetAllPlayers();//獲取所有玩家
 
-           /* if (allPlayerAlliance != null)
-            {
-                for (int i = 0; i < allPlayerAlliance.Length; i++)
-                {
-                    if(allPlayerAlliance[i])
-                }
-            }*/
+            /* if (allPlayerAlliance != null)
+             {
+                 for (int i = 0; i < allPlayerAlliance.Length; i++)
+                 {
+                     if(allPlayerAlliance[i])
+                 }
+             }*/
 
             return true;
         }
@@ -1217,7 +1218,7 @@ public class AI : MonoBehaviourPunCallbacks
         //碰撞偵測_牆面
         if (charactersCollision.OnCollision_Wall())
         {
-            if(isExecuteAStart)//正在執行AStar
+            if (isExecuteAStart)//正在執行AStar
             {
                 isExecuteAStart = false;
             }
@@ -1237,9 +1238,9 @@ public class AI : MonoBehaviourPunCallbacks
                 pathsList = aStart.OnGetBestPoint(startPosition, targetPosition);//尋找路徑
                 point = 0;//尋路節點編號
             }
-        }      
+        }
 
-        if(isExecuteAStart && pathsList.Count > 0) OnWayPoint();//尋路方向
+        if (isExecuteAStart && pathsList.Count > 0) OnWayPoint();//尋路方向
     }
 
     /// <summary>
@@ -1282,22 +1283,22 @@ public class AI : MonoBehaviourPunCallbacks
 
         //與節點距離
         float distance = (AIPosistion - playerPosition).magnitude;
-        
+
         if (distance < 1f)
         {
             point++;//目前尋路節點編號
 
             //到達目標
             if (point >= pathsList.Count)
-            {                
+            {
                 point = pathsList.Count;//尋路節點編號
                 isExecuteAStart = false;//非執行AStart
-                pathsList.Clear();                
+                pathsList.Clear();
             }
 
             //到達搜索節點數量
             if (point >= aStarCheckPointNumber)
-            {                
+            {
                 //與目標之間沒有障礙物
                 if (!OnCollision_Target())
                 {
@@ -1330,31 +1331,37 @@ public class AI : MonoBehaviourPunCallbacks
                     chaseNumber = 0;//追擊對象編號
                     float closestPlayerDistance = 100000;//最近距離
                     float distance;//其他玩家距離
-
+                                        
                     for (int i = 0; i < allPlayers.Length; i++)
                     {
-                        if (allPlayers[i].activeSelf != false)
+                        if (allPlayers[i].GetComponent<CharactersCollision>() != null)
                         {
-                            distance = (allPlayers[i].transform.position - transform.position).magnitude;
-                            if (distance < closestPlayerDistance)
+                            if (allPlayers[i].activeSelf != false && allPlayers[i].GetComponent<CharactersCollision>().Hp > 0)
                             {
-                                closestPlayerDistance = distance;
-                                chaseNumber = i;
+                                distance = (allPlayers[i].transform.position - transform.position).magnitude;
+                                if (distance < closestPlayerDistance)
+                                {
+                                    closestPlayerDistance = distance;
+                                    chaseNumber = i;
+                                }
                             }
                         }
                     }
-                    
+
                     //檢查玩家同盟士兵
                     for (int i = 0; i < allPlayerAlliance.Length; i++)
                     {
-                        if (allPlayerAlliance[i].activeSelf != false)
+                        if (allPlayerAlliance[i].GetComponent<CharactersCollision>() != null)
                         {
-                            if ((allPlayerAlliance[i].transform.position - transform.position).magnitude < (allPlayers[chaseNumber].transform.position - transform.position).magnitude &&
-                                allPlayerAlliance[i].GetComponent<CharactersCollision>() != null)
+                            if (allPlayerAlliance[i].activeSelf != false && allPlayerAlliance[i].GetComponent<CharactersCollision>().Hp > 0)
                             {
-                                CheckTargetTime = CheckPlayerDistanceTime;
-                                chaseObject = allPlayerAlliance[i];//追擊目標
-                                return;
+                                if ((allPlayerAlliance[i].transform.position - transform.position).magnitude < (allPlayers[chaseNumber].transform.position - transform.position).magnitude &&
+                                    allPlayerAlliance[i].GetComponent<CharactersCollision>() != null)
+                                {
+                                    CheckTargetTime = CheckPlayerDistanceTime;
+                                    chaseObject = allPlayerAlliance[i];//追擊目標
+                                    return;
+                                }
                             }
                         }
                     }
@@ -1364,7 +1371,7 @@ public class AI : MonoBehaviourPunCallbacks
             }
 
             //我方同盟士兵AI
-            if(gameObject.layer == LayerMask.NameToLayer("Alliance"))
+            if (gameObject.layer == LayerMask.NameToLayer("Alliance"))
             {
                 allEnemySoldier = GameObject.FindGameObjectsWithTag("Enemy");//所有敵人士兵
 
@@ -1376,14 +1383,17 @@ public class AI : MonoBehaviourPunCallbacks
                     float distance;//其他玩家距離
                     for (int i = 0; i < allEnemySoldier.Length; i++)
                     {
-                        if (allEnemySoldier[i].activeSelf != false &&
-                            allEnemySoldier[i].GetComponent<CharactersCollision>() != null)
+                        if (allEnemySoldier[i].GetComponent<CharactersCollision>() != null)
                         {
-                            distance = (allEnemySoldier[i].transform.position - transform.position).magnitude;
-                            if (distance < closestPlayerDistance)
+                            if (allEnemySoldier[i].activeSelf != false &&
+                                allEnemySoldier[i].GetComponent<CharactersCollision>().Hp > 0)
                             {
-                                closestPlayerDistance = distance;
-                                chaseNumber = i;
+                                distance = (allEnemySoldier[i].transform.position - transform.position).magnitude;
+                                if (distance < closestPlayerDistance)
+                                {
+                                    closestPlayerDistance = distance;
+                                    chaseNumber = i;
+                                }
                             }
                         }
                     }
@@ -1393,22 +1403,22 @@ public class AI : MonoBehaviourPunCallbacks
                         chaseObject = allEnemySoldier[chaseNumber];//追擊目標
                     }
                     else chaseObject = null;
-                }                
+                }
             }
 
             CheckTargetTime = CheckPlayerDistanceTime;
         }
-        
+
         //觀看最近玩家 
         Vector3 targetDiration = Vector3.one;//目標向量        
         if (pathsList.Count > 0)//執行AStart
         {
-            targetDiration = pathsList[point] - transform.position;       
+            targetDiration = pathsList[point] - transform.position;
         }
 
         else//一般情況
         {
-            if(chaseObject != null) targetDiration = chaseObject.transform.position - transform.position;
+            if (chaseObject != null) targetDiration = chaseObject.transform.position - transform.position;
         }
 
         //攻擊時不轉向
@@ -1436,7 +1446,7 @@ public class AI : MonoBehaviourPunCallbacks
         {
             aiState = state;//更換狀態
             OnChangeAnimation(animationName: openAnimationName, animationType: animationType);
-            OnChangeAnimation(animationName: closeAnimationName, animationType: false);            
+            OnChangeAnimation(animationName: closeAnimationName, animationType: false);
         }
     }
 
@@ -1448,23 +1458,23 @@ public class AI : MonoBehaviourPunCallbacks
     void OnChangeAnimation<T>(string animationName, T animationType)
     {
         info = animator.GetCurrentAnimatorStateInfo(0);
-        
-        switch(animationType.GetType().Name)
+
+        switch (animationType.GetType().Name)
         {
             case "Boolean":
                 animator.SetBool(animationName, Convert.ToBoolean(animationType));
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, Convert.ToBoolean(animationType));
                 break;
-            case "Single":                
-            break;
+            case "Single":
+                break;
             case "Int32":
                 animator.SetInteger(animationName, Convert.ToInt32(animationType));
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, animationName, Convert.ToInt32(animationType));
                 break;
-            case "String":                
-            break;
+            case "String":
+                break;
         }
-    }    
+    }
 
     private void OnDrawGizmos()
     {
@@ -1478,7 +1488,7 @@ public class AI : MonoBehaviourPunCallbacks
 
         //追擊範圍
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, chaseRadius);        
+        Gizmos.DrawWireSphere(transform.position, chaseRadius);
 
         //攻擊範圍
         Gizmos.color = Color.red;
@@ -1496,9 +1506,9 @@ public class AI : MonoBehaviourPunCallbacks
         }
 
         //前方同伴偵測範圍
-       /* float chechSize = 1;
-        Gizmos.color = Color.gray;
-        Gizmos.DrawWireCube(transform.position + charactersCollision.boxCenter + transform.forward * (charactersCollision.boxSize.x + chechSize / 2), new Vector3(chechSize, 1, chechSize));*/
+        /* float chechSize = 1;
+         Gizmos.color = Color.gray;
+         Gizmos.DrawWireCube(transform.position + charactersCollision.boxCenter + transform.forward * (charactersCollision.boxSize.x + chechSize / 2), new Vector3(chechSize, 1, chechSize));*/
 
         /*//攻擊範圍測試
         Gizmos.color = Color.gray;
