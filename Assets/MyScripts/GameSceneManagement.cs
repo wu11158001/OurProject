@@ -247,8 +247,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             //任務
             taskNumber = -1;//已完成任務數量
-            tipTaskText = new string[] { "擊破該區域\n所有據點", "擊倒城門守衛", "擊破戰場中央\n城門機關", "進入城內\n擊破所有據點", "前往上方城堡區\n擊破龍族水晶" };//提示任務文字
-            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破戰場中央\n城門機關:", "進入城內\n擊破所有據點 :", "前往上方城堡區\n擊破龍族水晶" };//個階段任務文字
+            tipTaskText = new string[] { "擊破該區域\n所有據點", "擊倒城門守衛", "擊破戰場中央\n城門機關", "進入城內\n擊破所有據點", "到上方水池區\n擊破龍族水晶" };//提示任務文字
+            taskText = new string[] { "擊破該區域\n所有據點 :", "擊倒城門守衛 :", "擊破戰場中央\n城門機關:", "進入城內\n擊破所有據點 :", "到上方水池區\n擊破龍族水晶" };//個階段任務文字
             //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 2,//階段1
                                      guardBoss_Stage2Point.Length,//階段2
@@ -692,7 +692,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         }
 
         yield return new WaitForSeconds(3);
-        isVictory = true;//是否過關
+        isVictory = result;//是否過關
         GameSceneUI.Instance.OnSetGameResult(false, "");
 
         //設定遊戲結束UI

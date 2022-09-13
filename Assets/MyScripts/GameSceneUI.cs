@@ -436,8 +436,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
 
         //結果文字
-        if (clearance) gameOverResult_Text.text = " 勝利總結 ";
-        else gameOverResult_Text.text = " 失敗總結 ";
+       /* if (clearance) gameOverResult_Text.text = " 勝利總結 ";
+        else gameOverResult_Text.text = " 失敗總結 ";*/
 
         //遊戲時間
         int minute = (int)playerGameTime / 60;
@@ -631,12 +631,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //判定是否過關
         if (GameDataManagement.Instance.isConnect)
         {
-            if (GameSceneManagement.Instance.isVictory)
+            PhotonConnect.Instance.OnSendIntoNexttLevel();
+            /*if (GameSceneManagement.Instance.isVictory)
             {
                 PhotonNetwork.AutomaticallySyncScene = true;
                 PhotonConnect.Instance.OnSendIntoNexttLevel();
             }
-            else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));
+            else StartCoroutine(LoadScene.Instance.OnLoadScene("StartScene"));*/
 
         }
         else
