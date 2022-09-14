@@ -29,7 +29,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     public Transform[] GetCollisionObject => collisionObject;
     float jumpRayDistance;//跳躍射線距離    
 
-    //生命條
+    //頭頂物件
+    ObjectName objectName;//名稱
     LifeBar_Characters lifeBar;//生命條
 
     //數值
@@ -65,12 +66,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         {
             if (gameObject.layer == LayerMask.NameToLayer("Boss"))
             {
-                ObjectName objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//物件名稱        
+                objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//物件名稱        
                 objectName.OnSetName(transform, enemyName, Color.red, 6.5f);
             }
             else
             {
-                ObjectName objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//物件名稱        
+                objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//物件名稱        
                 objectName.OnSetName(transform, enemyName, Color.red, 2.2f);
             }
         }
@@ -557,6 +558,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 //設定擊殺數
                 if ((gameObject.layer == LayerMask.NameToLayer("Enemy") || gameObject.layer == LayerMask.NameToLayer("Boss")) && layer == "Player") GameSceneUI.Instance.OnSetKillNumber();
 
+                if (objectName != null) Destroy(objectName.gameObject);
+
                 isDie = true;
                 animator.SetTrigger("Die");
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
@@ -715,6 +718,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         if (Hp <= 0)
         {
+            if (objectName != null) Destroy(objectName.gameObject);
             GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
         }
 
