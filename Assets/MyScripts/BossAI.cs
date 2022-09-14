@@ -265,8 +265,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// 攻擊招式判斷
     /// </summary>
     void OnAttackNumber()
-    {
-        Debug.LogError((transform.position - target.transform.position).magnitude);
+    {        
         if ((transform.position - target.transform.position).magnitude <= closeAttackRadius)//使用攻擊招式(近)
         {
             //UnityEngine.Random.Range(3, maxAttackNumber + 1);
