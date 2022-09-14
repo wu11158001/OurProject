@@ -753,7 +753,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTime(GameSceneUI.Instance.playerGameTime);
         }
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
         isVictory = result;//¬O§_¹LÃö
         GameSceneUI.Instance.OnSetGameResult(false, "");
 

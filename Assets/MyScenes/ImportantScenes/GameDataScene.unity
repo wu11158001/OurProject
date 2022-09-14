@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.029087018, g: 0.029898075, b: 0.029896133, a: 1}
+  m_IndirectSpecularColor: {r: 0.029087128, g: 0.029898217, b: 0.029896265, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -518,9 +518,8 @@ MonoBehaviour:
     bossAttack2_RepelDirection: 0
     bossAttack2_RepelDistance: 50
     bossAttack2_Effect: Pain
-    bossAttack2_ForwardDistance: 5
-    bossAttack2_attackRadius: 3
-    bossAttack2_IsAttackBehind: 1
+    bossAttack2_FloatSpeed: 15
+    bossAttack2_LifeTime: 1
   loadPath:
     roleSelect_Button: RoleSelectButton
     roleSelect_Sprite: Sprites/ChooseRoleScreen/Role
@@ -558,6 +557,7 @@ MonoBehaviour:
     guardBossAttack_1: Prefab/ShootObject/GuardBoss/Attack1_GuardBoss
     enemySoldier2Attack_Arrow: Prefab/ShootObject/EnemySoldier2/Attack_Arrow
     bossAttack1: Prefab/ShootObject/Boss/FlyAttack
+    bossAttack2: Prefab/ShootObject/Boss/Attack2
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
     headLifeBar_Enemy: Prefab/HeadLifeBar/HeadLifeBar_Enemy

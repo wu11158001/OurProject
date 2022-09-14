@@ -49,5 +49,9 @@ MonoBehaviour:
     guardBossAttack_1: Prefab/ShootObject/GuardBoss/Attack1_GuardBoss
     enemySoldier2Attack_Arrow: Prefab/ShootObject/EnemySoldier2/Attack_Arrow
     bossAttack1: Prefab/ShootObject/Boss/Attack1
+    bossAttack2: Prefab/ShootObject/Boss/Attack2
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
+    headLifeBar_Enemy: Prefab/HeadLifeBar/HeadLifeBar_Enemy
+    headLifeBar_Alliance: Prefab/HeadLifeBar/HeadLifeBar_Alliance
+    objectName: Prefab/UI/ObjectName_Text

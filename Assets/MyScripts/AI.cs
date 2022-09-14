@@ -1478,7 +1478,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
-        //¤@¯ëª¬ºA²¾°Ê½d³ò
+        /*//¤@¯ëª¬ºA²¾°Ê½d³ò
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(originalPosition, normalStateMoveRadius);
 
@@ -1506,7 +1506,7 @@ public class AI : MonoBehaviourPunCallbacks
         }
 
         //«e¤è¦P¦ñ°»´ú½d³ò
-        /* float chechSize = 1;
+         float chechSize = 1;
          Gizmos.color = Color.gray;
          Gizmos.DrawWireCube(transform.position + charactersCollision.boxCenter + transform.forward * (charactersCollision.boxSize.x + chechSize / 2), new Vector3(chechSize, 1, chechSize));*/
 

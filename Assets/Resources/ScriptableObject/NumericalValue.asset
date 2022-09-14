@@ -304,6 +304,5 @@ MonoBehaviour:
     bossAttack2_RepelDirection: 0
     bossAttack2_RepelDistance: 0
     bossAttack2_Effect: Pain
-    bossAttack2_ForwardDistance: 5
-    bossAttack2_attackRadius: 3
-    bossAttack2_IsAttackBehind: 1
+    bossAttack2_FloatSpeed: 15
+    bossAttack2_LifeTime: 1
