@@ -384,7 +384,7 @@ public class GameData_NumericalValue
         //cameraAngle = 20;//攝影機角度
 
         //玩家
-        playerHp = 50;//玩家生命值850
+        playerHp = 850;//玩家生命值850
         playerMoveSpeed = 6.5f;//玩家移動速度  6.5
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
@@ -398,7 +398,7 @@ public class GameData_NumericalValue
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
-        boss_Hp = 50;//Boss_生命值
+        boss_Hp = 1700;//Boss_生命值
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值
