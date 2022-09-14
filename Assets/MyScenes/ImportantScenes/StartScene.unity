@@ -2376,8 +2376,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 49b2499ff25859348b309f8669da89bc, type: 3}
-  - {fileID: 8300000, guid: be7136b2292cd0d45b951f8e7cd03e0d, type: 3}
+  - {fileID: 8300000, guid: e4bcd842372ceeb4fbb7ed4f340f2a66, type: 3}
+  - {fileID: 8300000, guid: d4ca3fb70e8311d40b7765a2ec5c38b2, type: 3}
   buffBox_1: {fileID: 0}
   buffBox_2: {fileID: 0}
   connectRoomRoleBackground_Texture: {fileID: 0}

@@ -158,8 +158,16 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         objectNumber_Dictionary.Add("enemySoldier2Attack_Arrow", number);//添加至紀錄中
 
         //Boss物件
-        number = objectHandle.OnCreateObject(loadPath.bossAttack1);//攻擊1物件(飛行攻擊)
+        number = objectHandle.OnCreateObject(loadPath.bossAttack1);//攻擊1物件
         objectNumber_Dictionary.Add("bossAttack1", number);//添加至紀錄中
+
+        //Boss物件
+        number = objectHandle.OnCreateObject(loadPath.bossAttack2);//攻擊2物件
+        objectNumber_Dictionary.Add("bossAttack2", number);//添加至紀錄中
+
+        //Boss物件
+        number = objectHandle.OnCreateObject(loadPath.bossAttack3);//攻擊3物件
+        objectNumber_Dictionary.Add("bossAttack3", number);//添加至紀錄中
 
         #region 第1關
         if (GameDataManagement.Instance.selectLevelNumber == 11)
