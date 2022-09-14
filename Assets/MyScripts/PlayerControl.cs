@@ -144,7 +144,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         //不是死亡狀態 & 不是受擊動畫
-        if (!charactersCollision.isDie && !info.IsName("Pain") && !GameSceneManagement.Instance.isVictory)
+        if (!charactersCollision.isDie && !info.IsName("Pain") && !GameSceneManagement.Instance.isGameOver)
         {
             //沒有開啟選項介面
             if (!GameSceneUI.Instance.isOptions)

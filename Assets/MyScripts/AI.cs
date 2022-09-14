@@ -306,7 +306,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!charactersCollision.isDie && GameDataManagement.Instance.selectLevelNumber == 11 && !GameSceneManagement.Instance.isVictory)
+        if (!charactersCollision.isDie && GameDataManagement.Instance.selectLevelNumber == 11 && !GameSceneManagement.Instance.isGameOver)
         {
             //OnCollision();//¸I¼²®Ø
 

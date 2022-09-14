@@ -48,6 +48,8 @@ public class BuffButtonDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     /// <param name="eventData"></param>
     public void OnEndDrag(PointerEventData eventData)
     {
+        StartSceneUI.Instance.OnPlayAudio(1);
+
         GameObject buff = eventData.pointerDrag;
         if (buff == null) return;
 

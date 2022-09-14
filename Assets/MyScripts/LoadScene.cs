@@ -134,15 +134,13 @@ public class LoadScene : MonoBehaviourPunCallbacks
         //開啟UI
         background.enabled = true;
         loadBack_Image.enabled = true;
-        loadFront_Image.enabled = true;
+        loadFront_Image.enabled = true;        
 
         loadValue = 0.5f;
         if (PhotonNetwork.IsMasterClient)
-        {
+        {           
             if (level == 11 || level == 12)
             {
-                PhotonNetwork.AutomaticallySyncScene = true;//關閉自動同步場景
-
                 PhotonNetwork.LoadLevel("LevelScene" + level);
                 PhotonNetwork.CurrentRoom.IsOpen = false;//關閉房間
             }

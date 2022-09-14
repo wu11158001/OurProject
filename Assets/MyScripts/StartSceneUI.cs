@@ -14,7 +14,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     public static StartSceneUI Instance => startSceneUI;
 
     GameData_LoadPath loadPath;
-    GameData_NumericalValue numericalValue;       
+    GameData_NumericalValue numericalValue;
+    [SerializeField] AudioSource thisAudioSource;
+    [SerializeField] AudioClip[] thisAudioClip;
 
     [Header("影片")]
     VideoPlayer videoPlayer;
@@ -139,6 +141,16 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         OnKeyboardSendChatMessage();
         OnRoomTipTime();
         OnMusicVolumeScrollBar();
+    }
+
+    /// <summary>
+    /// 播放音效
+    /// </summary>
+    /// <param name="number">音效編號</param>
+    public void OnPlayAudio(int number)
+    {        
+        thisAudioSource.clip = thisAudioClip[number];
+        thisAudioSource.Play();
     }
 
     /// <summary>
@@ -418,6 +430,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
 
                 if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
                 {
+                    
+                    OnPlayAudio(0);//播放音效
+
                     startTip_Text.enabled = false;
                     OnOpenSelectModeScreen();
                 }
@@ -469,7 +484,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// 進入選擇腳色畫面
     /// </summary>
     void OnIntoSelectRoleScreen()
-    {        
+    {
+        OnPlayAudio(0);//播放音效
+        
         selectRoleScreen.gameObject.SetActive(true);
         startScreen.gameObject.SetActive(false);
         selectModeScreen.gameObject.SetActive(false);
@@ -481,7 +498,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// 開啟設定暱稱畫面
     /// </summary>
     void OnOpenSetNickNameScreen()
-    {        
+    {
+        OnPlayAudio(0);//播放音效
+        
         setNickNameScreen.gameObject.SetActive(true);                
         nickName_InputField.gameObject.SetActive(true);//暱稱輸入框
         nickNameConfirm_Button.gameObject.SetActive(true);//暱稱確定按鈕
@@ -516,6 +535,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnShowMusicVolumeScrollBar()
     {
+        OnPlayAudio(1);//播放音效
         isShowModeVolumeScrollBar = !isShowModeVolumeScrollBar;
     }
 
@@ -554,7 +574,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
-
+        
         Application.Quit();
     }
     #endregion
@@ -565,6 +585,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnIntoLeaveScreen()
     {
+        OnPlayAudio(0);//播放音效
+        
         levelScreen.gameObject.SetActive(true);
         selectRoleScreen.gameObject.SetActive(false);               
     }
@@ -574,6 +596,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnSelectRoleScreenBackButton()
     {
+        OnPlayAudio(1);//播放音效
+
         selectModeScreen.gameObject.SetActive(true);
         selectRoleScreen.gameObject.SetActive(false);
         modeLeaveGame_Button.gameObject.SetActive(true);
@@ -618,6 +642,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <param name="number">選擇腳色編號</param>
     void OnRoleButtonMove(int number)
     {
+        OnPlayAudio(1);//播放音效
+
         int role = GameDataManagement.Instance.selectRoleNumber;
         role += number;
         if (role < 0) role = roleSelect_Sprite.Length - 1;
@@ -637,7 +663,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <param name="levelButton"></param>
     /// <param name="level"></param>
     void OnSetLevelButtonFunction(Button levelButton, int level)
-    {
+    {                
         levelButton.onClick.AddListener(() => { OnSelectLecel(level: level); });        
     }
 
@@ -647,6 +673,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <param name="level">選擇的關卡</param>
     void OnSelectLecel(int level)
     {
+        OnPlayAudio(0);//播放音效
+
         background_Image.enabled = false;
         levelScreen.gameObject.SetActive(false);
         //GameDataManagement.Instance.selectLevelNumber = level - 1;//選擇的關卡
@@ -660,6 +688,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnLevelScreenBackButton()
     {
+        OnPlayAudio(1);//播放音效
+
         selectRoleScreen.gameObject.SetActive(true);
         levelScreen.gameObject.SetActive(false);
     }
@@ -670,7 +700,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// 進入連線模式畫面
     /// </summary>
     void OnIntoConncetModeScreen()
-    {
+    {        
+        OnPlayAudio(0);//播放音效
+
         nickNameTip_Text.enabled = true;//提示文字
         nickName_InputField.gameObject.SetActive(false);//暱稱輸入框
         nickNameConfirm_Button.gameObject.SetActive(false);//暱稱確定按鈕
@@ -685,6 +717,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnNickNameBackButton()
     {
+        OnPlayAudio(1);//播放音效
+
         setNickNameScreen.gameObject.SetActive(false);
         selectModeScreen.gameObject.SetActive(true);
     }
@@ -696,6 +730,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnConnectModeBackButton()
     {
+        OnPlayAudio(1);//播放音效
+
         PhotonConnect.Instance.OnDisconnectSetting();
 
         selectModeScreen.gameObject.SetActive(true);
@@ -708,7 +744,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// 創建房間按鈕
     /// </summary>
     void OnCreateRoomButton()
-    {
+    {        
+        OnPlayAudio(0);//播放音效
+
         PhotonConnect.Instance.OnCreateRoomSetting(createRoom_InputField.text);
 
         OnConnectModeButtonActiveSetting(active: false);        
@@ -719,6 +757,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnRandomRoomButton()
     {
+        OnPlayAudio(0);//播放音效
+
         PhotonConnect.Instance.OnJoinRandomRoomRoomSetting();
 
         OnConnectModeButtonActiveSetting(active: false);
@@ -729,11 +769,14 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnSpecifyRoomButton()
     {
+        OnPlayAudio(0);//播放音效
+
         if (specifyRoom_InputField.text == "")
         {
             OnConnectModeSettingTip(tip: "請輸入房間名稱");            
             return;
         }
+                
 
         PhotonConnect.Instance.OnJoinSpecifyRoomSetting(specifyRoom_InputField.text);
 
@@ -797,6 +840,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnConnectRoomScreenBackButton()
     {
+        OnPlayAudio(1);//播放音效
+
         PhotonConnect.Instance.OnLeaveRoomSetting();
 
         conncetModeScreen.gameObject.SetActive(true);
@@ -880,6 +925,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <param name="value">選擇腳色增減</param>
     void OnConnectRoomChangeRole(int value)
     {
+        OnPlayAudio(1);//播放音效
+
         if (connectRoomChangeRoleTime <= 0)
         {
             connectRoomChangeRoleTime = 0.1f;//避免卡鍵
@@ -933,6 +980,8 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     /// <param name="value">關卡增減</param>
     void OnRoomSelectLevelButton(int value)
     {
+        OnPlayAudio(1);//播放音效
+
         int levelNumber = GameDataManagement.Instance.selectLevelNumber;
         levelNumber += value;
         /*if (levelNumber < 0) levelNumber = GameDataManagement.Instance.numericalValue.levelNames.Length - 1;
@@ -963,7 +1012,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     void OnStartConnectGame()
     {
         if (PhotonConnect.Instance.OnStartGame(GameDataManagement.Instance.selectLevelNumber))//測試
-        {     
+        {
+            OnPlayAudio(0);//播放音效
+
             roomStartGame_Button.enabled = false;//關閉按鈕(避免連按)
         }
         else roomTipTime = 2;

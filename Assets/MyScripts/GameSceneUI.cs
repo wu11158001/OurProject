@@ -9,6 +9,10 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     static GameSceneUI gameSceneUI;
     public static GameSceneUI Instance => gameSceneUI;
 
+    [Header("音效")]
+    [SerializeField] AudioSource thisAudioSource;
+    [SerializeField] AudioClip[] thisAudioClip;
+
     [Header("MiniMap")]
     Transform miniMap;//小地圖
 
@@ -422,7 +426,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetGameOverUI(bool clearance)
     {
         isGameOver = true;//遊戲結束
-        if(!clearance) Time.timeScale = 0;
+        if(!clearance && !GameDataManagement.Instance.isConnect) Time.timeScale = 0;
 
         //開啟選項
         if (isOptions)
@@ -573,6 +577,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //開啟選項介面 && 遊戲結束不可按
         if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
         {
+            OnPlayAudio(0);//播放音效
+
             isOptions = !isOptions;                                
             options.gameObject.SetActive(isOptions);
 
@@ -627,6 +633,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnLeaveGame()
     {
+        OnPlayAudio(1);//播放音效
+
         isOptions = false;
         backToStartOver_Button.enabled = false;//關閉按鈕(避免連按)
         options.gameObject.SetActive(isOptions);
@@ -645,7 +653,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         //判定是否過關
         if (GameDataManagement.Instance.isConnect)
         {
-            PhotonConnect.Instance.OnSendIntoNexttLevel();
+            PhotonConnect.Instance.OnSendIntoNexttLevel();            
+           
             /*if (GameSceneManagement.Instance.isVictory)
             {
                 PhotonNetwork.AutomaticallySyncScene = true;
@@ -670,6 +679,8 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnContinueGame()
     {
+        OnPlayAudio(0);//播放音效
+
         //音樂暫繼續
         AudioSource[] audios = GameObject.FindObjectsOfType<AudioSource>();
         foreach (var audio in audios)
@@ -730,5 +741,15 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     {        
         gameResult.gameObject.SetActive(active);
         gameResult_Text.text = result;
+    }
+
+    /// <summary>
+    /// 播放音效
+    /// </summary>
+    /// <param name="number">音效編號</param>
+    public void OnPlayAudio(int number)
+    {
+        thisAudioSource.clip = thisAudioClip[number];
+        thisAudioSource.Play();
     }
 }

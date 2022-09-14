@@ -528,8 +528,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                                                            position: transform.position,
                                                                                            rotation: transform.rotation,
                                                                                            damage: getDamge,
-                                                                                           isCritical: isCritical,
-                                                                                           knockDirection: knockDirection,
+                                                                                           isCritical: isCritical,                                                
                                                                                            repel: repel,
                                                                                            attackerObjectID: attackerObject.GetPhotonView().ViewID,
                                                                                            attackerID: attacker.GetPhotonView().ViewID);
@@ -577,7 +576,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                         GameSceneUI.Instance.player2Head_Image.enabled = true;
                         GameSceneUI.Instance.player3Head_Image.enabled = true;
                     }
-
+                    
                     //鼠標
                     Cursor.visible = true;//鼠標隱藏
                     Cursor.lockState = CursorLockMode.None;//鎖定中央
@@ -610,7 +609,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
                 //非連線 && 玩家死亡
                 if (!GameDataManagement.Instance.isConnect && gameObject.layer == LayerMask.NameToLayer("Player"))
-                {
+                {                    
+                    GameSceneManagement.Instance.isGameOver = true;
                     //遊戲結果文字
                     GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
                     //設定遊戲結束
@@ -618,7 +618,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 }
                 //連線 && 玩家死亡
                 if (GameDataManagement.Instance.isConnect && gameObject.layer == LayerMask.NameToLayer("Player"))
-                {
+                {                    
                     PhotonConnect.Instance.OnSendPlayerDie();
                 }
 
@@ -688,10 +688,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    /// <param name="knockDirection">擊退方向</param>
     /// <param name="attackObj">攻擊者物件</param>
     /// <param name="attacker">攻擊者</param>
-    public void OnConnectOtherGetHit(Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, GameObject attackObj, GameObject attacker)
+    public void OnConnectOtherGetHit(Vector3 position, Quaternion rotation, float damage, bool isCritical, float repel, GameObject attackObj, GameObject attacker)
     {
         transform.position = position;
         transform.rotation = rotation;
@@ -740,6 +739,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         if (gameObject.layer != LayerMask.NameToLayer("Boss"))
         {
+            int knockDirection = 0;
             //判斷擊中效果
             switch (knockDirection)
             {

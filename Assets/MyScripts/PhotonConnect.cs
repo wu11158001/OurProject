@@ -424,13 +424,12 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    /// <param name="knockDirection">擊退方向</param>
     /// <param name="repel">擊退距離</param>
     /// <param name="attackerObjectID">攻擊者物件ID</param>
     /// <param name="attackerID">攻擊者ID</param>
-    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage,bool isCritical, int knockDirection, float repel, int attackerObjectID, int attackerID)
-    {
-        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID, attackerID);
+    public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage,bool isCritical, float repel, int attackerObjectID, int attackerID)
+    {        
+        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical, repel, attackerObjectID, attackerID);
     }
 
     /// <summary>
@@ -441,14 +440,14 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    /// <param name="knockDirection">擊退方向</param>
     /// <param name="repel">擊退距離</param>
     /// <param name="attackerObjectID">攻擊者物件ID</param>
     /// <param name="attackerID">攻擊者ID</param>
     [PunRPC]
-    void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID, int attackerID)
+    void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, float repel, int attackerObjectID, int attackerID)
     {
-        GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical, knockDirection, repel, attackerObjectID, attackerID);
+
+        GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical, repel, attackerObjectID, attackerID);
     }
 
     /// <summary>
@@ -706,6 +705,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         if(GameSceneManagement.Instance.lifePlayerNumber <= 0)
         {
             //遊戲結果文字
+            GameSceneManagement.Instance.isGameOver = true;
             GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
             GameSceneManagement.Instance.OnSetGameOver(false);
             //GameSceneUI.Instance.connectGameOverResult_Text.text = " 失 敗 總 結 ";
@@ -734,13 +734,20 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
              if (GameDataManagement.Instance.selectLevelNumber == 12) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
          }*/
 
-        if (GameDataManagement.Instance.selectLevelNumber == 11)
+        PhotonNetwork.AutomaticallySyncScene = true;//自動同步場景
+
+        if (GameSceneManagement.Instance.isVictory)
         {
-            GameDataManagement.Instance.selectLevelNumber = 12;
-            StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(12));
-            return;
+            if (GameDataManagement.Instance.selectLevelNumber == 11)
+            {
+                GameDataManagement.Instance.selectLevelNumber = 12;
+                StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(12));
+                return;
+            }
+
+            if (GameDataManagement.Instance.selectLevelNumber == 12) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
         }
-        if (GameDataManagement.Instance.selectLevelNumber == 12) StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
+        else StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(13));
 
     }
 

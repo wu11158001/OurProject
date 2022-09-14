@@ -34,7 +34,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     Transform[] allianceSoldier1_Stage1Point;//我方士兵1_階段1出生點
     Transform[] allianceSoldier1_Stage4Point;//我方士兵1_階段4出生點
 
-    //任務
+    //任務    
+    public bool isGameOver;//是否遊戲結束
     public bool isVictory;//是否過關
     public string[] taskText;//各階段任務文字
     public string[] tipTaskText;//提示任務文字
@@ -728,7 +729,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     ais[i].gameObject.SetActive(false);
                 }
-                
+
+                isGameOver = true;
                 GameSceneUI.Instance.OnSetGameResult(true, "勝 利");
                 StartCoroutine(OnSetGameOver(true));//設定遊戲結束
             }
@@ -938,18 +940,17 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="rotation">選轉</param>
     /// <param name="damage">受到傷害</param>
     /// <param name="isCritical">是否爆擊</param>
-    /// <param name="knockDirection">擊退方向</param>
     /// <param name="repel">擊退距離</param>
     /// <param name="attackerObjectID">攻擊者物件ID</param>
     /// <param name="attackerID">攻擊者ID</param>
-    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, int knockDirection, float repel, int attackerObjectID, int attackerID)
+    public void OnConnectGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, float repel, int attackerObjectID, int attackerID)
     {
         CharactersCollision collision = connectObject_Dictionary[targetID].GetComponent<CharactersCollision>();
         if (collision != null)
         {
             GameObject attackObj = connectObject_Dictionary[attackerObjectID].gameObject;
             GameObject attacker = connectObject_Dictionary[attackerID].gameObject;
-            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical, knockDirection, repel, attackObj, attacker);
+            collision.OnConnectOtherGetHit(position, rotation, damage, isCritical, repel, attackObj, attacker);
         }
     }
 
