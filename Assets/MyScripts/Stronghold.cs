@@ -17,6 +17,10 @@ public class Stronghold : MonoBehaviourPunCallbacks
     [Header("建築物名稱")]
     public string builidName;
 
+    [Header("音效")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip audioClip;
+
     //生命值
     public float maxHp;
     public float hp;
@@ -107,7 +111,10 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
             if (hp <= 0)
             {
-                hp = 0;                                
+                hp = 0;
+
+                audioSource.clip = audioClip;
+                audioSource.Play();
 
                 //任務
                 GameSceneManagement.Instance.OnTaskText();//任務文字                
