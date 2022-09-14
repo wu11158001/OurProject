@@ -236,7 +236,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         connectGameOver = ExtensionMethods.FindAnyChild<Transform>(transform, "ConnectGameOver");//ConnectGameOver UI北
         connectGameOver.gameObject.SetActive(false);
         connectGameOverResult_Text = ExtensionMethods.FindAnyChild<Text>(transform, "ConnectGameOverResult_Text");//硈絬笴栏挡狦
-        connectGameOverResult_Text.text = " 秤  羆 挡 ";
+        connectGameOverResult_Text.text = "";
         player1_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player1_Over");//Player1_Over UI北
         player2_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player2_Over");//Player2_Over UI北
         player3_Over = ExtensionMethods.FindAnyChild<Transform>(transform, "Player3_Over");//Player3_Over UI北

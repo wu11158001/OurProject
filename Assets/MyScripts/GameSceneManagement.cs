@@ -117,7 +117,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
                     {
-                        player.transform.position = new Vector3(345, -23.9f, -28.5f + (i * 2.5f));
+                        player.transform.position = new Vector3(345, -23.9f, -25f + (i * 2.5f));
                         player.transform.rotation = Quaternion.Euler(0, -85, 0);//設定選轉
                     }
                 }
