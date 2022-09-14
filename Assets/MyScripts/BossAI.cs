@@ -27,6 +27,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     int attackNumber;//使用攻擊招式
 
     [Header("攻擊待機")]
+    bool isStart;//是否開始
     [SerializeField] float attackIdleTime;//攻擊待機時間(計時器)
     float maxAttackIdleTime;//最大攻擊待機時間    
 
@@ -59,9 +60,10 @@ public class BossAI : MonoBehaviourPunCallbacks
         GetComponent<BoxCollider>().enabled = false;
 
         //攻擊
-        longAttackRadius = 10;//攻擊半徑(遠距離)
+        longAttackRadius = 30;//攻擊半徑(遠距離)
+        closeAttackRadius = 8;//攻擊半徑(近距離)
         attackRandomTime = new float[] { 0.5f, 2.0f };//攻擊亂數時間(最小,最大)
-        maxAttackNumber = 2;//擁有攻擊招式
+        maxAttackNumber = 3;//擁有攻擊招式
 
         //攻擊待機
         maxAttackIdleTime = 1.5f;//最大攻擊待機時間
@@ -84,7 +86,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         {
             OnFindTargetTime();//尋找目標時間
             OnRotateToTarget();//轉向至目標
-            OnChaseTarget();//追擊目標
+            if(isStart) OnChaseTarget();//追擊目標
         }
 
         if (state == State.攻擊狀態)
@@ -219,7 +221,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// <param name="speed">轉向速度</param>
     void OnRotateToTarget()
     {
-        float speed = 2.1f;
+        float speed = 2.65f;
         if (target != null || target.activeSelf)
         {
             if (!info.IsTag("Die"))
@@ -251,11 +253,26 @@ public class BossAI : MonoBehaviourPunCallbacks
             {
                 state = State.攻擊狀態;
 
-                attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用攻擊招式
+                OnAttackNumber();//攻擊招式判斷
+
                 OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
                 OnChangeAnimation(animationName: "Fly", animationType: false);              
             }
         }
+    }
+
+    /// <summary>
+    /// 攻擊招式判斷
+    /// </summary>
+    void OnAttackNumber()
+    {
+        Debug.LogError((transform.position - target.transform.position).magnitude);
+        if ((transform.position - target.transform.position).magnitude <= closeAttackRadius)//使用攻擊招式(近)
+        {
+            //UnityEngine.Random.Range(3, maxAttackNumber + 1);
+            attackNumber = 3;
+        }
+        else attackNumber = UnityEngine.Random.Range(1, 3);//使用攻擊招式(遠)
     }
 
     /// <summary>
@@ -291,7 +308,8 @@ public class BossAI : MonoBehaviourPunCallbacks
             {
                 if (!info.IsTag("Attack"))
                 {
-                    attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);//使用攻擊招式
+                    OnAttackNumber();//攻擊招式判斷
+
                     OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
                     OnChangeAnimation(animationName: "Fly", animationType: false);
                     OnChangeAnimation(animationName: "Pain", animationType: false);
@@ -301,6 +319,8 @@ public class BossAI : MonoBehaviourPunCallbacks
             {
                 if (!info.IsTag("Attack")) OnRotateToTarget();//轉向至目標
             }
+
+            attackIdleTime = UnityEngine.Random.Range(1, maxAttackIdleTime);//攻擊待機時間(計時器)
         }
     }
 
@@ -312,6 +332,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //咆嘯完畢
         if (info.IsTag("Roar") && info.normalizedTime >= 1)
         {
+            isStart = true;//是否開始
             OnChangeAnimation(animationName: "Roar", animationType: false);
             OnChangeAnimation(animationName: "Fly", animationType: true);
         }
@@ -325,9 +346,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //攻擊完成
         if (info.IsTag("Attack") && info.normalizedTime >= 1)
         {
-            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
-
-            attackIdleTime = UnityEngine.Random.Range(1, maxAttackIdleTime);//攻擊待機時間(計時器)
+            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);            
         }
 
         //待機狀態

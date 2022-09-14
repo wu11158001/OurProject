@@ -520,6 +520,12 @@ MonoBehaviour:
     bossAttack2_Effect: Pain
     bossAttack2_FloatSpeed: 15
     bossAttack2_LifeTime: 1
+    bossAttack3_Damge: 35
+    bossAttack3_RepelDirection: 0
+    bossAttack3_RepelDistance: 0
+    bossAttack3_Effect: Pain
+    bossAttack3_FloatSpeed: 15
+    bossAttack3_LifeTime: 1
   loadPath:
     roleSelect_Button: RoleSelectButton
     roleSelect_Sprite: Sprites/ChooseRoleScreen/Role
@@ -558,6 +564,7 @@ MonoBehaviour:
     enemySoldier2Attack_Arrow: Prefab/ShootObject/EnemySoldier2/Attack_Arrow
     bossAttack1: Prefab/ShootObject/Boss/FlyAttack
     bossAttack2: Prefab/ShootObject/Boss/Attack2
+    bossAttack3: Prefab/ShootObject/Boss/Attack3
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
     headLifeBar_Enemy: Prefab/HeadLifeBar/HeadLifeBar_Enemy

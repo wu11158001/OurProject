@@ -361,6 +361,14 @@ public class GameData_NumericalValue
     public string bossAttack2_Effect;//Boss攻擊2_效果(受擊者播放的動畫名稱)
     public float bossAttack2_FloatSpeed;//Boss攻擊2_飛行速度
     public float bossAttack2_LifeTime;//Boss攻擊2_生存時間
+
+    [Header("Boss 攻擊3")]
+    public float bossAttack3_Damge;//Boss攻擊3_傷害
+    public int bossAttack3_RepelDirection;//Boss攻擊3_擊退方向(0:擊退 1:擊飛)
+    public float bossAttack3_RepelDistance;//Boss攻擊3_擊退/擊飛距離    
+    public string bossAttack3_Effect;//Boss攻擊3_效果(受擊者播放的動畫名稱)
+    public float bossAttack3_FloatSpeed;//Boss攻擊3_飛行速度
+    public float bossAttack3_LifeTime;//Boss攻擊3_生存時間
     #endregion
 
     /// <summary>
@@ -713,16 +721,24 @@ public class GameData_NumericalValue
         bossAttack1_RepelDirection = 0;//Boss攻擊1_擊退方向(0:擊退 1:擊飛)
         bossAttack1_RepelDistance = 0;//Boss攻擊1_擊退/擊飛距離    
         bossAttack1_Effect = "Pain";//Boss攻擊1_效果(受擊者播放的動畫名稱)
-        bossAttack1_FloatSpeed = 15;//Boss攻擊1_攻擊飛行速度
-        bossAttack1_LifeTime = 1f;//Boss攻擊1_生存時間
+        bossAttack1_FloatSpeed = 30;//Boss攻擊1_攻擊飛行速度
+        bossAttack1_LifeTime = 1.5f;//Boss攻擊1_生存時間
 
         //Boss 攻擊2
         bossAttack2_Damge = 35;//Boss攻擊2_傷害
         bossAttack2_RepelDirection = 0;//Boss攻擊2_擊退方向(0:擊退 1:擊飛)
         bossAttack2_RepelDistance = 0;//Boss攻擊2_擊退/擊飛距離    
         bossAttack2_Effect = "Pain";//Boss攻擊2_效果(受擊者播放的動畫名稱)
-        bossAttack2_FloatSpeed = 15;//Boss攻擊2_攻擊飛行速度
-        bossAttack2_LifeTime = 1f;//Boss攻擊2_生存時間
+        bossAttack2_FloatSpeed = 30;//Boss攻擊2_攻擊飛行速度
+        bossAttack2_LifeTime = 1.5f;//Boss攻擊2_生存時間
+
+        //Boss 攻擊3
+        bossAttack3_Damge = 40;//Boss攻擊2_傷害
+        bossAttack3_RepelDirection = 0;//Boss攻擊3_擊退方向(0:擊退 1:擊飛)
+        bossAttack3_RepelDistance = 0;//Boss攻擊3_擊退/擊飛距離    
+        bossAttack3_Effect = "Pain";//Boss攻擊3_效果(受擊者播放的動畫名稱)
+        bossAttack3_FloatSpeed = 30;//Boss攻擊3_攻擊飛行速度
+        bossAttack3_LifeTime = 1.5f;//Boss攻擊3_生存時間
         #endregion
     }
 }

@@ -298,11 +298,17 @@ MonoBehaviour:
     bossAttack1_RepelDirection: 0
     bossAttack1_RepelDistance: 0
     bossAttack1_Effect: Pain
-    bossAttack1_FloatSpeed: 15
-    bossAttack1_LifeTime: 1
+    bossAttack1_FloatSpeed: 30
+    bossAttack1_LifeTime: 1.5
     bossAttack2_Damge: 35
     bossAttack2_RepelDirection: 0
     bossAttack2_RepelDistance: 0
     bossAttack2_Effect: Pain
-    bossAttack2_FloatSpeed: 15
-    bossAttack2_LifeTime: 1
+    bossAttack2_FloatSpeed: 30
+    bossAttack2_LifeTime: 1.5
+    bossAttack3_Damge: 40
+    bossAttack3_RepelDirection: 0
+    bossAttack3_RepelDistance: 0
+    bossAttack3_Effect: Pain
+    bossAttack3_FloatSpeed: 30
+    bossAttack3_LifeTime: 1.5
