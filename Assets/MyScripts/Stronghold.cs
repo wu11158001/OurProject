@@ -116,14 +116,13 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 audioSource.clip = audioClip;
                 audioSource.Play();
 
-                //任務
-                GameSceneManagement.Instance.OnTaskText();//任務文字                
+                GameSceneManagement.Instance.OnTaskText();//任務文字 
 
-                //連線
+                //連線任務
                 if (GameDataManagement.Instance.isConnect)
                 {
                     PhotonConnect.Instance.OnSendRenewTask(builidName);//更新任務
-                }
+                }                
 
                 //連線模式
                 if (GameDataManagement.Instance.isConnect)
