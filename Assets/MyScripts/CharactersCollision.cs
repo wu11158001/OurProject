@@ -470,7 +470,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  isCritical: isCritical);//是否爆擊
 
             //命中特效
-            if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            if (gameObject.layer == LayerMask.NameToLayer("Enemy")|| gameObject.layer == LayerMask.NameToLayer("Boss"))
             {
                 if (attackerObject.GetComponent<Effects>() != null)
                 {

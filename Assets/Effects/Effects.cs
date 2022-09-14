@@ -782,7 +782,7 @@ public class Effects : MonoBehaviour
 
     #endregion
 
-    void DoEffects(string idelName, float delay, ParticleSystem effect)
+    void DoEffects(string idelName, float delay, ParticleSystem effect)   
     {
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
         {
