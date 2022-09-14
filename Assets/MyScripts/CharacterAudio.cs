@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class CharacterAudio : MonoBehaviour
 {
-    AudioSource audioSource;
+    [SerializeField] AudioSource[] audioSource;
 
     [Header("音效")]
     [SerializeField] AudioClip[] thisAudioClips;
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        for (int i = 0; i < audioSource.Length; i++)
+        {
+            audioSource[i].volume = 0.4f;
+        }
     }
 
     /// <summary>
@@ -22,8 +25,24 @@ public class CharacterAudio : MonoBehaviour
     {
         if (number >= 0 && number < thisAudioClips.Length)
         {
-            audioSource.clip = thisAudioClips[number];
-            audioSource.Play();
+            if (!audioSource[0].isPlaying)
+            {
+                audioSource[0].clip = thisAudioClips[number];
+                audioSource[0].Play();
+                return;
+            }
+            else if (!audioSource[1].isPlaying)
+            {
+                audioSource[1].clip = thisAudioClips[number];
+                audioSource[1].Play();
+                return;
+            }
+            else
+            {
+                audioSource[2].clip = thisAudioClips[number];
+                audioSource[2].Play();
+                return;
+            }            
         }
         else Debug.LogError("錯誤音效編號:" + number);
     }
