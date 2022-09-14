@@ -384,7 +384,7 @@ public class GameData_NumericalValue
         //cameraAngle = 20;//攝影機角度
 
         //玩家
-        playerHp = 850;//玩家生命值850
+        playerHp = 50;//玩家生命值850
         playerMoveSpeed = 6.5f;//玩家移動速度  6.5
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
