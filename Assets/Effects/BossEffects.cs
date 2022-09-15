@@ -31,6 +31,7 @@ public class BossEffects : MonoBehaviour
         FireBall();
         FireBreath();
         Boom();
+
     }
 
     void FireBall()
@@ -61,7 +62,13 @@ public class BossEffects : MonoBehaviour
     }
     void FireBreath()
     {
-      
+        if (animInfo.IsName("Attack.Attack2") && animInfo.normalizedTime > 0.25    //口中的火
+                                              && animInfo.normalizedTime <= 0.3)
+        {
+            fireBreathPos.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+        }
+
+
         if (animInfo.IsName("Attack.Attack2") && animInfo.normalizedTime > 0.25    //龍息
                                      && animInfo.normalizedTime <= 0.3
                                     && !fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
@@ -74,15 +81,31 @@ public class BossEffects : MonoBehaviour
         {
             gameObject.GetComponent<BossAI>().OnRotateToTarget();
         }
+
+        if (animInfo.IsName("Attack.Attack2") && animInfo.normalizedTime > 0.25   //龍息
+                                     && animInfo.normalizedTime <= 0.3
+                                    && !fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
+        {                                                                                                                                        //0是朝頭
+            fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetChild(0).position - ragonTongue02.transform.position;
+            fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+
+        }
+        if (fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
+        {
+            gameObject.GetComponent<BossAI>().OnRotateToTarget();
+        }
+
+
+
     }
 
     void Boom()
     {
         if (animInfo.IsName("Attack.Attack3") && animInfo.normalizedTime > 0.25    //近距離爆炸
-                                    // && animInfo.normalizedTime <= 0.45
+                                                                                   // && animInfo.normalizedTime <= 0.45
                                     && !boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
         {                                                                                                                                        //0是朝頭
-          
+
             boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         }
         //if (animInfo.IsName("Attack.Attack3") && animInfo.normalizedTime > 0.6    //近距離爆炸
@@ -92,6 +115,7 @@ public class BossEffects : MonoBehaviour
         //    boomPos.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
         //}
     }
+
 }
 
 
