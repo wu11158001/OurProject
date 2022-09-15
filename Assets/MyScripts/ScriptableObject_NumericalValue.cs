@@ -407,7 +407,7 @@ public class GameData_NumericalValue
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
-        boss_Hp = 10;//Boss_生命值
+        boss_Hp = 1700;//Boss_生命值
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值

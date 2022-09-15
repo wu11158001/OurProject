@@ -493,9 +493,10 @@ public class AI : MonoBehaviourPunCallbacks
                 //Äµ§Ù¨ì°lÀ»®É¶¡
                 if (alertTime >= alertToChaseTime)
                 {
-                    OnHowlingBehavior();//©H¼S¦æ¬°
-                    OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
+                    //OnHowlingBehavior();//©H¼S¦æ¬°
+                   // OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
                     OnChangeAnimation(animationName: "Idle", animationType: false);
+                    alertTime = 0;
                 }
             }
         }
@@ -546,10 +547,10 @@ public class AI : MonoBehaviourPunCallbacks
             OnChangeAnimation(animationName: "Idle", animationType: false);
         }
 
-        isHowling = true;//¬O§_©H¼S
+       /* isHowling = true;//¬O§_©H¼S
 
         //OnGetAllPlayers();//Àò¨ú©Ò¦³ª±®a
-        OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
+        OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);*/
 
         OnHowlingBehavior();//©H¼S¦æ¬°
     }
@@ -612,9 +613,9 @@ public class AI : MonoBehaviourPunCallbacks
 
         if (aiState != AIState.°lÀ»ª¬ºA || aiState != AIState.§ðÀ»ª¬ºA)
         {
-            isHowling = true;//¬O§_©H¼S
+           /* isHowling = true;//¬O§_©H¼S
 
-            OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
+            OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);*/
         }
 
         yield return 0;
@@ -631,7 +632,7 @@ public class AI : MonoBehaviourPunCallbacks
             if (aiState != AIState.°lÀ»ª¬ºA)
             {
                 isHowling = true;//¬O§_©H¼S
-                OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
+                //OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
             }
         }
     }
@@ -643,10 +644,10 @@ public class AI : MonoBehaviourPunCallbacks
     {
         info = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (isHowling && !info.IsName("Howling"))
+       /* if (!isHowling && !info.IsName("Howling"))
         {
             OnChangeAnimation(animationName: "Howling", animationType: true);
-        }
+        }*/
 
         //©H¼S§¹¶}©l°lÀ»
         if (info.IsName("Howling") && info.normalizedTime >= 1)
@@ -977,10 +978,10 @@ public class AI : MonoBehaviourPunCallbacks
         OnAttackRangeCheck();//§ðÀ»½d³ò°»´ú
                              //if (!isAttacking) OnCheckClosestPlayer();//ÀË¬d³Ìªñª±®a       
 
-        if (!isHowling && info.IsName("Howling"))
+      /*  if (!isHowling && info.IsName("Howling"))
         {
             OnChangeAnimation(animationName: "AttackIdle", animationType: true);
-        }
+        }*/
 
         //²¾°£´M¸ô
         if (pathsList.Count > 0)
