@@ -76,10 +76,10 @@ public class StrongholdFire : MonoBehaviour
                 fire1.SetActive(false);
                 fire2.SetActive(false);
                 fire3.SetActive(false);
-                fire4.SetActive(false);
-                fire5.SetActive(false);
-                fire6.SetActive(false);
-                fire7.SetActive(false);
+              //  fire4.SetActive(false);
+              //  fire5.SetActive(false);
+             //   fire6.SetActive(false);
+              //  fire7.SetActive(false);
                 fire8.SetActive(false);
                 fire9.SetActive(false);
                 fire10.SetActive(false);
@@ -87,19 +87,19 @@ public class StrongholdFire : MonoBehaviour
                 fire1.GetComponent<ParticleSystem>().Stop();
                 fire2.GetComponent<ParticleSystem>().Stop();
                 fire3.GetComponent<ParticleSystem>().Stop();
-                fire4.GetComponent<ParticleSystem>().Stop();
-                fire5.GetComponent<ParticleSystem>().Stop();
-                fire6.GetComponent<ParticleSystem>().Stop();
-                fire7.GetComponent<ParticleSystem>().Stop();
+             //   fire4.GetComponent<ParticleSystem>().Stop();
+             //   fire5.GetComponent<ParticleSystem>().Stop();
+             //   fire6.GetComponent<ParticleSystem>().Stop();
+             //   fire7.GetComponent<ParticleSystem>().Stop();
                 fire8.GetComponent<ParticleSystem>().Stop();
                 fire9.GetComponent<ParticleSystem>().Stop();
                 fire10.GetComponent<ParticleSystem>().Stop();
 
-                if (fire11 != null)
-                {
-                    fire11.SetActive(true);
-                    if (!fire11.GetComponent<ParticleSystem>().isPlaying) fire11.GetComponent<ParticleSystem>().Play();
-                }
+                //if (fire11 != null)
+                //{
+                //    fire11.SetActive(true);
+                //    if (!fire11.GetComponent<ParticleSystem>().isPlaying) fire11.GetComponent<ParticleSystem>().Play();
+                //}
             }
         }
         else   //«°ªù¥Û

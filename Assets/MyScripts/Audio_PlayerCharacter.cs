@@ -16,7 +16,7 @@ public class Audio_PlayerCharacter : MonoBehaviour
     {
         for (int i = 0; i < audioSource.Length; i++)
         {
-            audioSource[i].volume = 0.75f;
+            audioSource[i].volume = 0.55f;
         }
     }
 
