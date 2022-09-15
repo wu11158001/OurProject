@@ -343,7 +343,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="enemyName">擊倒物件名稱</param>
     public void OnSendRenewTask(string enemyName)
     {
-        photonView.RPC("OnRenewTask", RpcTarget.Others, enemyName);
+        photonView.RPC("OnRenewTask", RpcTarget.All, enemyName);
     }
 
     /// <summary>
@@ -353,7 +353,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="info">發送者資訊</param>
     [PunRPC]
     void OnRenewTask(string enemyName, PhotonMessageInfo info)
-    {
+    {        
         //GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
         GameSceneUI.Instance.SetEnemyLifeBarActive = false;
         GameSceneManagement.Instance.OnTaskText();//任務文字
@@ -428,8 +428,9 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="attackerObjectID">攻擊者物件ID</param>
     /// <param name="attackerID">攻擊者ID</param>
     public void OnSendGetHit(int targetID, Vector3 position, Quaternion rotation, float damage,bool isCritical, float repel, int attackerObjectID, int attackerID)
-    {        
-        photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical, repel, attackerObjectID, attackerID);
+    {
+        photonView.RPC("OnGetHit", RpcTarget.Others, BitConverter.GetBytes(targetID), position, rotation, BitConverter.GetBytes(damage), isCritical, BitConverter.GetBytes(repel), BitConverter.GetBytes(attackerObjectID), BitConverter.GetBytes(attackerID));
+        //photonView.RPC("OnGetHit", RpcTarget.Others, targetID, position, rotation, damage, isCritical, repel, attackerObjectID, attackerID);
     }
 
     /// <summary>
@@ -444,10 +445,10 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="attackerObjectID">攻擊者物件ID</param>
     /// <param name="attackerID">攻擊者ID</param>
     [PunRPC]
-    void OnGetHit(int targetID, Vector3 position, Quaternion rotation, float damage, bool isCritical, float repel, int attackerObjectID, int attackerID)
+    void OnGetHit(byte[] targetID, Vector3 position, Quaternion rotation, byte[] damage, bool isCritical, byte[] repel, byte[] attackerObjectID, byte[] attackerID)
     {
-
-        GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical, repel, attackerObjectID, attackerID);
+        GameSceneManagement.Instance.OnConnectGetHit(BitConverter.ToInt32(targetID, 0), position, rotation, BitConverter.ToSingle(damage, 0), isCritical, BitConverter.ToSingle(damage, 0), BitConverter.ToInt32(attackerObjectID, 0), BitConverter.ToInt32(attackerID, 0));
+        //GameSceneManagement.Instance.OnConnectGetHit(targetID, position, rotation, damage, isCritical, repel, attackerObjectID, attackerID);
     }
 
     /// <summary>
@@ -502,7 +503,8 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="anmationName">執行動畫名稱</param>
     /// <param name="animationType">動畫Type</param>
     public void OnSendAniamtion<T>(int targetID, string anmationName, T animationType)
-    {        
+    {
+        Debug.LogError(targetID + ":" + anmationName + ":" + animationType.ToString());
         switch (animationType.GetType().Name)
         {
             case "Boolean":                
@@ -705,6 +707,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         if(GameSceneManagement.Instance.lifePlayerNumber <= 0)
         {
             //遊戲結果文字
+            PhotonNetwork.AutomaticallySyncScene = true;//自動同步場景
             GameSceneManagement.Instance.isGameOver = true;
             GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
             GameSceneManagement.Instance.OnSetGameOver(false);

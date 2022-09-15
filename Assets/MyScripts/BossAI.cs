@@ -428,12 +428,12 @@ public class BossAI : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
-         Gizmos.color = Color.red;
-         Gizmos.DrawWireSphere(transform.position, 10);
+         /*Gizmos.color = Color.red;
+         Gizmos.DrawWireSphere(transform.position, 10);*/
     }
 
     public Transform GetTarget()
-    {
-        return target.transform;
-    }    
+    {               
+        return target.transform;        
+    }
 }

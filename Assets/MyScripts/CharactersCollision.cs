@@ -599,20 +599,20 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                         GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字
                     }
 
-                    GameSceneManagement.Instance.OnTaskText();//任務文字
-
                     //連線
                     if (GameDataManagement.Instance.isConnect)
                     {
                         PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
                     }
+                    else GameSceneManagement.Instance.OnTaskText();//任務文字
 
                     GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條        
                 }
 
                 //非連線 && 玩家死亡
                 if (!GameDataManagement.Instance.isConnect && gameObject.layer == LayerMask.NameToLayer("Player"))
-                {                    
+                {
+                    PhotonNetwork.AutomaticallySyncScene = true;//自動同步場景
                     GameSceneManagement.Instance.isGameOver = true;
                     //遊戲結果文字
                     GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
@@ -674,12 +674,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             //不是連線 || 是房主
             if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
             {
-                //敵人觸發
+               /* //敵人觸發
                 if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
                 {
                     AI ai = GetComponent<AI>();
                     if (ai != null) ai.OnGetHit();
-                }
+                }*/
             }
         }
     }
@@ -762,12 +762,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //不是連線 || 是房主
         if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
         {
-            //敵人觸發
+          /*  //敵人觸發
             if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 AI ai = GetComponent<AI>();
                 if (ai != null) ai.OnGetHit();
-            }
+            }*/
         }
     }
 
@@ -1069,10 +1069,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (info.IsName("Pain")) animator.SetBool("Pain", false);
             if (GameDataManagement.Instance.isConnect)
             {
-                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", isFall);
-                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "JumpAttack", isFall);
-                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Dodge", isFall);
-                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", isFall);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Jump", false);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "JumpAttack", false);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Dodge", false);
+                PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Pain", false);
             }
         }
     }
