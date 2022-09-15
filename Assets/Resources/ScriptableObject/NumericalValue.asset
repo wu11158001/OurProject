@@ -35,7 +35,7 @@ MonoBehaviour:
     distance: 2.6
     limitUpAngle: 35
     limitDownAngle: 13
-    playerHp: 10
+    playerHp: 850
     playerMoveSpeed: 6.5
     playerJumpForce: 11.05
     playerCriticalRate: 15
@@ -294,21 +294,22 @@ MonoBehaviour:
     guardBoss_Attack_4_ForwardDistance: 1.4
     guardBoss_Attack_4_attackRadius: 1.3
     guardBoss_Attack_4_IsAttackBehind: 0
-    bossAttack1_Damge: 25
+    bossAttack1_Damge: 55
     bossAttack1_RepelDirection: 0
     bossAttack1_RepelDistance: 0
     bossAttack1_Effect: Pain
     bossAttack1_FloatSpeed: 30
     bossAttack1_LifeTime: 1.5
-    bossAttack2_Damge: 35
+    bossAttack2_Damge: 9
     bossAttack2_RepelDirection: 0
     bossAttack2_RepelDistance: 0
     bossAttack2_Effect: Pain
-    bossAttack2_FloatSpeed: 30
-    bossAttack2_LifeTime: 1.5
-    bossAttack3_Damge: 40
+    bossAttack2_FloatSpeed: 35
+    bossAttack2_LifeTime: 0.85
+    bossAttack3_Damge: 48
     bossAttack3_RepelDirection: 0
     bossAttack3_RepelDistance: 0
     bossAttack3_Effect: Pain
-    bossAttack3_FloatSpeed: 30
-    bossAttack3_LifeTime: 1.5
+    bossAttack3_ForwardDistance: 0
+    bossAttack3_attackRadius: 10
+    bossAttack3_IsAttackBehind: 1
