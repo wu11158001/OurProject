@@ -58,8 +58,8 @@ public class Stronghold : MonoBehaviourPunCallbacks
         hp = maxHp;
 
         //產生士兵時間
-        createSoldierTime = 30;//產生士兵時間
-        maxSoldierNumber = 50;//最大士兵數量
+        createSoldierTime = 45;//產生士兵時間
+        maxSoldierNumber = 45;//最大士兵數量
         //createTime = createSoldierTime;//產生士兵時間(計時器)
     }
 
@@ -116,19 +116,24 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 audioSource.clip = audioClip;
                 audioSource.Play();
 
-                GameSceneManagement.Instance.OnTaskText();//任務文字 
+                
 
                 //連線任務
                 if (GameDataManagement.Instance.isConnect)
                 {
                     PhotonConnect.Instance.OnSendRenewTask(builidName);//更新任務
-                }                
+                    PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
+                }  
+                else
+                {
+                    GameSceneManagement.Instance.OnTaskText();//任務文字 
+                }
 
-                //連線模式
+                /*//連線模式
                 if (GameDataManagement.Instance.isConnect)
                 {
                     PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
-                }
+                }*/
 
                 if (GameSceneManagement.Instance.taskStage < GameSceneManagement.Instance.taskText.Length)
                 {

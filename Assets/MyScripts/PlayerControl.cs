@@ -54,6 +54,9 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         gameObject.layer = LayerMask.NameToLayer("Player");//設定Layer                
         gameObject.tag = "Player";//設定Tag
 
+        animator = GetComponent<Animator>();
+        charactersCollision = GetComponent<CharactersCollision>();
+
         //連線
         if (PhotonNetwork.IsConnected)
         {
@@ -72,10 +75,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             }
         }
 
-        animator = GetComponent<Animator>();
-
         //if (GetComponent<CharactersCollision>() == null) gameObject.AddComponent<CharactersCollision>();
-        charactersCollision = GetComponent<CharactersCollision>();
+
     }
     void Start()
     {

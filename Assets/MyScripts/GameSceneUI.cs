@@ -640,7 +640,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
         options.gameObject.SetActive(isOptions);
         Time.timeScale = 1;
         
-        //連線
+       /* //連線
         if (GameDataManagement.Instance.isConnect)
         {
             if (PhotonNetwork.IsMasterClient)
@@ -648,13 +648,13 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
                 PhotonConnect.Instance.OnSendGameTip("室長 : " + PhotonNetwork.NickName + " 離開遊戲\n《遊戲結束...》");
             }
             else PhotonConnect.Instance.OnSendGameTip("玩家 : " + PhotonNetwork.NickName + " 離開遊戲");
-        }
+        }*/
 
         //判定是否過關
         if (GameDataManagement.Instance.isConnect)
         {
-            PhotonConnect.Instance.OnSendIntoNexttLevel();            
-           
+            PhotonConnect.Instance.OnSendIntoNexttLevel();
+            return;
             /*if (GameSceneManagement.Instance.isVictory)
             {
                 PhotonNetwork.AutomaticallySyncScene = true;

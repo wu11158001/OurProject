@@ -390,40 +390,43 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 switch (taskStage)
                 {
                     case 0://階段1
-                        // 產生同盟士兵1                       
+                        // 產生同盟士兵1                                                    
                         for (int i = 0; i < allianceSoldier1_Stage1Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("allianceSoldier_1"), loadPath.allianceSoldier_1);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("allianceSoldier_1", loadPath.allianceSoldier_1, allianceSoldier1_Stage1Point[i], "Alliance"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("allianceSoldier_1"), loadPath.allianceSoldier_1);//開啟物件
                             AIObject.transform.position = allianceSoldier1_Stage1Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Alliance";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Alliance");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化*/
                             //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
                         }
                         //產生敵人士兵1
                         for (int i = 0; i < enemySoldiers1_Stage1Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_1", loadPath.enemySoldier_1, enemySoldiers1_Stage1Point[i], "Enemy"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
                             AIObject.transform.position = enemySoldiers1_Stage1Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化   
+                            AIObject.GetComponent<AI>().OnInitial();//初始化   */
                             //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         //產生敵人士兵2                      
                         for (int i = 0; i < enemySoldiers2_Stage1Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_2", loadPath.enemySoldier_2, enemySoldiers2_Stage1Point[i], "Enemy"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
                             AIObject.transform.position = enemySoldiers2_Stage1Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化*/
                            // OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         break;
@@ -431,13 +434,14 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                            //產生城門守衛Boss
                         for (int i = 0; i < guardBoss_Stage2Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemyGuardBoss"), loadPath.guardBoss);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("enemyGuardBoss", loadPath.guardBoss, guardBoss_Stage2Point[i], "Enemy"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("enemyGuardBoss"), loadPath.guardBoss);//開啟物件
                             AIObject.transform.position = guardBoss_Stage2Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化    
+                            AIObject.GetComponent<AI>().OnInitial();//初始化    */
                             //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點                            
                         }
                         break;
@@ -455,49 +459,53 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         // 產生同盟士兵1                       
                         for (int i = 0; i < allianceSoldier1_Stage4Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("allianceSoldier_1"), loadPath.allianceSoldier_1);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("allianceSoldier_1", loadPath.allianceSoldier_1, allianceSoldier1_Stage4Point[i], "Alliance"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("allianceSoldier_1"), loadPath.allianceSoldier_1);//開啟物件
                             AIObject.transform.position = allianceSoldier1_Stage4Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Alliance";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Alliance");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化*/
                            // OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
                         }
                         //產生敵人士兵1
                         for (int i = 0; i < enemySoldiers1_Stage4Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_1", loadPath.enemySoldier_1, enemySoldiers1_Stage4Point[i], "Enemy"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_1"), loadPath.enemySoldier_1);//開啟物件
                             AIObject.transform.position = enemySoldiers1_Stage4Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化   
+                            AIObject.GetComponent<AI>().OnInitial();//初始化   */
                             //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         //產生敵人士兵2                      
                         for (int i = 0; i < enemySoldiers2_Stage4Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_2", loadPath.enemySoldier_2, enemySoldiers2_Stage4Point[i], "Enemy"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
                             AIObject.transform.position = enemySoldiers2_Stage4Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化*/
                             //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         //產生敵人士兵3                      
                         for (int i = 0; i < enemySoldiers3_Stage4Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_3"), loadPath.enemySoldier_3);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_3", loadPath.enemySoldier_3, enemySoldiers3_Stage4Point[i], "Enemy"));
+                           /* AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_3"), loadPath.enemySoldier_3);//開啟物件
                             AIObject.transform.position = enemySoldiers3_Stage4Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化
+                            AIObject.GetComponent<AI>().OnInitial();//初始化*/
                            // OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_Enemy);//設定小地圖點點
                         }
                         break;
@@ -509,25 +517,27 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                         //產生敵人士兵2                      
                         for (int i = 0; i < enemySoldiers2_Stage5Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_2", loadPath.enemySoldier_2, enemySoldiers2_Stage5Point[i], "Enemy"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_2"), loadPath.enemySoldier_2);//開啟物件
                             AIObject.transform.position = enemySoldiers2_Stage5Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化                                                   
+                            AIObject.GetComponent<AI>().OnInitial();//初始化                                                   */
                         }
 
                         //產生敵人士兵3                      
                         for (int i = 0; i < enemySoldiers3_Stage5Point.Length; i++)
                         {
-                            AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_3"), loadPath.enemySoldier_3);//開啟物件
+                            StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_3", loadPath.enemySoldier_3, enemySoldiers3_Stage5Point[i], "Enemy"));
+                            /*AIObject = OnRequestOpenObject(OnGetObjectNumber("enemySoldier_3"), loadPath.enemySoldier_3);//開啟物件
                             AIObject.transform.position = enemySoldiers3_Stage5Point[i].position;//設定位置
                             AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
                             AIObject.tag = "Enemy";//設定Tag
                             AIObject.layer = LayerMask.NameToLayer("Enemy");//設定Layer
                             AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
-                            AIObject.GetComponent<AI>().OnInitial();//初始化                                                   
+                            AIObject.GetComponent<AI>().OnInitial();//初始化 */                                                  
                         }
                         break;
                 }
@@ -570,12 +580,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     if (objTag == "Enemy")
                     {
                         //產生敵人士兵1
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 2; i++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
                         //產生敵人士兵2
-                        for (int j = 3; j < 4; j++)
+                        for (int j = 2; j < 3; j++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
@@ -587,17 +597,17 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     if (objTag == "Enemy")
                     {
                         //產生敵人士兵1
-                        for (int i = 0; i < 2; i++)
+                        for (int i = 0; i < 1; i++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
                         //產生敵人士兵2
-                        for (int j = 2; j < 3; j++)
+                        for (int j = 1; j < 2; j++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
                         //產生敵人士兵3
-                        for (int k = 3; k < 4; k++)
+                        for (int k = 2; k < 3; k++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_3", loadPath.enemySoldier_3, createPoint, objTag, k, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
@@ -619,7 +629,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
                         //產生敵人士兵3
-                        for (int k = 2; k < 6; k++)
+                        for (int k = 2; k < 5; k++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_3", loadPath.enemySoldier_3, createPoint, objTag, k, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
@@ -681,6 +691,30 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 延遲產生初始士兵
+    /// </summary>
+    /// <param name="soldierName">士兵名稱</param>
+    /// <param name="soldierPath">士兵路徑</param>
+    /// <param name="createPoint">產生點</param>
+    /// <param name="objTag">ObjTag</param>
+    /// <returns></returns>
+    IEnumerator OnDelayCreateInitalSoldier(string soldierName, string soldierPath, Transform createPoint, string objTag)
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        GameObject AIObject = null;
+        AIObject = OnRequestOpenObject(OnGetObjectNumber(soldierName), soldierPath);//開啟物件
+        //AIObject.transform.position = createPoint.position + createPoint.forward * (10 + (number * 2f));//設定位置
+        //AIObject.transform.position = (createPoint.position + createPoint.forward * 10) + (createPoint.right * (number * 1.5f));//設定位置
+        AIObject.transform.position = createPoint.position;//設定位置
+        AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+        AIObject.tag = objTag;//設定Tag
+        AIObject.layer = LayerMask.NameToLayer(objTag);//設定Layer         
+        AIObject.GetComponent<CharactersCollision>().OnInitial();//初始化
+        AIObject.GetComponent<AI>().OnInitial();//初始化
+    }
+
+    /// <summary>
     /// 任務提示
     /// </summary>
     /// <param name="value">任務提示文字</param>
@@ -730,7 +764,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     ais[i].gameObject.SetActive(false);
                 }
 
-                isGameOver = true;
+                
                 GameSceneUI.Instance.OnSetGameResult(true, "勝 利");
                 StartCoroutine(OnSetGameOver(true));//設定遊戲結束
             }
@@ -764,6 +798,9 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         }
 
         yield return new WaitForSeconds(4);
+
+        PhotonNetwork.AutomaticallySyncScene = true;//自動同步場景
+        isGameOver = true;
         isVictory = result;//是否過關
         GameSceneUI.Instance.OnSetGameResult(false, "");
 
