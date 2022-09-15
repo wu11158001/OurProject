@@ -308,8 +308,9 @@ public class BossAI : MonoBehaviourPunCallbacks
     {
         if ((transform.position - target.transform.position).magnitude <= closeAttackRadius)//使用攻擊招式(近)
         {
-            //UnityEngine.Random.Range(3, maxAttackNumber + 1);
-            attackNumber = 3;
+           int random = UnityEngine.Random.Range(0, 2);
+            if (random == 0) attackNumber = 3;
+            else attackNumber = 1;
         }
         else attackNumber = UnityEngine.Random.Range(1, 3);//使用攻擊招式(遠)
     }
