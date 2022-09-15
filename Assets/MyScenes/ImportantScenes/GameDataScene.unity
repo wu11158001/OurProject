@@ -524,8 +524,9 @@ MonoBehaviour:
     bossAttack3_RepelDirection: 0
     bossAttack3_RepelDistance: 0
     bossAttack3_Effect: Pain
-    bossAttack3_FloatSpeed: 15
-    bossAttack3_LifeTime: 1
+    bossAttack3_ForwardDistance: 0
+    bossAttack3_attackRadius: 10
+    bossAttack3_IsAttackBehind: 1
   loadPath:
     roleSelect_Button: RoleSelectButton
     roleSelect_Sprite: Sprites/ChooseRoleScreen/Role

@@ -37,6 +37,11 @@ public class BossAI : MonoBehaviourPunCallbacks
     float fineTargetTime;//尋找目標時間
     float findTime;//尋找目標時間(計時器)
 
+    [Header("攻擊3")]    
+    [SerializeField]float attack3Time;
+    [SerializeField] bool isAttacked;
+    public GameObject boomPos;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -61,7 +66,7 @@ public class BossAI : MonoBehaviourPunCallbacks
 
         //攻擊
         longAttackRadius = 30;//攻擊半徑(遠距離)
-        closeAttackRadius = 8;//攻擊半徑(近距離)
+        closeAttackRadius = 10;//攻擊半徑(近距離)
         attackRandomTime = new float[] { 0.5f, 2.0f };//攻擊亂數時間(最小,最大)
         maxAttackNumber = 3;//擁有攻擊招式
 
@@ -94,6 +99,8 @@ public class BossAI : MonoBehaviourPunCallbacks
             OnFindTargetTime();//尋找目標時間
             OnAttaclIdleTime();//攻擊待機時間
         }
+
+        OnAttack3JudgeTime();
     }
 
 
@@ -126,6 +133,37 @@ public class BossAI : MonoBehaviourPunCallbacks
 
             OnChangeAnimation(animationName: "Roar", animationType: true);
         }
+    }
+
+    /// <summary>
+    /// 攻擊3攻擊時間判斷
+    /// </summary>
+    void OnAttack3JudgeTime()
+    {
+        if(boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
+        {
+            attack3Time += Time.deltaTime;
+
+            //攻擊時間
+            if(attack3Time >= 2f && !isAttacked)
+            {
+                GetComponent<Boss_Exclusive>().OnAttack3_Boss();
+                isAttacked = true;
+                StartCoroutine(OnWaitAttack3());
+            }            
+        }
+    }
+    
+    /// <summary>
+    /// 等待攻擊3
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator OnWaitAttack3()
+    {
+        yield return new WaitForSeconds(0.67f);
+
+        isAttacked = false;
+        attack3Time = 0;
     }
 
     /// <summary>
@@ -221,7 +259,9 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// <param name="speed">轉向速度</param>
  public   void OnRotateToTarget()
     {
-        float speed = 2.65f;
+        float speed = 2.0f;
+        if (info.IsTag("Attack")) speed = 0.5f;
+
         if (target != null || target.activeSelf)
         {
             if (!info.IsTag("Die"))
@@ -387,8 +427,8 @@ public class BossAI : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
-        /* Gizmos.color = Color.red;
-         Gizmos.DrawWireSphere(transform.position, 18);*/
+         Gizmos.color = Color.red;
+         Gizmos.DrawWireSphere(transform.position, 10);
     }
 
     public Transform GetTarget()

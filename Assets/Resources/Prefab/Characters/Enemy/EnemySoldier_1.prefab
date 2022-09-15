@@ -6635,7 +6635,7 @@ MonoBehaviour:
   audioSource: {fileID: -5692936002626494118}
   audioClip:
   - {fileID: 8300000, guid: 6283d1941b22b6049b4907258d32f0f6, type: 3}
-  volume: 0.45
+  volume: 0.35
 --- !u!82 &-5692936002626494118
 AudioSource:
   m_ObjectHideFlags: 0

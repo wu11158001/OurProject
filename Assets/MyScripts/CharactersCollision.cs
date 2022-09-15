@@ -413,7 +413,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         info = animator.GetCurrentAnimatorStateInfo(0);
 
         //°{¸ú
-        if (info.IsName("Dodge") || info.IsName("Die")) return;
+        if (info.IsName("Dodge") || info.IsName("Die"))
+        {            
+            return;
+        }
 
         //§PÂ_¨üÀ»¹ï¶H
         if ((((gameObject.layer == LayerMask.NameToLayer("Player") || gameObject.layer == LayerMask.NameToLayer("Alliance")) && (layer == "Enemy" || layer == "Boss"))) ||
