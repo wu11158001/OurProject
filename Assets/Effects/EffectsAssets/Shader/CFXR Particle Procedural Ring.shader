@@ -3,7 +3,7 @@
 // (c) 2012-2020 Jean Moreno
 //--------------------------------------------------------------------------------------------------------------------------------
 
-Shader "Cartoon Screen FX/Remaster/Particle Procedural Ring"
+Shader "Cartoon FX/Remaster/Particle Procedural Ring"
 {
 	Properties
 	{

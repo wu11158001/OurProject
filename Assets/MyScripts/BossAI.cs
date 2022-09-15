@@ -10,12 +10,12 @@ public class BossAI : MonoBehaviourPunCallbacks
     AnimatorStateInfo info;
 
     [SerializeField] GameObject[] allPlayer;//所有玩家 
-    
-    [SerializeField]Dictionary<int, float> allPlayerDamage = new Dictionary<int, float>();//紀錄所有玩家傷害
+
+    [SerializeField] Dictionary<int, float> allPlayerDamage = new Dictionary<int, float>();//紀錄所有玩家傷害
 
     //碰撞框
     Vector3 boxCenter;
-    Vector3 boxSize;       
+    Vector3 boxSize;
 
     [Header("攻擊")]
     float longAttackRadius;//攻擊半徑(遠距離)
@@ -86,7 +86,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         {
             OnFindTargetTime();//尋找目標時間
             OnRotateToTarget();//轉向至目標
-            if(isStart) OnChaseTarget();//追擊目標
+            if (isStart) OnChaseTarget();//追擊目標
         }
 
         if (state == State.攻擊狀態)
@@ -115,11 +115,11 @@ public class BossAI : MonoBehaviourPunCallbacks
         {
             state = State.追擊狀態;
             allPlayer = GameObject.FindGameObjectsWithTag("Player");
-            
+
             if (GameDataManagement.Instance.isConnect)
             {
                 for (int i = 0; i < allPlayer.Length; i++)
-                {                    
+                {
                     allPlayerDamage.Add(allPlayer[i].GetComponent<PhotonView>().ViewID, 0);
                 }
             }
@@ -150,7 +150,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// <param name="damage">傷害</param>
     public void OnSetRecordDamage(int id, float damage)
     {
-        allPlayerDamage[id] += damage;        
+        allPlayerDamage[id] += damage;
     }
 
     /// <summary>
@@ -170,15 +170,15 @@ public class BossAI : MonoBehaviourPunCallbacks
                     bestDamage = player.Value;
                     targetNumber = number;
                 }
-                
+
             }
             number++;
         }
 
-        if (bestDamage != 0 && allPlayer[targetNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[targetNumber];     
+        if (bestDamage != 0 && allPlayer[targetNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[targetNumber];
         else OnFindTarget();
     }
-    
+
     /// <summary>
     /// 尋找目標
     /// </summary>
@@ -189,7 +189,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         float distance;//其他玩家距離
         int chaseNumber = 0;//追擊編號
         for (int i = 0; i < allPlayer.Length; i++)
-        {            
+        {
             if (allPlayer[i].GetComponent<CharactersCollision>().Hp > 0)
             {
                 distance = (allPlayer[i].transform.position - transform.position).magnitude;
@@ -201,7 +201,7 @@ public class BossAI : MonoBehaviourPunCallbacks
             }
         }
 
-        if(allPlayer[chaseNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[chaseNumber];
+        if (allPlayer[chaseNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[chaseNumber];
         else
         {
             for (int i = 0; i < allPlayer.Length; i++)
@@ -219,7 +219,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// 轉向至目標
     /// </summary>
     /// <param name="speed">轉向速度</param>
-    void OnRotateToTarget()
+ public   void OnRotateToTarget()
     {
         float speed = 2.65f;
         if (target != null || target.activeSelf)
@@ -256,7 +256,7 @@ public class BossAI : MonoBehaviourPunCallbacks
                 OnAttackNumber();//攻擊招式判斷
 
                 OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
-                OnChangeAnimation(animationName: "Fly", animationType: false);              
+                OnChangeAnimation(animationName: "Fly", animationType: false);
             }
         }
     }
@@ -265,7 +265,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// 攻擊招式判斷
     /// </summary>
     void OnAttackNumber()
-    {        
+    {
         if ((transform.position - target.transform.position).magnitude <= closeAttackRadius)//使用攻擊招式(近)
         {
             //UnityEngine.Random.Range(3, maxAttackNumber + 1);
@@ -295,12 +295,12 @@ public class BossAI : MonoBehaviourPunCallbacks
                     state = State.追擊狀態;
                     OnChangeAnimation(animationName: "Fly", animationType: true);
                     return;
-                }         
+                }
             }
         }
 
         if (attackIdleTime <= 0)
-        {            
+        {
             float dir = Vector3.Dot(transform.forward, Vector3.Cross(Vector3.up, target.transform.position - transform.position));
             //已轉向至目標
             if (Vector3.Dot(transform.forward, target.transform.position - transform.position) > 0 && dir > -1 && dir < 1)
@@ -345,7 +345,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         //攻擊完成
         if (info.IsTag("Attack") && info.normalizedTime >= 1)
         {
-            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);            
+            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
         }
 
         //待機狀態
@@ -390,4 +390,9 @@ public class BossAI : MonoBehaviourPunCallbacks
         /* Gizmos.color = Color.red;
          Gizmos.DrawWireSphere(transform.position, 18);*/
     }
+
+    public Transform GetTarget()
+    {
+        return target.transform;
+    }    
 }
