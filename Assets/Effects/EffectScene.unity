@@ -4902,9 +4902,7 @@ PlayableDirector:
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: -8650803796807117894, guid: a5170c0f470b24e4aa0cc75af01544f3, type: 2}
-    value: {fileID: 1386251134}
+  m_SceneBindings: []
   m_ExposedReferences:
     m_References:
     - 902370b3260084542aa4276bdb36e2aa: {fileID: 0}
@@ -4919,6 +4917,7 @@ PlayableDirector:
     - bbf392e9f7b22cc43b452aaff3284c08: {fileID: 0}
     - 8a3d94476f48f5d459ce43acc5a815f4: {fileID: 0}
     - cd969cbadf5082f40b42b2a7ed629e7c: {fileID: 0}
+    - bb072097a6d09ff4aac0e466edbdf049: {fileID: 0}
     - aba437f0188c7e542855e10a7cb7aa59: {fileID: 0}
     - 336d02bc17eb73a448e40d29b0b10a09: {fileID: 0}
     - ea853ef41992c8a4b9546f48f9800418: {fileID: 0}
@@ -4961,8 +4960,11 @@ PlayableDirector:
     - f2b6c728b8984074ab18ff53203beff0: {fileID: 0}
     - c988f0d7d323ef049a69d7875768ed0c: {fileID: 0}
     - ed534594268103143921e60b83f085a8: {fileID: 0}
+    - 931a4f75885c40947b2f8cc0d48d1fb7: {fileID: 0}
     - 1cfc97cd3901c5f4aac0b7ae6856a09e: {fileID: 0}
+    - 88cb17774516d7c4b9c52a9d9228f954: {fileID: 0}
     - dba8a33893b36f345961659038200ebb: {fileID: 0}
+    - 89401ec247949684c9ef0bea5f315582: {fileID: 0}
     - d70640222aac7a2418c08840c790e8f1: {fileID: 0}
     - a8a9cb677eb0f344d8bd2d55d45c1f61: {fileID: 0}
     - df2a983c0fa3172438b8a812aaaed2aa: {fileID: 0}
@@ -4998,6 +5000,7 @@ PlayableDirector:
     - 5bd5c579a43835246b4f33483fa2aadf: {fileID: 0}
     - e75997a1c21aa2648a5ecf51e0bc2b96: {fileID: 0}
     - c79e7f3486a6b3f42aea8e0f3a837bf6: {fileID: 0}
+    - d92b52174655ee642a2604743c7ee24e: {fileID: 0}
     - 2d3f8d1e1702aff478d75f0cfb87cb55: {fileID: 0}
     - 1e75c82f40ba3a646ab2d641392d9d9c: {fileID: 0}
     - 3798aca6379504f4c958056d5344bbc9: {fileID: 0}
@@ -5010,6 +5013,7 @@ PlayableDirector:
     - 7a397561933d3c94fa3efdd485ba4682: {fileID: 0}
     - c999b637c2c0ade4385a648fc97e19e0: {fileID: 0}
     - a80f814eff4028646a802fc5013f66cc: {fileID: 0}
+    - 3538976bbb56c4f49acaf0fda101b549: {fileID: 0}
     - ac0ee398e470fa3469fe809999fa2735: {fileID: 0}
     - 0de54887f77939140974ced0f1cb8802: {fileID: 0}
     - e16620925bf3fdf4bbd2428ee1736dcf: {fileID: 0}
@@ -5022,9 +5026,11 @@ PlayableDirector:
     - 6946b43aa22ad324297c58db4dffd7ac: {fileID: 0}
     - fedb89d6a3b3ae14f81c1e5f852eca88: {fileID: 0}
     - fcbfc75257c7b1c42ad37c11bfb38785: {fileID: 0}
+    - 9a35a50f9641ef94297661ed6e1be335: {fileID: 0}
     - 77f19b5177da79a418f1a7d19e7ae0e1: {fileID: 0}
     - e7a3b7c4ae9d8854d9be87b84cc3ec76: {fileID: 0}
     - 0a0d652a8f95a8247ab9a45a9dccf5ef: {fileID: 0}
+    - 7803148e13151144788ad57f7cd6e2b0: {fileID: 0}
     - 74f25da655b7f584b94f411c04cfcfdf: {fileID: 0}
     - ca2bc6ef6efa83946b74a11c1a8f6a8b: {fileID: 0}
     - f6a7bc041b1684d42ad4abb032b8fba0: {fileID: 0}
@@ -5038,6 +5044,8 @@ PlayableDirector:
     - af47600db0cffdb4996f3344c6d96b3f: {fileID: 0}
     - 5d1d46e295e374b4d9e58ce168c6a6be: {fileID: 0}
     - fa3f5b70979f85649a6132a343064444: {fileID: 0}
+    - 9fbef3b37d71b3e458e28508dc4a17cd: {fileID: 0}
+    - e1d8bc1dae910094080e8efaa55b552d: {fileID: 0}
     - 0701cdca4400f4b4c904ce6d31e8ff53: {fileID: 0}
     - 16e4249efd1f1cf4085fc4e83d25374f: {fileID: 0}
     - cfe657f12f922854b857523676e7d7c1: {fileID: 0}
@@ -5057,6 +5065,7 @@ PlayableDirector:
     - 9e4b6bdc9505f014a8f0ac3e561df837: {fileID: 0}
     - 91de9ddede89cfb4cba26fa65b5fd219: {fileID: 0}
     - 3ffc3b78398cc9e4bab659fb1c7cdb9f: {fileID: 0}
+    - a28d977cc237b53478a2a4e09db9e97c: {fileID: 0}
     - 854e11859b0a8e948af43b63be33de50: {fileID: 0}
     - 86a3a022d3a955646986837e56e12703: {fileID: 0}
     - 12b959c8214c360489fb47309b670f7f: {fileID: 0}
@@ -5091,6 +5100,8 @@ PlayableDirector:
     - a9f3f05acdae8754ebe5c09d6b1876d7: {fileID: 0}
     - 2ec1da8324c888a48b0d706ecdf192f0: {fileID: 0}
     - 913eb917f14969d4eb75746ed22c6ca5: {fileID: 0}
+    - 2b453b00253cd4f47975216411e9966a: {fileID: 0}
+    - 1a9c7e304532e4d4d8e627cd19316fea: {fileID: 0}
     - 6f7b6c8020d8b964890d43d0ddbb5b9b: {fileID: 0}
     - e90313c6ac4fa354eb66a3ca8144d09b: {fileID: 0}
     - b4981ab077c0ca648876cf105f971639: {fileID: 0}
@@ -5100,6 +5111,7 @@ PlayableDirector:
     - 70c25f3c9d225cd4197eef08e1c91bd0: {fileID: 0}
     - 3b4320b87c736a24b9ab6c63c5493c38: {fileID: 0}
     - e46b2e9124cadbe448725319ec58def2: {fileID: 0}
+    - bec4fb494b2834544a2b097b2f9ebfd5: {fileID: 0}
     - 8e4e4f17b8f9b774684c2279a02fd153: {fileID: 0}
     - 6abad8e02589ab347868e74dc3260d17: {fileID: 0}
     - 3a248aa7fdfb9c64ea5a392483008e93: {fileID: 0}
@@ -5107,6 +5119,7 @@ PlayableDirector:
     - 18be5d34976710a4fbe5ebf44dfa2464: {fileID: 0}
     - 294ceaad8aff0e048ad92938a865b843: {fileID: 0}
     - bcb61a46b5004f0489f1b52c395a4fa9: {fileID: 0}
+    - 91040c22f30c61e46a8495f365a76e31: {fileID: 0}
     - e30d9915395c55d419a4ac6d05654fcf: {fileID: 2519911000059668331}
     - bf9da6badaa77994688d267892714cab: {fileID: 0}
     - 026136b83bf8a6948a308352620c9807: {fileID: 0}
@@ -5118,6 +5131,7 @@ PlayableDirector:
     - a78b749fedf2bbf4da0aa3bf2be551e4: {fileID: 0}
     - 65ea1064050800d44ac7a07629c71506: {fileID: 0}
     - 61abb955400ad724793c54568bc6ba17: {fileID: 0}
+    - 87ace514bae3cd34bb7a7e0b5cc8a825: {fileID: 0}
     - 2d1a2030521083744b0910739eb2b41b: {fileID: 0}
     - b9eec2437e2ad3c4fa2a8f2ff7e2653f: {fileID: 0}
     - b8db72908c79efc498fd27eb1042eb29: {fileID: 0}
@@ -5127,10 +5141,13 @@ PlayableDirector:
     - d77d47075dcf1d341ab1bc8381056141: {fileID: 0}
     - d93e9366ccf7ba245bf9f62b4ecab955: {fileID: 0}
     - c060b262eec4c564798ea259f03ad58d: {fileID: 0}
+    - 6dc50b1d2e357914183e47c35030e7f1: {fileID: 0}
     - 83c46a72b55e6f44688f2502dbd17108: {fileID: 0}
+    - 2ae153973fa72284b93fd6a92a303cdd: {fileID: 0}
     - 3ae3af68c7efea045882512234a89c5b: {fileID: 0}
     - 8a1d7a321e4baec4b89f8f979c3d8b86: {fileID: 0}
     - 75ddeb26776add044835df8e451ef67b: {fileID: 0}
+    - 6459a320b1b9a80449ec13145d1a09a3: {fileID: 0}
     - e2ab913e0cd03f041951cd588e257d0f: {fileID: 0}
     - 565ca32d34b53624d9999e8b95537907: {fileID: 0}
     - da37dd3a4ac7add40a50ec672f5c8f9a: {fileID: 0}
@@ -5147,6 +5164,7 @@ PlayableDirector:
     - 273667886b0685a4291f9d6bbf2ad514: {fileID: 0}
     - d8b8a0ecab891b5429e2366be6bb9ed7: {fileID: 0}
     - b51da84a1524bc14b9685b83eb3ade1b: {fileID: 0}
+    - b916e61643273794bb74d40fb0a4fdb1: {fileID: 0}
     - 42904212144494846aba5469e393bee2: {fileID: 0}
     - 560f5a0bd579707419ac3dc7408a62da: {fileID: 0}
     - c41ae3d3fae78e244b3a1a52d4e2218e: {fileID: 0}
@@ -5171,6 +5189,7 @@ PlayableDirector:
     - f6705ae18a8841a49bb537293825a671: {fileID: 0}
     - f8180c524089a074493ef92eeb48588c: {fileID: 0}
     - dbc90ddd1bc4b8a48ac778e7a4cd67a4: {fileID: 0}
+    - 968c5a9c349b502458bac2d89a38583e: {fileID: 0}
     - b1052b79e9d645d46b56683115f97242: {fileID: 0}
     - 31682d8929ba8bb46b97e7004d951424: {fileID: 0}
     - 4f7126d2be4dd074ca45119e67acb37c: {fileID: 0}
@@ -5317,17 +5336,109 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 107428017339676385, guid: 9c2e71e48191b8b47a1fbd06996e3d9b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8220918607781138224, guid: 9c2e71e48191b8b47a1fbd06996e3d9b, type: 3}
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c2e71e48191b8b47a1fbd06996e3d9b, type: 3}
---- !u!95 &1386251134 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 11841969921173705, guid: 9c2e71e48191b8b47a1fbd06996e3d9b, type: 3}
-  m_PrefabInstance: {fileID: 1386251133}
+--- !u!1 &1502287800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1502287802}
+  - component: {fileID: 1502287801}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!108 &1502287801
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502287800}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 1
+  m_Shape: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &1502287802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502287800}
+  m_LocalRotation: {x: 0.93501514, y: -0.045838233, z: 0.32615578, w: 0.13140789}
+  m_LocalPosition: {x: -0.5562196, y: 0.7353384, z: -0.19558214}
+  m_LocalScale: {x: 0.5142045, y: 0.8978513, z: 0.41951963}
+  m_Children: []
+  m_Father: {fileID: 1652234090}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 164, y: -38.46, z: 0}
 --- !u!1 &1567932235
 GameObject:
   m_ObjectHideFlags: 0
@@ -5430,7 +5541,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652234086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5484,6 +5595,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 3.4422}
   m_Children:
   - {fileID: 1736083054}
+  - {fileID: 1502287802}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5659,8 +5771,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778684076}
-  m_LocalRotation: {x: -0.0023943768, y: -0.96972203, z: 0.24381201, w: -0.013755716}
-  m_LocalPosition: {x: -0.24358296, y: 5.104061, z: 11.665745}
+  m_LocalRotation: {x: 0.017629974, y: -0.94336015, z: 0.04869078, w: 0.32770434}
+  m_LocalPosition: {x: 1.4821448, y: 1.3271911, z: 2.3844328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
