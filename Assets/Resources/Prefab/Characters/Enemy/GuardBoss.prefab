@@ -24521,9 +24521,9 @@ Transform:
   m_LocalPosition: {x: 201.84851, y: -26.706047, z: -46.75746}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 5403136102318276134}
   - {fileID: 8835363250239485988}
   - {fileID: 1710869293140396699}
-  - {fileID: 5403136102318276134}
   - {fileID: 7384022442240005107}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -25125,12 +25125,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3011654520000643200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4435715611681223281}
   m_Father: {fileID: 1713297653873872274}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &939892966260496016
 ParticleSystem:
@@ -73836,7 +73836,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1713297653873872274}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &9005143293008478151
 SkinnedMeshRenderer:
@@ -74047,7 +74047,7 @@ Transform:
   - {fileID: 1201542537771664780}
   - {fileID: 7671382689292200232}
   m_Father: {fileID: 1713297653873872274}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7714416064867776086
 GameObject:

@@ -822,12 +822,12 @@ public class Effects : MonoBehaviour
     public void HitEffect(GameObject player, Collider hitPos)
     {
         Vector3 star = player.transform.GetChild(0).position;
-        Vector3 dir = hitPos.transform.GetChild(0).position - star;
+        Vector3 dir = hitPos.gameObject.transform.GetChild(0).position - star;
         if (dir.magnitude < 2)
         {
             star = new Vector3(Screen.width / 2, Screen.height / 2);
             star = Camera.main.ScreenToWorldPoint(star);
-            dir = hitPos.transform.GetChild(0).position - star;
+            dir = hitPos.gameObject.transform.GetChild(0).position - star;
         }
         if (hitPos.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
