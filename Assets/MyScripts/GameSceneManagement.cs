@@ -369,6 +369,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     stageGateOpen[0] = true;
                 }
 
+                if(!stageGateOpen[0])
+                {
+
+                }
+
                 //¶¥¬q1«°ªù¶}±Ò
                 if (stageGateOpen[0]) stage1_Gate.transform.position = stage1_Gate.transform.position + Vector3.up * gateSpeed * Time.deltaTime;
             }
