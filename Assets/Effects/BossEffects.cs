@@ -72,8 +72,8 @@ public class BossEffects : MonoBehaviour
         if (animInfo.IsName("Attack.Attack2") && animInfo.normalizedTime > 0.25    //龍息
                                      && animInfo.normalizedTime <= 0.3
                                     && !fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
-        {                                                                                                                                        //0是朝頭
-            fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetChild(0).position - ragonTongue02.transform.position;
+        {   //龍息的目標=從BOSSAI那裡取得玩家，再從玩家Effects取得breathHere位置                                                                                                                             
+            fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
             fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
 
         }
@@ -85,8 +85,9 @@ public class BossEffects : MonoBehaviour
         if (animInfo.IsName("Attack.Attack2") && animInfo.normalizedTime > 0.25   //龍息
                                      && animInfo.normalizedTime <= 0.3
                                     && !fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
-        {                                                                                                                                        //0是朝頭
-            fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetChild(0).position - ragonTongue02.transform.position;
+        {  
+            //龍息的目標=從BOSSAI那裡取得玩家，再從玩家Effects取得breathHere位置   
+            fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
             fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
 
         }
