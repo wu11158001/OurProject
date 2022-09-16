@@ -8,6 +8,8 @@ public class Effects : MonoBehaviour
     public GameObject weapon;      //掛載武器
     public GameObject effects;     //掛載角色身上的effects，以定位特效位置(因為不想用GameObject.Find)     
     public PostProcessProfile postProcessProfile;   //掛載PostProcessProfile
+    public GameObject breathHere;
+
 
     Animator anim;                 //對應角色動作組件
     AnimatorStateInfo animInfo;    //獲得動作狀態(節省腳本用)   
@@ -35,7 +37,7 @@ public class Effects : MonoBehaviour
     Transform magicNa34;              //要脫離的特效
     Transform magicNa35;              //要脫離的特效
     Transform magicBook;              //魔法書
-  //  Transform warNa2;             //要脫離的特效
+                                      //  Transform warNa2;             //要脫離的特效
 
     void Start()
     {
@@ -120,6 +122,8 @@ public class Effects : MonoBehaviour
             ArcSkillAttack1();
             ArcSkillAttack3();
         }
+
+        BreathHere();
     }
 
     #region 弓箭手
@@ -457,8 +461,8 @@ public class Effects : MonoBehaviour
     {
         if (animInfo.IsName("Idle"))
         {
-                intensity -= intensity * 50f * Time.deltaTime;
-                if (intensity <= 1f) intensity = 1f;          
+            intensity -= intensity * 50f * Time.deltaTime;
+            if (intensity <= 1f) intensity = 1f;
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
     }
@@ -782,7 +786,7 @@ public class Effects : MonoBehaviour
 
     #endregion
 
-    void DoEffects(string idelName, float delay, ParticleSystem effect)   
+    void DoEffects(string idelName, float delay, ParticleSystem effect)
     {
         if (animInfo.IsName(idelName) && animInfo.normalizedTime > delay && !effect.isPlaying)
         {
@@ -790,6 +794,13 @@ public class Effects : MonoBehaviour
             if (animInfo.normalizedTime > delay + 0.1f) effect.Stop();
         }
         else effect.Stop();
+    }
+
+    void BreathHere()
+    {
+        breathHere.transform.SetParent(playerEffectstoWorld);
+        breathHere.transform.position = Vector3.Lerp(breathHere.transform.position, gameObject.transform.position,2* Time.deltaTime);
+
     }
 
 
