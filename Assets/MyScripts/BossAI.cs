@@ -37,14 +37,16 @@ public class BossAI : MonoBehaviourPunCallbacks
     float fineTargetTime;//尋找目標時間
     float findTime;//尋找目標時間(計時器)
 
-    [Header("攻擊3")]    
-    [SerializeField]float attack3Time;
+    [Header("攻擊3")]
+    [SerializeField] float attack3Time;
     [SerializeField] bool isAttacked;
     public GameObject boomPos;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+
+        transform.position = new Vector3(4.8f, 2.5f, -3f);//設定位置
 
         //連線 && 不是自己的
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
@@ -140,20 +142,20 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// </summary>
     void OnAttack3JudgeTime()
     {
-        if(boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
+        if (boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
         {
             attack3Time += Time.deltaTime;
 
             //攻擊時間
-            if(attack3Time >= 2f && !isAttacked)
+            if (attack3Time >= 2f && !isAttacked)
             {
                 GetComponent<Boss_Exclusive>().OnAttack3_Boss();
                 isAttacked = true;
                 StartCoroutine(OnWaitAttack3());
-            }            
+            }
         }
     }
-    
+
     /// <summary>
     /// 等待攻擊3
     /// </summary>
@@ -267,10 +269,10 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// 轉向至目標
     /// </summary>
     /// <param name="speed">轉向速度</param>
- public   void OnRotateToTarget()
+    public void OnRotateToTarget()
     {
         float speed = 2.0f;
-        if (info.IsTag("Attack")) speed = 0.5f;
+        if (info.IsTag("Attack")) speed = 0.7f;
 
         if (target != null || target.activeSelf)
         {
@@ -318,7 +320,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     {
         if ((transform.position - target.transform.position).magnitude <= closeAttackRadius)//使用攻擊招式(近)
         {
-           int random = UnityEngine.Random.Range(0, 2);
+            int random = UnityEngine.Random.Range(0, 2);
             if (random == 0) attackNumber = 3;
             else attackNumber = 1;
         }
@@ -393,6 +395,12 @@ public class BossAI : MonoBehaviourPunCallbacks
              transform.position = transform.position + Vector3.up * 11 * Time.deltaTime;
          } */
 
+        //攻擊轉身
+        if (info.IsTag("Attack") && info.normalizedTime > 0.9f)
+        {
+            OnRotateToTarget();
+        }
+
         //攻擊完成
         if (info.IsTag("Attack") && info.normalizedTime >= 1)
         {
@@ -438,12 +446,12 @@ public class BossAI : MonoBehaviourPunCallbacks
 
     private void OnDrawGizmos()
     {
-         /*Gizmos.color = Color.red;
-         Gizmos.DrawWireSphere(transform.position, 10);*/
+        /*Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 10);*/
     }
 
     public Transform GetTarget()
-    {               
-        return target.transform;        
+    {
+        return target.transform;
     }
 }

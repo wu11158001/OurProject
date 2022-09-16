@@ -348,8 +348,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         //AIObject.transform.position = new Vector3(76f, -11f, -28f);//設定位置
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = "Enemy";//設定Tag
-        AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer
-        Debug.LogError(AIObject.transform.position);
+        AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer        
         //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點 
     }
 
