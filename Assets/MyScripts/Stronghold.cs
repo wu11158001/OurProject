@@ -117,19 +117,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 {
                     audioSource.clip = audioClip;
                     audioSource.Play();
-                }
-                
-
-                //連線任務
-                if (GameDataManagement.Instance.isConnect)
-                {
-                    PhotonConnect.Instance.OnSendRenewTask(builidName);//更新任務
-                    PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
                 }  
-                else
-                {
-                    GameSceneManagement.Instance.OnTaskText();//任務文字 
-                }
 
                 /*//連線模式
                 if (GameDataManagement.Instance.isConnect)
@@ -142,6 +130,17 @@ public class Stronghold : MonoBehaviourPunCallbacks
                     GameSceneUI.Instance.OnSetTip($"擊破{builidName}", 7);//設定提示文字
                 }
                 GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
+
+                //連線任務
+                if (GameDataManagement.Instance.isConnect)
+                {
+                    PhotonConnect.Instance.OnSendRenewTask(builidName);//更新任務
+                    PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
+                }
+                else
+                {
+                    GameSceneManagement.Instance.OnTaskText();//任務文字 
+                }
 
                 gameObject.SetActive(false);//關閉物件
             }
