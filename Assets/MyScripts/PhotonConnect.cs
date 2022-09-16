@@ -357,7 +357,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         //GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
         GameSceneUI.Instance.SetEnemyLifeBarActive = false;
         GameSceneManagement.Instance.OnTaskText();//任務文字
-        GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字
+        GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 7);//設定提示文字
     }
 
     /// <summary>
@@ -377,7 +377,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     [PunRPC]
     void OnGameTip(string nickName, PhotonMessageInfo info)
     {
-        GameSceneUI.Instance.OnSetTip(nickName, 3);
+        GameSceneUI.Instance.OnSetTip(nickName, 5);
     }
 
     /// <summary>
