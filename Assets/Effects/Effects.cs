@@ -286,7 +286,7 @@ public class Effects : MonoBehaviour
 
     void MagNormalAttack3()
     {
-        if (animInfo.IsName("Attack.NormalAttack_3") && animInfo.normalizedTime <= 0.45)
+        if (animInfo.IsName("Attack.NormalAttack_3") && animInfo.normalizedTime <= 0.45 && !NormalAttack_3.isPlaying)
         {
             NormalAttack_3.Play();
             magicNa30.SetParent(playerEffectstoWorld);            //特效播放之後脫離角色Transform影響
@@ -799,7 +799,7 @@ public class Effects : MonoBehaviour
     void BreathHere()
     {
         breathHere.transform.SetParent(playerEffectstoWorld);
-        breathHere.transform.position = Vector3.Lerp(breathHere.transform.position, gameObject.transform.position,2* Time.deltaTime);
+        breathHere.transform.position = Vector3.Lerp(breathHere.transform.position, gameObject.transform.position, 2 * Time.deltaTime);
 
     }
 
