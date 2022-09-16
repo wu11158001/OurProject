@@ -56,7 +56,7 @@ public class BossEffects : MonoBehaviour
             if (GameDataManagement.Instance.isConnect)  //如果連線
             {
                 //8是朝腳底
-                a04.transform.forward = GameSceneManagement.Instance.BossTargetObject.transform.GetChild(8).position - ragonTongue02.transform.position;
+                a04.transform.forward = GameSceneManagement.Instance.BossTargetObject.GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
             }
             else
             {
