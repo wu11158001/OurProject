@@ -414,7 +414,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         //閃躲
         if (info.IsName("Dodge") || info.IsName("Die"))
-        {            
+        {
             return;
         }
 
@@ -473,7 +473,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                  isCritical: isCritical);//是否爆擊
 
             //命中特效
-            if (gameObject.layer == LayerMask.NameToLayer("Enemy")|| gameObject.layer == LayerMask.NameToLayer("Boss"))
+            if (gameObject.layer == LayerMask.NameToLayer("Enemy") || gameObject.layer == LayerMask.NameToLayer("Boss"))
             {
                 if (attackerObject.GetComponent<Effects>() != null)
                 {
@@ -531,7 +531,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                                                                            position: transform.position,
                                                                                            rotation: transform.rotation,
                                                                                            damage: getDamge,
-                                                                                           isCritical: isCritical,                                                
+                                                                                           isCritical: isCritical,
                                                                                            repel: repel,
                                                                                            attackerObjectID: attackerObject.GetPhotonView().ViewID,
                                                                                            attackerID: attacker.GetPhotonView().ViewID);
@@ -579,7 +579,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                         GameSceneUI.Instance.player2Head_Image.enabled = true;
                         GameSceneUI.Instance.player3Head_Image.enabled = true;
                     }
-                    
+
                     //鼠標
                     Cursor.visible = true;//鼠標隱藏
                     Cursor.lockState = CursorLockMode.None;//鎖定中央
@@ -621,7 +621,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 }
                 //連線 && 玩家死亡
                 if (GameDataManagement.Instance.isConnect && gameObject.layer == LayerMask.NameToLayer("Player"))
-                {                    
+                {
                     PhotonConnect.Instance.OnSendPlayerDie();
                 }
 
@@ -674,12 +674,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             //不是連線 || 是房主
             if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
             {
-               /* //敵人觸發
-                if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
-                {
-                    AI ai = GetComponent<AI>();
-                    if (ai != null) ai.OnGetHit();
-                }*/
+                /* //敵人觸發
+                 if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                 {
+                     AI ai = GetComponent<AI>();
+                     if (ai != null) ai.OnGetHit();
+                 }*/
             }
         }
     }
@@ -762,12 +762,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //不是連線 || 是房主
         if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
         {
-          /*  //敵人觸發
-            if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                AI ai = GetComponent<AI>();
-                if (ai != null) ai.OnGetHit();
-            }*/
+            /*  //敵人觸發
+              if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+              {
+                  AI ai = GetComponent<AI>();
+                  if (ai != null) ai.OnGetHit();
+              }*/
         }
     }
 
@@ -798,8 +798,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
     /// </summary>
     void OnGravity()
     {
-        acceleration += 0.9f * Time.deltaTime;//加速度        
-        transform.position = transform.position + NumericalValue.gravity * acceleration * Time.deltaTime * -Vector3.up;//重力加速度      
+        if (gameObject.layer != LayerMask.NameToLayer("Boss"))
+        {
+            acceleration += 0.9f * Time.deltaTime;//加速度        
+            transform.position = transform.position + NumericalValue.gravity * acceleration * Time.deltaTime * -Vector3.up;//重力加速度      
+        }
     }
 
     /// <summary>
