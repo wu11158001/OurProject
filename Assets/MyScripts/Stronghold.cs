@@ -137,7 +137,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
                 if (GameSceneManagement.Instance.taskStage < GameSceneManagement.Instance.taskText.Length)
                 {
-                    GameSceneUI.Instance.OnSetTip($"{builidName}已擊破", 5);//設定提示文字
+                    GameSceneUI.Instance.OnSetTip($"擊破{builidName}", 5);//設定提示文字
                 }
                 GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
 

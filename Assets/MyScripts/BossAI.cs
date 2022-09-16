@@ -42,6 +42,11 @@ public class BossAI : MonoBehaviourPunCallbacks
     [SerializeField] bool isAttacked;
     public GameObject boomPos;
 
+    [Header("移動")]
+    bool isMoveUp;//是否向上移動
+    float moveTime;
+    bool isMove;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -103,6 +108,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         }
 
         OnAttack3JudgeTime();
+        OnMove();//移動控制
     }
 
 
@@ -169,6 +175,40 @@ public class BossAI : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
+    /// 移動控制
+    /// </summary>
+    private void OnMove()
+    {
+        if (!info.IsTag("Attack"))
+        {
+            float speed = 2.5f;
+
+            if (transform.position.y >= 5.5f) isMoveUp = false;
+            if (transform.position.y <= 2.5) isMoveUp = true;           
+
+            if (isMove)
+            {
+                if (isMoveUp) transform.position = transform.position + Vector3.up * speed * Time.deltaTime;
+                else
+                {
+                    transform.position = transform.position - Vector3.up * speed * Time.deltaTime;
+                    if (transform.position.y <= 2.5) isMove = false;
+                }
+            }
+            else
+            {
+                moveTime -= Time.deltaTime;
+                if (moveTime <= 0)
+                {
+                    moveTime = 3;
+
+                    isMove = true;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// 尋找目標時間
     /// </summary>
     void OnFindTargetTime()
@@ -218,7 +258,8 @@ public class BossAI : MonoBehaviourPunCallbacks
         if (bestDamage != 0 && allPlayer[targetNumber].GetComponent<CharactersCollision>().Hp > 0)
         {
             target = allPlayer[targetNumber];
-            PhotonConnect.Instance.OnSendBossTarget(target.GetComponent<PhotonView>().ViewID);//發送目標物件
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendBossTarget(target.GetComponent<PhotonView>().ViewID);//發送目標物件
+            else GameSceneManagement.Instance.BossTargetObject = target;
         }
         else OnFindTarget();
     }
@@ -249,6 +290,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         {
             target = allPlayer[chaseNumber];
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendBossTarget(target.GetComponent<PhotonView>().ViewID);//發送目標物件
+            else GameSceneManagement.Instance.BossTargetObject = target;
         }
         else
         {
@@ -258,6 +300,7 @@ public class BossAI : MonoBehaviourPunCallbacks
                 {
                     target = allPlayer[i];
                     if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendBossTarget(target.GetComponent<PhotonView>().ViewID);//發送目標物件
+                    else GameSceneManagement.Instance.BossTargetObject = target;
 
                     return;
                 }
@@ -272,7 +315,7 @@ public class BossAI : MonoBehaviourPunCallbacks
     public void OnRotateToTarget()
     {
         float speed = 2.0f;
-        if (info.IsTag("Attack")) speed = 0.7f;
+        if (info.IsTag("Attack")) speed = 0.85f;
 
         if (target != null || target.activeSelf)
         {
@@ -395,10 +438,13 @@ public class BossAI : MonoBehaviourPunCallbacks
              transform.position = transform.position + Vector3.up * 11 * Time.deltaTime;
          } */
 
-        //攻擊轉身
-        if (info.IsTag("Attack") && info.normalizedTime > 0.9f)
+        if (GameDataManagement.Instance.isConnect)
         {
-            OnRotateToTarget();
+            //攻擊轉身
+            if (info.IsTag("Attack") && info.normalizedTime > 0.9f)
+            {
+                OnRotateToTarget();
+            }
         }
 
         //攻擊完成

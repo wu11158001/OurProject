@@ -188,8 +188,11 @@ public class AttackMode
         }
 
         //設定前方
-        if(performObject.transform.forward != flightDiration) performObject.transform.forward = flightDiration;
-        
+        if (layer != "Boss")
+        {
+            if (performObject.transform.forward != flightDiration) performObject.transform.forward = flightDiration;                        
+        }
+
         //物件飛行
         performObject.transform.position = performObject.transform.position + performObject.transform.forward * flightSpeed * Time.deltaTime;
     }
