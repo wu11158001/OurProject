@@ -332,22 +332,29 @@ public class PlayerControl : MonoBehaviourPunCallbacks
             if (info.normalizedTime >= 1)
             {
                 if (info.IsTag("NormalAttack") || info.IsTag("SkillAttack") || info.IsTag("SkillAttack-2") || info.IsTag("JumpAttack"))
-                {
-                    normalAttackNumber = 0;//普通攻擊編號                   
-                    isSkillAttack = false;
-                    isNormalAttack = false;
-
-                    animator.SetInteger("NormalAttackNumber", normalAttackNumber);
-                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
-
-                    if (info.IsTag("NormalAttack") && info.normalizedTime > 0.5f)
+                {                    
+                    if (info.IsTag("NormalAttack") && isNormalAttack)
                     {
+                        isSkillAttack = false;
+                        isNormalAttack = false;
+                        
+                        normalAttackNumber = 0;//普通攻擊編號
+                        animator.SetInteger("NormalAttackNumber", normalAttackNumber);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
+
                         animator.SetBool("NormalAttack", isNormalAttack);
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);                        
                     }
 
-                    if (info.IsTag("SkillAttack"))
+                    if (info.IsTag("SkillAttack") && isSkillAttack)
                     {
+                        isSkillAttack = false;
+                        isNormalAttack = false;
+
+                        normalAttackNumber = 0;//普通攻擊編號
+                        animator.SetInteger("NormalAttackNumber", normalAttackNumber);
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttackNumber", normalAttackNumber);
+
                         animator.SetBool("NormalAttack", isNormalAttack);
                         if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "NormalAttack", isNormalAttack);
 
@@ -375,14 +382,14 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         }
 
         //關閉技能
-        if (info.IsTag("SkillAttack") && info.normalizedTime >= 1)
+        if (info.IsTag("SkillAttack") && info.normalizedTime >= 1 && isSkillAttack)
         {
             isSkillAttack = false;
             animator.SetBool("SkillAttack", isSkillAttack);
             if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "SkillAttack", isSkillAttack);
         }
 
-        if (info.IsTag("JumpAttack") && info.normalizedTime >= 1)
+        if (info.IsTag("JumpAttack") && info.normalizedTime >= 1 && isJumpAttack)
         {
             isJump = false;
             isJumpAttack = false;
@@ -579,7 +586,7 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnJumpAttackMove()
     {
-        transform.position = transform.position + 10 * Time.deltaTime * Vector3.down;//急速下降
+        transform.position = transform.position + 2.5f * Time.deltaTime * Vector3.down;//急速下降
     }
 
     /// <summary>

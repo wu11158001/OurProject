@@ -825,35 +825,42 @@ ModelImporter:
         floatParameter: 0
         intParameter: 2
         messageOptions: 0
-      - time: 0.2209691
+      - time: 0.1998909
         functionName: OnAttack2_Boss
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.27811718
+      - time: 0.2647191
         functionName: OnAttack2_Boss
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.34492698
+      - time: 0.30936718
         functionName: OnAttack2_Boss
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.4039265
+      - time: 0.36159366
         functionName: OnAttack2_Boss
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.45906433
+      - time: 0.4185098
+        functionName: OnAttack2_Boss
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.47156435
         functionName: OnAttack2_Boss
         data: 
         objectReferenceParameter: {instanceID: 0}
