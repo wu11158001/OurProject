@@ -120,7 +120,11 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     }
 
     void Start()
-    {      
+    {
+        //Åã¥Ü·Æ¹«
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         OnStartScreenPrepare();
         OnChooseRoleScreenPrepare();
         OnLevelScreenPrepare();
