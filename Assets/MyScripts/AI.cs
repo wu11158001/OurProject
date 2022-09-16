@@ -1399,11 +1399,14 @@ public class AI : MonoBehaviourPunCallbacks
                         }
                     }
 
-                    if (allEnemySoldier[chaseNumber] != null)
+                    if (allEnemySoldier.Length > 0)
                     {
-                        chaseObject = allEnemySoldier[chaseNumber];//追擊目標
+                        if (allEnemySoldier[chaseNumber] != null)
+                        {
+                            chaseObject = allEnemySoldier[chaseNumber];//追擊目標
+                        }
+                        else chaseObject = null;
                     }
-                    else chaseObject = null;
                 }
             }
 

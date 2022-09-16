@@ -179,11 +179,11 @@ public class BossAI : MonoBehaviourPunCallbacks
     /// </summary>
     private void OnMove()
     {
-        if (!info.IsTag("Attack"))
+        if (!info.IsTag("Attack") && GetComponent<CharactersCollision>().Hp > 450)
         {
             float speed = 2.5f;
 
-            if (transform.position.y >= 5.5f) isMoveUp = false;
+            if (transform.position.y >= 4.5f) isMoveUp = false;
             if (transform.position.y <= 2.5) isMoveUp = true;           
 
             if (isMove)

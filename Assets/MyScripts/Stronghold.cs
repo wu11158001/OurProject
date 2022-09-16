@@ -113,9 +113,11 @@ public class Stronghold : MonoBehaviourPunCallbacks
             {
                 hp = 0;
 
-                audioSource.clip = audioClip;
-                audioSource.Play();
-
+                if (audioSource)
+                {
+                    audioSource.clip = audioClip;
+                    audioSource.Play();
+                }
                 
 
                 //連線任務
