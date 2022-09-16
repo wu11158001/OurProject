@@ -66,7 +66,7 @@ public class BossEffects : MonoBehaviour
             a04.Play();
         }
 
-        if (animInfo.IsName("Attack.Attack1"))
+        if (!GameDataManagement.Instance.isConnect && animInfo.IsName("Attack.Attack1"))
         {
             gameObject.GetComponent<BossAI>().OnRotateToTarget();
         }
@@ -95,7 +95,7 @@ public class BossEffects : MonoBehaviour
 
             fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         }
-        if (fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
+        if (!GameDataManagement.Instance.isConnect && fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
         {
             gameObject.GetComponent<BossAI>().OnRotateToTarget();
         }
@@ -115,7 +115,7 @@ public class BossEffects : MonoBehaviour
             }
             fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
         }
-        if (fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
+        if (!GameDataManagement.Instance.isConnect && fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
         {
             gameObject.GetComponent<BossAI>().OnRotateToTarget();
         }
