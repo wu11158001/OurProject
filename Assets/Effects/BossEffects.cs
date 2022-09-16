@@ -9,6 +9,8 @@ public class BossEffects : MonoBehaviour
     public GameObject fireBreathPos;
     public GameObject boomPos;
 
+
+
     Animator anim;                 //對應角色動作組件
     AnimatorStateInfo animInfo;    //獲得動作狀態(節省腳本用)   
     ParticleSystem a01;
@@ -51,7 +53,7 @@ public class BossEffects : MonoBehaviour
                                       && animInfo.normalizedTime <= 0.5
                                      && !a04.isPlaying)
         {                                                                         //8是朝腳底
-            a04.transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetChild(8).position - ragonTongue02.transform.position;
+            a04.transform.forward = GameSceneManagement.Instance.BossTargetObject.transform.GetChild(8).position - ragonTongue02.transform.position;
             a04.Play();
         }
 
@@ -72,10 +74,17 @@ public class BossEffects : MonoBehaviour
         if (animInfo.IsName("Attack.Attack2") && animInfo.normalizedTime > 0.25    //龍息
                                      && animInfo.normalizedTime <= 0.3
                                     && !fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
-        {   //龍息的目標=從BOSSAI那裡取得玩家，再從玩家Effects取得breathHere位置                                                                                                                             
-            fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
-            fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        {   //龍息的目標=從BOSSAI那裡取得玩家，再從玩家Effects取得breathHere位置    
+            if (GameDataManagement.Instance.isConnect)
+            {
+                fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().transform.forward = GameSceneManagement.Instance.BossTargetObject.GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
+            }
+            else
+            {
+                fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
+            }
 
+            fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         }
         if (fireBreathPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
         {
@@ -85,11 +94,17 @@ public class BossEffects : MonoBehaviour
         if (animInfo.IsName("Attack.Attack2") && animInfo.normalizedTime > 0.25   //龍息
                                      && animInfo.normalizedTime <= 0.3
                                     && !fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
-        {  
+        {
             //龍息的目標=從BOSSAI那裡取得玩家，再從玩家Effects取得breathHere位置   
-            fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
+            if (GameDataManagement.Instance.isConnect)  //如果連線
+            {
+                fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().transform.forward = GameSceneManagement.Instance.BossTargetObject.GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
+            }
+            else
+            {
+                fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
+            }
             fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
-
         }
         if (fireBreathPos.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
         {
@@ -105,7 +120,7 @@ public class BossEffects : MonoBehaviour
         if (animInfo.IsName("Attack.Attack3") && animInfo.normalizedTime > 0.25    //近距離爆炸
                                                                                    // && animInfo.normalizedTime <= 0.45
                                     && !boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
-        {                                                                                                                                        //0是朝頭
+        {
 
             boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         }
