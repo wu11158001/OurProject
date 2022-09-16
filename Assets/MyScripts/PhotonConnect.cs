@@ -503,8 +503,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="anmationName">執行動畫名稱</param>
     /// <param name="animationType">動畫Type</param>
     public void OnSendAniamtion<T>(int targetID, string anmationName, T animationType)
-    {
-        Debug.LogError(targetID + ":" + anmationName + ":" + animationType.ToString());
+    {        
         switch (animationType.GetType().Name)
         {
             case "Boolean":                
@@ -774,5 +773,24 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     {
         GameSceneManagement.Instance.OnCreatePlayerNameObject(nickName, id);
     }    
+
+    /// <summary>
+    /// 發送Boss目標物件
+    /// </summary>
+    /// <param name="targetID"></param>
+    public void OnSendBossTarget(int targetID)
+    {
+        photonView.RPC("OnBossTarget", RpcTarget.All, targetID);
+    }
+
+    /// <summary>
+    /// Boss目標物件
+    /// </summary>
+    /// <param name="targetID"></param>
+    [PunRPC]
+    void OnBossTarget(int targetID)
+    {        
+        GameSceneManagement.Instance.OnSetBossTarget(targetID);
+    }
     #endregion
 }

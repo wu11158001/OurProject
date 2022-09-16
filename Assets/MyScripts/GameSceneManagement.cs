@@ -47,13 +47,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     GameObject strongholdStage5;//第5階段據點
                                 
     public bool isCreateBoss;//是否已創建Boss
-    public int lifePlayerNumber;//生存的玩家數量
-    
+    public int lifePlayerNumber;//生存的玩家數量    
 
     //可控制城門
     float gateSpeed;//城門移動速度
-    [SerializeField] bool[] stageGateOpen;//個階段城門開啟狀態
-    [SerializeField] GameObject stage1_Gate;//階段1城門
+    bool[] stageGateOpen;//個階段城門開啟狀態
+    GameObject stage1_Gate;//階段1城門
+
+    [Header("特別使用")]
+    public GameObject BossTargetObject;//Boss追隨目標物件
 
     void Awake()
     {
@@ -347,6 +349,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         AIObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         AIObject.tag = "Enemy";//設定Tag
         AIObject.layer = LayerMask.NameToLayer("Boss");//設定Layer
+        Debug.LogError(AIObject.transform.position);
         //OnSetMiniMapPoint(AIObject.transform, loadPath.miniMapMatirial_TaskObject);//設定小地圖點點 
     }
 
@@ -902,6 +905,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     #endregion
 
     #region 連線
+    /// <summary>
+    /// 設定Boss目標物件
+    /// </summary>
+    /// <param name="id"></param>
+    public void OnSetBossTarget(int id)
+    {
+        BossTargetObject = connectObject_Dictionary[id];
+    }
+
     /// <summary>
     /// 紀錄所有連線玩家
     /// </summary>

@@ -213,7 +213,11 @@ public class BossAI : MonoBehaviourPunCallbacks
             number++;
         }
 
-        if (bestDamage != 0 && allPlayer[targetNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[targetNumber];
+        if (bestDamage != 0 && allPlayer[targetNumber].GetComponent<CharactersCollision>().Hp > 0)
+        {
+            target = allPlayer[targetNumber];
+            PhotonConnect.Instance.OnSendBossTarget(target.GetComponent<PhotonView>().ViewID);//發送目標物件
+        }
         else OnFindTarget();
     }
 
@@ -239,7 +243,11 @@ public class BossAI : MonoBehaviourPunCallbacks
             }
         }
 
-        if (allPlayer[chaseNumber].GetComponent<CharactersCollision>().Hp > 0) target = allPlayer[chaseNumber];
+        if (allPlayer[chaseNumber].GetComponent<CharactersCollision>().Hp > 0)
+        {
+            target = allPlayer[chaseNumber];
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendBossTarget(target.GetComponent<PhotonView>().ViewID);//發送目標物件
+        }
         else
         {
             for (int i = 0; i < allPlayer.Length; i++)
@@ -247,6 +255,8 @@ public class BossAI : MonoBehaviourPunCallbacks
                 if (allPlayer[i].GetComponent<CharactersCollision>().Hp > 0)
                 {
                     target = allPlayer[i];
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendBossTarget(target.GetComponent<PhotonView>().ViewID);//發送目標物件
+
                     return;
                 }
             }
