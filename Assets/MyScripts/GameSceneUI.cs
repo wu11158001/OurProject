@@ -706,7 +706,7 @@ public class GameSceneUI : MonoBehaviourPunCallbacks
     public void OnSetTip(string tip, float showTime)
     {
         tip_Text.text = tip;
-        tipTime = showTime;
+        tipTime = 4;
     }
 
     /// <summary>

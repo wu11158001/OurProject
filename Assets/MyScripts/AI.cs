@@ -63,7 +63,7 @@ public class AI : MonoBehaviourPunCallbacks
     bool isStartChase;//是否開始追擊
     bool isReadChase;//是否準備追擊
     float chaseTurnTime;//追擊轉向時間(計時器)
-    int chaseDiretion;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)       
+    [SerializeField]int chaseDiretion;//追擊方向(0 = 前方, 1 = 右方, 2 = 左方)       
     float delayAttackRandomTime;//延遲攻擊亂數時間(計時器)
     float[] delayAttackTime;//延遲攻擊時間(亂數最小值, 最大值)    
 
@@ -150,9 +150,9 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //偵測範圍
                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                alertRadius = 12;//警戒範圍
-                chaseRadius = 8;//追擊範圍
-                attackRadius = 3.0f;//攻擊範圍
+                alertRadius = 3;//警戒範圍
+                chaseRadius = 3;//追擊範圍8
+                attackRadius = 2.5f;//攻擊範圍
 
                 //追擊狀態
                 chaseSpeed = 5.3f;//追擊速度
@@ -172,9 +172,9 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //偵測範圍
                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                alertRadius = 12;//警戒範圍
-                chaseRadius = 8;//追擊範圍
-                attackRadius = 3.0f;//攻擊範圍
+                alertRadius = 3;//警戒範圍
+                chaseRadius = 3f;//追擊範圍
+                attackRadius = 2.5f;//攻擊範圍
 
                 //追擊狀態
                 chaseSpeed = 5.3f;//追擊速度
@@ -216,9 +216,9 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //偵測範圍
                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                alertRadius = 12;//警戒範圍
-                chaseRadius = 8;//追擊範圍
-                attackRadius = 3.0f;//攻擊範圍
+                alertRadius = 3;//警戒範圍
+                chaseRadius = 3;//追擊範圍
+                attackRadius = 2.5f;//攻擊範圍
 
                 //追擊狀態
                 chaseSpeed = 5.3f;//追擊速度
@@ -237,8 +237,8 @@ public class AI : MonoBehaviourPunCallbacks
                 isMelee = true;//近戰腳色
                                //偵測範圍
                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                alertRadius = 35;//警戒範圍
-                chaseRadius = 30;//追擊範圍
+                alertRadius = 3;//警戒範圍
+                chaseRadius = 3;//追擊範圍
                 attackRadius = 3.0f;//攻擊範圍
 
                 //追擊狀態
@@ -277,7 +277,7 @@ public class AI : MonoBehaviourPunCallbacks
         maxRadiansDelta = 0.065f;//轉向角度        
         changeDiretionTime = 0.5f;//更換方向時間
         delayAttackTime = new float[] { 0.5f, 1 };//延遲攻擊時間(亂數最小值, 最大值)
-        loseSpeed = 0.35f;//減少的速度比例
+        loseSpeed = 0.01f;//減少的速度比例
         readyChaseRandomTime = new float[] { 0.5f, 2.3f };//離開戰鬥後亂數準備追擊時間(亂數最小值, 最大值)
 
         //尋路
@@ -725,7 +725,7 @@ public class AI : MonoBehaviourPunCallbacks
         //檢查前方同伴 && 非執行AStart
         if (OnCheckCompanionBox(diretion: transform.forward) && !isExecuteAStart)
         {
-            chaseSlowDownSpeed -= loseSpeed * Time.deltaTime;//追擊減速速度            
+            /*chaseSlowDownSpeed -= loseSpeed * Time.deltaTime;//追擊減速速度            
             if (chaseSlowDownSpeed <= 0.1f)
             {
                 chaseSlowDownSpeed = 0.1f;
@@ -736,15 +736,15 @@ public class AI : MonoBehaviourPunCallbacks
 
                      OnChangeAnimation(animationName: "Run", animationType: false);
                      OnChangeAnimation(animationName: "AttackIdle", animationType: true);
-                 }*/
-            }
+                 }
+            }*/
 
             changeDiretionTime_Forward -= Time.deltaTime;//更換方向時間
             if (changeDiretionTime_Forward <= 0)
             {
                 changeDiretionTime_Forward = changeDiretionTime;
-                if (!isCheckNearCompanion[1]) chaseDiretion = 2;//左沒有同伴
-                if (!isCheckNearCompanion[0] || (!isCheckNearCompanion[0] && !isCheckNearCompanion[1])) chaseDiretion = 1;//右沒有同伴 || 左右都沒有同伴                
+                /*if (!isCheckNearCompanion[1]) chaseDiretion = 2;//左沒有同伴
+                if (!isCheckNearCompanion[0] || (!isCheckNearCompanion[0] && !isCheckNearCompanion[1])) chaseDiretion = 1;//右沒有同伴 || 左右都沒有同伴     */           
             }
         }
         else
@@ -960,7 +960,7 @@ public class AI : MonoBehaviourPunCallbacks
             else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
         }
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
 
         OnChangeState(state: AIState.攻擊狀態, openAnimationName: "AttackNumber", closeAnimationName: "Run", animationType: attackNumber);
 
@@ -1063,12 +1063,15 @@ public class AI : MonoBehaviourPunCallbacks
 
                 OnChangeAnimation(animationName: "AttackIdle", animationType: false);
 
-                if ((transform.position - chaseObject.transform.position).magnitude < meleeAttackDistance)//近身攻擊
+                if (OnDetectionRange(radius: attackRadius))//攻擊範圍內
                 {
-                    attackNumber = maxAttackNumber;
+                    if ((transform.position - chaseObject.transform.position).magnitude < meleeAttackDistance)//近身攻擊
+                    {
+                        attackNumber = maxAttackNumber;
+                    }
+                    else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber);
+                    OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
                 }
-                else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber);
-                OnChangeAnimation(animationName: "AttackNumber", animationType: attackNumber);
             }
         }
     }
@@ -1259,7 +1262,7 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 //偵測障礙物
                 LayerMask mask = LayerMask.GetMask("StageObject");
-                if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter / 2), chaseObject.transform.position + (charactersCollision.boxCenter / 2), mask))
+                if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter), chaseObject.transform.position + (charactersCollision.boxCenter), mask))
                 {
                     return true;
                 }

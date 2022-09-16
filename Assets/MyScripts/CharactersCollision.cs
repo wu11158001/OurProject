@@ -588,7 +588,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 //Boss死亡
                 if (gameObject.layer == LayerMask.NameToLayer("Boss"))
                 {
-                    boxSize = new Vector3(boxSize.x, 1.35f, boxSize.z);
+                    boxSize = new Vector3(boxSize.x, -1, boxSize.z);
+                    Debug.LogError("s");
                 }
 
                 //任務物件
@@ -596,7 +597,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 {
                     if (GameSceneManagement.Instance.taskStage == 1)//第2階段
                     {
-                        GameSceneUI.Instance.OnSetTip($"已擊倒{enemyName}", 7);//設定提示文字
+                        GameSceneUI.Instance.OnSetTip($"已擊倒{enemyName}", 5);//設定提示文字
                     }
 
                     //連線
@@ -707,6 +708,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             /*//設定生命條
             GameSceneUI.Instance.OnSetEnemyLifeBarValue(enemyName, Hp / MaxHp);
             GameSceneUI.Instance.SetEnemyLifeBarActive = true;*/
+        }
+
+        //Boss死亡
+        if (gameObject.layer == LayerMask.NameToLayer("Boss"))
+        {
+            boxSize = new Vector3(boxSize.x, 1.35f, boxSize.z);
         }
 
         //Boss && 連線

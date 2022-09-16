@@ -13391,6 +13391,7 @@ MonoBehaviour:
   attackRadius: 3
   isHowling: 0
   chaseSpeed: 5.3
+  chaseDiretion: 0
   maxAttackNumber: 3
   attackFrequency:
   - 0.5

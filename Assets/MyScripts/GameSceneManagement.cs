@@ -730,7 +730,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(2);
 
         //設定提示文字(任務提示)
-        GameSceneUI.Instance.OnSetTip(tip: taskTipValue, showTime: 7);
+        GameSceneUI.Instance.OnSetTip(tip: taskTipValue, showTime: 5);
     }
 
     /// <summary>

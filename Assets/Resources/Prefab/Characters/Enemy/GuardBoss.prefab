@@ -24631,6 +24631,7 @@ MonoBehaviour:
   attackRadius: 0
   isHowling: 0
   chaseSpeed: 0
+  chaseDiretion: 0
   maxAttackNumber: 0
   attackFrequency: []
   meleeAttackDistance: 0

@@ -320,6 +320,27 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     [PunRPC]
     void OnLoadScene(int level)
     {
+        //StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(level));
+        StartSceneUI.Instance.roomStartGameTipTime = 4;
+        StartCoroutine(OnWaitStartGame(level));
+    }
+
+    /// <summary>
+    /// 等待進入場景
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
+    IEnumerator OnWaitStartGame(int level)
+    {
+        StartSceneUI.Instance.roomStartGameTip_Text.text = "3";
+        yield return new WaitForSeconds(1);
+
+        StartSceneUI.Instance.roomStartGameTip_Text.text = "2";
+        yield return new WaitForSeconds(1);
+
+        StartSceneUI.Instance.roomStartGameTip_Text.text = "1";
+        yield return new WaitForSeconds(1);
+
         StartCoroutine(LoadScene.Instance.OnLoadScene_Connect(level));
     }
 
@@ -357,7 +378,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
         //GameSceneManagement.Instance.taskNumber += 1;//已擊殺怪物數量
         GameSceneUI.Instance.SetEnemyLifeBarActive = false;
         GameSceneManagement.Instance.OnTaskText();//任務文字
-        GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 7);//設定提示文字
+        GameSceneUI.Instance.OnSetTip($"{enemyName}已擊倒", 5);//設定提示文字
     }
 
     /// <summary>

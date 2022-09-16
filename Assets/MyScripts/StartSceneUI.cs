@@ -103,8 +103,10 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
     Button roomLevelRight_Button;//關卡選擇按鈕(右)
     Text roomSelectLevel_Text;//選擇的關卡
     Button roomStartGame_Button;//開始遊戲按鈕
-    Text roomTip_Text;//提示文字
-    float roomTipTime;//提示文字時間
+    public Text roomTip_Text;//提示文字
+    public float roomTipTime;//提示文字時間
+    public Text roomStartGameTip_Text;//開始遊戲提示文字
+    public float roomStartGameTipTime;//開始遊戲提示文字時間
 
     void Awake()
     {
@@ -390,6 +392,9 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         roomTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "RoomTip_Text");//提示文字
         Color color = new Color(roomTip_Text.color.r, roomTip_Text.color.g, roomTip_Text.color.b, roomTipTime);
         roomTip_Text.color = color;
+        roomStartGameTip_Text = ExtensionMethods.FindAnyChild<Text>(transform, "RoomStartGameTip_Text");//開始遊戲提示文字
+        Color color2 = new Color(roomStartGameTip_Text.color.r, roomStartGameTip_Text.color.g, roomStartGameTip_Text.color.b, roomTipTime);
+        roomStartGameTip_Text.color = color2;
 
         connectRoomScreen.gameObject.SetActive(false);
     }
@@ -1021,7 +1026,11 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
 
             roomStartGame_Button.enabled = false;//關閉按鈕(避免連按)
         }
-        else roomTipTime = 2;
+        else
+        {
+            roomTipTime = 2;
+            roomTip_Text.text = "2名玩家以上開始";
+        }
     }    
 
     /// <summary>
@@ -1034,6 +1043,13 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
             roomTipTime -= Time.deltaTime;
             Color color = new Color(roomTip_Text.color.r, roomTip_Text.color.g, roomTip_Text.color.b, roomTipTime);
             roomTip_Text.color = color;
+        }
+
+        if(roomStartGameTipTime > 0)//開始遊戲提示文字時間
+        {
+            roomStartGameTipTime -= Time.deltaTime;
+            Color color = new Color(roomStartGameTip_Text.color.r, roomStartGameTip_Text.color.g, roomStartGameTip_Text.color.b, roomStartGameTipTime);
+            roomStartGameTip_Text.color = color;                      
         }
     }
     #endregion
