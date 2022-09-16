@@ -52,8 +52,17 @@ public class BossEffects : MonoBehaviour
         if (animInfo.IsName("Attack.Attack1") && animInfo.normalizedTime > 0.45    //火球
                                       && animInfo.normalizedTime <= 0.5
                                      && !a04.isPlaying)
-        {                                                                         //8是朝腳底
-            a04.transform.forward = GameSceneManagement.Instance.BossTargetObject.transform.GetChild(8).position - ragonTongue02.transform.position;
+        {
+            if (GameDataManagement.Instance.isConnect)  //如果連線
+            {
+                //8是朝腳底
+                a04.transform.forward = GameSceneManagement.Instance.BossTargetObject.transform.GetChild(8).position - ragonTongue02.transform.position;
+            }
+            else
+            {
+                a04.transform.forward = gameObject.GetComponent<BossAI>().GetTarget().transform.GetChild(8).position - ragonTongue02.transform.position;
+            }
+
             a04.Play();
         }
 
