@@ -366,13 +366,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 //玩家在範圍內
                 if (Physics.CheckSphere(stage1_Gate.transform.position, 20, 1 << LayerMask.NameToLayer("Player")))
                 {
-                    stageGateOpen[0] = true;
-                }
-
-                if(!stageGateOpen[0])
-                {
-
-                }
+                    if (!stageGateOpen[0])
+                    {
+                        stage1_Gate.GetComponent<AudioSource>().Play();
+                        stageGateOpen[0] = true;
+                    }
+                }                
 
                 //階段1城門開啟
                 if (stageGateOpen[0]) stage1_Gate.transform.position = stage1_Gate.transform.position + Vector3.up * gateSpeed * Time.deltaTime;
