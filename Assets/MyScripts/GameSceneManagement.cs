@@ -384,7 +384,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             if (GameDataManagement.Instance.selectLevelNumber == 11)
             {
                 //int number = 0;
-                GameObject AIObject = null;
+                //GameObject AIObject = null;
 
                 //判斷目前任務階段
                 switch (taskStage)
@@ -580,12 +580,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     if (objTag == "Enemy")
                     {
                         //產生敵人士兵1
-                        for (int i = 0; i < 2; i++)
+                        for (int i = 0; i < 3; i++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
                         //產生敵人士兵2
-                        for (int j = 2; j < 3; j++)
+                        for (int j = 2; j < 4; j++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
@@ -607,7 +607,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
                         //產生敵人士兵3
-                        for (int k = 2; k < 3; k++)
+                        for (int k = 2; k < 4; k++)
                         {
                             StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_3", loadPath.enemySoldier_3, createPoint, objTag, k, UnityEngine.Random.Range(0.0f, 1.5f)));
                         }
@@ -866,7 +866,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
         //位置
         Vector3 itemBoxCenter = item.GetComponent<BoxCollider>().center;
-        obj.transform.localPosition = new Vector3(itemBoxCenter.x, 0, itemBoxCenter.z);
+        obj.transform.localPosition = new Vector3(itemBoxCenter.x, -1, itemBoxCenter.z);
 
         /*//Size
         if (item.gameObject.layer != LayerMask.NameToLayer("Player") && item.gameObject.layer != LayerMask.NameToLayer("Enemy"))
@@ -879,17 +879,17 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         if (item.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             obj.transform.localScale = new Vector3(12, 12, 12);//玩家
-            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, 1, obj.transform.localPosition.z);
+            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, 0, obj.transform.localPosition.z);
         }
         else if (item.GetComponent<CharactersCollision>().isTaskObject)
         {
             obj.transform.localScale = new Vector3(25, 25, 25);//任務
-            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, -1, obj.transform.localPosition.z);
+            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, -2, obj.transform.localPosition.z);
         }
         else
         {
             obj.transform.localScale = new Vector3(10, 10, 10);
-            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, -2, obj.transform.localPosition.z);
+            obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, -3, obj.transform.localPosition.z);
         }
 
 
