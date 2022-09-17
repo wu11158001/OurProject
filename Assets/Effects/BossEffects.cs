@@ -66,7 +66,7 @@ public class BossEffects : MonoBehaviour
             }
             else
             {
-                a04.transform.forward = gameObject.GetComponent<BossAI>().GetTarget().transform.GetChild(8).position - ragonTongue02.transform.position;
+                a04.transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
             }
 
             a04.Play();
@@ -136,26 +136,33 @@ public class BossEffects : MonoBehaviour
         boomPos.transform.GetChild(2).position = (PosLClav.transform.position + PosRClav.transform.position) * 0.5f;   //取兩翅中間
         boomPos.transform.GetChild(3).position = (PosLLeg.transform.position + PosRLeg.transform.position) * 0.5f;   //取兩腿中間
         boomPos.transform.GetChild(4).position = (PosLLeg.transform.position + PosRLeg.transform.position) * 0.5f;   //取兩腿中間
+        boomPos.transform.GetChild(5).position = boomPos.transform.GetChild(0).position;
 
-        if (animInfo.IsName("Attack.Attack3") && !boomPos.transform.GetComponent<ParticleSystem>().isPlaying)
+        if (animInfo.IsName("Attack.Attack3") && !boomPos.transform.GetChild(0).transform.GetComponent<ParticleSystem>().isPlaying)
         {
-            boomPos.transform.GetChild(1).gameObject.SetActive(true);
-            boomPos.transform.GetChild(2).gameObject.SetActive(true);
-            boomPos.transform.GetChild(3).gameObject.SetActive(true);
-            boomPos.transform.GetChild(4).gameObject.SetActive(true);
-            boomPos.GetComponent<ParticleSystem>().Play();
+            boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         }
-
-
-        if (animInfo.IsName("Attack.Attack3") && boomPos.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().isPlaying)
+        if (animInfo.IsName("Attack.Attack3") && !boomPos.transform.GetChild(1).transform.GetComponent<ParticleSystem>().isPlaying)
         {
-            boomPos.transform.GetChild(1).gameObject.SetActive(false);
-            boomPos.transform.GetChild(2).gameObject.SetActive(false);
-            boomPos.transform.GetChild(3).gameObject.SetActive(false);
-            boomPos.transform.GetChild(4).gameObject.SetActive(false);
+            boomPos.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.Attack3") && !boomPos.transform.GetChild(2).transform.GetComponent<ParticleSystem>().isPlaying)
+        {
+            boomPos.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.Attack3") && !boomPos.transform.GetChild(3).transform.GetComponent<ParticleSystem>().isPlaying)
+        {
+            boomPos.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.Attack3") && !boomPos.transform.GetChild(4).transform.GetComponent<ParticleSystem>().isPlaying)
+        {
+            boomPos.transform.GetChild(4).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.Attack3") && animInfo.normalizedTime <= 0.7 && !boomPos.transform.GetChild(5).transform.GetComponent<ParticleSystem>().isPlaying)
+        {
+            boomPos.transform.GetChild(5).GetComponent<ParticleSystem>().Play();
         }
     }
-
 }
 
 
