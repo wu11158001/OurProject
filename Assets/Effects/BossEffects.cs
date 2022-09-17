@@ -8,6 +8,9 @@ public class BossEffects : MonoBehaviour
     public GameObject fireBallPos;
     public GameObject fireBreathPos;
     public GameObject boomPos;
+    public GameObject flyAttackPos;
+
+    Vector3 flyAttackOnY; //飛行攻擊對地面特效的Y值
 
     //龍非固定。對位
     public GameObject PosLLeg;  //左腿
@@ -19,7 +22,7 @@ public class BossEffects : MonoBehaviour
 
     Animator anim;                 //對應角色動作組件
     AnimatorStateInfo animInfo;    //獲得動作狀態(節省腳本用)   
-    ParticleSystem a01;
+    ParticleSystem a01;   //我知道code有點亂，想到什麼寫什麼XD
     ParticleSystem a02;
     ParticleSystem a03;
     ParticleSystem a04;
@@ -39,6 +42,7 @@ public class BossEffects : MonoBehaviour
         FireBall();
         FireBreath();
         Boom();
+        FlyAttack();
 
     }
 
@@ -80,7 +84,8 @@ public class BossEffects : MonoBehaviour
     void FireBreath()
     {
         if (animInfo.IsName("Attack.Attack2") && animInfo.normalizedTime > 0.25    //口中的火
-                                              && animInfo.normalizedTime <= 0.3)
+                                              && animInfo.normalizedTime <= 0.3
+                                              && !fireBreathPos.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
         {
             fireBreathPos.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
         }
@@ -162,6 +167,63 @@ public class BossEffects : MonoBehaviour
         {
             boomPos.transform.GetChild(5).GetComponent<ParticleSystem>().Play();
         }
+    }
+
+
+    void FlyAttack()  //抱歉，我的CODE都沒有整理XD
+    {
+        if (animInfo.IsName("Attack.Attack4-1") && animInfo.normalizedTime <= 0.8    //起飛第一階段
+                                              && !flyAttackPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
+        {
+            flyAttackPos.transform.GetChild(0).position = (PosLClav.transform.position + PosRClav.transform.position + PosLLeg.transform.position + PosRLeg.transform.position) * 0.25f;   //取腿翅中間
+            flyAttackPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.Attack4-2") && animInfo.normalizedTime > 0.4        //起飛第二階段爆炸1
+                                                && animInfo.normalizedTime <= 0.45
+                                                && !flyAttackPos.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
+        {
+            flyAttackPos.transform.GetChild(1).position = GetPlayerY();
+            flyAttackPos.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.Attack4-2") && animInfo.normalizedTime > 0.5        //起飛第二階段爆炸2
+                                               && animInfo.normalizedTime <= 0.55
+                                               && !flyAttackPos.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
+        {
+            flyAttackPos.transform.GetChild(2).position = GetPlayerY();
+            flyAttackPos.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.Attack4-2") && animInfo.normalizedTime > 0.6        //起飛第二階段爆炸3
+                                              && animInfo.normalizedTime <= 0.65
+                                              && !flyAttackPos.transform.GetChild(3).GetComponent<ParticleSystem>().isPlaying)
+        {
+            flyAttackPos.transform.GetChild(3).position = GetPlayerY();
+            flyAttackPos.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
+        }
+        if (animInfo.IsName("Attack.Attack4-2") && animInfo.normalizedTime > 0.7        //起飛第二階段爆炸4
+                                              && animInfo.normalizedTime <= 0.75
+                                              && !flyAttackPos.transform.GetChild(4).GetComponent<ParticleSystem>().isPlaying)
+        {
+            flyAttackPos.transform.GetChild(4).position = GetPlayerY();
+            flyAttackPos.transform.GetChild(4).GetComponent<ParticleSystem>().Play();
+        }
+
+    }
+
+    Vector3 GetPlayerY()  //取得玩家Y值當作地面高度(不使用射腺打地面的方式)
+    {
+        if (GameDataManagement.Instance.isConnect)  //如果連線
+        {   //取翅中間加上玩家Y(地面)
+            flyAttackOnY = new Vector3((PosLClav.transform.position.x + PosRClav.transform.position.x) * 0.5f,     //x
+                                        GameSceneManagement.Instance.BossTargetObject.transform.position.y,        //y
+                                       (PosLClav.transform.position.z + PosRClav.transform.position.z) * 0.5f);    //z
+        }
+        else
+        {
+            flyAttackOnY = new Vector3((PosLClav.transform.position.x + PosRClav.transform.position.x) * 0.5f,     //x
+                                       gameObject.GetComponent<BossAI>().GetTarget().transform.position.y,        //y
+                                      (PosLClav.transform.position.z + PosRClav.transform.position.z) * 0.5f);    //z
+        }
+        return flyAttackOnY;
     }
 }
 

@@ -673,7 +673,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3072209564287317907}
   m_LocalRotation: {x: 0.04852821, y: 0.41810852, z: -0.04710076, w: 0.9058762}
-  m_LocalPosition: {x: -0.06242282, y: 0.82748723, z: -0.07024813}
+  m_LocalPosition: {x: -0.062423706, y: 0.82748413, z: -0.070251465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7176000511021977623}
@@ -6429,7 +6429,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6651995624166089235}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 164.12054, y: 84.00621, z: -100.43258}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6577,7 +6577,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 60266391756296181}
-  sceneViewId: 2
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &60266391756296181
