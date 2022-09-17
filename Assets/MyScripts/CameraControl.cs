@@ -117,7 +117,7 @@ public class CameraControl : MonoBehaviour
         {
             if (isCollsion && distance < NumericalValue.distance)//攝影機離開障礙物減速
             {
-                //moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);
+                moveTarget = Vector3.Lerp(transform.position, lookPoint.position - RotateVector * NumericalValue.distance, lerpSpeed * Time.deltaTime);
             }
             else//一般狀態
             {
