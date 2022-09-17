@@ -173,8 +173,7 @@ public class AttackMode
         if (lifeTime <= 0)
         {
             if (layer != "Boss")
-            {
-                Debug.LogError("s");
+            {                
                 if (Physics.CheckSphere(performObject.transform.position, performObject.GetComponent<SphereCollider>().radius, 1 << LayerMask.NameToLayer("StageObject")))
                 {
                     if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
