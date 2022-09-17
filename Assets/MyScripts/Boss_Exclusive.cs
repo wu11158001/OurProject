@@ -132,7 +132,7 @@ public class Boss_Exclusive : MonoBehaviourPunCallbacks
         attack.layer = LayerMask.LayerToName(gameObject.layer);//攻擊者layer
         attack.isCritical = isCritical;//是否爆擊
 
-        attack.function = new Action(attack.OnSetShootFunction_Group);//設定執行函式       
+        attack.function = new Action(attack.OnSetSelfFunction);//設定執行函式       
         attack.damage = NumericalValue.bossAttack4_Damge * rate;//造成傷害 
         attack.direction = NumericalValue.bossAttack4_RepelDirection;//擊退方向(0:擊退, 1:擊飛)
         attack.repel = NumericalValue.bossAttack4_RepelDistance;//擊退/擊飛距離
@@ -143,7 +143,7 @@ public class Boss_Exclusive : MonoBehaviourPunCallbacks
         attack.flightDiration = transform.forward;//飛行方向        
 
         attack.performObject.transform.SetParent(gameObject.transform);
-        attack.performObject.transform.localPosition = new Vector3(0, 0, 0);
+        attack.performObject.transform.localPosition = Vector3.zero;
         //attack.performObject.transform.forward = gameObject.transform.forward;//飛行方向
 
         GameSceneManagement.Instance.AttackMode_List.Add(attack);//加入List(執行)               

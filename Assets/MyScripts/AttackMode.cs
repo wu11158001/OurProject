@@ -88,6 +88,12 @@ public class AttackMode
         function += OnContinuedCollision;
     }
 
+    public void OnSetSelfFunction()
+    {
+        function = OnSelf;
+        function += OnShootionCollision_Single;
+    }
+
     /// <summary>
     /// 治療
     /// </summary>
@@ -192,6 +198,28 @@ public class AttackMode
         {
             if (performObject.transform.forward != flightDiration) performObject.transform.forward = flightDiration;                        
         }
+
+        //物件飛行
+        performObject.transform.position = performObject.transform.position + performObject.transform.forward * flightSpeed * Time.deltaTime;
+    }
+
+    /// <summary>
+    /// 自身攻擊
+    /// </summary>
+    void OnSelf()
+    {
+        lifeTime -= Time.deltaTime;//生存時間
+
+        //生存時間 || 碰撞牆壁
+        if (lifeTime <= 0)
+        {
+            if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
+            performObject.SetActive(false);
+            GameSceneManagement.Instance.AttackMode_List.Remove(this);
+        }
+
+        //設定前方
+        if (performObject.transform.forward != flightDiration) performObject.transform.forward = flightDiration;
 
         //物件飛行
         performObject.transform.position = performObject.transform.position + performObject.transform.forward * flightSpeed * Time.deltaTime;
