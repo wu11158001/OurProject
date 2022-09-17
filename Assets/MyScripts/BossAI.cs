@@ -75,7 +75,7 @@ public class BossAI : MonoBehaviourPunCallbacks
         longAttackRadius = 30;//攻擊半徑(遠距離)
         closeAttackRadius = 10;//攻擊半徑(近距離)
         attackRandomTime = new float[] { 0.5f, 2.0f };//攻擊亂數時間(最小,最大)
-        maxAttackNumber = 3;//擁有攻擊招式
+        maxAttackNumber = 4;//擁有攻擊招式
 
         //攻擊待機
         maxAttackIdleTime = 1.5f;//最大攻擊待機時間
@@ -315,7 +315,11 @@ public class BossAI : MonoBehaviourPunCallbacks
     public void OnRotateToTarget()
     {
         float speed = 2.0f;
-        if (info.IsTag("Attack")) speed = 0.85f;
+        if (info.IsTag("Attack"))
+        {
+            speed = 0.85f;
+            if (info.IsName("Attack.Attack4-3")) speed = 2.5f;            
+        }
 
         if (target != null || target.activeSelf)
         {
@@ -363,9 +367,12 @@ public class BossAI : MonoBehaviourPunCallbacks
     {
         if ((transform.position - target.transform.position).magnitude <= closeAttackRadius)//使用攻擊招式(近)
         {
-            int random = UnityEngine.Random.Range(0, 2);
+            /*int random = UnityEngine.Random.Range(0, 3);
             if (random == 0) attackNumber = 3;
-            else attackNumber = 1;
+            else if (random == 1) attackNumber = 2;
+            else attackNumber = 4;*/
+
+            attackNumber = 4;
         }
         else attackNumber = UnityEngine.Random.Range(1, 3);//使用攻擊招式(遠)
     }
@@ -441,16 +448,64 @@ public class BossAI : MonoBehaviourPunCallbacks
         if (GameDataManagement.Instance.isConnect)
         {
             //攻擊轉身
-            if (info.IsTag("Attack") && info.normalizedTime > 0.9f)
+            if (info.IsTag("Attack") && info.normalizedTime < 0.9f)
             {
                 OnRotateToTarget();
             }
         }
 
+        //俯衝攻擊-1
+        if(info.IsName("Attack.Attack4-1"))
+        {
+            transform.position = transform.position + Vector3.up * 5 * Time.deltaTime;
+            transform.position = transform.position - transform.forward * 7 * Time.deltaTime;
+        }
+
+        //俯衝攻擊-2
+        if (info.IsName("Attack.Attack4-2"))
+        {
+            if (GetComponent<CharactersCollision>().boxSize.y != 1.5f)
+            {                
+                GetComponent<CharactersCollision>().boxSize = new Vector3(boxSize.x, 1.5f, boxSize.z);
+            }            
+                        
+            if (info.normalizedTime < 0.5f)
+            {                
+                if(transform.position.y > 0.3f) transform.position = transform.position - Vector3.up * 15 * Time.deltaTime;
+                transform.position = transform.position + transform.forward * 20 * Time.deltaTime;
+            }
+            else transform.position = transform.position + transform.forward * 15 * Time.deltaTime;
+
+            if (info.normalizedTime > 0.7f)
+            {
+                transform.position = transform.position + Vector3.up * 10 * Time.deltaTime;                
+            }
+        }
+
+        //俯衝攻擊-3
+        if (info.IsName("Attack.Attack4-3"))
+        {
+            OnRotateToTarget();
+
+            /*if (GetComponent<CharactersCollision>().boxSize.y != 4.85f)
+            {
+                GetComponent<CharactersCollision>().boxSize = new Vector3(boxSize.x, 4.85f, boxSize.z);
+            }*/
+
+            if (transform.position.y > 2.5f)
+            {                
+                transform.position = transform.position - Vector3.up * 5 * Time.deltaTime;
+            }
+            else OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
+        }
+
         //攻擊完成
         if (info.IsTag("Attack") && info.normalizedTime >= 1)
         {
-            OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
+            if (!info.IsName("Attack.Attack4-1") && !info.IsName("Attack.Attack4-2") && !info.IsName("Attack.Attack4-3"))
+            {
+                OnChangeAnimation(animationName: "AttackNumber", animationType: 0);
+            }
         }
 
         //待機狀態
@@ -461,6 +516,12 @@ public class BossAI : MonoBehaviourPunCallbacks
 
                 //OnRotateToTarget();//轉向至目標
             }
+        }
+
+        //死亡
+        if(info.IsTag("Die"))
+        {
+            if(transform.position.y != 0.5f) transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
         }
     }
 

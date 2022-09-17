@@ -370,6 +370,14 @@ public class GameData_NumericalValue
     public float bossAttack3_ForwardDistance;//Boss攻擊3_攻擊範圍中心點距離物件前方
     public float bossAttack3_attackRadius;//Boss攻擊3_攻擊半徑
     public bool bossAttack3_IsAttackBehind;//Boss攻擊3_是否攻擊背後敵人
+
+    [Header("Boss 攻擊4")]
+    public float bossAttack4_Damge;//Boss攻擊4_傷害
+    public int bossAttack4_RepelDirection;//Boss攻擊4_擊退方向(0:擊退 1:擊飛)
+    public float bossAttack4_RepelDistance;//Boss攻擊4_擊退/擊飛距離    
+    public string bossAttack4_Effect;//Boss攻擊4_效果(受擊者播放的動畫名稱)
+    public float bossAttack4_FloatSpeed;//Boss攻擊4_飛行速度
+    public float bossAttack4_LifeTime;//Boss攻擊4_生存時間
     #endregion
 
     /// <summary>
@@ -741,6 +749,14 @@ public class GameData_NumericalValue
         bossAttack3_ForwardDistance = 0;//Boss攻擊3_攻擊範圍中心點距離物件前方
         bossAttack3_attackRadius = 10;//Boss攻擊3_攻擊半徑
         bossAttack3_IsAttackBehind = true;//Boss攻擊3_是否攻擊背後敵人
+
+        //Boss 攻擊4
+        bossAttack4_Damge = 45;//Boss攻擊4_傷害
+        bossAttack4_RepelDirection = 0;//Boss攻擊4_擊退方向(0:擊退 1:擊飛)
+        bossAttack4_RepelDistance = 0;//Boss攻擊4_擊退/擊飛距離    
+        bossAttack4_Effect = "Pain";//Boss攻擊4_效果(受擊者播放的動畫名稱)
+        bossAttack4_FloatSpeed = 0;//Boss攻擊4_飛行速度
+        bossAttack4_LifeTime = 2;//Boss攻擊4_生存時間
         #endregion
 }
 }

@@ -62,6 +62,7 @@ public class GameData_LoadPath
     public string bossAttack1;//Boss§ðÀ»1ª«¥ó
     public string bossAttack2;//Boss§ðÀ»2ª«¥ó
     public string bossAttack3;//Boss§ðÀ»3ª«¥ó
+    public string bossAttack4;//Boss§ðÀ»4ª«¥ó
 
     [Header("¨ä¥L")]    
     public string hitNumber;//À»¤¤¤å¦r
@@ -128,6 +129,7 @@ public class GameData_LoadPath
         bossAttack1 = "Prefab/ShootObject/Boss/Attack1";//Boss§ðÀ»1ª«¥ó
         bossAttack2 = "Prefab/ShootObject/Boss/Attack2";//Boss§ðÀ»2ª«¥ó
         bossAttack3 = "Prefab/ShootObject/Boss/Attack3";//Boss§ðÀ»3ª«¥ó
+        bossAttack4 = "Prefab/ShootObject/Boss/Attack4";//Boss§ðÀ»4ª«¥ó
 
         //¨ä¥L
         hitNumber = "Prefab/UI/HitNumber_Text";//À»¤¤¤å¦r

@@ -313,3 +313,9 @@ MonoBehaviour:
     bossAttack3_ForwardDistance: 0
     bossAttack3_attackRadius: 10
     bossAttack3_IsAttackBehind: 1
+    bossAttack4_Damge: 45
+    bossAttack4_RepelDirection: 0
+    bossAttack4_RepelDistance: 0
+    bossAttack4_Effect: Pain
+    bossAttack4_FloatSpeed: 0
+    bossAttack4_LifeTime: 2

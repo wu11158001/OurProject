@@ -174,6 +174,7 @@ public class AttackMode
         {
             if (layer != "Boss")
             {
+                Debug.LogError("s");
                 if (Physics.CheckSphere(performObject.transform.position, performObject.GetComponent<SphereCollider>().radius, 1 << LayerMask.NameToLayer("StageObject")))
                 {
                     if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendObjectActive(performObject, false);
@@ -203,13 +204,16 @@ public class AttackMode
     void OnShootionCollision_Group()
     {
         SphereCollider sphere = performObject.GetComponent<SphereCollider>();
-        Collider[] hits = Physics.OverlapSphere(performObject.transform.position, sphere.radius * sphere.transform.localScale.x);     
+        Collider[] hits = Physics.OverlapSphere(performObject.transform.position + sphere.center, sphere.radius);     
         foreach (var hit in hits)
-        {
+        {            
             for (int i = 0; i < record.Count; i++)
             {
                 //不重複擊中
-                if (record[i] == hit.transform) return;
+                if (record[i] == hit.transform)
+                {                    
+                    return;
+                }
             }
 
             CharactersCollision collision = hit.GetComponent<CharactersCollision>();
@@ -227,7 +231,7 @@ public class AttackMode
                 record.Add(hit.transform);//紀錄以擊中物件
             }
         }
-    }
+    }        
 
     /// <summary>
     /// 碰撞偵測_單體攻擊(射擊物件)

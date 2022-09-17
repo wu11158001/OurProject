@@ -527,6 +527,12 @@ MonoBehaviour:
     bossAttack3_ForwardDistance: 0
     bossAttack3_attackRadius: 10
     bossAttack3_IsAttackBehind: 1
+    bossAttack4_Damge: 45
+    bossAttack4_RepelDirection: 0
+    bossAttack4_RepelDistance: 0
+    bossAttack4_Effect: Pain
+    bossAttack4_FloatSpeed: 0
+    bossAttack4_LifeTime: 2
   loadPath:
     roleSelect_Button: RoleSelectButton
     roleSelect_Sprite: Sprites/ChooseRoleScreen/Role
@@ -566,6 +572,7 @@ MonoBehaviour:
     bossAttack1: Prefab/ShootObject/Boss/FlyAttack
     bossAttack2: Prefab/ShootObject/Boss/Attack2
     bossAttack3: Prefab/ShootObject/Boss/Attack3
+    bossAttack4: Prefab/ShootObject/Boss/Attack4
     hitNumber: Prefab/UI/HitNumber_Text
     lifeBar: Prefab/UI/LifeBar
     headLifeBar_Enemy: Prefab/HeadLifeBar/HeadLifeBar_Enemy

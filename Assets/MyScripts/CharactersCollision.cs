@@ -417,7 +417,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         {
             return;
         }
-
+        
         //§PÂ_¨üÀ»¹ï¶H
         if ((((gameObject.layer == LayerMask.NameToLayer("Player") || gameObject.layer == LayerMask.NameToLayer("Alliance")) && (layer == "Enemy" || layer == "Boss"))) ||
             (((gameObject.layer == LayerMask.NameToLayer("Enemy") || gameObject.layer == LayerMask.NameToLayer("Boss")) && (layer == "Player" || layer == "Alliance"))))
