@@ -9,6 +9,12 @@ public class BossEffects : MonoBehaviour
     public GameObject fireBreathPos;
     public GameObject boomPos;
 
+    //龍非固定。對位
+    public GameObject PosLLeg;  //左腿
+    public GameObject PosRLeg;   //右腿
+    public GameObject PosLClav;  //左翅
+    public GameObject PosRClav;  //右翅
+                                 // public GameObject Pos4;  //喉
 
 
     Animator anim;                 //對應角色動作組件
@@ -123,22 +129,31 @@ public class BossEffects : MonoBehaviour
 
 
     }
-
     void Boom()
     {
-        if (animInfo.IsName("Attack.Attack3") && animInfo.normalizedTime > 0.25    //近距離爆炸
-                                                                                   // && animInfo.normalizedTime <= 0.45
-                                    && !boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
-        {
+        boomPos.transform.GetChild(0).position = (PosLClav.transform.position + PosRClav.transform.position + PosLLeg.transform.position + PosRLeg.transform.position) * 0.25f;   //取腿翅中間
+        boomPos.transform.GetChild(1).position = (PosLClav.transform.position + PosRClav.transform.position) * 0.5f;   //取兩翅中間
+        boomPos.transform.GetChild(2).position = (PosLClav.transform.position + PosRClav.transform.position) * 0.5f;   //取兩翅中間
+        boomPos.transform.GetChild(3).position = (PosLLeg.transform.position + PosRLeg.transform.position) * 0.5f;   //取兩腿中間
+        boomPos.transform.GetChild(4).position = (PosLLeg.transform.position + PosRLeg.transform.position) * 0.5f;   //取兩腿中間
 
-            boomPos.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        if (animInfo.IsName("Attack.Attack3") && !boomPos.transform.GetComponent<ParticleSystem>().isPlaying)
+        {
+            boomPos.transform.GetChild(1).gameObject.SetActive(true);
+            boomPos.transform.GetChild(2).gameObject.SetActive(true);
+            boomPos.transform.GetChild(3).gameObject.SetActive(true);
+            boomPos.transform.GetChild(4).gameObject.SetActive(true);
+            boomPos.GetComponent<ParticleSystem>().Play();
         }
-        //if (animInfo.IsName("Attack.Attack3") && animInfo.normalizedTime > 0.6    //近距離爆炸
-        //                            && animInfo.normalizedTime <= 0.65
-        //                           && !boomPos.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
-        //{       
-        //    boomPos.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
-        //}
+
+
+        if (animInfo.IsName("Attack.Attack3") && boomPos.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().isPlaying)
+        {
+            boomPos.transform.GetChild(1).gameObject.SetActive(false);
+            boomPos.transform.GetChild(2).gameObject.SetActive(false);
+            boomPos.transform.GetChild(3).gameObject.SetActive(false);
+            boomPos.transform.GetChild(4).gameObject.SetActive(false);
+        }
     }
 
 }
