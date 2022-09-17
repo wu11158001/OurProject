@@ -74,6 +74,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//物件名稱        
                 objectName.OnSetName(transform, enemyName, Color.red, 2.2f);
             }
+
+            if(GameDataManagement.Instance.selectLevelNumber == 12)
+            {
+                if (gameObject.layer != LayerMask.NameToLayer("Boss")) isTaskObject = false;
+            }
         }
 
         //頭頂生命條
