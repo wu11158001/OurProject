@@ -588,8 +588,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 //Boss死亡
                 if (gameObject.layer == LayerMask.NameToLayer("Boss"))
                 {
-                    boxSize = new Vector3(boxSize.x, -1, boxSize.z);
-                    Debug.LogError("s");
+                    boxSize = new Vector3(boxSize.x, 0.5f, boxSize.z);
+                    GetComponent<SphereCollider>().radius = 0.5f;
+                    transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
                 }
 
                 //任務物件
