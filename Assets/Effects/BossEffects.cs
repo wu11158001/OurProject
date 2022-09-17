@@ -66,7 +66,7 @@ public class BossEffects : MonoBehaviour
             }
             else
             {
-                a04.transform.forward = gameObject.GetComponent<BossAI>().GetTarget().transform.GetChild(8).position - ragonTongue02.transform.position;
+                a04.transform.forward = gameObject.GetComponent<BossAI>().GetTarget().GetComponent<Effects>().breathHere.transform.position - ragonTongue02.transform.position;
             }
 
             a04.Play();
