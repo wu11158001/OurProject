@@ -306,7 +306,7 @@ public class AI : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!charactersCollision.isDie && GameDataManagement.Instance.selectLevelNumber == 11 && !GameSceneManagement.Instance.isGameOver)
+        if (!charactersCollision.isDie && !GameSceneManagement.Instance.isGameOver)
         {
             //OnCollision();//碰撞框
 
@@ -1351,7 +1351,7 @@ public class AI : MonoBehaviourPunCallbacks
                             }
                         }
                     }
-
+                    
                     //檢查玩家同盟士兵
                     for (int i = 0; i < allPlayerAlliance.Length; i++)
                     {

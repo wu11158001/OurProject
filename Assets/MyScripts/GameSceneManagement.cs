@@ -34,6 +34,11 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     Transform[] allianceSoldier1_Stage1Point;//我方士兵1_階段1出生點
     Transform[] allianceSoldier1_Stage4Point;//我方士兵1_階段4出生點
 
+    //第2關出生點
+    [SerializeField]Transform[] brithPoint_Level12;
+    float level12CreateSoldierTime;//產生時間
+    [SerializeField] float level12SoldierTime;//產生時間(計時器)
+
     //任務    
     public bool isGameOver;//是否遊戲結束
     public bool isVictory;//是否過關
@@ -170,31 +175,31 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
         number = objectHandle.OnCreateObject(loadPath.bossAttack4);//攻擊4物件
         objectNumber_Dictionary.Add("bossAttack4", number);//添加至紀錄中
 
+        #region 產生士兵
+        //產生同盟士兵1
+        number = objectHandle.OnCreateObject(loadPath.allianceSoldier_1);//產生至物件池
+        objectNumber_Dictionary.Add("allianceSoldier_1", number);////添加至紀錄中
+
+        //產生敵人士兵1
+        number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
+        objectNumber_Dictionary.Add("enemySoldier_1", number);////添加至紀錄中
+
+        //產生敵人士兵2
+        number = objectHandle.OnCreateObject(loadPath.enemySoldier_2);//產生至物件池
+        objectNumber_Dictionary.Add("enemySoldier_2", number);////添加至紀錄中
+
+        //產生敵人士兵3
+        number = objectHandle.OnCreateObject(loadPath.enemySoldier_3);//產生至物件池
+        objectNumber_Dictionary.Add("enemySoldier_3", number);////添加至紀錄中
+
+        //產生城門守衛Boss     
+        number = objectHandle.OnCreateObject(loadPath.guardBoss);//產生至物件池
+        objectNumber_Dictionary.Add("enemyGuardBoss", number);////添加至紀錄中
+        #endregion
+
         #region 第1關
         if (GameDataManagement.Instance.selectLevelNumber == 11)
         {
-            #region 產生士兵
-            //產生同盟士兵1
-            number = objectHandle.OnCreateObject(loadPath.allianceSoldier_1);//產生至物件池
-            objectNumber_Dictionary.Add("allianceSoldier_1", number);////添加至紀錄中
-
-            //產生敵人士兵1
-            number = objectHandle.OnCreateObject(loadPath.enemySoldier_1);//產生至物件池
-            objectNumber_Dictionary.Add("enemySoldier_1", number);////添加至紀錄中
-
-            //產生敵人士兵2
-            number = objectHandle.OnCreateObject(loadPath.enemySoldier_2);//產生至物件池
-            objectNumber_Dictionary.Add("enemySoldier_2", number);////添加至紀錄中
-
-            //產生敵人士兵3
-            number = objectHandle.OnCreateObject(loadPath.enemySoldier_3);//產生至物件池
-            objectNumber_Dictionary.Add("enemySoldier_3", number);////添加至紀錄中
-
-            //產生城門守衛Boss     
-            number = objectHandle.OnCreateObject(loadPath.guardBoss);//產生至物件池
-            objectNumber_Dictionary.Add("enemyGuardBoss", number);////添加至紀錄中
-            #endregion
-
             #region 敵人出生點
             //敵人士兵1_階段1出生點
             enemySoldiers1_Stage1Point = new Transform[GameObject.Find("EnemySoldiers1_Stage1Point").transform.childCount];
@@ -305,7 +310,16 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             //非連線 || 是房主
             if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
             {
-                GameSceneManagement.Instance.OnCreateBoss();
+                brithPoint_Level12 = new Transform[GameObject.Find("BrithPoint_Level12").transform.childCount];
+                for (int i = 0; i < brithPoint_Level12.Length; i++)
+                {
+                    brithPoint_Level12[i] = GameObject.Find("BrithPoint_Level12").transform.GetChild(i);
+                }
+
+                level12CreateSoldierTime = 15;//產生時間
+                level12SoldierTime = level12CreateSoldierTime;//產生時間(計時器)
+
+                GameSceneManagement.Instance.OnCreateBoss();//產生boss
             }
 
             taskNumber = -1;//已完成任務數量
@@ -321,17 +335,42 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             OnTaskText();
         }
         #endregion
-
-        
     }
 
     void Update()
     {
         OnAttackBehavior();//攻擊行為
         OnGate();//可控制城門
+        OnLevel12CreateSoldier();//第2關產生士兵
     }
 
     #region 任務
+    /// <summary>
+    /// 第2關產生士兵
+    /// </summary>
+   void OnLevel12CreateSoldier()
+    {
+        if (GameDataManagement.Instance.selectLevelNumber == 12 && !isGameOver)
+        {
+            //非連線 || 是房主
+            if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
+            {
+                level12SoldierTime -= Time.deltaTime;//產生時間(計時器)
+
+                if(level12SoldierTime <= 0)
+                {
+                    level12SoldierTime = level12CreateSoldierTime;
+
+                    StartCoroutine(OnDelayCreateInitalSoldier("enemyGuardBoss", loadPath.guardBoss, brithPoint_Level12[0], "Enemy"));
+                    StartCoroutine(OnDelayCreateInitalSoldier("enemyGuardBoss", loadPath.guardBoss, brithPoint_Level12[1], "Enemy"));
+                    StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_1", loadPath.enemySoldier_1, brithPoint_Level12[2], "Enemy"));
+                    StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_2", loadPath.enemySoldier_2, brithPoint_Level12[3], "Enemy"));
+                    StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_3", loadPath.enemySoldier_3, brithPoint_Level12[4], "Enemy"));
+                    
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// 產生Boss
