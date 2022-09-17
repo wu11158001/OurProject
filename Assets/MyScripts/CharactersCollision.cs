@@ -447,11 +447,16 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 headLifeBar.localPosition = new Vector3((1 - (Hp / MaxHp)) * 0.1f, headLifeBar.localPosition.y, headLifeBar.localPosition.z);
             }
 
-
             //²Ö¿n¶Ë®`
             if (layer == "Player")
             {
                 GameSceneUI.Instance.accumulationDamage += getDamge;
+            }
+
+            //ªk®v
+            if(GetComponent<MagicianExclusive>())
+            {
+                GetComponent<MagicianExclusive>().isHealing = false;
             }
 
 

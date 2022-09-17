@@ -17,6 +17,11 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
     //Buff
     [SerializeField]float addDamage;//增加傷害值
 
+    [Header("治療'")]
+    public bool isHealing;//是否持續治療
+    float healingTime;//持續治療時間
+    float healTime;//持續治療時間(計時器)
+
     Transform body;//身體物件
 
     void Start()
@@ -39,18 +44,40 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
         }
 
         body = ExtensionMethods.FindAnyChild<Transform>(transform, "Mesh");
+
+        healingTime = 5;//持續治療時間
     }
 
     void Update()
     {
-       // OnSkillAttack2_Magician();
+        OnHealing();//持續治療                    
     }    
+
+    /// <summary>
+    /// 持續治療
+    /// </summary>
+    void OnHealing()
+    {
+        if(isHealing)
+        {
+            healTime -= Time.deltaTime;//持續治療時間
+
+            if (healTime <= 0)
+            {
+                healTime = healingTime;//持續治療時間
+                OnSkillAttack1_Magician();
+            }
+        }
+    }
 
     /// <summary>
     /// 技能攻擊1_法師
     /// </summary>
     void OnSkillAttack1_Magician()
     {
+        isHealing = true;//持續治療
+        healTime = healingTime;//持續治療時間
+
         //連線模式
         if (GameDataManagement.Instance.isConnect && !photonView.IsMine) return;
 
