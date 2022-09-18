@@ -781,7 +781,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// <param name="id">ID</param>
     public void OnSendPlayerNickNmaeAndID(string nickName, int id)
     {
-        photonView.RPC("OnPlayerNickNameAndId", RpcTarget.All, nickName, id);
+        photonView.RPC("OnPlayerNickNameAndId", RpcTarget.Others, nickName, id);
     }
 
     /// <summary>
