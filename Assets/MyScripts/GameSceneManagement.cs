@@ -59,6 +59,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     bool[] stageGateOpen;//個階段城門開啟狀態
     GameObject stage1_Gate;//階段1城門
 
+    public Color thiscolor;
+
     [Header("特別使用")]
     public GameObject BossTargetObject;//Boss追隨目標物件
 
@@ -1082,7 +1084,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {
         //名稱物件
         ObjectName objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//名稱物件
-        objectName.OnSetName(connectObject_Dictionary[id].transform, nickName, new Color((float)(91/256), (float)(145 / 256), (float)(222 / 256), (float)(204 / 256)), 1.85f);        
+        objectName.OnSetName(connectObject_Dictionary[id].transform, nickName, thiscolor, 1.85f);        
     }
     #endregion
 }
