@@ -608,7 +608,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 {
                     if (GameSceneManagement.Instance.taskStage == 1)//第2階段
                     {
-                        GameSceneUI.Instance.OnSetTip($"已擊倒{enemyName}", 5);//設定提示文字
+                        //GameSceneUI.Instance.OnSetTip($"已擊倒{enemyName}", 5);//設定提示文字
                     }
 
                     //連線
