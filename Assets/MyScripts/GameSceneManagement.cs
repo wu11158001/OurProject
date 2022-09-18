@@ -363,10 +363,10 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 {
                     level12SoldierTime = level12CreateSoldierTime;
 
-                    StartCoroutine(OnDelayCreateInitalSoldier("enemyGuardBoss", loadPath.guardBoss, brithPoint_Level12[0], "Enemy"));
-                    StartCoroutine(OnDelayCreateInitalSoldier("enemyGuardBoss", loadPath.guardBoss, brithPoint_Level12[1], "Enemy"));
+                    StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_1", loadPath.enemySoldier_1, brithPoint_Level12[0], "Enemy"));
+                    StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_1", loadPath.enemySoldier_1, brithPoint_Level12[1], "Enemy"));
                     StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_1", loadPath.enemySoldier_1, brithPoint_Level12[2], "Enemy"));
-                    StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_2", loadPath.enemySoldier_2, brithPoint_Level12[3], "Enemy"));
+                    StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_3", loadPath.enemySoldier_3, brithPoint_Level12[3], "Enemy"));
                     StartCoroutine(OnDelayCreateInitalSoldier("enemySoldier_3", loadPath.enemySoldier_3, brithPoint_Level12[4], "Enemy"));
                     
                 }
@@ -777,7 +777,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="taskValue">任務文字</param>
     public void OnTaskText()
-    {        
+    {
         taskNumber++;//已完成任務數量
 
         //任務判定

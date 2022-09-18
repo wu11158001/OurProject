@@ -150,8 +150,8 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //°»´ú½d³ò
                 normalStateMoveRadius = 2.5f;//¤@¯ëª¬ºA²¾°Ê½d³ò
-                alertRadius = 3;//Äµ§Ù½d³ò
-                chaseRadius = 3;//°lÀ»½d³ò8
+                alertRadius = 2.5f;//Äµ§Ù½d³ò
+                chaseRadius = 2.5f;//°lÀ»½d³ò8
                 attackRadius = 2.5f;//§ðÀ»½d³ò
 
                 //°lÀ»ª¬ºA
@@ -172,8 +172,8 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //°»´ú½d³ò
                 normalStateMoveRadius = 2.5f;//¤@¯ëª¬ºA²¾°Ê½d³ò
-                alertRadius = 3;//Äµ§Ù½d³ò
-                chaseRadius = 3f;//°lÀ»½d³ò
+                alertRadius = 2.5f;//Äµ§Ù½d³ò
+                chaseRadius = 2.5f;//°lÀ»½d³ò
                 attackRadius = 2.5f;//§ðÀ»½d³ò
 
                 //°lÀ»ª¬ºA
@@ -216,8 +216,8 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //°»´ú½d³ò
                 normalStateMoveRadius = 2.5f;//¤@¯ëª¬ºA²¾°Ê½d³ò
-                alertRadius = 3;//Äµ§Ù½d³ò
-                chaseRadius = 3;//°lÀ»½d³ò
+                alertRadius = 2.5f;//Äµ§Ù½d³ò
+                chaseRadius = 2.5f;//°lÀ»½d³ò
                 attackRadius = 2.5f;//§ðÀ»½d³ò
 
                 //°lÀ»ª¬ºA
@@ -276,7 +276,7 @@ public class AI : MonoBehaviourPunCallbacks
         //°lÀ»ª¬ºA
         maxRadiansDelta = 0.065f;//Âà¦V¨¤«×        
         changeDiretionTime = 0.5f;//§ó´«¤è¦V®É¶¡
-        delayAttackTime = new float[] { 0.5f, 1 };//©µ¿ð§ðÀ»®É¶¡(¶Ã¼Æ³Ì¤p­È, ³Ì¤j­È)
+        delayAttackTime = new float[] { 0.1f, 0.3f };//©µ¿ð§ðÀ»®É¶¡(¶Ã¼Æ³Ì¤p­È, ³Ì¤j­È)
         loseSpeed = 0.01f;//´î¤Öªº³t«×¤ñ¨Ò
         readyChaseRandomTime = new float[] { 0.5f, 2.3f };//Â÷¶}¾Ô°««á¶Ã¼Æ·Ç³Æ°lÀ»®É¶¡(¶Ã¼Æ³Ì¤p­È, ³Ì¤j­È)
 
@@ -1262,7 +1262,7 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 //°»´ú»ÙÃªª«
                 LayerMask mask = LayerMask.GetMask("StageObject");
-                if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter), chaseObject.transform.position + (charactersCollision.boxCenter), mask))
+                if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter / 2), chaseObject.transform.position + (charactersCollision.boxCenter / 2), mask))
                 {
                     return true;
                 }
@@ -1350,6 +1350,14 @@ public class AI : MonoBehaviourPunCallbacks
                                 }
                             }
                         }
+                    }
+                    
+                    //»Pª±®a¶ZÂ÷¤p©óX
+                    if((allPlayers[chaseNumber].transform.position - transform.position).magnitude < 18)
+                    {
+                        CheckTargetTime = CheckPlayerDistanceTime;
+                        chaseObject = allPlayers[chaseNumber];//°lÀ»¥Ø¼Ð(ª±®a)
+                        return;
                     }
                     
                     //ÀË¬dª±®a¦P·ù¤h§L
