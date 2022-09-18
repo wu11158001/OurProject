@@ -479,7 +479,7 @@ public class StartSceneUI : MonoBehaviourPunCallbacks
         if (startTip_Text != null)
         {
             startTip_Text_alpha += startTipGlintControl * Time.deltaTime;
-            if (startTip_Text_alpha >= 1) startTipGlintControl = -1;
+            if (startTip_Text_alpha >= 2) startTipGlintControl = -2;
             if (startTip_Text_alpha <= 0) startTipGlintControl = 1;
             Color col = startTip_Text.color;
             col.a = startTip_Text_alpha;
