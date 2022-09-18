@@ -173,7 +173,7 @@ public class AI : MonoBehaviourPunCallbacks
                 //°»´ú½d³ò
                 normalStateMoveRadius = 2.5f;//¤@¯ëª¬ºA²¾°Ê½d³ò
                 alertRadius = 2.5f;//Äµ§Ù½d³ò
-                chaseRadius = 2.5ff;//°lÀ»½d³ò
+                chaseRadius = 2.5f;//°lÀ»½d³ò
                 attackRadius = 2.5f;//§ðÀ»½d³ò
 
                 //°lÀ»ª¬ºA
