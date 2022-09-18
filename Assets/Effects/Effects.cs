@@ -492,68 +492,10 @@ public class Effects : MonoBehaviour
 
     void WarNormalAttack2()    //抱歉，CODE寫得很亂，都沒整理XD
     {
-        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.4 && animInfo.normalizedTime <= 0.45)
-        {
-            WarNa2().transform.SetParent(NormalAttack_2.transform);
-            WarNa2().transform.localPosition = NormalAttack_2.transform.GetChild(6).localPosition;
-            WarNa2().transform.forward = NormalAttack_2.transform.forward;
-            WarNa2().Play();
-        }
-
-        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.63
-                                     && animInfo.normalizedTime <= 0.65
-                                     && !NormalAttack_2.transform.GetChild(0).GetComponent<ParticleSystem>().isPlaying)
-        {
-            NormalAttack_2.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
-        }
-        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.67
-                                     && animInfo.normalizedTime <= 0.69
-                                     && !NormalAttack_2.transform.GetChild(1).GetComponent<ParticleSystem>().isPlaying)
-        {
-            NormalAttack_2.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
-        }
-        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.71
-                                    && animInfo.normalizedTime <= 0.73
-                                    && !NormalAttack_2.transform.GetChild(2).GetComponent<ParticleSystem>().isPlaying)
-        {
-            NormalAttack_2.transform.GetChild(2).GetComponent<ParticleSystem>().Play();
-        }
-        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.75
-                                    && animInfo.normalizedTime <= 0.77
-                                    && !NormalAttack_2.transform.GetChild(3).GetComponent<ParticleSystem>().isPlaying)
-        {
-            NormalAttack_2.transform.GetChild(3).GetComponent<ParticleSystem>().Play();
-        }
-        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.79
-                                    && animInfo.normalizedTime <= 0.81
-                                    && !NormalAttack_2.transform.GetChild(4).GetComponent<ParticleSystem>().isPlaying)
-        {
-            NormalAttack_2.transform.GetChild(4).GetComponent<ParticleSystem>().Play();
-        }
-        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.83
-                                    && animInfo.normalizedTime <= 0.85
-                                    && !NormalAttack_2.transform.GetChild(5).GetComponent<ParticleSystem>().isPlaying)
-        {
-            NormalAttack_2.transform.GetChild(5).GetComponent<ParticleSystem>().Play();
-        }
+        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.65
+                                                     && animInfo.normalizedTime <= 0.7
+                                                     && !NormalAttack_2.isPlaying) NormalAttack_2.Play();
     }
-
-    List<ParticleSystem> warNa2List = new List<ParticleSystem>();
-    ParticleSystem WarNa2Pool()
-    {
-        ParticleSystem hitPs = Instantiate(NormalAttack_2.transform.GetChild(7).GetComponent<ParticleSystem>());
-        warNa2List.Add(hitPs);
-        return hitPs;
-    }
-    ParticleSystem WarNa2()
-    {
-        foreach (var hl in warNa2List)
-        {
-            if (!hl.isPlaying) return hl;
-        }
-        return WarNa2Pool();
-    }
-
 
 
     float wNa3ScaleY = 1.5f;
