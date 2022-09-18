@@ -777,7 +777,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="taskValue">任務文字</param>
     public void OnTaskText()
-    {        
+    {
         taskNumber++;//已完成任務數量
 
         //任務判定
