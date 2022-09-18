@@ -28,7 +28,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
     //產生士兵時間
     float createSoldierTime;//產生士兵時間
     int maxSoldierNumber;//最大士兵數量
-    float createTime;//產生士兵時間(計時器)
+    [SerializeField]float createTime;//產生士兵時間(計時器)
 
     //判斷
     bool isGetHit;//是否受攻擊
@@ -77,7 +77,8 @@ public class Stronghold : MonoBehaviourPunCallbacks
                     
                     if (createTime <= 0)
                     {
-                        int aiNumber = GameObject.FindObjectsOfType<AI>().Length;                        
+                        int aiNumber = GameObject.FindObjectsOfType<AI>().Length;
+                        Debug.Log(aiNumber);
                         if(aiNumber < maxSoldierNumber) GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
                         createTime = createSoldierTime;
                     }
