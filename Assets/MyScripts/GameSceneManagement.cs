@@ -1082,7 +1082,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     {
         //名稱物件
         ObjectName objectName = Instantiate(Resources.Load<GameObject>(GameDataManagement.Instance.loadPath.objectName)).GetComponent<ObjectName>();//名稱物件
-        objectName.OnSetName(connectObject_Dictionary[id].transform, nickName, new Color(32, 92, 157), 1.85f);        
+        objectName.OnSetName(connectObject_Dictionary[id].transform, nickName, Color.blue, 1.85f);        
     }
     #endregion
 }
