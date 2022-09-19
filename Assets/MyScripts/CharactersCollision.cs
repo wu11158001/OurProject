@@ -572,7 +572,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 if ((gameObject.layer == LayerMask.NameToLayer("Enemy") || gameObject.layer == LayerMask.NameToLayer("Boss")) && layer == "Player") GameSceneUI.Instance.OnSetKillNumber();
 
                 if (objectName != null) Destroy(objectName.gameObject);
-                if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+                if (lifeBar != null)
+                {
+                    lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+                    lifeBar.lifeBarFront_Image.fillAmount = 0;
+                }
 
 
                 isDie = true;
@@ -618,7 +622,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     }
 
                     //連線
-                    if (GameDataManagement.Instance.isConnect)
+                    if (GameDataManagement.Instance.isConnect && PhotonNetwork.IsMasterClient)
                     {
                         PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
                     }
@@ -717,7 +721,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         transform.rotation = rotation;
 
         Hp -= damage;//生命值減少
-        if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+        if (lifeBar != null)
+        {
+            lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+            lifeBar.lifeBarFront_Image.fillAmount = 0;
+        }
 
         //任務物件
         if (isTaskObject)
@@ -745,7 +753,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         if (Hp <= 0)
         {
-            if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+            if (lifeBar != null)
+            {
+                lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+                lifeBar.lifeBarFront_Image.fillAmount = 0;
+            }
             if (objectName != null) Destroy(objectName.gameObject);
             GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
         }

@@ -8,7 +8,7 @@ public class LifeBar_Characters : MonoBehaviour
     Canvas canvas_World;
     float hpProportion;//生命比例
     Transform target;//目標物件
-    [SerializeField]Image lifeBarFront_Image;//生命條(前)
+    [SerializeField]public Image lifeBarFront_Image;//生命條(前)
     Image lifeBarMid_Image;//生命條(中)
     Image lifeBarBack_Image;//生命條(後)
     float targetHight;//物件高度

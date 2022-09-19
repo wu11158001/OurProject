@@ -145,7 +145,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
 
                 //連線任務
-                if (GameDataManagement.Instance.isConnect)
+                if (GameDataManagement.Instance.isConnect && PhotonNetwork.IsMasterClient)
                 {
                     PhotonConnect.Instance.OnSendRenewTask(builidName);//更新任務
                     PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
