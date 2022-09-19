@@ -578,7 +578,6 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     lifeBar.lifeBarFront_Image.fillAmount = 0;
                 }
 
-
                 isDie = true;
                 animator.SetTrigger("Die");
                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
@@ -622,9 +621,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     }
 
                     //連線
-                    if (GameDataManagement.Instance.isConnect && PhotonNetwork.IsMasterClient)
+                    if (GameDataManagement.Instance.isConnect)
                     {
-                        PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
+                        if(PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
                     }
                     else GameSceneManagement.Instance.OnTaskText();//任務文字
 
@@ -637,7 +636,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     PhotonNetwork.AutomaticallySyncScene = true;//自動同步場景
                     GameSceneManagement.Instance.isGameOver = true;
                     //遊戲結果文字
-                    GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
+                   // GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
                     //設定遊戲結束
                     StartCoroutine(GameSceneManagement.Instance.OnSetGameOver(false));
                 }

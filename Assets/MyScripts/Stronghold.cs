@@ -54,7 +54,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
         NumericalValue = GameDataManagement.Instance.numericalValue;
 
         //生命值
-        maxHp = NumericalValue.strongholdHp;
+        //maxHp = NumericalValue.strongholdHp;
         hp = maxHp;
 
         //產生士兵時間
@@ -145,17 +145,20 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
 
                 //連線任務
-                if (GameDataManagement.Instance.isConnect && PhotonNetwork.IsMasterClient)
+                if (GameDataManagement.Instance.isConnect)
                 {
-                    PhotonConnect.Instance.OnSendRenewTask(builidName);//更新任務
-                    PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        PhotonConnect.Instance.OnSendRenewTask(builidName);//更新任務
+                        PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
+                        gameObject.SetActive(false);//關閉物件
+                    }
                 }
                 else
                 {
                     GameSceneManagement.Instance.OnTaskText();//任務文字 
-                }
-
-                gameObject.SetActive(false);//關閉物件
+                    gameObject.SetActive(false);//關閉物件
+                }                
             }
         }
     }
