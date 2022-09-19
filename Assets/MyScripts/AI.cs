@@ -1262,7 +1262,7 @@ public class AI : MonoBehaviourPunCallbacks
             {
                 //°»´ú»ÙÃªª«
                 LayerMask mask = LayerMask.GetMask("StageObject");
-                if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter / 2), chaseObject.transform.position + (charactersCollision.boxCenter / 2), mask))
+                if (Physics.Linecast(transform.position + (this.charactersCollision.boxCenter), chaseObject.transform.position + (charactersCollision.boxCenter), mask))
                 {
                     return true;
                 }
