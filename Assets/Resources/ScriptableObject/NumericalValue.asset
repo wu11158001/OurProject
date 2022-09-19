@@ -113,9 +113,9 @@ MonoBehaviour:
     - 5
     warriorSkillAttack_3_IsAttackBehind: 000001
     archerNormalAttack_Damge:
-    - 11
-    - 11
-    - 16
+    - 17
+    - 17
+    - 22
     archerNormalAttack_RepelDirection: 000000000000000000000000
     archerNormalAttack_RepelDistance:
     - 10
@@ -140,20 +140,20 @@ MonoBehaviour:
     archerJumpAttack_ForwardDistance: 0
     archerJumpAttack_attackRadius: 1.4
     archerJumpAttack_IsAttackBehind: 0
-    archerSkillAttack_1_Damage: 11
+    archerSkillAttack_1_Damage: 17
     archerSkillAttack_1_RepelDirection: 12
     archerSkillAttack_1_Repel: 13
     archerSkillAttack_1_Effect: Pain
     archerSkillAttack_1_FlightSpeed: 30
     archerSkillAttack_1_LifeTime: 0.4
-    archerSkillAttack_2_Damge: 35
+    archerSkillAttack_2_Damge: 40
     archerSkillAttack_2_RepelDirection: 0
     archerSkillAttack_2_RepelDistance: 30
     archerSkillAttack_2_Effect: Pain
     archerSkillAttack_2_ForwardDistance: 1.3
     archerSkillAttack_2_attackRadius: 1.4
     archerSkillAttack_2_IsAttackBehind: 0
-    archerSkillAttack_3_Damge: 13
+    archerSkillAttack_3_Damge: 22
     archerSkillAttack_3_RepelDirection: 1
     archerSkillAttack_3_RepelDistance: 0
     archerSkillAttack_3_Effect: Pain
