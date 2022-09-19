@@ -459,7 +459,7 @@ public class Effects : MonoBehaviour
 
     void WarResWeaponColor()
     {
-        if (animInfo.IsName("Idle"))
+        if (animInfo.IsName("Idle")|| animInfo.IsName("Run"))
         {
             baseColor = new Color(rColor, gColor, bColor);
             intensity -= intensity * 50f * Time.deltaTime;
