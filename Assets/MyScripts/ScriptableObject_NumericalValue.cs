@@ -488,7 +488,7 @@ public class GameData_NumericalValue
 
         #region 弓箭手
         //弓箭手 普通攻擊
-        archerNormalAttack_Damge = new float[] { 11, 11, 16 };//弓箭手普通攻擊_傷害
+        archerNormalAttack_Damge = new float[] { 17, 17, 22 };//弓箭手普通攻擊_傷害
         archerNormalAttack_RepelDirection = new int[] { 0, 0, 0 };//弓箭手普通攻擊_擊退方向(0:擊退 1:擊飛)
         archerNormalAttack_RepelDistance = new float[] { 10, 10, 10 };//弓箭手普通攻擊_擊退/擊飛距離        
         archerNormalAttack_Effect = new string[] { "Pain", "Pain", "Pain" };//弓箭手普通攻擊_效果(受擊者播放的動畫名稱)     
@@ -505,7 +505,7 @@ public class GameData_NumericalValue
         archerJumpAttack_IsAttackBehind = false;//弓箭手跳躍攻擊_是否攻擊背後敵人
 
         //弓箭手 技能攻擊1
-        archerSkillAttack_1_Damage = 11;//弓箭手技能攻擊1_傷害
+        archerSkillAttack_1_Damage = 17;//弓箭手技能攻擊1_傷害
         archerSkillAttack_1_RepelDirection = 12;//弓箭手技能攻擊1_擊退方向(0:擊退 1:擊飛)
         archerSkillAttack_1_Repel = 13;//弓箭手技能攻擊1_擊退距離        
         archerSkillAttack_1_Effect = "Pain";//弓箭手技能攻擊1_效果(受擊者播放的動畫名稱)
@@ -513,7 +513,7 @@ public class GameData_NumericalValue
         archerSkillAttack_1_LifeTime = 0.4f;//弓箭手技能攻擊1_生存時間
 
         //弓箭手 技能攻擊2
-        archerSkillAttack_2_Damge = 35;//弓箭手技能攻擊2_傷害
+        archerSkillAttack_2_Damge = 40;//弓箭手技能攻擊2_傷害
         archerSkillAttack_2_RepelDirection = 0;//弓箭手技能攻擊2_擊退方向(0:擊退 1:擊飛)
         archerSkillAttack_2_RepelDistance = 30;//弓箭手技能攻擊2_擊退/擊飛距離    
         archerSkillAttack_2_Effect = "Pain";//弓箭手技能攻擊2_效果(受擊者播放的動畫名稱)        
@@ -522,7 +522,7 @@ public class GameData_NumericalValue
         archerSkillAttack_2_IsAttackBehind = false;//弓箭手技能攻擊2_是否攻擊背後敵人
 
         //弓箭手 技能攻擊3
-        archerSkillAttack_3_Damge = 13;//弓箭手技能攻擊3_傷害
+        archerSkillAttack_3_Damge = 22;//弓箭手技能攻擊3_傷害
         archerSkillAttack_3_RepelDirection = 1;//弓箭手技能攻擊3_擊退方向(0:擊退 1:擊飛)
         archerSkillAttack_3_RepelDistance = 0;//弓箭手技能攻擊3_擊退/擊飛距離    
         archerSkillAttack_3_Effect = "Pain";//弓箭手技能攻擊3_效果(受擊者播放的動畫名稱)        
