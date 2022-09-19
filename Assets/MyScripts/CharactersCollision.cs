@@ -572,6 +572,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 if ((gameObject.layer == LayerMask.NameToLayer("Enemy") || gameObject.layer == LayerMask.NameToLayer("Boss")) && layer == "Player") GameSceneUI.Instance.OnSetKillNumber();
 
                 if (objectName != null) Destroy(objectName.gameObject);
+                if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
+
 
                 isDie = true;
                 animator.SetTrigger("Die");
@@ -743,6 +745,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         if (Hp <= 0)
         {
+            if (lifeBar != null) lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
             if (objectName != null) Destroy(objectName.gameObject);
             GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
         }

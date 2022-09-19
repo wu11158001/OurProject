@@ -419,7 +419,7 @@ public class GameData_NumericalValue
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值
-        guardBoss_Hp = 1100;//城門守衛Boss_生命值1100
+        guardBoss_Hp = 2000;//城門守衛Boss_生命值1100
 
         #region 戰士
         //戰士 普通攻擊1
