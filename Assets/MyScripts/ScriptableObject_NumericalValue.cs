@@ -568,7 +568,7 @@ public class GameData_NumericalValue
         magicianJumpAttack_IsAttackBehind = true;//法師跳躍攻擊_是否攻擊背後敵人
 
         //法師技能攻擊1
-        magicianSkillAttack_1_HealValue = 8;//法師普通攻擊1_治療量(%)    
+        magicianSkillAttack_1_HealValue = 10;//法師普通攻擊1_治療量(%)    
         magicianSkillAttack_1_ForwardDistance = 0;//法師普通攻擊1_治療範圍中心點距離物件前方
         magicianSkillAttack_1_attackRange = 15;//法師普通攻擊1_治療半徑
         magicianSkillAttack_1_IsAttackBehind = true;//法師普通攻擊1_是否治療背後盟友
