@@ -54,7 +54,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
         NumericalValue = GameDataManagement.Instance.numericalValue;
 
         //生命值
-        maxHp = NumericalValue.strongholdHp;
+        //maxHp = NumericalValue.strongholdHp;
         hp = maxHp;
 
         //產生士兵時間
