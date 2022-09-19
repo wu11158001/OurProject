@@ -637,6 +637,23 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     }
                     #endregion                    
                     break;
+                case 2://階段1
+                    #region 敵人據點
+                    if (objTag == "Enemy")
+                    {
+                        //產生敵人士兵1
+                        for (int i = 0; i < 3; i++)
+                        {
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_1", loadPath.enemySoldier_1, createPoint, objTag, i, UnityEngine.Random.Range(0.0f, 1.5f)));
+                        }
+                        //產生敵人士兵2
+                        for (int j = 2; j < 4; j++)
+                        {
+                            StartCoroutine(OnDelayCreateSoldier_Enemy("enemySoldier_2", loadPath.enemySoldier_2, createPoint, objTag, j, UnityEngine.Random.Range(0.0f, 1.5f)));
+                        }
+                    }
+                    #endregion                    
+                    break;
                 case 3://階段4
                     #region 敵人據點
                     if (objTag == "Enemy")
@@ -807,10 +824,8 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                 for (int i = 0; i < ais.Length; i++)
                 {
                     ais[i].gameObject.SetActive(false);
-                }
-
+                }                               
                 
-                GameSceneUI.Instance.OnSetGameResult(true, "勝 利");
                 StartCoroutine(OnSetGameOver(true));//設定遊戲結束
             }
             else//進入下階段
@@ -831,18 +846,23 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// <param name="result">結果</param>
     /// <returns></returns>
     public IEnumerator OnSetGameOver(bool result)
-    {
+    {        
         //遊戲結束關閉物件
         GameSceneUI.Instance.OnGameOverCloseObject();
 
+        yield return new WaitForSeconds(4);
+
+        if(result) GameSceneUI.Instance.OnSetGameResult(true, "勝 利");
+        else GameSceneUI.Instance.OnSetGameResult(true, "失 敗");
+
         //連線
-        if(GameDataManagement.Instance.isConnect)
+        if (GameDataManagement.Instance.isConnect)
         {
             PhotonConnect.Instance.OnSendGameScoring(PhotonNetwork.NickName, GameSceneUI.Instance.MaxCombo, GameSceneUI.Instance.killNumber, GameSceneUI.Instance.accumulationDamage);
             if (PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendGameTime(GameSceneUI.Instance.playerGameTime);
         }
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(3);
 
         PhotonNetwork.AutomaticallySyncScene = true;//自動同步場景
         isGameOver = true;
