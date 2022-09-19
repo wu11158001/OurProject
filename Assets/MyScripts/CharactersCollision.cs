@@ -727,6 +727,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //Boss¦º¤`
         if (gameObject.layer == LayerMask.NameToLayer("Boss"))
         {
+            GameSceneManagement.Instance.isGameOver = true;
             boxSize = new Vector3(boxSize.x, 1.35f, boxSize.z);
         }
 
