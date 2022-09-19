@@ -318,7 +318,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
                     brithPoint_Level12[i] = GameObject.Find("BrithPoint_Level12").transform.GetChild(i);
                 }
 
-                level12CreateSoldierTime = 10;//產生時間
+                level12CreateSoldierTime = 8;//產生時間
                 level12SoldierTime = level12CreateSoldierTime;//產生時間(計時器)
 
                 GameSceneManagement.Instance.OnCreateBoss();//產生boss
