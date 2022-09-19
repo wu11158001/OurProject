@@ -136,7 +136,7 @@ public class AttackMode
 
             //據點受擊
             Stronghold stronghold = hit.GetComponent<Stronghold>();
-            if (stronghold != null) stronghold.OnGetHit(layer, damage);
+            if (stronghold != null) stronghold.OnGetHit(performCharacters, layer, damage);
         }   
 
        GameSceneManagement.Instance.AttackMode_List.Remove(this);
@@ -162,7 +162,7 @@ public class AttackMode
 
             //據點受擊
             Stronghold stronghold = hit.GetComponent<Stronghold>();
-            if (stronghold != null) stronghold.OnGetHit(layer, damage);
+            if (stronghold != null) stronghold.OnGetHit(performCharacters, layer, damage);
         }
 
         GameSceneManagement.Instance.AttackMode_List.Remove(this);
@@ -254,7 +254,7 @@ public class AttackMode
             Stronghold stronghold = hit.GetComponent<Stronghold>();
             if (stronghold != null)
             {
-                stronghold.OnGetHit(layer, damage);
+                stronghold.OnGetHit(performCharacters, layer, damage);
                 record.Add(hit.transform);//紀錄以擊中物件
             }
         }
@@ -283,7 +283,7 @@ public class AttackMode
 
             //據點受擊
             Stronghold stronghold = hit.GetComponent<Stronghold>();
-            if (stronghold != null) stronghold.OnGetHit(layer, damage);
+            if (stronghold != null) stronghold.OnGetHit(performCharacters, layer, damage);
         }
     }
 
@@ -311,7 +311,7 @@ public class AttackMode
 
             //據點受擊
             Stronghold stronghold = hit.GetComponent<Stronghold>();
-            if (stronghold != null) stronghold.OnGetHit(layer, damage);
+            if (stronghold != null) stronghold.OnGetHit(performCharacters, layer, damage);
         }
     }     
 

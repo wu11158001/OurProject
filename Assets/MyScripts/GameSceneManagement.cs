@@ -1050,13 +1050,15 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="targetID">目標ID</param>
     /// <param name="damage">受到傷害</param>
-    public void OnConnectStrongholdGetHit(int targetID, float damage)
+    /// <param name="attackerId">攻擊者ID</param>
+    public void OnConnectStrongholdGetHit(int targetID, float damage, int attackerId)
     {
         Stronghold stronghold = connectObject_Dictionary[targetID].GetComponent<Stronghold>();
+        GameObject attacker = connectObject_Dictionary[attackerId];
 
         if (stronghold != null)
         {
-            stronghold.OnConnectGetHit(damage);
+            stronghold.OnConnectGetHit(damage, attacker);
         }
     }
 

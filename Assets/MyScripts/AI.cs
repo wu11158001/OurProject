@@ -102,7 +102,7 @@ public class AI : MonoBehaviourPunCallbacks
     [SerializeField] GameObject[] allPlayers;//所有玩家    
     [SerializeField] GameObject[] allPlayerAlliance;//所有玩家同盟士兵
     [SerializeField] GameObject[] allEnemySoldier;//所有敵人士兵
-    [SerializeField] GameObject chaseObject;//追擊對象
+    public GameObject chaseObject;//追擊對象
 
     [Header("是否為近戰")]
     [SerializeField] bool isMelee;
@@ -194,8 +194,8 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //偵測範圍
                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
-                alertRadius = 14.0f;//警戒範圍
-                chaseRadius = 13.0f;//追擊範圍
+                alertRadius = 11.0f;//警戒範圍
+                chaseRadius = 11.0f;//追擊範圍
                 attackRadius = 11.0f;//攻擊範圍
 
                 //追擊狀態
@@ -854,8 +854,8 @@ public class AI : MonoBehaviourPunCallbacks
 
             if (chaseObject != null)
             {
-                //追擊的玩家死亡 && 追擊範圍內沒有其他玩家
-                if (chaseObject.activeSelf == false && OnDetectionRange(radius: chaseRadius) == false)
+                //追擊的玩家死亡 || 追擊範圍內沒有其他玩家
+                if (chaseObject.activeSelf == false || OnDetectionRange(radius: chaseRadius) == false)
                 {
                     if (aiState != AIState.追擊狀態)
                     {
@@ -960,7 +960,7 @@ public class AI : MonoBehaviourPunCallbacks
             else attackNumber = UnityEngine.Random.Range(1, maxAttackNumber + 1);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         OnChangeState(state: AIState.攻擊狀態, openAnimationName: "AttackNumber", closeAnimationName: "Run", animationType: attackNumber);
 

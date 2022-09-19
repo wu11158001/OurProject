@@ -189,7 +189,7 @@ MonoBehaviour:
     magicianJumpAttack_IsAttackBehind: 1
     magicianSkillAttack_1_HealValue: 8
     magicianSkillAttack_1_ForwardDistance: 0
-    magicianSkillAttack_1_attackRange: 8
+    magicianSkillAttack_1_attackRange: 15
     magicianSkillAttack_1_IsAttackBehind: 1
     magicianSkillAttack_2_Damge: 32
     magicianSkillAttack_2_RepelDirection: 0

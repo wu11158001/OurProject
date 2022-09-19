@@ -78,7 +78,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
                     if (createTime <= 0)
                     {
                         int aiNumber = GameObject.FindObjectsOfType<AI>().Length;
-                        Debug.Log(aiNumber);
+                        
                         if(aiNumber < maxSoldierNumber) GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
                         createTime = createSoldierTime;
                     }
@@ -90,9 +90,10 @@ public class Stronghold : MonoBehaviourPunCallbacks
     /// <summary>
     /// 受到攻擊
     /// </summary>
+    /// <param name="attacker">攻擊者</param>
     /// <param name="attackerLayer">攻擊者layer</param>
     /// <param name="damage">受到傷害</param>
-    public void OnGetHit(string attackerLayer, float damage)
+    public void OnGetHit(GameObject attacker, string attackerLayer, float damage)
     {        
         if (gameObject.tag == "Enemy" && attackerLayer == "Player")
         {
@@ -100,10 +101,21 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
             hp -= damage;
 
+            //非連線 || 房主
+            if(!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
+            {
+                AI[] ais = GameObject.FindObjectsOfType<AI>();
+                
+                foreach (var ai in ais)
+                {
+                    if (ai.tag == "Enemy") ai.chaseObject = attacker;//追擊攻擊者
+                }
+            }
+
             //連線
             if (GameDataManagement.Instance.isConnect)
             {
-                PhotonConnect.Instance.OnSendStrongholdGetHit(id, damage);
+                PhotonConnect.Instance.OnSendStrongholdGetHit(id, damage, attacker);
             }
 
             //設定生命條
@@ -152,10 +164,22 @@ public class Stronghold : MonoBehaviourPunCallbacks
     /// 連線受擊
     /// </summary>
     /// <param name="damage">受到傷害</param>
-    public void OnConnectGetHit(float damage)
+    /// <param name="attacker">攻擊者</param>
+    public void OnConnectGetHit(float damage, GameObject attacker)
     {
         hp -= damage;
         if (hp <= 0) hp = 0;
+
+        //非連線 || 房主
+        if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
+        {
+            AI[] ais = GameObject.FindObjectsOfType<AI>();
+
+            foreach (var ai in ais)
+            {
+                if(ai.tag == "Enemy") ai.chaseObject = attacker;//追擊攻擊者
+            }
+        }
 
         /*//設定生命條
         GameSceneUI.Instance.OnSetEnemyLifeBarValue(builidName, hp / maxHp);

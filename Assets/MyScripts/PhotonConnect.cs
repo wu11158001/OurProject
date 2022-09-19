@@ -477,9 +477,11 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="targetID">目標ID</param>
     /// <param name="damage">受到傷害</param>
-    public void OnSendStrongholdGetHit(int targetID, float damage)
+    /// <param name="attacker">攻擊者</param>
+    public void OnSendStrongholdGetHit(int targetID, float damage, GameObject attacker)
     {
-        photonView.RPC("OnStrongholdGetHit", RpcTarget.Others, targetID, damage);
+        int attackerId = attacker.GetComponent<PhotonView>().ViewID;
+        photonView.RPC("OnStrongholdGetHit", RpcTarget.Others, targetID, damage, attackerId);
     }
 
     /// <summary>
@@ -487,10 +489,11 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="targetID">目標ID</param>
     /// <param name="damage">受到傷害</param>
+    /// <param name="attackerId">攻擊者ID</param>
     [PunRPC]
-    void OnStrongholdGetHit(int targetID, float damage)
+    void OnStrongholdGetHit(int targetID, float damage, int attackerId)
     {
-        GameSceneManagement.Instance.OnConnectStrongholdGetHit(targetID, damage);
+        GameSceneManagement.Instance.OnConnectStrongholdGetHit(targetID, damage, attackerId);
     }
 
     /// <summary>
