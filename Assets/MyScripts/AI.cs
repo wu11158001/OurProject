@@ -302,6 +302,8 @@ public class AI : MonoBehaviourPunCallbacks
         {
             GameSceneManagement.Instance.OnSetMiniMapPoint(transform, GameSceneManagement.Instance.loadPath.miniMapMatirial_OtherPlayer);//設定小地圖點點
         }
+
+        GetComponent<BoxCollider>().enabled = true;//開啟碰撞框
     }
 
     void Update()
