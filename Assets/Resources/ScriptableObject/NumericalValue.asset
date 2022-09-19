@@ -187,7 +187,7 @@ MonoBehaviour:
     magicianJumpAttack_ForwardDistance: 0
     magicianJumpAttack_attackRadius: 1.3
     magicianJumpAttack_IsAttackBehind: 1
-    magicianSkillAttack_1_HealValue: 10
+    magicianSkillAttack_1_HealValue: 7
     magicianSkillAttack_1_ForwardDistance: 0
     magicianSkillAttack_1_attackRange: 15
     magicianSkillAttack_1_IsAttackBehind: 1
@@ -313,7 +313,7 @@ MonoBehaviour:
     bossAttack3_ForwardDistance: 0
     bossAttack3_attackRadius: 10
     bossAttack3_IsAttackBehind: 1
-    bossAttack4_Damge: 45
+    bossAttack4_Damge: 60
     bossAttack4_RepelDirection: 0
     bossAttack4_RepelDistance: 0
     bossAttack4_Effect: Pain

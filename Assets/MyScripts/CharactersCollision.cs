@@ -581,6 +581,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 //玩家死亡
                 if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled)
                 {
+                    GameSceneUI.Instance.SetEnemyLifeBarActive = false;
+
                     if (GameDataManagement.Instance.isConnect)
                     {
                         //開啟頭像按鈕

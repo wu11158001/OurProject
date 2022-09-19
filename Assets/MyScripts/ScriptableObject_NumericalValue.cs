@@ -568,7 +568,7 @@ public class GameData_NumericalValue
         magicianJumpAttack_IsAttackBehind = true;//法師跳躍攻擊_是否攻擊背後敵人
 
         //法師技能攻擊1
-        magicianSkillAttack_1_HealValue = 10;//法師普通攻擊1_治療量(%)    
+        magicianSkillAttack_1_HealValue = 7;//法師普通攻擊1_治療量(%)    
         magicianSkillAttack_1_ForwardDistance = 0;//法師普通攻擊1_治療範圍中心點距離物件前方
         magicianSkillAttack_1_attackRange = 15;//法師普通攻擊1_治療半徑
         magicianSkillAttack_1_IsAttackBehind = true;//法師普通攻擊1_是否治療背後盟友
@@ -751,7 +751,7 @@ public class GameData_NumericalValue
         bossAttack3_IsAttackBehind = true;//Boss攻擊3_是否攻擊背後敵人
 
         //Boss 攻擊4
-        bossAttack4_Damge = 45;//Boss攻擊4_傷害
+        bossAttack4_Damge = 60;//Boss攻擊4_傷害
         bossAttack4_RepelDirection = 0;//Boss攻擊4_擊退方向(0:擊退 1:擊飛)
         bossAttack4_RepelDistance = 0;//Boss攻擊4_擊退/擊飛距離    
         bossAttack4_Effect = "Pain";//Boss攻擊4_效果(受擊者播放的動畫名稱)
