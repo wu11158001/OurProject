@@ -90,6 +90,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         {
             boxCenter = GetComponent<BoxCollider>().center;
             boxSize = GetComponent<BoxCollider>().size;
+            GetComponent<BoxCollider>().enabled = true;//¶}±Ò¸I¼²®Ø
         }
         boxCollisionDistance = boxSize.x < boxSize.z ? boxSize.x / 2 : boxSize.z / 2;//¸I¼²¶ZÂ÷
         //heightFromGround = -0.1f;//¶ZÂ÷¦a­±°ª«×        

@@ -339,6 +339,8 @@ public class AI : MonoBehaviourPunCallbacks
         isHowling = true;
         OnChangeState(state: AIState.°lÀ»ª¬ºA, openAnimationName: "Howling", closeAnimationName: "Alert", animationType: true);
         isExecuteAStart = false;//¬O§_°õ¦æAStart 
+
+        GetComponent<BoxCollider>().enabled = true;//¶}±Ò¸I¼²®Ø
     }
 
     /// <summary>
