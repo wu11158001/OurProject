@@ -402,7 +402,7 @@ public class GameData_NumericalValue
 
         //玩家
         playerHp = 850;//玩家生命值850
-        playerMoveSpeed = 6.5f;//玩家移動速度  
+        playerMoveSpeed = 10;//玩家移動速度  6.5
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
@@ -423,7 +423,7 @@ public class GameData_NumericalValue
 
         #region 戰士
         //戰士 普通攻擊1
-        warriorNormalAttack_1_Damge = 30;//戰士普通攻擊1_傷害
+        warriorNormalAttack_1_Damge = 300;//戰士普通攻擊1_傷害30
         warriorNormalAttack_1_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
         warriorNormalAttack_1_RepelDistance = 30;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_1_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
