@@ -68,6 +68,8 @@ public class MagicianExclusive : MonoBehaviourPunCallbacks
                 OnSkillAttack1_Magician();
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.H)) OnSkillAttack1_Magician();
     }
 
     /// <summary>
