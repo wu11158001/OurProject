@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17982255, g: 0.22000262, b: 0.27685028, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4905,6 +4905,8 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: 5609669811649554108, guid: a5170c0f470b24e4aa0cc75af01544f3, type: 2}
     value: {fileID: 0}
+  - key: {fileID: 9066656564963340232, guid: a5170c0f470b24e4aa0cc75af01544f3, type: 2}
+    value: {fileID: 7355605515039214096}
   m_ExposedReferences:
     m_References:
     - 902370b3260084542aa4276bdb36e2aa: {fileID: 0}
@@ -5111,6 +5113,7 @@ PlayableDirector:
     - 2eb2c8c8dab9fee468e69be83c24385d: {fileID: 0}
     - b5dbc2cf5c2787b439f89f881c54d0b2: {fileID: 0}
     - 206bc306f02ac874180c59c585683da4: {fileID: 0}
+    - efb259d465ca8184e89e7ccfbae6da25: {fileID: 7355605515039214095}
     - 45837ad4fd0a3804badd6eca83b68457: {fileID: 0}
     - 54a792d3a43bc914aa749f7fd5cdad25: {fileID: 0}
     - 05bb3b5556f0a8b47aeb051eec9f0411: {fileID: 0}
@@ -5483,7 +5486,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1652234087
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -68654,6 +68657,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6be758a621a52f49b3e3729e2f7a874, type: 3}
+--- !u!1 &7355605515039214095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3878537414419839656, guid: a6be758a621a52f49b3e3729e2f7a874, type: 3}
+  m_PrefabInstance: {fileID: 7355605515039214094}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7355605515039214096 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1247354459819832975, guid: a6be758a621a52f49b3e3729e2f7a874, type: 3}
+  m_PrefabInstance: {fileID: 7355605515039214094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &7912948841934327071
 ParticleSystem:
   m_ObjectHideFlags: 0
