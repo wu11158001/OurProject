@@ -459,10 +459,27 @@ public class Effects : MonoBehaviour
 
     void WarResWeaponColor()
     {
-        if (animInfo.IsName("Idle"))
+        if (animInfo.IsName("Idle")|| animInfo.IsName("Run"))
         {
+            baseColor = new Color(rColor, gColor, bColor);
             intensity -= intensity * 50f * Time.deltaTime;
             if (intensity <= 1f) intensity = 1f;
+
+            rColor -= rColor * 50f * Time.deltaTime;
+            if (rColor <= 0.933f) rColor = 0.933f;
+            gColor -= gColor * 50f * Time.deltaTime;
+            if (gColor <= 0.933f) gColor = 0.933f;
+            bColor -= bColor * 50f * Time.deltaTime;
+            if (bColor <= 0.933f) bColor = 0.933f;
+
+
+            //    intensity -= intensity * 50f * Time.deltaTime;
+            //    if (intensity <= 1f) intensity = 1f;
+
+            //    gColor -= gColor * 50f * Time.deltaTime;
+            //    if (gColor <= 0.933f) gColor = 0.933f;
+            //    bColor -= bColor * 50f * Time.deltaTime;
+            //    if (bColor <= 0.933f) bColor = 0.933f;
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
     }
@@ -475,12 +492,12 @@ public class Effects : MonoBehaviour
         {
             intensity += intensity * 20f * Time.deltaTime;   //跑传硉
             if (intensity >= 15f) intensity = 15f;  //獹
-            if (animInfo.normalizedTime > 0.5)
-            {
-                intensity -= intensity * 50f * Time.deltaTime;
-                if (intensity <= 1f) intensity = 1f;
-            }
-        }
+            //if (animInfo.normalizedTime > 0.5)
+            //{
+            //    intensity -= intensity * 50f * Time.deltaTime;
+            //    if (intensity <= 1f) intensity = 1f;
+            //}
+        }      
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
 
 
@@ -492,9 +509,25 @@ public class Effects : MonoBehaviour
 
     void WarNormalAttack2()    //╆簆CODE糶眔睹常⊿俱瞶XD
     {
-        if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.65
-                                                     && animInfo.normalizedTime <= 0.7
-                                                     && !NormalAttack_2.isPlaying) NormalAttack_2.Play();
+        var idelName = "Attack.NormalAttack_2";
+        if (animInfo.IsName(idelName))
+        {
+            intensity += intensity * 20f * Time.deltaTime;   //跑传硉
+            if (intensity >= 15f) intensity = 15f;  //獹
+            //if (animInfo.normalizedTime > 0.5)
+            //{
+            //    intensity -= intensity * 50f * Time.deltaTime;
+            //    if (intensity <= 1f) intensity = 1f;
+            //}
+        }
+        weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
+
+
+
+
+        //if (animInfo.IsName("Attack.NormalAttack_2") && animInfo.normalizedTime > 0.65
+        //                                             && animInfo.normalizedTime <= 0.7
+        //                                             && !NormalAttack_2.isPlaying) NormalAttack_2.Play();
     }
 
 
@@ -572,7 +605,7 @@ public class Effects : MonoBehaviour
 
         if (animInfo.IsName(idelName))
         {
-            baseColor = new Color(baseColor.r, gColor, bColor); ;
+            baseColor = new Color(baseColor.r, gColor, bColor); 
             gColor += gColor * 20f * Time.deltaTime;   //跑传硉
             bColor += bColor * 20f * Time.deltaTime;   //跑传硉
             if (gColor >= 1f) gColor = 1f;
@@ -580,16 +613,16 @@ public class Effects : MonoBehaviour
 
             intensity += intensity * 20f * Time.deltaTime;   //跑传硉
             if (intensity >= 15f) intensity = 15f;  //獹
-            if (animInfo.normalizedTime > 0.5)
-            {
-                intensity -= intensity * 50f * Time.deltaTime;
-                if (intensity <= 1f) intensity = 1f;
+            //if (animInfo.normalizedTime > 0.5)
+            //{
+            //    intensity -= intensity * 50f * Time.deltaTime;
+            //    if (intensity <= 1f) intensity = 1f;
 
-                gColor -= gColor * 50f * Time.deltaTime;
-                if (gColor <= 0.933f) gColor = 0.933f;
-                bColor -= bColor * 50f * Time.deltaTime;
-                if (bColor <= 0.933f) bColor = 0.933f;
-            }
+            //    gColor -= gColor * 50f * Time.deltaTime;
+            //    if (gColor <= 0.933f) gColor = 0.933f;
+            //    bColor -= bColor * 50f * Time.deltaTime;
+            //    if (bColor <= 0.933f) bColor = 0.933f;
+            //}
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
 
@@ -611,16 +644,16 @@ public class Effects : MonoBehaviour
 
             intensity += intensity * 20f * Time.deltaTime;   //跑传硉
             if (intensity >= 5f) intensity = 5f;  //獹
-            if (animInfo.normalizedTime > 0.5)
-            {
-                intensity -= intensity * 50f * Time.deltaTime;
-                if (intensity <= 1f) intensity = 1f;
+            //if (animInfo.normalizedTime > 0.5)
+            //{
+            //    intensity -= intensity * 50f * Time.deltaTime;
+            //    if (intensity <= 1f) intensity = 1f;
 
-                rColor -= rColor * 20f * Time.deltaTime;
-                if (rColor <= 0.933f) rColor = 0.933f;
-                gColor -= gColor * 20f * Time.deltaTime;
-                if (gColor <= 0.933f) gColor = 0.933f;
-            }
+            //    rColor -= rColor * 20f * Time.deltaTime;
+            //    if (rColor <= 0.933f) rColor = 0.933f;
+            //    gColor -= gColor * 20f * Time.deltaTime;
+            //    if (gColor <= 0.933f) gColor = 0.933f;
+            //}
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
 
@@ -651,16 +684,16 @@ public class Effects : MonoBehaviour
             intensity += intensity * 20f * Time.deltaTime;   //跑传硉
             if (intensity >= 2f) intensity = 2f;  //獹
 
-            if (animInfo.normalizedTime > 0.5)
-            {
-                intensity -= intensity * 30f * Time.deltaTime;
-                if (intensity <= 2f) intensity = 2f;
+            //if (animInfo.normalizedTime > 0.5)
+            //{
+            //    intensity -= intensity * 30f * Time.deltaTime;
+            //    if (intensity <= 2f) intensity = 2f;
 
-                rColor -= rColor * 30f * Time.deltaTime;
-                if (rColor <= 0.933f) rColor = 0.933f;
-                gColor = 0.933f;
-                bColor = 0.933f;
-            }
+            //    rColor -= rColor * 30f * Time.deltaTime;
+            //    if (rColor <= 0.933f) rColor = 0.933f;
+            //    gColor = 0.933f;
+            //    bColor = 0.933f;
+            //}
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
 
@@ -697,16 +730,16 @@ public class Effects : MonoBehaviour
 
             intensity += intensity * 20f * Time.deltaTime;   //跑传硉
             if (intensity >= 15f) intensity = 15f;  //獹
-            if (animInfo.normalizedTime > 0.5)
-            {
-                intensity -= intensity * 50f * Time.deltaTime;
-                if (intensity <= 1f) intensity = 1f;
+            //if (animInfo.normalizedTime > 0.5)
+            //{
+            //    intensity -= intensity * 50f * Time.deltaTime;
+            //    if (intensity <= 1f) intensity = 1f;
 
-                gColor -= gColor * 50f * Time.deltaTime;
-                if (gColor <= 0.933f) gColor = 0.933f;
-                bColor -= bColor * 50f * Time.deltaTime;
-                if (bColor <= 0.933f) bColor = 0.933f;
-            }
+            //    gColor -= gColor * 50f * Time.deltaTime;
+            //    if (gColor <= 0.933f) gColor = 0.933f;
+            //    bColor -= bColor * 50f * Time.deltaTime;
+            //    if (bColor <= 0.933f) bColor = 0.933f;
+            //}
         }
         weapon.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", baseColor * intensity);
 
