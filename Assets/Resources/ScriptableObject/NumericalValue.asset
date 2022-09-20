@@ -36,7 +36,7 @@ MonoBehaviour:
     limitUpAngle: 35
     limitDownAngle: 13
     playerHp: 850
-    playerMoveSpeed: 6.5
+    playerMoveSpeed: 10
     playerJumpForce: 11.05
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
@@ -48,7 +48,7 @@ MonoBehaviour:
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
     guardBoss_Hp: 200
-    warriorNormalAttack_1_Damge: 30
+    warriorNormalAttack_1_Damge: 300
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 30
     warriorNormalAttack_1_Effect: Pain
