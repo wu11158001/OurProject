@@ -41,14 +41,14 @@ MonoBehaviour:
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
-    strongholdHp: 20
+    strongholdHp: 1000
     allianceSoldier1_Hp: 40
     boss_Hp: 4000
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
-    guardBoss_Hp: 200
-    warriorNormalAttack_1_Damge: 300
+    guardBoss_Hp: 2000
+    warriorNormalAttack_1_Damge: 30
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 30
     warriorNormalAttack_1_Effect: Pain
