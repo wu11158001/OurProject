@@ -319,6 +319,8 @@ public class AI : MonoBehaviourPunCallbacks
             OnCheckClosestPlayer();//檢查最近玩家
 
             charactersCollision.OnCollision_Wall();
+
+            if (!GetComponent<BoxCollider>().enabled) GetComponent<BoxCollider>().enabled = true;
         }
     }
 

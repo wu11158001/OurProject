@@ -1164,6 +1164,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         {
             //OnJudgeGameResult();//判定遊戲結果
 
+            //Boss死亡
+            if (gameObject.layer == LayerMask.NameToLayer("Boss"))
+            {
+                GameSceneManagement.Instance.isGameOver = true;              
+            }
+
             //連線模式
             if (GameDataManagement.Instance.isConnect && photonView.IsMine) PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
 
