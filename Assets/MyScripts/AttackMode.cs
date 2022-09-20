@@ -321,14 +321,17 @@ public class AttackMode
     /// <param name="charactersCollision">受攻擊物件的碰撞腳本</param>
     void OnSetAttackNumbericalValue(CharactersCollision charactersCollision)
     {
-        charactersCollision.OnGetHit(attacker: performCharacters,//執行攻擊腳色
-                                     attackerObject: performObject,//攻擊者物件
-                                     layer: layer,//攻擊者layer
-                                     damage: damage,//造成傷害
-                                     animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
-                                     knockDirection: direction,//擊退方向((0:擊退 1:擊飛))
-                                     repel: repel,//擊退距離
-                                     isCritical: isCritical);//是否爆擊          
+        if (performCharacters != null)
+        {
+            charactersCollision.OnGetHit(attacker: performCharacters,//執行攻擊腳色
+                                         attackerObject: performObject,//攻擊者物件
+                                         layer: layer,//攻擊者layer
+                                         damage: damage,//造成傷害
+                                         animationName: animationName,//攻擊效果(受擊者播放的動畫名稱)
+                                         knockDirection: direction,//擊退方向((0:擊退 1:擊飛))
+                                         repel: repel,//擊退距離
+                                         isCritical: isCritical);//是否爆擊    
+        }
     }
 
     /// <summary>

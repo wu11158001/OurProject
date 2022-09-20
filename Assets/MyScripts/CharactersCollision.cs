@@ -613,6 +613,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     isDie = true;
                     animator.SetTrigger("Die");
                     if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
+                    if(gameObject.layer != LayerMask.NameToLayer("Boss")) gameObject.transform.Find("MiniMapPoint(Clone)").gameObject.SetActive(false);
 
                     if (GameSceneManagement.Instance.taskStage == 1)//第2階段
                     {
@@ -642,8 +643,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                         /*GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
                         isDie = true;
                         animator.SetTrigger("Die");
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
-                        GameSceneManagement.Instance.OnTaskText();//任務文字*/
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");*/
+                        GameSceneManagement.Instance.OnTaskText();//任務文字
                     }
 
                     GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條        
@@ -1174,7 +1175,8 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             if (GameDataManagement.Instance.isConnect && photonView.IsMine) PhotonConnect.Instance.OnSendObjectActive(gameObject, false);
 
             //關閉物件
-            gameObject.SetActive(false);
+            //Boss死亡
+            if (gameObject.layer != LayerMask.NameToLayer("Boss")) gameObject.SetActive(false);
         }
     }
 
