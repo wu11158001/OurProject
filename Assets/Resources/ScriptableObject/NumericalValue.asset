@@ -36,14 +36,14 @@ MonoBehaviour:
     limitUpAngle: 35
     limitDownAngle: 13
     playerHp: 850
-    playerMoveSpeed: 10
+    playerMoveSpeed: 6.5
     playerJumpForce: 11.05
     playerCriticalRate: 15
     playerDodgeSeppd: 6.3
     playerSelfHealTime: 5
     strongholdHp: 1000
     allianceSoldier1_Hp: 40
-    boss_Hp: 4000
+    boss_Hp: 8000
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
