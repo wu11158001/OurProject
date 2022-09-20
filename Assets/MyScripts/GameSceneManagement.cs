@@ -134,12 +134,12 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
             }
             if (GameDataManagement.Instance.selectLevelNumber == 12)//第2關
             {
-                for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+                for (int j = 0; j < PhotonNetwork.PlayerList.Length; j++)
                 {
-                    if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
+                    if (PhotonNetwork.PlayerList[j].NickName == PhotonNetwork.NickName)
                     {
-                        player.transform.position = new Vector3(17, -0.5f, -15 + (i * 1.5f));
-                        player.transform.rotation = Quaternion.Euler(0, -60, 0);//設定選轉
+                        player.transform.position = new Vector3(17, -0.3f, -15 + (j * 1.5f));
+                        player.transform.rotation = Quaternion.Euler(0, -90, 0);//設定選轉
                     }
                 }
             }

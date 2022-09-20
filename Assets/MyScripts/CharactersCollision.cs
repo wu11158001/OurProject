@@ -576,13 +576,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 {
                     lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
                     lifeBar.lifeBarFront_Image.fillAmount = 0;
-                }
-
-                isDie = true;
-                animator.SetTrigger("Die");
-                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
-
-                GetComponent<BoxCollider>().enabled = false;//關閉碰撞框               
+                }                                               
 
                 //玩家死亡
                 if (gameObject.layer == LayerMask.NameToLayer("Player") && gameObject.GetComponent<PlayerControl>().enabled)
@@ -606,7 +600,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 //Boss死亡
                 if (gameObject.layer == LayerMask.NameToLayer("Boss"))
                 {
-                    GameSceneManagement.Instance.isGameOver = true;
+                    //GameSceneManagement.Instance.isGameOver = true;
                     boxSize = new Vector3(boxSize.x, 0.5f, boxSize.z);
                     GetComponent<SphereCollider>().radius = 0.5f;
                     transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
@@ -615,6 +609,11 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 //任務物件
                 if (isTaskObject)
                 {
+                    GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
+                    isDie = true;
+                    animator.SetTrigger("Die");
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
+
                     if (GameSceneManagement.Instance.taskStage == 1)//第2階段
                     {
                         //GameSceneUI.Instance.OnSetTip($"已擊倒{enemyName}", 5);//設定提示文字
@@ -623,11 +622,38 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     //連線
                     if (GameDataManagement.Instance.isConnect)
                     {
-                        if(PhotonNetwork.IsMasterClient) PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
+
+                        PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
+                        if (PhotonNetwork.IsMasterClient)
+                        {                            
+                            if (layer == "Player")
+                            {
+                                /*GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
+                                isDie = true;
+                                animator.SetTrigger("Die");
+                                if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
+
+                                PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務*/
+                            }
+                        }
                     }
-                    else GameSceneManagement.Instance.OnTaskText();//任務文字
+                    else
+                    {
+                        /*GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
+                        isDie = true;
+                        animator.SetTrigger("Die");
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
+                        GameSceneManagement.Instance.OnTaskText();//任務文字*/
+                    }
 
                     GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條        
+                }
+                else
+                {
+                    GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
+                    isDie = true;
+                    animator.SetTrigger("Die");
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
                 }
 
                 //非連線 && 玩家死亡
@@ -1137,6 +1163,12 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         if (info.IsTag("Die") && info.normalizedTime >= 1 && gameObject.layer != LayerMask.NameToLayer("Player"))
         {
             //OnJudgeGameResult();//判定遊戲結果
+
+            //Boss死亡
+            if (gameObject.layer == LayerMask.NameToLayer("Boss"))
+            {
+                GameSceneManagement.Instance.isGameOver = true;              
+            }
 
             //連線模式
             if (GameDataManagement.Instance.isConnect && photonView.IsMine) PhotonConnect.Instance.OnSendObjectActive(gameObject, false);

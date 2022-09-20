@@ -402,20 +402,20 @@ public class GameData_NumericalValue
 
         //玩家
         playerHp = 850;//玩家生命值850
-        playerMoveSpeed = 6.5f;//玩家移動速度  
+        playerMoveSpeed = 6.5f;//玩家移動速度  6.5
         playerJumpForce = 11.05f;//玩家跳躍力
         playerCriticalRate = 15;//玩家暴擊率
         playerDodgeSeppd = 6.3f;//玩家閃躲速度
         playerSelfHealTime = 5;//玩家自身回復時間(秒)
 
         //據點
-        strongholdHp = 200;//據點HP1000
+        strongholdHp = 900;//據點HP1000
 
         //同盟士兵HP
         allianceSoldier1_Hp = 40;//同盟士兵1_生命值
 
         //敵人HP
-        boss_Hp = 4000;//Boss_生命值4000
+        boss_Hp = 6000;//Boss_生命值6000
         enemySoldier1_Hp = 80;//石頭人_生命值
         enemySoldier2_Hp = 60;//弓箭手_生命值
         enemySoldier3_Hp = 40;//敵人士兵3_生命值
@@ -423,7 +423,7 @@ public class GameData_NumericalValue
 
         #region 戰士
         //戰士 普通攻擊1
-        warriorNormalAttack_1_Damge = 30;//戰士普通攻擊1_傷害
+        warriorNormalAttack_1_Damge = 30;//戰士普通攻擊1_傷害30
         warriorNormalAttack_1_RepelDirection = 0;//戰士普通攻擊1_擊退方向(0:擊退 1:擊飛)
         warriorNormalAttack_1_RepelDistance = 30;//戰士普通攻擊1_擊退/擊飛距離    
         warriorNormalAttack_1_Effect = "Pain";//戰士普通攻擊1_效果(受擊者播放的動畫名稱)            
