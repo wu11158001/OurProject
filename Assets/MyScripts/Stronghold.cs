@@ -28,7 +28,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
     //產生士兵時間
     float createSoldierTime;//產生士兵時間
     int maxSoldierNumber;//最大士兵數量
-    [SerializeField]float createTime;//產生士兵時間(計時器)
+    [SerializeField] float createTime;//產生士兵時間(計時器)
 
     //判斷
     bool isGetHit;//是否受攻擊
@@ -71,18 +71,18 @@ public class Stronghold : MonoBehaviourPunCallbacks
             if (hp > 0)
             {
                 createTime -= Time.deltaTime;//產生士兵時間(計時器)
-                
-                if (stage <= GameSceneManagement.Instance.taskStage )
+
+                if (stage <= GameSceneManagement.Instance.taskStage)
                 {
-                    
+
                     if (createTime <= 0)
                     {
                         int aiNumber = GameObject.FindObjectsOfType<AI>().Length;
-                        
-                        if(aiNumber < maxSoldierNumber) GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
+
+                        if (aiNumber < maxSoldierNumber) GameSceneManagement.Instance.OnCreateSoldier(transform, gameObject.tag);
                         createTime = createSoldierTime;
                     }
-                }               
+                }
             }
         }
     }
@@ -94,7 +94,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
     /// <param name="attackerLayer">攻擊者layer</param>
     /// <param name="damage">受到傷害</param>
     public void OnGetHit(GameObject attacker, string attackerLayer, float damage)
-    {        
+    {
         if (gameObject.tag == "Enemy" && attackerLayer == "Player")
         {
             isGetHit = true;//是否受攻擊
@@ -102,10 +102,10 @@ public class Stronghold : MonoBehaviourPunCallbacks
             hp -= damage;
 
             //非連線 || 房主
-            if(!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
+            if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
             {
                 AI[] ais = GameObject.FindObjectsOfType<AI>();
-                
+
                 foreach (var ai in ais)
                 {
                     if (ai.tag == "Enemy") ai.chaseObject = attacker;//追擊攻擊者
@@ -130,7 +130,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 {
                     audioSource.clip = audioClip;
                     audioSource.Play();
-                }  
+                }
 
                 /*//連線模式
                 if (GameDataManagement.Instance.isConnect)
@@ -158,7 +158,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
                 {
                     GameSceneManagement.Instance.OnTaskText();//任務文字 
                     gameObject.SetActive(false);//關閉物件
-                }                
+                }
             }
         }
     }
@@ -170,8 +170,7 @@ public class Stronghold : MonoBehaviourPunCallbacks
     /// <param name="attacker">攻擊者</param>
     public void OnConnectGetHit(float damage, GameObject attacker)
     {
-        hp -= damage;
-        if (hp <= 0) hp = 0;
+        hp -= damage;        
 
         //非連線 || 房主
         if (!GameDataManagement.Instance.isConnect || PhotonNetwork.IsMasterClient)
@@ -180,12 +179,18 @@ public class Stronghold : MonoBehaviourPunCallbacks
 
             foreach (var ai in ais)
             {
-                if(ai.tag == "Enemy") ai.chaseObject = attacker;//追擊攻擊者
+                if (ai.tag == "Enemy") ai.chaseObject = attacker;//追擊攻擊者
             }
         }
 
-        /*//設定生命條
+        //設定生命條
         GameSceneUI.Instance.OnSetEnemyLifeBarValue(builidName, hp / maxHp);
-        GameSceneUI.Instance.SetEnemyLifeBarActive = true*/
+        GameSceneUI.Instance.SetEnemyLifeBarActive = true;
+
+        if (hp <= 0)
+        {
+            hp = 0;
+            //GameSceneUI.Instance.SetEnemyLifeBarActive = false;
+        }
     }
 }

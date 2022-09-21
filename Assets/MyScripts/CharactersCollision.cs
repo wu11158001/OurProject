@@ -756,9 +756,9 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
         //任務物件
         if (isTaskObject)
         {
-            /*//設定生命條
+            //設定生命條
             GameSceneUI.Instance.OnSetEnemyLifeBarValue(enemyName, Hp / MaxHp);
-            GameSceneUI.Instance.SetEnemyLifeBarActive = true;*/
+            GameSceneUI.Instance.SetEnemyLifeBarActive = true;
         }
 
         //Boss死亡
@@ -778,6 +778,14 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
 
         if (Hp <= 0)
         {
+            //任務物件
+            if (isTaskObject)
+            {
+                //設定生命條
+                //GameSceneUI.Instance.OnSetEnemyLifeBarValue(enemyName, Hp / MaxHp);
+                GameSceneUI.Instance.SetEnemyLifeBarActive = false;
+            }
+
             if (lifeBar != null)
             {
                 lifeBar.SetValue = Hp / MaxHp;//設定生命條比例(頭頂)
