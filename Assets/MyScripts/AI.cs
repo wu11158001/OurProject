@@ -239,7 +239,7 @@ public class AI : MonoBehaviourPunCallbacks
                 normalStateMoveRadius = 2.5f;//一般狀態移動範圍
                 alertRadius = 3;//警戒範圍
                 chaseRadius = 5.0f;//追擊範圍
-                attackRadius = 3.0f;//攻擊範圍
+                attackRadius = 2.0f;//攻擊範圍
 
                 //追擊狀態
                 chaseSpeed = 6.3f;//追擊速度
@@ -251,7 +251,7 @@ public class AI : MonoBehaviourPunCallbacks
 
                 //攻擊待機
                 attackIdleMoveSpeed = 2;//攻擊待機移動速度
-                backMoveDistance = 2.3f;//距離玩家多近向後走
+                backMoveDistance = 1.7f;//距離玩家多近向後走
                 meleeAttackDistance = 1.8f;//近距離招式攻擊距離
                 break;
         }
