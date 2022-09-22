@@ -468,7 +468,7 @@ public class GameData_NumericalValue
         warriorSkillAttack_1_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
 
         //戰士 技能攻擊2
-        warriorSkillAttack_2_Damge = 28;//戰士技能攻擊2_傷害
+        warriorSkillAttack_2_Damge = 38;//戰士技能攻擊2_傷害
         warriorSkillAttack_2_RepelDirection = 0;//戰士技能攻擊2_擊退方向(0:擊退 1:擊飛)
         warriorSkillAttack_2_RepelDistance = 25;//戰士技能攻擊2_擊退/擊飛距離    
         warriorSkillAttack_2_Effect = "Pain";//戰士普技能攻擊2_效果(受擊者播放的動畫名稱)        
@@ -477,7 +477,7 @@ public class GameData_NumericalValue
         warriorSkillAttack_2_IsAttackBehind = false;//戰士技能攻擊2_是否攻擊背後敵人
 
         //戰士 技能攻擊3
-        warriorSkillAttack_3_Damge = new float[] { 16, 16, 35 };//戰士技能攻擊3_傷害
+        warriorSkillAttack_3_Damge = new float[] { 16, 16, 40 };//戰士技能攻擊3_傷害
         warriorSkillAttack_3_RepelDirection = new int[] { 0, 0, 0 };//戰士技能攻擊3_擊退方向(0:擊退 1:擊飛)
         warriorSkillAttack_3_RepelDistance = new float[] { 25, 25, 30 };//戰士技能攻擊3_擊退/擊飛距離    
         warriorSkillAttack_3_Effect = new string[] { "Pain", "Pain", "Pain" };//戰士普技能攻擊3_效果(受擊者播放的動畫名稱)        
