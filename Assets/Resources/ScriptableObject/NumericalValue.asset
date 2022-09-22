@@ -47,7 +47,7 @@ MonoBehaviour:
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
-    guardBoss_Hp: 1100
+    guardBoss_Hp: 1500
     warriorNormalAttack_1_Damge: 30
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 30
@@ -83,7 +83,7 @@ MonoBehaviour:
     warriorSkillAttack_1_ForwardDistance: 1.6
     warriorSkillAttack_1_attackRadius: 1.7
     warriorSkillAttack_1_IsAttackBehind: 0
-    warriorSkillAttack_2_Damge: 28
+    warriorSkillAttack_2_Damge: 38
     warriorSkillAttack_2_RepelDirection: 0
     warriorSkillAttack_2_RepelDistance: 25
     warriorSkillAttack_2_Effect: Pain
@@ -93,7 +93,7 @@ MonoBehaviour:
     warriorSkillAttack_3_Damge:
     - 16
     - 16
-    - 35
+    - 40
     warriorSkillAttack_3_RepelDirection: 000000000000000000000000
     warriorSkillAttack_3_RepelDistance:
     - 25
