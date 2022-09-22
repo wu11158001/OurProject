@@ -786,7 +786,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
             {
                 //設定生命條
                 //GameSceneUI.Instance.OnSetEnemyLifeBarValue(enemyName, Hp / MaxHp);
-                GameSceneUI.Instance.SetEnemyLifeBarActive = false;
+                //GameSceneUI.Instance.SetEnemyLifeBarActive = false;
             }
 
             if (lifeBar != null)
