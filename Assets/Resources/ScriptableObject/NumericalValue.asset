@@ -47,7 +47,7 @@ MonoBehaviour:
     enemySoldier1_Hp: 80
     enemySoldier2_Hp: 60
     enemySoldier3_Hp: 40
-    guardBoss_Hp: 1100
+    guardBoss_Hp: 110
     warriorNormalAttack_1_Damge: 30
     warriorNormalAttack_1_RepelDirection: 0
     warriorNormalAttack_1_RepelDistance: 30

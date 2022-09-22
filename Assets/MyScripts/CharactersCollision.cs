@@ -609,10 +609,10 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                 //任務物件
                 if (isTaskObject)
                 {
-                    GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
+                    /*GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
                     isDie = true;
                     animator.SetTrigger("Die");
-                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
+                    if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");*/
                     if(gameObject.layer != LayerMask.NameToLayer("Boss")) gameObject.transform.Find("MiniMapPoint(Clone)").gameObject.SetActive(false);
 
                     if (GameSceneManagement.Instance.taskStage == 1)//第2階段
@@ -624,30 +624,33 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                     if (GameDataManagement.Instance.isConnect)
                     {
 
-                        PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
+                        //PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
                         if (PhotonNetwork.IsMasterClient)
                         {                            
                             if (layer == "Player")
                             {
-                                /*GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
+                                GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
                                 isDie = true;
                                 animator.SetTrigger("Die");
                                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
+                                GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條    
 
-                                PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務*/
+                                PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
                             }
                         }
                     }
                     else
                     {
-                        /*GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
+                        GetComponent<BoxCollider>().enabled = false;//關閉碰撞框
                         isDie = true;
                         animator.SetTrigger("Die");
-                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");*/
+                        if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
+                        GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條    
+
                         GameSceneManagement.Instance.OnTaskText();//任務文字
                     }
 
-                    GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條        
+                    //GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條        
                 }
                 else
                 {
