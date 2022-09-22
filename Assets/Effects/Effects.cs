@@ -380,7 +380,7 @@ public class Effects : MonoBehaviour
             magicBook.SetParent(playerEffectstoWorld);
 
             magicBook.position = Vector3.Lerp(magicBook.position, weapon.transform.position
-                + (gameObject.transform.right * 0.35f + gameObject.transform.forward * 0.55f + gameObject.transform.up * 0.25f), Time.deltaTime);
+                + (gameObject.transform.right * 0.35f + gameObject.transform.forward * 0.55f + gameObject.transform.up * 0.25f), 2*Time.deltaTime);
             // 偏移量，避免重疊  gameObject.transform.right場景腳色的右邊,gameObject.transform.forward 前面 gameObject.transform.up上面
             magicBook.forward = gameObject.transform.GetChild(0).position - magicBook.position;  //書本朝player
             magicBook.Rotate(0, 0, -90);     //轉正book
