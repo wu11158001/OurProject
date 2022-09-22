@@ -279,7 +279,7 @@ public class GameSceneManagement : MonoBehaviourPunCallbacks
 
             //任務
             taskNumber = -1;//已完成任務數量
-            tipTaskText = new string[] { "前進戰場\n擊破該區據點", "擊倒城門守衛", "擊破城門機關", "進入城內\n擊破所有據點", "前進破壞龍族水晶" };//提示任務文字
+            tipTaskText = new string[] { "前進戰場\n擊破該區據點", "擊倒城門守衛", "擊破城門機關", "進入城內\n擊破所有據點", "前進上方破壞龍王水晶" };//提示任務文字
             taskText = new string[] { "已擊破據點 : ", "已擊倒守衛 : ", "已擊破機關 : ", "已擊破據點 : ", "已破壞水晶 : " };//個階段任務文字
             //各階段任務所需擊殺數
             taskNeedNumber = new int[] { 2,//階段1
