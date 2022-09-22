@@ -633,7 +633,7 @@ public class CharactersCollision : MonoBehaviourPunCallbacks
                                 isDie = true;
                                 animator.SetTrigger("Die");
                                 if (GameDataManagement.Instance.isConnect) PhotonConnect.Instance.OnSendAniamtion(photonView.ViewID, "Die", "Die");
-                                GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條    
+                                GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
 
                                 PhotonConnect.Instance.OnSendRenewTask(enemyName);//更新任務
                             }

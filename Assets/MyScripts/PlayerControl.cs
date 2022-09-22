@@ -178,6 +178,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
 
             charactersCollision.OnCollision_Boss();
             OnFallBehavior();
+
+            if(Input.GetKeyDown(KeyCode.Y)) GameSceneUI.Instance.SetEnemyLifeBarActive = false;//關閉生命條
         }
 
         OnJumpHehavior();
